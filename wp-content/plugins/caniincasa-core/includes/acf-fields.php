@@ -473,8 +473,6 @@ function caniincasa_register_razze_acf_fields() {
         'hide_on_screen' => array( 'the_content' ),
     ) );
 }
-
-// Register razze fields immediately
 caniincasa_register_razze_acf_fields();
 
 /**
@@ -641,8 +639,6 @@ function caniincasa_register_strutture_acf_fields() {
         'position' => 'side',
     ) );
 }
-
-// Register strutture fields immediately
 caniincasa_register_strutture_acf_fields();
 
 /**
@@ -739,8 +735,6 @@ function caniincasa_register_annunci_4zampe_acf_fields() {
         'position' => 'normal',
     ) );
 }
-
-// Register annunci 4zampe fields immediately
 caniincasa_register_annunci_4zampe_acf_fields();
 
 /**
@@ -813,6 +807,4 @@ function caniincasa_register_annunci_dogsitter_acf_fields() {
         'position' => 'normal',
     ) );
 }
-
-// Register annunci dogsitter fields immediately
 caniincasa_register_annunci_dogsitter_acf_fields();

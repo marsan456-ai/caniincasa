@@ -10,18 +10,21 @@ get_header();
 
 <main id="main-content" class="site-main archive-annunci archive-annunci-dogsitter">
 
-	<!-- Hero Section -->
-	<div class="annunci-archive-hero">
+	<!-- Archive Header -->
+	<div class="archive-header">
 		<div class="container">
-			<h1 class="archive-title">Annunci Dogsitter</h1>
-			<p class="archive-subtitle">Trova il dogsitter perfetto o offri i tuoi servizi di pet sitting</p>
-		</div>
-	</div>
-
-	<!-- Breadcrumbs -->
-	<div class="container">
-		<div class="breadcrumbs-wrapper">
-			<?php caniincasa_breadcrumbs(); ?>
+			<h1 class="archive-title">
+				<?php
+				if ( is_post_type_archive() ) {
+					post_type_archive_title();
+				} else {
+					esc_html_e( 'Annunci Dogsitter', 'caniincasa' );
+				}
+				?>
+			</h1>
+			<p class="archive-description">
+				<?php esc_html_e( 'Trova il dogsitter perfetto o offri i tuoi servizi di pet sitting', 'caniincasa' ); ?>
+			</p>
 		</div>
 	</div>
 

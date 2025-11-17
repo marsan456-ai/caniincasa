@@ -10,18 +10,21 @@ get_header();
 
 <main id="main-content" class="site-main archive-annunci archive-annunci-4zampe">
 
-	<!-- Hero Section -->
-	<div class="annunci-archive-hero">
+	<!-- Archive Header -->
+	<div class="archive-header">
 		<div class="container">
-			<h1 class="archive-title">Annunci 4 Zampe</h1>
-			<p class="archive-subtitle">Cerca cani in adozione, cuccioli in vendita o pubblica il tuo annuncio</p>
-		</div>
-	</div>
-
-	<!-- Breadcrumbs -->
-	<div class="container">
-		<div class="breadcrumbs-wrapper">
-			<?php caniincasa_breadcrumbs(); ?>
+			<h1 class="archive-title">
+				<?php
+				if ( is_post_type_archive() ) {
+					post_type_archive_title();
+				} else {
+					esc_html_e( 'Annunci 4 Zampe', 'caniincasa' );
+				}
+				?>
+			</h1>
+			<p class="archive-description">
+				<?php esc_html_e( 'Cerca cani in adozione, cuccioli in vendita o pubblica il tuo annuncio', 'caniincasa' ); ?>
+			</p>
 		</div>
 	</div>
 
