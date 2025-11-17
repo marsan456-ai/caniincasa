@@ -77,7 +77,7 @@ get_header();
                             </label>
                             <select id="filter-appartamento" name="appartamento" class="filter-select">
                                 <option value="">Tutti</option>
-                                <option value="1">Poco Adatta (1)</option>
+                                <option value="1">Per Niente Adatta (1)</option>
                                 <option value="2">Poco Adatta (2)</option>
                                 <option value="3">Adatta (3)</option>
                                 <option value="4">Molto Adatta (4)</option>
@@ -233,19 +233,21 @@ get_header();
                     <?php endif; ?>
                 </div>
 
-                <!-- Pagination -->
-                <?php
-                if ( $wp_query->max_num_pages > 1 ) :
-                    ?>
-                    <div class="razze-pagination">
-                        <?php
-                        caniincasa_pagination( array(
-                            'prev_text' => '&laquo; Precedente',
-                            'next_text' => 'Successiva &raquo;',
-                        ) );
+                <!-- Pagination Container -->
+                <div id="razze-pagination-container">
+                    <?php
+                    if ( $wp_query->max_num_pages > 1 ) :
                         ?>
-                    </div>
-                <?php endif; ?>
+                        <div class="razze-pagination">
+                            <?php
+                            caniincasa_pagination( array(
+                                'prev_text' => '&laquo; Precedente',
+                                'next_text' => 'Successiva &raquo;',
+                            ) );
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
             </div>
 
@@ -262,6 +264,7 @@ jQuery(document).ready(function($) {
     const $grid = $('#razze-grid');
     const $loading = $('#razze-loading');
     const $count = $('#razze-count');
+    const $paginationContainer = $('#razze-pagination-container');
 
     // Debounce helper
     let filterTimer;
@@ -304,6 +307,13 @@ jQuery(document).ready(function($) {
                     $grid.html(response.data.html);
                     $count.text(response.data.found);
 
+                    // Update pagination
+                    if (response.data.pagination) {
+                        $paginationContainer.html(response.data.pagination);
+                    } else {
+                        $paginationContainer.html('');
+                    }
+
                     // Update URL without reload
                     if (history.pushState) {
                         const newUrl = window.location.pathname + '?' + formData;
@@ -311,10 +321,12 @@ jQuery(document).ready(function($) {
                     }
                 } else {
                     $grid.html('<div class="no-results"><h3>Errore nel caricamento</h3></div>');
+                    $paginationContainer.html('');
                 }
             },
             error: function() {
                 $grid.html('<div class="no-results"><h3>Errore nel caricamento</h3></div>');
+                $paginationContainer.html('');
             },
             complete: function() {
                 $loading.hide();

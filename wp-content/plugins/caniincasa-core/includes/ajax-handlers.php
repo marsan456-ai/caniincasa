@@ -52,72 +52,88 @@ function caniincasa_ajax_filter_razze() {
     $meta_query = array( 'relation' => 'AND' );
 
     // Energia e Livelli di Attività
+    // Logica: cerchiamo razze con valore in un range ±0.5 dal valore selezionato
     if ( $energia > 0 ) {
+        $min = max( 1, $energia - 0.5 );
+        $max = min( 5, $energia + 0.5 );
         $meta_query[] = array(
             'key'     => 'energia_e_livelli_di_attivita',
-            'value'   => $energia,
-            'compare' => '>=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Adattabilità ad Appartamento
     if ( $appartamento > 0 ) {
+        $min = max( 1, $appartamento - 0.5 );
+        $max = min( 5, $appartamento + 0.5 );
         $meta_query[] = array(
             'key'     => 'adattabilita_appartamento',
-            'value'   => $appartamento,
-            'compare' => '>=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Affettuosità
     if ( $affettuosita > 0 ) {
+        $min = max( 1, $affettuosita - 0.5 );
+        $max = min( 5, $affettuosita + 0.5 );
         $meta_query[] = array(
             'key'     => 'affettuosita',
-            'value'   => $affettuosita,
-            'compare' => '>=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Tolleranza verso Estranei
     if ( $estranei > 0 ) {
+        $min = max( 1, $estranei - 0.5 );
+        $max = min( 5, $estranei + 0.5 );
         $meta_query[] = array(
             'key'     => 'tolleranza_estranei',
-            'value'   => $estranei,
-            'compare' => '>=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Vocalità
+    // Logica: cerchiamo razze con vocalità nel range
     if ( $vocalita > 0 ) {
+        $min = max( 1, $vocalita - 0.5 );
+        $max = min( 5, $vocalita + 0.5 );
         $meta_query[] = array(
             'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
-            'value'   => $vocalita,
-            'compare' => '<=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Compatibile con Bambini
     if ( $bambini > 0 ) {
+        $min = max( 1, $bambini - 0.5 );
+        $max = min( 5, $bambini + 0.5 );
         $meta_query[] = array(
             'key'     => 'compatibilita_con_i_bambini',
-            'value'   => $bambini,
-            'compare' => '>=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
     // Esperienza Richiesta
     if ( $esperienza > 0 ) {
+        $min = max( 1, $esperienza - 0.5 );
+        $max = min( 5, $esperienza + 0.5 );
         $meta_query[] = array(
             'key'     => 'livello_esperienza_richiesto',
-            'value'   => $esperienza,
-            'compare' => '<=',
-            'type'    => 'NUMERIC',
+            'value'   => array( $min, $max ),
+            'compare' => 'BETWEEN',
+            'type'    => 'DECIMAL(3,2)',
         );
     }
 
@@ -171,7 +187,7 @@ function caniincasa_ajax_filter_razze() {
     // Execute query
     $query = new WP_Query( $args );
 
-    // Start output buffering
+    // Start output buffering for razze cards
     ob_start();
 
     if ( $query->have_posts() ) :
@@ -191,14 +207,32 @@ function caniincasa_ajax_filter_razze() {
     // Get the buffered content
     $html = ob_get_clean();
 
+    // Generate pagination HTML
+    ob_start();
+    if ( $query->max_num_pages > 1 ) :
+        echo '<div class="razze-pagination">';
+        echo paginate_links( array(
+            'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+            'format'    => '?paged=%#%',
+            'current'   => max( 1, $paged ),
+            'total'     => $query->max_num_pages,
+            'prev_text' => '&laquo; Precedente',
+            'next_text' => 'Successiva &raquo;',
+            'type'      => 'list',
+        ) );
+        echo '</div>';
+    endif;
+    $pagination = ob_get_clean();
+
     // Reset post data
     wp_reset_postdata();
 
     // Prepare response
     $response = array(
-        'html'  => $html,
-        'found' => $query->found_posts,
-        'pages' => $query->max_num_pages,
+        'html'       => $html,
+        'pagination' => $pagination,
+        'found'      => $query->found_posts,
+        'pages'      => $query->max_num_pages,
     );
 
     // Send success response
