@@ -473,7 +473,7 @@ function caniincasa_register_razze_acf_fields() {
         'hide_on_screen' => array( 'the_content' ),
     ) );
 }
-add_action( 'acf/include_fields', 'caniincasa_register_razze_acf_fields', 20 );
+add_action( 'init', 'caniincasa_register_razze_acf_fields', 20 );
 
 /**
  * ACF Fields for Strutture CPTs (shared fields)
@@ -639,7 +639,7 @@ function caniincasa_register_strutture_acf_fields() {
         'position' => 'side',
     ) );
 }
-add_action( 'acf/include_fields', 'caniincasa_register_strutture_acf_fields', 20 );
+add_action( 'init', 'caniincasa_register_strutture_acf_fields', 20 );
 
 /**
  * ACF Fields for Annunci 4 Zampe
@@ -735,7 +735,7 @@ function caniincasa_register_annunci_4zampe_acf_fields() {
         'position' => 'normal',
     ) );
 }
-add_action( 'acf/include_fields', 'caniincasa_register_annunci_4zampe_acf_fields', 20 );
+add_action( 'init', 'caniincasa_register_annunci_4zampe_acf_fields', 20 );
 
 /**
  * ACF Fields for Annunci Dogsitter
@@ -807,4 +807,4 @@ function caniincasa_register_annunci_dogsitter_acf_fields() {
         'position' => 'normal',
     ) );
 }
-add_action( 'acf/include_fields', 'caniincasa_register_annunci_dogsitter_acf_fields', 20 );
+add_action( 'init', 'caniincasa_register_annunci_dogsitter_acf_fields', 20 );
