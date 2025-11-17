@@ -52,88 +52,151 @@ function caniincasa_ajax_filter_razze() {
     $meta_query = array( 'relation' => 'AND' );
 
     // Energia e Livelli di Attività
-    // Logica: cerchiamo razze con valore in un range ±0.5 dal valore selezionato
+    // Logica: cerchiamo razze con valore in un range ±0.8 dal valore selezionato
     if ( $energia > 0 ) {
-        $min = max( 1, $energia - 0.5 );
-        $max = min( 5, $energia + 0.5 );
         $meta_query[] = array(
-            'key'     => 'energia_e_livelli_di_attivita',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'energia_e_livelli_di_attivita',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'energia_e_livelli_di_attivita',
+                'value'   => array( max( 1, $energia - 0.8 ), min( 5, $energia + 0.8 ) ),
+                'compare' => 'BETWEEN',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Adattabilità ad Appartamento
+    // Logica: razze adatte ALMENO quanto il valore selezionato
     if ( $appartamento > 0 ) {
-        $min = max( 1, $appartamento - 0.5 );
-        $max = min( 5, $appartamento + 0.5 );
         $meta_query[] = array(
-            'key'     => 'adattabilita_appartamento',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'adattabilita_appartamento',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'adattabilita_appartamento',
+                'value'   => max( 1, $appartamento - 1 ),
+                'compare' => '>=',
+                'type'    => 'NUMERIC',
+            ),
+            array(
+                'key'     => 'adattabilita_appartamento',
+                'value'   => min( 5, $appartamento + 1 ),
+                'compare' => '<=',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Affettuosità
     if ( $affettuosita > 0 ) {
-        $min = max( 1, $affettuosita - 0.5 );
-        $max = min( 5, $affettuosita + 0.5 );
         $meta_query[] = array(
-            'key'     => 'affettuosita',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'affettuosita',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'affettuosita',
+                'value'   => array( max( 1, $affettuosita - 0.8 ), min( 5, $affettuosita + 0.8 ) ),
+                'compare' => 'BETWEEN',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Tolleranza verso Estranei
+    // Logica: razze tolleranti ALMENO quanto il valore selezionato
     if ( $estranei > 0 ) {
-        $min = max( 1, $estranei - 0.5 );
-        $max = min( 5, $estranei + 0.5 );
         $meta_query[] = array(
-            'key'     => 'tolleranza_estranei',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'tolleranza_estranei',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'tolleranza_estranei',
+                'value'   => max( 1, $estranei - 1 ),
+                'compare' => '>=',
+                'type'    => 'NUMERIC',
+            ),
+            array(
+                'key'     => 'tolleranza_estranei',
+                'value'   => min( 5, $estranei + 1 ),
+                'compare' => '<=',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Vocalità
     // Logica: cerchiamo razze con vocalità nel range
     if ( $vocalita > 0 ) {
-        $min = max( 1, $vocalita - 0.5 );
-        $max = min( 5, $vocalita + 0.5 );
         $meta_query[] = array(
-            'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
+                'value'   => array( max( 1, $vocalita - 0.8 ), min( 5, $vocalita + 0.8 ) ),
+                'compare' => 'BETWEEN',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Compatibile con Bambini
+    // Logica: razze compatibili ALMENO quanto il valore selezionato
     if ( $bambini > 0 ) {
-        $min = max( 1, $bambini - 0.5 );
-        $max = min( 5, $bambini + 0.5 );
         $meta_query[] = array(
-            'key'     => 'compatibilita_con_i_bambini',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'compatibilita_con_i_bambini',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'compatibilita_con_i_bambini',
+                'value'   => max( 1, $bambini - 1 ),
+                'compare' => '>=',
+                'type'    => 'NUMERIC',
+            ),
+            array(
+                'key'     => 'compatibilita_con_i_bambini',
+                'value'   => min( 5, $bambini + 1 ),
+                'compare' => '<=',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
     // Esperienza Richiesta
+    // Logica: razze che richiedono AL MASSIMO il livello selezionato (range ±1)
     if ( $esperienza > 0 ) {
-        $min = max( 1, $esperienza - 0.5 );
-        $max = min( 5, $esperienza + 0.5 );
         $meta_query[] = array(
-            'key'     => 'livello_esperienza_richiesto',
-            'value'   => array( $min, $max ),
-            'compare' => 'BETWEEN',
-            'type'    => 'DECIMAL(3,2)',
+            'relation' => 'AND',
+            array(
+                'key'     => 'livello_esperienza_richiesto',
+                'compare' => 'EXISTS',
+            ),
+            array(
+                'key'     => 'livello_esperienza_richiesto',
+                'value'   => max( 1, $esperienza - 1 ),
+                'compare' => '>=',
+                'type'    => 'NUMERIC',
+            ),
+            array(
+                'key'     => 'livello_esperienza_richiesto',
+                'value'   => min( 5, $esperienza + 1 ),
+                'compare' => '<=',
+                'type'    => 'NUMERIC',
+            ),
         );
     }
 
