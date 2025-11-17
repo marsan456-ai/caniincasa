@@ -82,29 +82,36 @@ class Caniincasa_Core {
             require_once CANIINCASA_CORE_PATH . 'includes/acf-fields.php';
         }
 
-        // Quiz System
-        require_once CANIINCASA_CORE_PATH . 'includes/quiz-system.php';
+        // Helper functions
+        require_once CANIINCASA_CORE_PATH . 'includes/helpers.php';
+
+        // AJAX Handlers
+        require_once CANIINCASA_CORE_PATH . 'includes/ajax-handlers.php';
 
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 
-        // REST API Endpoints
-        require_once CANIINCASA_CORE_PATH . 'includes/rest-api.php';
-
-        // Admin functionality
-        if ( is_admin() ) {
-            require_once CANIINCASA_CORE_PATH . 'admin/admin-menus.php';
-            require_once CANIINCASA_CORE_PATH . 'admin/admin-settings.php';
+        // WP-CLI Commands
+        if ( defined( 'WP_CLI' ) && WP_CLI ) {
+            require_once CANIINCASA_CORE_PATH . 'includes/wp-cli-commands.php';
         }
 
-        // Public/Frontend functionality
-        if ( ! is_admin() ) {
-            require_once CANIINCASA_CORE_PATH . 'public/shortcodes.php';
-            require_once CANIINCASA_CORE_PATH . 'public/ajax-handlers.php';
-        }
+        // Quiz System (TODO: Implement)
+        // require_once CANIINCASA_CORE_PATH . 'includes/quiz-system.php';
 
-        // Helper functions
-        require_once CANIINCASA_CORE_PATH . 'includes/helpers.php';
+        // REST API Endpoints (TODO: Implement)
+        // require_once CANIINCASA_CORE_PATH . 'includes/rest-api.php';
+
+        // Admin functionality (TODO: Implement)
+        // if ( is_admin() ) {
+        //     require_once CANIINCASA_CORE_PATH . 'admin/admin-menus.php';
+        //     require_once CANIINCASA_CORE_PATH . 'admin/admin-settings.php';
+        // }
+
+        // Public/Frontend functionality (TODO: Implement)
+        // if ( ! is_admin() ) {
+        //     require_once CANIINCASA_CORE_PATH . 'public/shortcodes.php';
+        // }
     }
 
     /**

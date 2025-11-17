@@ -159,6 +159,17 @@ function caniincasa_scripts() {
     // Responsive styles
     wp_enqueue_style( 'caniincasa-responsive', CANIINCASA_THEME_URI . '/assets/css/responsive.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
 
+    // Razze styles (conditional)
+    if ( is_singular( 'razze_di_cani' ) || is_post_type_archive( 'razze_di_cani' ) || is_tax( array( 'razza_taglia', 'razza_gruppo' ) ) ) {
+        wp_enqueue_style( 'caniincasa-razze', CANIINCASA_THEME_URI . '/assets/css/razze.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
+    // Strutture styles (conditional)
+    $strutture_types = array( 'allevamenti', 'veterinari', 'canili', 'pensioni_per_cani', 'centri_cinofili' );
+    if ( is_singular( $strutture_types ) || is_post_type_archive( $strutture_types ) || is_tax( 'provincia' ) ) {
+        wp_enqueue_style( 'caniincasa-strutture', CANIINCASA_THEME_URI . '/assets/css/strutture.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
     // Main JavaScript
     wp_enqueue_script( 'caniincasa-main', CANIINCASA_THEME_URI . '/assets/js/main.js', array( 'jquery' ), CANIINCASA_VERSION, true );
 
