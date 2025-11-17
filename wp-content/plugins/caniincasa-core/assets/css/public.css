@@ -1,0 +1,223 @@
+/**
+ * Caniincasa Core - Public Styles
+ *
+ * @package Caniincasa_Core
+ * @since 1.0.0
+ */
+
+/* General Styles */
+.caniincasa-container {
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+/* Rating Stars */
+.caniincasa-rating-stars {
+	display: inline-flex;
+	gap: 2px;
+	color: #FFD700;
+	font-size: 16px;
+}
+
+.caniincasa-rating-stars .star {
+	display: inline-block;
+}
+
+.caniincasa-rating-stars .star.filled {
+	color: #FFD700;
+}
+
+.caniincasa-rating-stars .star.half {
+	color: #FFD700;
+	position: relative;
+}
+
+.caniincasa-rating-stars .star.empty {
+	color: #ddd;
+}
+
+/* Annuncio Badge */
+.annuncio-badge {
+	display: inline-block;
+	padding: 4px 12px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.annuncio-badge.pending {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeaa7;
+}
+
+.annuncio-badge.publish {
+	background-color: #d4edda;
+	color: #155724;
+	border: 1px solid #c3e6cb;
+}
+
+.annuncio-badge.draft {
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+}
+
+.annuncio-badge.expired {
+	background-color: #e2e3e5;
+	color: #383d41;
+	border: 1px solid #d6d8db;
+}
+
+/* WhatsApp Button */
+.caniincasa-whatsapp-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 20px;
+	background-color: #25D366;
+	color: white;
+	text-decoration: none;
+	border-radius: 6px;
+	font-weight: 600;
+	transition: background-color 0.3s ease;
+}
+
+.caniincasa-whatsapp-btn:hover {
+	background-color: #128C7E;
+	color: white;
+}
+
+.caniincasa-whatsapp-btn::before {
+	content: '\f232';
+	font-family: 'dashicons';
+	font-size: 20px;
+}
+
+/* Breadcrumbs */
+.caniincasa-breadcrumbs {
+	padding: 10px 0;
+	margin-bottom: 20px;
+	font-size: 14px;
+	color: #666;
+}
+
+.caniincasa-breadcrumbs a {
+	color: #0073aa;
+	text-decoration: none;
+}
+
+.caniincasa-breadcrumbs a:hover {
+	text-decoration: underline;
+}
+
+.caniincasa-breadcrumbs .separator {
+	margin: 0 8px;
+	color: #999;
+}
+
+/* Loading Spinner */
+.caniincasa-loading {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 3px solid #f3f3f3;
+	border-top: 3px solid #0073aa;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+/* Filters (for AJAX) */
+.caniincasa-filters {
+	margin-bottom: 30px;
+	padding: 20px;
+	background: #f9f9f9;
+	border-radius: 8px;
+}
+
+.caniincasa-filters .filter-group {
+	margin-bottom: 15px;
+}
+
+.caniincasa-filters label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+	color: #333;
+}
+
+.caniincasa-filters select,
+.caniincasa-filters input[type="text"],
+.caniincasa-filters input[type="search"] {
+	width: 100%;
+	max-width: 300px;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.caniincasa-filters button {
+	padding: 10px 20px;
+	background-color: #0073aa;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	transition: background-color 0.3s ease;
+}
+
+.caniincasa-filters button:hover {
+	background-color: #005a87;
+}
+
+/* Results Count */
+.caniincasa-results-count {
+	margin-bottom: 20px;
+	font-size: 14px;
+	color: #666;
+}
+
+/* No Results */
+.caniincasa-no-results {
+	text-align: center;
+	padding: 40px 20px;
+	background: #f9f9f9;
+	border-radius: 8px;
+	margin: 20px 0;
+}
+
+.caniincasa-no-results h3 {
+	margin-bottom: 10px;
+	color: #333;
+}
+
+.caniincasa-no-results p {
+	color: #666;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+	.caniincasa-filters select,
+	.caniincasa-filters input[type="text"],
+	.caniincasa-filters input[type="search"] {
+		max-width: 100%;
+	}
+
+	.caniincasa-whatsapp-btn {
+		position: fixed;
+		bottom: 70px;
+		right: 20px;
+		z-index: 999;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	}
+}
