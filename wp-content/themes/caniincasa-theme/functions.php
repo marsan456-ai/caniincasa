@@ -159,6 +159,11 @@ function caniincasa_scripts() {
     // Responsive styles
     wp_enqueue_style( 'caniincasa-responsive', CANIINCASA_THEME_URI . '/assets/css/responsive.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
 
+    // Homepage styles (conditional)
+    if ( is_front_page() ) {
+        wp_enqueue_style( 'caniincasa-homepage', CANIINCASA_THEME_URI . '/assets/css/homepage.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
     // Razze styles (conditional)
     if ( is_singular( 'razze_di_cani' ) || is_post_type_archive( 'razze_di_cani' ) || is_tax( array( 'razza_taglia', 'razza_gruppo' ) ) ) {
         wp_enqueue_style( 'caniincasa-razze', CANIINCASA_THEME_URI . '/assets/css/razze.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );

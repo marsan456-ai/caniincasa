@@ -142,7 +142,7 @@
                     'theme_location' => 'mobile',
                     'menu_class'     => 'mobile-menu',
                     'container'      => false,
-                    'fallback_cb'    => 'wp_nav_menu',
+                    'fallback_cb'    => false,
                     'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                 ) );
                 ?>

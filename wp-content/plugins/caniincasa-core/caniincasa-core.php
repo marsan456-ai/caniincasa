@@ -77,11 +77,6 @@ class Caniincasa_Core {
         require_once CANIINCASA_CORE_PATH . 'includes/cpt-strutture.php';
         require_once CANIINCASA_CORE_PATH . 'includes/cpt-annunci.php';
 
-        // ACF Fields
-        if ( class_exists( 'ACF' ) ) {
-            require_once CANIINCASA_CORE_PATH . 'includes/acf-fields.php';
-        }
-
         // Helper functions
         require_once CANIINCASA_CORE_PATH . 'includes/helpers.php';
 
@@ -117,6 +112,9 @@ class Caniincasa_Core {
      * Initialize hooks
      */
     private function init_hooks() {
+        // Load ACF Fields at the right time
+        add_action( 'init', array( $this, 'load_acf_fields' ), 5 );
+
         // Activation/Deactivation hooks
         register_activation_hook( CANIINCASA_CORE_FILE, array( $this, 'activate' ) );
         register_deactivation_hook( CANIINCASA_CORE_FILE, array( $this, 'deactivate' ) );
@@ -124,6 +122,15 @@ class Caniincasa_Core {
         // Enqueue scripts and styles
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+    }
+
+    /**
+     * Load ACF Fields
+     */
+    public function load_acf_fields() {
+        if ( class_exists( 'ACF' ) ) {
+            require_once CANIINCASA_CORE_PATH . 'includes/acf-fields.php';
+        }
     }
 
     /**
