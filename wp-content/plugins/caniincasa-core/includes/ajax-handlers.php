@@ -64,7 +64,7 @@ function caniincasa_ajax_filter_razze() {
     // Adattabilità ad Appartamento
     if ( $appartamento > 0 ) {
         $meta_query[] = array(
-            'key'     => 'adattabilita_ad_appartamento',
+            'key'     => 'adattabilita_appartamento',
             'value'   => $appartamento,
             'compare' => '>=',
             'type'    => 'NUMERIC',
@@ -84,7 +84,7 @@ function caniincasa_ajax_filter_razze() {
     // Tolleranza verso Estranei
     if ( $estranei > 0 ) {
         $meta_query[] = array(
-            'key'     => 'tolleranza_verso_estranei',
+            'key'     => 'tolleranza_estranei',
             'value'   => $estranei,
             'compare' => '>=',
             'type'    => 'NUMERIC',
@@ -94,7 +94,7 @@ function caniincasa_ajax_filter_razze() {
     // Vocalità
     if ( $vocalita > 0 ) {
         $meta_query[] = array(
-            'key'     => 'vocalita',
+            'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
             'value'   => $vocalita,
             'compare' => '<=',
             'type'    => 'NUMERIC',
@@ -104,7 +104,7 @@ function caniincasa_ajax_filter_razze() {
     // Compatibile con Bambini
     if ( $bambini > 0 ) {
         $meta_query[] = array(
-            'key'     => 'compatibile_con_bambini',
+            'key'     => 'compatibilita_con_i_bambini',
             'value'   => $bambini,
             'compare' => '>=',
             'type'    => 'NUMERIC',
@@ -114,7 +114,7 @@ function caniincasa_ajax_filter_razze() {
     // Esperienza Richiesta
     if ( $esperienza > 0 ) {
         $meta_query[] = array(
-            'key'     => 'esperienza_richiesta',
+            'key'     => 'livello_esperienza_richiesto',
             'value'   => $esperienza,
             'compare' => '<=',
             'type'    => 'NUMERIC',

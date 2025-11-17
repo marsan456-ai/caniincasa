@@ -13,8 +13,8 @@ get_header();
     <!-- Hero Section -->
     <div class="razze-archive-hero">
         <div class="container">
-            <h1 class="archive-title">Razze con filtri</h1>
-            <p class="archive-subtitle">Razze di Cani</p>
+            <h1 class="archive-title">Razze di Cani</h1>
+            <p class="archive-subtitle">Scopri tutte le razze canine e trova quella perfetta per te</p>
         </div>
     </div>
 
