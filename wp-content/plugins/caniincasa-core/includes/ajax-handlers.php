@@ -48,155 +48,88 @@ function caniincasa_ajax_filter_razze() {
         $args['s'] = $search;
     }
 
-    // Build meta query for characteristics
+    // Build meta query for characteristics - LOGICA SEMPLIFICATA CORRETTA
     $meta_query = array( 'relation' => 'AND' );
 
+    // DEBUG: Log dei parametri ricevuti
+    error_log('FILTRI RAZZE - Parametri: energia=' . $energia . ', appartamento=' . $appartamento .
+              ', affettuosita=' . $affettuosita . ', estranei=' . $estranei .
+              ', vocalita=' . $vocalita . ', bambini=' . $bambini . ', esperienza=' . $esperienza);
+
     // Energia e Livelli di Attività
-    // Logica: cerchiamo razze con valore in un range ±0.8 dal valore selezionato
+    // Logica: cerco razze vicine al valore (±1 per tolleranza)
     if ( $energia > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'energia_e_livelli_di_attivita',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'energia_e_livelli_di_attivita',
-                'value'   => array( max( 1, $energia - 0.8 ), min( 5, $energia + 0.8 ) ),
-                'compare' => 'BETWEEN',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'energia_e_livelli_di_attivita',
+            'value'   => array( max(1, $energia - 1), min(5, $energia + 1) ),
+            'compare' => 'BETWEEN',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Adattabilità ad Appartamento
-    // Logica: razze adatte ALMENO quanto il valore selezionato
+    // Logica: cerco razze ALMENO adatte quanto richiesto (>=)
     if ( $appartamento > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'adattabilita_appartamento',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'adattabilita_appartamento',
-                'value'   => max( 1, $appartamento - 1 ),
-                'compare' => '>=',
-                'type'    => 'NUMERIC',
-            ),
-            array(
-                'key'     => 'adattabilita_appartamento',
-                'value'   => min( 5, $appartamento + 1 ),
-                'compare' => '<=',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'adattabilita_appartamento',
+            'value'   => $appartamento,
+            'compare' => '>=',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Affettuosità
+    // Logica: cerco razze ALMENO affettuose quanto richiesto (>=)
     if ( $affettuosita > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'affettuosita',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'affettuosita',
-                'value'   => array( max( 1, $affettuosita - 0.8 ), min( 5, $affettuosita + 0.8 ) ),
-                'compare' => 'BETWEEN',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'affettuosita',
+            'value'   => $affettuosita,
+            'compare' => '>=',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Tolleranza verso Estranei
-    // Logica: razze tolleranti ALMENO quanto il valore selezionato
+    // Logica: cerco razze ALMENO tolleranti quanto richiesto (>=)
     if ( $estranei > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'tolleranza_estranei',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'tolleranza_estranei',
-                'value'   => max( 1, $estranei - 1 ),
-                'compare' => '>=',
-                'type'    => 'NUMERIC',
-            ),
-            array(
-                'key'     => 'tolleranza_estranei',
-                'value'   => min( 5, $estranei + 1 ),
-                'compare' => '<=',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'tolleranza_estranei',
+            'value'   => $estranei,
+            'compare' => '>=',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Vocalità
-    // Logica: cerchiamo razze con vocalità nel range
+    // Logica: cerco razze AL MASSIMO vocali quanto indicato (<=)
     if ( $vocalita > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
-                'value'   => array( max( 1, $vocalita - 0.8 ), min( 5, $vocalita + 0.8 ) ),
-                'compare' => 'BETWEEN',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'vocalita_e_predisposizione_ad_abbaiare',
+            'value'   => $vocalita,
+            'compare' => '<=',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Compatibile con Bambini
-    // Logica: razze compatibili ALMENO quanto il valore selezionato
+    // Logica: cerco razze ALMENO compatibili quanto richiesto (>=)
     if ( $bambini > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'compatibilita_con_i_bambini',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'compatibilita_con_i_bambini',
-                'value'   => max( 1, $bambini - 1 ),
-                'compare' => '>=',
-                'type'    => 'NUMERIC',
-            ),
-            array(
-                'key'     => 'compatibilita_con_i_bambini',
-                'value'   => min( 5, $bambini + 1 ),
-                'compare' => '<=',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'compatibilita_con_i_bambini',
+            'value'   => $bambini,
+            'compare' => '>=',
+            'type'    => 'NUMERIC',
         );
     }
 
     // Esperienza Richiesta
-    // Logica: razze che richiedono AL MASSIMO il livello selezionato (range ±1)
+    // Logica: cerco razze che richiedono AL MASSIMO l'esperienza indicata (<=)
     if ( $esperienza > 0 ) {
         $meta_query[] = array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'livello_esperienza_richiesto',
-                'compare' => 'EXISTS',
-            ),
-            array(
-                'key'     => 'livello_esperienza_richiesto',
-                'value'   => max( 1, $esperienza - 1 ),
-                'compare' => '>=',
-                'type'    => 'NUMERIC',
-            ),
-            array(
-                'key'     => 'livello_esperienza_richiesto',
-                'value'   => min( 5, $esperienza + 1 ),
-                'compare' => '<=',
-                'type'    => 'NUMERIC',
-            ),
+            'key'     => 'livello_esperienza_richiesto',
+            'value'   => $esperienza,
+            'compare' => '<=',
+            'type'    => 'NUMERIC',
         );
     }
 
@@ -247,8 +180,14 @@ function caniincasa_ajax_filter_razze() {
             break;
     }
 
+    // DEBUG: Log della query finale
+    error_log('FILTRI RAZZE - Args query: ' . print_r($args, true));
+
     // Execute query
     $query = new WP_Query( $args );
+
+    // DEBUG: Log risultati
+    error_log('FILTRI RAZZE - Risultati trovati: ' . $query->found_posts . ' / Pagine: ' . $query->max_num_pages);
 
     // Start output buffering for razze cards
     ob_start();
