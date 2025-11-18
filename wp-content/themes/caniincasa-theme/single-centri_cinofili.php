@@ -155,6 +155,15 @@ while ( have_posts() ) :
                         </a>
                     </div>
 
+                    <!-- Proponi Struttura Box -->
+                    <div class="sidebar-box proponi-box">
+                        <h3 class="box-title">Hai un centro cinofilo?</h3>
+                        <p>Proponi la tua struttura per essere inserito nel nostro database e raggiungere più clienti.</p>
+                        <a href="<?php echo esc_url( home_url( '/contatti' ) ); ?>" class="btn btn-primary btn-block">
+                            Proponi la tua struttura
+                        </a>
+                    </div>
+
                     <!-- Share Box -->
                     <div class="sidebar-box share-box">
                         <h3 class="box-title">Condividi</h3>
