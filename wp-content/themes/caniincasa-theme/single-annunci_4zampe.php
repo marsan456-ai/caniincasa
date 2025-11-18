@@ -47,9 +47,6 @@ while ( have_posts() ) :
 		<div class="annuncio-hero <?php echo $is_expired ? 'annuncio-expired' : ''; ?>">
 			<div class="container">
 				<div class="hero-content">
-					<div class="breadcrumbs-wrapper">
-						<?php caniincasa_breadcrumbs(); ?>
-					</div>
 
 					<?php if ( $is_expired ) : ?>
 						<div class="expiration-notice">
@@ -104,6 +101,13 @@ while ( have_posts() ) :
 						</span>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<!-- Breadcrumbs -->
+		<div class="container">
+			<div class="breadcrumbs-wrapper">
+				<?php caniincasa_breadcrumbs(); ?>
 			</div>
 		</div>
 
@@ -314,7 +318,7 @@ while ( have_posts() ) :
 					<!-- Share Box -->
 					<div class="sidebar-box share-box">
 						<h3 class="box-title"><?php esc_html_e( 'Condividi', 'caniincasa' ); ?></h3>
-						<?php caniincasa_social_share(); ?>
+						<?php caniincasa_social_share_buttons(); ?>
 					</div>
 
 					<!-- Safety Tips Box -->

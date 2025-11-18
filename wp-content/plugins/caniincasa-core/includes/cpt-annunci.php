@@ -127,6 +127,18 @@ function caniincasa_annunci_menu() {
         'dashicons-format-status',
         22
     );
+
+    // Add submenu for pending annunci (admin only)
+    if ( current_user_can( 'administrator' ) ) {
+        add_submenu_page(
+            'caniincasa-annunci',
+            __( 'Approvazione Annunci', 'caniincasa-core' ),
+            __( 'Approvazione Annunci', 'caniincasa-core' ),
+            'administrator',
+            'caniincasa-annunci-approval',
+            'caniincasa_render_annunci_approval_page'
+        );
+    }
 }
 add_action( 'admin_menu', 'caniincasa_annunci_menu' );
 
@@ -376,3 +388,245 @@ function caniincasa_annunci_column_content( $column, $post_id ) {
 }
 add_action( 'manage_annunci_4zampe_posts_custom_column', 'caniincasa_annunci_column_content', 10, 2 );
 add_action( 'manage_annunci_dogsitter_posts_custom_column', 'caniincasa_annunci_column_content', 10, 2 );
+
+/**
+ * Render Annunci Approval Page
+ */
+function caniincasa_render_annunci_approval_page() {
+    // Handle bulk actions
+    if ( isset( $_POST['caniincasa_bulk_action'] ) && check_admin_referer( 'caniincasa_annunci_approval', 'caniincasa_approval_nonce' ) ) {
+        $action = sanitize_text_field( $_POST['bulk_action'] );
+        $post_ids = isset( $_POST['annunci_ids'] ) ? array_map( 'absint', $_POST['annunci_ids'] ) : array();
+
+        if ( ! empty( $post_ids ) ) {
+            foreach ( $post_ids as $post_id ) {
+                if ( $action === 'approve' ) {
+                    wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
+                } elseif ( $action === 'reject' ) {
+                    wp_update_post( array( 'ID' => $post_id, 'post_status' => 'trash' ) );
+                }
+            }
+
+            $message = ( $action === 'approve' )
+                ? sprintf( __( '%d annunci approvati.', 'caniincasa-core' ), count( $post_ids ) )
+                : sprintf( __( '%d annunci rifiutati.', 'caniincasa-core' ), count( $post_ids ) );
+
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
+        }
+    }
+
+    // Get pending annunci
+    $args_4zampe = array(
+        'post_type'      => 'annunci_4zampe',
+        'post_status'    => 'pending',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'ASC',
+    );
+
+    $args_dogsitter = array(
+        'post_type'      => 'annunci_dogsitter',
+        'post_status'    => 'pending',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'ASC',
+    );
+
+    $pending_4zampe = new WP_Query( $args_4zampe );
+    $pending_dogsitter = new WP_Query( $args_dogsitter );
+
+    $total_pending = $pending_4zampe->found_posts + $pending_dogsitter->found_posts;
+
+    ?>
+    <div class="wrap">
+        <h1><?php _e( 'Approvazione Annunci', 'caniincasa-core' ); ?></h1>
+
+        <div class="notice notice-info">
+            <p>
+                <strong><?php _e( 'Annunci in attesa di approvazione:', 'caniincasa-core' ); ?></strong>
+                <?php echo esc_html( $total_pending ); ?>
+            </p>
+        </div>
+
+        <?php if ( $total_pending === 0 ) : ?>
+            <p><?php _e( 'Nessun annuncio in attesa di approvazione.', 'caniincasa-core' ); ?></p>
+        <?php else : ?>
+
+            <form method="post" action="">
+                <?php wp_nonce_field( 'caniincasa_annunci_approval', 'caniincasa_approval_nonce' ); ?>
+
+                <div class="tablenav top">
+                    <div class="alignleft actions bulkactions">
+                        <select name="bulk_action">
+                            <option value=""><?php _e( 'Azioni multiple', 'caniincasa-core' ); ?></option>
+                            <option value="approve"><?php _e( 'Approva', 'caniincasa-core' ); ?></option>
+                            <option value="reject"><?php _e( 'Rifiuta', 'caniincasa-core' ); ?></option>
+                        </select>
+                        <input type="submit" name="caniincasa_bulk_action" class="button action" value="<?php esc_attr_e( 'Applica', 'caniincasa-core' ); ?>">
+                    </div>
+                </div>
+
+                <!-- Annunci 4 Zampe -->
+                <?php if ( $pending_4zampe->have_posts() ) : ?>
+                    <h2><?php _e( 'Annunci 4 Zampe', 'caniincasa-core' ); ?></h2>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th class="check-column">
+                                    <input type="checkbox" class="select-all" data-group="4zampe">
+                                </th>
+                                <th><?php _e( 'Titolo', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Autore', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Tipo', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Data', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Azioni', 'caniincasa-core' ); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ( $pending_4zampe->have_posts() ) : $pending_4zampe->the_post(); ?>
+                                <?php
+                                $post_id = get_the_ID();
+                                $tipo = get_post_meta( $post_id, 'tipo_annuncio', true );
+                                $author_id = get_the_author_meta( 'ID' );
+                                $author_name = get_the_author();
+                                ?>
+                                <tr>
+                                    <th class="check-column">
+                                        <input type="checkbox" name="annunci_ids[]" value="<?php echo esc_attr( $post_id ); ?>" class="annuncio-checkbox-4zampe">
+                                    </th>
+                                    <td>
+                                        <strong>
+                                            <a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>">
+                                                <?php the_title(); ?>
+                                            </a>
+                                        </strong>
+                                        <br>
+                                        <small><a href="<?php the_permalink(); ?>" target="_blank"><?php _e( 'Anteprima', 'caniincasa-core' ); ?></a></small>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $author_id ) ); ?>">
+                                            <?php echo esc_html( $author_name ); ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo esc_html( ucfirst( $tipo ) ); ?></td>
+                                    <td><?php echo get_the_date(); ?></td>
+                                    <td>
+                                        <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=approve_annuncio&post_id=' . $post_id ), 'approve_annuncio_' . $post_id ) ); ?>" class="button button-primary button-small">
+                                            <?php _e( 'Approva', 'caniincasa-core' ); ?>
+                                        </a>
+                                        <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=reject_annuncio&post_id=' . $post_id ), 'reject_annuncio_' . $post_id ) ); ?>" class="button button-small">
+                                            <?php _e( 'Rifiuta', 'caniincasa-core' ); ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                    <br>
+                <?php endif; ?>
+
+                <!-- Annunci Dogsitter -->
+                <?php if ( $pending_dogsitter->have_posts() ) : ?>
+                    <h2><?php _e( 'Annunci Dogsitter', 'caniincasa-core' ); ?></h2>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th class="check-column">
+                                    <input type="checkbox" class="select-all" data-group="dogsitter">
+                                </th>
+                                <th><?php _e( 'Titolo', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Autore', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Data', 'caniincasa-core' ); ?></th>
+                                <th><?php _e( 'Azioni', 'caniincasa-core' ); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ( $pending_dogsitter->have_posts() ) : $pending_dogsitter->the_post(); ?>
+                                <?php
+                                $post_id = get_the_ID();
+                                $author_id = get_the_author_meta( 'ID' );
+                                $author_name = get_the_author();
+                                ?>
+                                <tr>
+                                    <th class="check-column">
+                                        <input type="checkbox" name="annunci_ids[]" value="<?php echo esc_attr( $post_id ); ?>" class="annuncio-checkbox-dogsitter">
+                                    </th>
+                                    <td>
+                                        <strong>
+                                            <a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>">
+                                                <?php the_title(); ?>
+                                            </a>
+                                        </strong>
+                                        <br>
+                                        <small><a href="<?php the_permalink(); ?>" target="_blank"><?php _e( 'Anteprima', 'caniincasa-core' ); ?></a></small>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo esc_url( admin_url( 'user-edit.php?user_id=' . $author_id ) ); ?>">
+                                            <?php echo esc_html( $author_name ); ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo get_the_date(); ?></td>
+                                    <td>
+                                        <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=approve_annuncio&post_id=' . $post_id ), 'approve_annuncio_' . $post_id ) ); ?>" class="button button-primary button-small">
+                                            <?php _e( 'Approva', 'caniincasa-core' ); ?>
+                                        </a>
+                                        <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=reject_annuncio&post_id=' . $post_id ), 'reject_annuncio_' . $post_id ) ); ?>" class="button button-small">
+                                            <?php _e( 'Rifiuta', 'caniincasa-core' ); ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+
+                <?php wp_reset_postdata(); ?>
+            </form>
+
+            <script>
+            jQuery(document).ready(function($) {
+                $('.select-all').on('change', function() {
+                    var group = $(this).data('group');
+                    $('.annuncio-checkbox-' + group).prop('checked', $(this).prop('checked'));
+                });
+            });
+            </script>
+
+        <?php endif; ?>
+    </div>
+    <?php
+}
+
+/**
+ * Handle single annuncio approval
+ */
+function caniincasa_handle_approve_annuncio() {
+    $post_id = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : 0;
+
+    if ( ! $post_id || ! check_admin_referer( 'approve_annuncio_' . $post_id ) ) {
+        wp_die( __( 'Operazione non valida.', 'caniincasa-core' ) );
+    }
+
+    wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
+
+    wp_redirect( admin_url( 'admin.php?page=caniincasa-annunci-approval&approved=1' ) );
+    exit;
+}
+add_action( 'admin_post_approve_annuncio', 'caniincasa_handle_approve_annuncio' );
+
+/**
+ * Handle single annuncio rejection
+ */
+function caniincasa_handle_reject_annuncio() {
+    $post_id = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : 0;
+
+    if ( ! $post_id || ! check_admin_referer( 'reject_annuncio_' . $post_id ) ) {
+        wp_die( __( 'Operazione non valida.', 'caniincasa-core' ) );
+    }
+
+    wp_update_post( array( 'ID' => $post_id, 'post_status' => 'trash' ) );
+
+    wp_redirect( admin_url( 'admin.php?page=caniincasa-annunci-approval&rejected=1' ) );
+    exit;
+}
+add_action( 'admin_post_reject_annuncio', 'caniincasa_handle_reject_annuncio' );

@@ -336,3 +336,49 @@ function caniincasa_is_whatsapp_number( $phone ) {
 
     return false;
 }
+
+/**
+ * Get user display name in format: Nome I. (Nome + iniziale cognome)
+ *
+ * @param int|WP_User $user User ID or WP_User object
+ * @return string Formatted display name
+ */
+function caniincasa_get_user_display_name( $user = null ) {
+    // Get user object
+    if ( is_numeric( $user ) ) {
+        $user = get_userdata( $user );
+    } elseif ( ! $user instanceof WP_User ) {
+        $user = wp_get_current_user();
+    }
+
+    if ( ! $user || ! $user->exists() ) {
+        return '';
+    }
+
+    // Get first name and last name
+    $first_name = get_user_meta( $user->ID, 'first_name', true );
+    $last_name = get_user_meta( $user->ID, 'last_name', true );
+
+    // If we have both first and last name
+    if ( $first_name && $last_name ) {
+        $last_initial = mb_strtoupper( mb_substr( $last_name, 0, 1 ) );
+        return $first_name . ' ' . $last_initial . '.';
+    }
+
+    // Fallback to first name only
+    if ( $first_name ) {
+        return $first_name;
+    }
+
+    // Fallback to username
+    return $user->user_login;
+}
+
+/**
+ * Display user name in format: Nome I.
+ *
+ * @param int|WP_User $user User ID or WP_User object
+ */
+function caniincasa_display_user_name( $user = null ) {
+    echo esc_html( caniincasa_get_user_display_name( $user ) );
+}
