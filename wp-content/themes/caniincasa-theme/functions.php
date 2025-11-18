@@ -181,6 +181,11 @@ function caniincasa_scripts() {
         wp_enqueue_style( 'caniincasa-annunci', CANIINCASA_THEME_URI . '/assets/css/annunci.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
     }
 
+    // Blog styles (conditional)
+    if ( is_singular( 'post' ) || is_page() || is_archive() || is_search() || is_404() || is_home() ) {
+        wp_enqueue_style( 'caniincasa-blog', CANIINCASA_THEME_URI . '/assets/css/blog.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
     // Main JavaScript
     wp_enqueue_script( 'caniincasa-main', CANIINCASA_THEME_URI . '/assets/js/main.js', array( 'jquery' ), CANIINCASA_VERSION, true );
 
