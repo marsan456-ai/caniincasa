@@ -278,6 +278,123 @@
     color: var(--color-text-light);
 }
 
+/* Social Share Buttons */
+.social-share-wrapper {
+    margin: 30px 0;
+}
+
+.social-share-wrapper .share-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-share-wrapper .share-title svg {
+    width: 20px;
+    height: 20px;
+}
+
+.social-share-wrapper .share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.social-share-wrapper .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.social-share-wrapper .share-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.social-share-wrapper .share-btn .share-label {
+    white-space: nowrap;
+}
+
+/* Platform-specific colors */
+.share-btn-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.share-btn-facebook:hover {
+    background: #0c63d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.share-btn-twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-btn-twitter:hover {
+    background: #0d8bd9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 161, 242, 0.3);
+}
+
+.share-btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-btn-whatsapp:hover {
+    background: #1ebe57;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.share-btn-telegram {
+    background: #0088cc;
+    color: white;
+}
+
+.share-btn-telegram:hover {
+    background: #0077b5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+}
+
+.share-btn-linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-btn-linkedin:hover {
+    background: #005885;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+}
+
+.share-btn-email {
+    background: #6c757d;
+    color: white;
+}
+
+.share-btn-email:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
 /* Sidebar */
 .post-sidebar,
 .page-sidebar {
