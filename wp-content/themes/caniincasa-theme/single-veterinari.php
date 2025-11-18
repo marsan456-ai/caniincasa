@@ -165,28 +165,24 @@ while ( have_posts() ) :
                                     <span class="info-value"><?php echo wp_kses_post( $orari ); ?></span>
                                 </div>
                             <?php endif; ?>
+
+                            <!-- Servizi Offerti -->
+                            <?php if ( $servizi ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Servizi Offerti:</span>
+                                    <span class="info-value"><?php echo nl2br( esc_html( $servizi ) ); ?></span>
+                                </div>
+                            <?php endif; ?>
+
+                            <!-- Descrizione -->
+                            <?php if ( get_the_content() ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Descrizione:</span>
+                                    <span class="info-value"><?php the_content(); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-
-                    <!-- Servizi Offerti -->
-                    <?php if ( $servizi ) : ?>
-                        <div class="struttura-servizi-dettaglio">
-                            <h2>Servizi Offerti</h2>
-                            <div class="servizi-content">
-                                <p><?php echo nl2br( esc_html( $servizi ) ); ?></p>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Content -->
-                    <?php if ( get_the_content() ) : ?>
-                        <div class="struttura-description">
-                            <h2>Descrizione</h2>
-                            <div class="description-content">
-                                <?php the_content(); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
 
                 </div>
 
