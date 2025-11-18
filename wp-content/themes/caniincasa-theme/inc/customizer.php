@@ -293,5 +293,46 @@ function caniincasa_customize_register( $wp_customize ) {
 
     $wp_customize->add_setting( 'social_youtube', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
     $wp_customize->add_control( 'social_youtube', array( 'label' => __( 'YouTube URL', 'caniincasa' ), 'section' => 'social_media_section', 'type' => 'url' ) );
+
+    // ===============================================
+    // GDPR DISCLAIMERS SECTION
+    // ===============================================
+
+    $wp_customize->add_section(
+        'gdpr_disclaimers_section',
+        array(
+            'title'    => __( 'GDPR e Disclaimer', 'caniincasa' ),
+            'priority' => 133,
+        )
+    );
+
+    // Cookie Banner
+    $wp_customize->add_setting( 'gdpr_cookie_banner_enabled', array( 'default' => true, 'sanitize_callback' => 'absint' ) );
+    $wp_customize->add_control( 'gdpr_cookie_banner_enabled', array( 'label' => __( 'Abilita Cookie Banner', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'checkbox' ) );
+
+    // Structure Disclaimer
+    $wp_customize->add_setting( 'gdpr_structure_disclaimer_enabled', array( 'default' => true, 'sanitize_callback' => 'absint' ) );
+    $wp_customize->add_control( 'gdpr_structure_disclaimer_enabled', array( 'label' => __( 'Abilita Disclaimer Strutture', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'checkbox' ) );
+
+    $wp_customize->add_setting( 'gdpr_structure_disclaimer_text', array( 'default' => 'I dati presenti in questa scheda sono stati raccolti da fonti pubbliche disponibili su internet, inclusi albi professionali, registri ufficiali e associazioni di categoria. Le informazioni pubblicate sono da considerarsi di carattere informativo e non costituiscono una raccomandazione o garanzia. Decliniamo ogni responsabilità riguardo all\'accuratezza, completezza o aggiornamento dei dati. Per informazioni ufficiali e aggiornate, si prega di contattare direttamente la struttura.', 'sanitize_callback' => 'sanitize_textarea_field' ) );
+    $wp_customize->add_control( 'gdpr_structure_disclaimer_text', array( 'label' => __( 'Testo Disclaimer Strutture', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'textarea' ) );
+
+    // Annunci Disclaimer
+    $wp_customize->add_setting( 'gdpr_annunci_disclaimer_enabled', array( 'default' => true, 'sanitize_callback' => 'absint' ) );
+    $wp_customize->add_control( 'gdpr_annunci_disclaimer_enabled', array( 'label' => __( 'Abilita Disclaimer Annunci', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'checkbox' ) );
+
+    $wp_customize->add_setting( 'gdpr_annunci_disclaimer_text', array( 'default' => 'Gli annunci pubblicati sono inseriti direttamente dagli utenti. ' . get_bloginfo( 'name' ) . ' non si assume alcuna responsabilità riguardo al contenuto, all\'accuratezza o alla veridicità delle informazioni fornite negli annunci. Si raccomanda di verificare sempre le informazioni e di incontrare personalmente gli inserzionisti prima di procedere con qualsiasi transazione. Segnalate eventuali annunci sospetti o inappropriati.', 'sanitize_callback' => 'sanitize_textarea_field' ) );
+    $wp_customize->add_control( 'gdpr_annunci_disclaimer_text', array( 'label' => __( 'Testo Disclaimer Annunci', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'textarea' ) );
+
+    // Razze Disclaimer
+    $wp_customize->add_setting( 'gdpr_razze_disclaimer_enabled', array( 'default' => true, 'sanitize_callback' => 'absint' ) );
+    $wp_customize->add_control( 'gdpr_razze_disclaimer_enabled', array( 'label' => __( 'Abilita Disclaimer Razze', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'checkbox' ) );
+
+    $wp_customize->add_setting( 'gdpr_razze_disclaimer_text', array( 'default' => 'Le informazioni fornite sulle razze canine hanno scopo puramente informativo e sono state raccolte da fonti pubbliche e riconosciute a livello cinofilo. Ogni cane è un individuo unico e può differire dalle caratteristiche generali della razza. Prima di adottare un cane, consultate sempre un veterinario e valutate attentamente le esigenze specifiche della razza in relazione al vostro stile di vita.', 'sanitize_callback' => 'sanitize_textarea_field' ) );
+    $wp_customize->add_control( 'gdpr_razze_disclaimer_text', array( 'label' => __( 'Testo Disclaimer Razze', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'textarea' ) );
+
+    // Footer Disclaimer
+    $wp_customize->add_setting( 'gdpr_footer_disclaimer_enabled', array( 'default' => true, 'sanitize_callback' => 'absint' ) );
+    $wp_customize->add_control( 'gdpr_footer_disclaimer_enabled', array( 'label' => __( 'Abilita Disclaimer Footer', 'caniincasa' ), 'section' => 'gdpr_disclaimers_section', 'type' => 'checkbox' ) );
 }
 add_action( 'customize_register', 'caniincasa_customize_register' );

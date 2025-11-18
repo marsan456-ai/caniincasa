@@ -279,6 +279,11 @@ if ( isset( $_POST['contact_form_submit'] ) && wp_verify_nonce( $_POST['contact_
                             <textarea id="contact_message" name="contact_message" rows="6" required><?php echo isset( $_POST['contact_message'] ) ? esc_textarea( $_POST['contact_message'] ) : ''; ?></textarea>
                         </div>
 
+                        <?php
+                        // GDPR Privacy Consent
+                        caniincasa_form_privacy_checkbox( 'contact' );
+                        ?>
+
                         <div class="form-group">
                             <button type="submit" name="contact_form_submit" class="btn btn-primary btn-large">
                                 Invia Messaggio

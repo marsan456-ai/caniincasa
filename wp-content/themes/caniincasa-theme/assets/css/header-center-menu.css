@@ -1,0 +1,145 @@
+/**
+ * Header - Center Menu Between Logo and Search
+ *
+ * Questo file centra il menu principale orizzontalmente tra il logo e l'icona di ricerca
+ */
+
+/* Header principale */
+.site-header,
+.main-header,
+header.header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+}
+
+/* Logo */
+.site-logo,
+.header-logo,
+.logo {
+    flex: 0 0 auto !important;
+}
+
+/* Menu di navigazione - Centrato */
+.main-navigation,
+.site-navigation,
+.primary-navigation,
+nav.navigation {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.main-navigation ul,
+.site-navigation ul,
+.primary-navigation ul {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    gap: 20px !important;
+}
+
+/* Icona ricerca e altre azioni header */
+.header-actions,
+.site-header-actions,
+.header-icons,
+.search-icon-wrapper {
+    flex: 0 0 auto !important;
+}
+
+/* Alternativa per layout Flexbox specifici */
+.header-row,
+.header-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* Per Blocksy Theme */
+[data-header*="type"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+[data-header] .ct-header-nav {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* Per Astra Theme */
+.ast-header-break-point .main-header-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.ast-header-break-point .main-navigation {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+}
+
+/* Per GeneratePress */
+.site-header .inside-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.site-header .main-navigation {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+}
+
+/* Container generico */
+.header-content-container,
+.header-inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    /* Su mobile, mantieni layout standard */
+    .site-header,
+    .main-header {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+
+    .main-navigation {
+        /* Menu mobile generalmente è nascosto o in hamburger */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-navigation ul {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 20px !important;
+    }
+
+    .main-navigation.active {
+        display: block !important;
+    }
+}
+
+/* Fix per eventuali conflitti di specificità */
+body .site-header .main-navigation,
+body header .main-navigation,
+body .header .main-navigation {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+}

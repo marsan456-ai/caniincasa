@@ -16,9 +16,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 require get_template_directory() . '/inc/customizer.php';
 
 /**
+ * Include GDPR Disclaimers
+ */
+require get_template_directory() . '/inc/gdpr-disclaimers.php';
+
+/**
  * Enqueue theme styles and scripts
  */
 function caniincasa_enqueue_assets() {
+    // Header center menu styles (always load)
+    wp_enqueue_style(
+        'caniincasa-header-center',
+        get_template_directory_uri() . '/assets/css/header-center-menu.css',
+        array(),
+        '1.0.0'
+    );
+
     // Dropdown menu styles (always load)
     wp_enqueue_style(
         'caniincasa-dropdown-menu',
