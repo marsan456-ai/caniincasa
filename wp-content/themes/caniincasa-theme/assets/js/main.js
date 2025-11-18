@@ -254,6 +254,31 @@
             });
         }
 
+        /**
+         * Hero Background Carousel
+         */
+        const $heroSection = $('.hero-section');
+        if ($heroSection.length && $heroSection.data('has-carousel') === true) {
+            const $backgrounds = $('.hero-bg');
+            const speed = parseInt($heroSection.data('carousel-speed'), 10) || 5;
+            const totalImages = $backgrounds.length;
+            let currentIndex = 0;
+
+            if (totalImages > 1) {
+                // Auto-rotate background images
+                setInterval(function() {
+                    // Remove active state from current
+                    $backgrounds.eq(currentIndex).attr('data-active', 'false');
+
+                    // Move to next image
+                    currentIndex = (currentIndex + 1) % totalImages;
+
+                    // Set active state to next
+                    $backgrounds.eq(currentIndex).attr('data-active', 'true');
+                }, speed * 1000);
+            }
+        }
+
     });
 
     /**

@@ -15,11 +15,34 @@
 	align-items: center;
 	justify-content: center;
 	background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-	background-image: url('../images/hero-bg.jpg');
+	overflow: hidden;
+}
+
+/* Hero Background Carousel */
+.hero-backgrounds {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+}
+
+.hero-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	background-size: cover;
 	background-position: center;
-	background-attachment: fixed;
-	overflow: hidden;
+	background-repeat: no-repeat;
+	opacity: 0;
+	transition: opacity 1.5s ease-in-out;
+}
+
+.hero-bg[data-active="true"] {
+	opacity: 1;
 }
 
 .hero-overlay {

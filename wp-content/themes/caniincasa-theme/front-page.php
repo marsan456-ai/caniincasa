@@ -11,7 +11,32 @@ get_header();
 <main id="main-content" class="site-main homepage">
 
 	<!-- Hero Section -->
-	<section class="hero-section">
+	<?php
+	// Get all hero background images for carousel
+	$hero_images = array();
+	$hero_bg_1 = get_theme_mod( 'hero_background_image', '' );
+	if ( $hero_bg_1 ) {
+		$hero_images[] = $hero_bg_1;
+	}
+	for ( $i = 2; $i <= 5; $i++ ) {
+		$hero_bg = get_theme_mod( 'hero_background_image_' . $i, '' );
+		if ( $hero_bg ) {
+			$hero_images[] = $hero_bg;
+		}
+	}
+	$carousel_speed = get_theme_mod( 'hero_carousel_speed', 5 );
+	$has_carousel = count( $hero_images ) > 1;
+	?>
+	<section class="hero-section" data-carousel-speed="<?php echo esc_attr( $carousel_speed ); ?>" data-has-carousel="<?php echo $has_carousel ? 'true' : 'false'; ?>">
+		<!-- Background Carousel Images -->
+		<?php if ( ! empty( $hero_images ) ) : ?>
+			<div class="hero-backgrounds">
+				<?php foreach ( $hero_images as $index => $image_url ) : ?>
+					<div class="hero-bg" data-index="<?php echo esc_attr( $index ); ?>" style="background-image: url('<?php echo esc_url( $image_url ); ?>');" <?php echo $index === 0 ? 'data-active="true"' : ''; ?>></div>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+
 		<div class="hero-overlay"></div>
 		<div class="hero-content">
 			<div class="container">

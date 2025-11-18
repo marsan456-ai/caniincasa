@@ -349,6 +349,65 @@ function caniincasa_customize_register( $wp_customize ) {
         'type'        => 'text',
     ) );
 
+    // Hero Background Carousel - Additional Images
+    $wp_customize->add_setting( 'hero_background_image_2', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_background_image_2', array(
+        'label'       => __( 'Immagine Sfondo 2 (Carosello)', 'caniincasa' ),
+        'description' => __( 'Aggiungi immagini per creare un carosello di sfondo', 'caniincasa' ),
+        'section'     => 'hero_section',
+        'settings'    => 'hero_background_image_2',
+    ) ) );
+
+    $wp_customize->add_setting( 'hero_background_image_3', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_background_image_3', array(
+        'label'    => __( 'Immagine Sfondo 3 (Carosello)', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'settings' => 'hero_background_image_3',
+    ) ) );
+
+    $wp_customize->add_setting( 'hero_background_image_4', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_background_image_4', array(
+        'label'    => __( 'Immagine Sfondo 4 (Carosello)', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'settings' => 'hero_background_image_4',
+    ) ) );
+
+    $wp_customize->add_setting( 'hero_background_image_5', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_background_image_5', array(
+        'label'    => __( 'Immagine Sfondo 5 (Carosello)', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'settings' => 'hero_background_image_5',
+    ) ) );
+
+    // Hero Carousel Speed
+    $wp_customize->add_setting( 'hero_carousel_speed', array(
+        'default'           => '5',
+        'sanitize_callback' => 'absint',
+    ) );
+    $wp_customize->add_control( 'hero_carousel_speed', array(
+        'label'       => __( 'Velocità Carosello (secondi)', 'caniincasa' ),
+        'description' => __( 'Tempo di visualizzazione di ogni immagine (3-15 secondi)', 'caniincasa' ),
+        'section'     => 'hero_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 3,
+            'max'  => 15,
+            'step' => 1,
+        ),
+    ) );
+
     /**
      * Annunci Section
      */
