@@ -240,6 +240,40 @@
     text-align: center;
 }
 
+.share-box .social-share-wrapper {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.share-box .social-share-wrapper .share-title {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--color-secondary);
+}
+
+.share-box .social-share-wrapper .share-title svg {
+    width: 18px;
+    height: 18px;
+}
+
+.share-box .social-share-wrapper .share-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.share-box .social-share-wrapper .share-btn {
+    width: 100%;
+}
+
+.share-box .social-share-wrapper .share-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* ========================================================================
    ARCHIVE STRUTTURE
    ======================================================================== */
@@ -469,12 +503,102 @@
 
 /* Pagination */
 .strutture-pagination {
-    margin-top: 40px;
+    margin: 50px 0 30px;
     display: flex;
     justify-content: center;
-    gap: 10px;
 }
 
+.strutture-pagination .pagination-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.strutture-pagination .pagination-list {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.strutture-pagination .pagination-item {
+    margin: 0;
+}
+
+.strutture-pagination .pagination-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 14px;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    user-select: none;
+}
+
+.strutture-pagination .pagination-link:hover {
+    background: #FF6B35;
+    border-color: #FF6B35;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.strutture-pagination .pagination-link:active {
+    transform: translateY(0);
+}
+
+.strutture-pagination .pagination-link.current {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    border-color: #FF6B35;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+    cursor: default;
+}
+
+.strutture-pagination .pagination-current .pagination-link {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    border-color: #FF6B35;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+    cursor: default;
+}
+
+.strutture-pagination .pagination-prev .pagination-link,
+.strutture-pagination .pagination-next .pagination-link {
+    padding: 0 16px;
+    font-size: 14px;
+    min-width: auto;
+}
+
+.strutture-pagination .pagination-dots {
+    pointer-events: none;
+}
+
+.strutture-pagination .pagination-dots span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    color: #adb5bd;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* Legacy fallback for old pagination styles */
 .strutture-pagination a,
 .strutture-pagination span {
     padding: 10px 16px;
@@ -771,21 +895,19 @@
     height: 100%;
 }
 
-.razze-grid-compact .razza-image-wrapper {
+.razze-grid-compact .razza-card-image {
     position: relative;
     width: 100%;
-    padding-top: 60%;
     overflow: hidden;
     background: #f7fafc;
+    aspect-ratio: 4/3;
 }
 
-.razze-grid-compact .razza-card-image {
-    position: absolute;
-    top: 0;
-    left: 0;
+.razze-grid-compact .razza-card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .razze-grid-compact .razza-card-content {
