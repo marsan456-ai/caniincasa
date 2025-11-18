@@ -144,16 +144,20 @@ function caniincasa_breadcrumbs() {
         );
     } elseif ( is_post_type_archive() ) {
         $post_type_object = get_queried_object();
-        $breadcrumbs[] = array(
-            'title' => $post_type_object->labels->name,
-            'url'   => '',
-        );
+        if ( $post_type_object && isset( $post_type_object->labels->name ) ) {
+            $breadcrumbs[] = array(
+                'title' => $post_type_object->labels->name,
+                'url'   => '',
+            );
+        }
     } elseif ( is_category() || is_tag() || is_tax() ) {
         $term = get_queried_object();
-        $breadcrumbs[] = array(
-            'title' => $term->name,
-            'url'   => '',
-        );
+        if ( $term && isset( $term->name ) ) {
+            $breadcrumbs[] = array(
+                'title' => $term->name,
+                'url'   => '',
+            );
+        }
     } elseif ( is_search() ) {
         $breadcrumbs[] = array(
             'title' => sprintf( __( 'Ricerca: %s', 'caniincasa' ), get_search_query() ),
