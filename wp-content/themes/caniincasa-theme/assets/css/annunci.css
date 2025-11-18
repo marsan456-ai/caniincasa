@@ -957,3 +957,105 @@
 		font-size: 0.95rem;
 	}
 }
+
+/* ==========================================================================
+   Social Share Buttons
+   ========================================================================== */
+
+.share-box .social-share-wrapper {
+	padding: 0;
+}
+
+.share-box .share-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--color-text);
+	margin-bottom: 16px;
+}
+
+.share-box .share-title svg {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+}
+
+.share-box .share-buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.share-box .share-btn {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 14px;
+	border-radius: 8px;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	color: white;
+}
+
+.share-box .share-btn svg {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+}
+
+.share-box .share-btn:hover {
+	transform: translateX(4px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.share-box .share-btn-facebook {
+	background: #1877F2;
+}
+
+.share-box .share-btn-facebook:hover {
+	background: #145dbf;
+}
+
+.share-box .share-btn-twitter {
+	background: #1DA1F2;
+}
+
+.share-box .share-btn-twitter:hover {
+	background: #0d8bd9;
+}
+
+.share-box .share-btn-whatsapp {
+	background: #25D366;
+}
+
+.share-box .share-btn-whatsapp:hover {
+	background: #1da851;
+}
+
+.share-box .share-btn-telegram {
+	background: #0088cc;
+}
+
+.share-box .share-btn-telegram:hover {
+	background: #0077b3;
+}
+
+.share-box .share-btn-linkedin {
+	background: #0A66C2;
+}
+
+.share-box .share-btn-linkedin:hover {
+	background: #084d8f;
+}
+
+.share-box .share-btn-email {
+	background: #6c757d;
+}
+
+.share-box .share-btn-email:hover {
+	background: #5a6268;
+}
