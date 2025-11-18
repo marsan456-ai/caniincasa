@@ -76,9 +76,12 @@
         }
 
         // Scroll to top
-        $('html, body').animate({
-            scrollTop: $('.quiz-container').offset().top - 100
-        }, 300);
+        const $container = $('.quiz-container');
+        if ($container.length && $container.offset()) {
+            $('html, body').animate({
+                scrollTop: $container.offset().top - 100
+            }, 300);
+        }
     }
 
     /**
@@ -222,9 +225,12 @@
 
             // Scroll to results
             setTimeout(function() {
-                $('html, body').animate({
-                    scrollTop: $('.quiz-results').offset().top - 100
-                }, 500);
+                const $results = $('.quiz-results');
+                if ($results.length && $results.offset()) {
+                    $('html, body').animate({
+                        scrollTop: $results.offset().top - 100
+                    }, 500);
+                }
             }, 500);
         });
     }
@@ -329,9 +335,12 @@
             updateQuizDisplay();
 
             // Scroll to top
-            $('html, body').animate({
-                scrollTop: $('.quiz-container').offset().top - 100
-            }, 300);
+            const $container = $('.quiz-container');
+            if ($container.length && $container.offset()) {
+                $('html, body').animate({
+                    scrollTop: $container.offset().top - 100
+                }, 300);
+            }
         });
     }
 
@@ -384,9 +393,11 @@
         }
 
         // Scroll to message
-        $('html, body').animate({
-            scrollTop: $messages.offset().top - 100
-        }, 300);
+        if ($messages.length && $messages.offset()) {
+            $('html, body').animate({
+                scrollTop: $messages.offset().top - 100
+            }, 300);
+        }
     }
 
     function getMessageIcon(type) {
