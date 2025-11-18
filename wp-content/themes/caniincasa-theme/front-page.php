@@ -243,7 +243,6 @@ get_header();
 
 			<!-- Quick Search by Taglia -->
 			<div class="razze-by-taglia">
-				<h3 class="subsection-title"><?php esc_html_e( 'Cerca per Taglia', 'caniincasa' ); ?></h3>
 				<div class="taglia-grid">
 					<?php
 					$taglie = get_terms( array(
@@ -303,7 +302,7 @@ get_header();
 
 					<!-- Recent Results Preview -->
 					<div class="recent-results">
-						<h4><?php esc_html_e( 'Razze più consigliate nelle ultime 24h:', 'caniincasa' ); ?></h4>
+						<h4><?php esc_html_e( 'Razze più visitate nelle ultime 24h:', 'caniincasa' ); ?></h4>
 						<div class="results-preview">
 							<?php
 							// Top 3 razze più viste (simulato per ora)

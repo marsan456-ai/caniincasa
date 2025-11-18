@@ -482,11 +482,19 @@ get_header();
 
                     <!-- Allevamenti Consigliati -->
                     <?php
+                    // Filter allevamenti by current razza using meta_query
                     $allevamenti_args = array(
                         'post_type'      => 'allevamenti',
                         'posts_per_page' => 3,
                         'post_status'    => 'publish',
                         'orderby'        => 'rand',
+                        'meta_query'     => array(
+                            array(
+                                'key'     => 'razze_allevate', // ACF relationship field
+                                'value'   => '"' . get_the_ID() . '"', // Match serialized value
+                                'compare' => 'LIKE',
+                            ),
+                        ),
                     );
 
                     $allevamenti_query = new WP_Query( $allevamenti_args );

@@ -20,7 +20,7 @@ while ( have_posts() ) :
 
 	// Get author info
 	$author_id    = get_the_author_meta( 'ID' );
-	$author_name  = get_the_author_meta( 'display_name' );
+	$author_name  = caniincasa_get_user_display_name( $author_id ); // Use privacy-safe name (Nome I.)
 	$author_email = get_the_author_meta( 'user_email' );
 	$author_phone = get_user_meta( $author_id, 'phone', true );
 

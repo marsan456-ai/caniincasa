@@ -846,6 +846,50 @@
     }
 }
 
+/* ==========================================================================
+   Preferiti Action Box
+   ========================================================================== */
+
+.preferiti-action-box {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.preferiti-action-box .box-title {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.preferiti-action-box .btn-preferiti {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.preferiti-action-box .btn-preferiti svg {
+    width: 22px;
+    height: 22px;
+}
+
+.preferiti-action-box .btn-preferiti:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.preferiti-action-box .btn-preferiti.active {
+    background: #FF6B35;
+    color: white;
+    border-color: #FF6B35;
+}
+
+.preferiti-action-box .btn-preferiti.active:hover {
+    background: #e55a2a;
+    border-color: #e55a2a;
+}
+
 @media (max-width: 768px) {
     .razza-hero {
         padding: 40px 0;
