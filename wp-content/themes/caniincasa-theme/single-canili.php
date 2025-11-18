@@ -114,18 +114,16 @@ while ( have_posts() ) :
                                     </span>
                                 </div>
                             <?php endif; ?>
+
+                            <!-- Descrizione -->
+                            <?php if ( get_the_content() ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Descrizione:</span>
+                                    <span class="info-value"><?php the_content(); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-
-                    <!-- Content -->
-                    <?php if ( get_the_content() ) : ?>
-                        <div class="struttura-description">
-                            <h2>Descrizione</h2>
-                            <div class="description-content">
-                                <?php the_content(); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
 
                 </div>
 
