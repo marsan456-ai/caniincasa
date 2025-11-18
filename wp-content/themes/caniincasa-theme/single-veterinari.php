@@ -223,6 +223,12 @@ while ( have_posts() ) :
                         </a>
                     </div>
 
+                    <!-- Preferiti Box -->
+                    <div class="sidebar-box preferiti-action-box">
+                        <h3 class="box-title">Ti piace questa struttura?</h3>
+                        <?php echo caniincasa_get_preferiti_button( get_the_ID(), 'veterinari' ); ?>
+                    </div>
+
                     <!-- Proponi Struttura Box -->
                     <div class="sidebar-box proponi-box">
                         <h3 class="box-title">Hai una struttura veterinaria?</h3>

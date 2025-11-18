@@ -182,6 +182,12 @@ while ( have_posts() ) :
                         </a>
                     </div>
 
+                    <!-- Preferiti Box -->
+                    <div class="sidebar-box preferiti-action-box">
+                        <h3 class="box-title">Ti piace questo allevamento?</h3>
+                        <?php echo caniincasa_get_preferiti_button( get_the_ID(), 'allevamenti' ); ?>
+                    </div>
+
                     <!-- Proponi Struttura Box -->
                     <div class="sidebar-box proponi-box">
                         <h3 class="box-title">Hai un allevamento?</h3>
