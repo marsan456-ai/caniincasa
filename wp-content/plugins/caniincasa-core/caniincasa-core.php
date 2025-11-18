@@ -122,6 +122,31 @@ class Caniincasa_Core {
         // Enqueue scripts and styles
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+        // Customize posts per page for archives
+        add_action( 'pre_get_posts', array( $this, 'modify_archive_posts_per_page' ) );
+    }
+
+    /**
+     * Modify posts_per_page for custom post type archives
+     *
+     * @param WP_Query $query The WordPress query object
+     */
+    public function modify_archive_posts_per_page( $query ) {
+        // Only affect main query on frontend, not admin
+        if ( is_admin() || ! $query->is_main_query() ) {
+            return;
+        }
+
+        // Set 24 posts per page for razze_di_cani archive
+        if ( $query->is_post_type_archive( 'razze_di_cani' ) || $query->is_tax( array( 'razza_taglia', 'razza_gruppo' ) ) ) {
+            $query->set( 'posts_per_page', 24 );
+        }
+
+        // Set 12 posts per page for other archives (allevamenti, veterinari, etc.)
+        if ( $query->is_post_type_archive( array( 'allevamenti', 'veterinari', 'canili', 'pensioni_per_cani', 'centri_cinofili' ) ) ) {
+            $query->set( 'posts_per_page', 12 );
+        }
     }
 
     /**

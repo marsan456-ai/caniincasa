@@ -335,13 +335,23 @@ jQuery(document).ready(function($) {
     }
 
     // Handle pagination clicks
-    $(document).on('click', '.razze-pagination a', function(e) {
+    $(document).on('click', '.razze-pagination a.pagination-link', function(e) {
         e.preventDefault();
-        const url = $(this).attr('href');
-        const page = new URL(url).searchParams.get('paged') || 1;
+
+        // Get page number from data attribute (more reliable than parsing URL)
+        let page = $(this).data('page');
+
+        // Fallback: try to extract from href
+        if (!page) {
+            const url = $(this).attr('href');
+            const match = url.match(/[?&]paged=(\d+)/);
+            page = match ? parseInt(match[1]) : 1;
+        }
+
+        console.log('Pagination clicked - Loading page:', page);
         loadRazze(page);
 
-        // Scroll to top
+        // Scroll to top smoothly
         $('html, body').animate({
             scrollTop: $('.archive-razze').offset().top - 100
         }, 500);
