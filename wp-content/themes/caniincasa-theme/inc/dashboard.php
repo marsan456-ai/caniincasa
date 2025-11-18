@@ -818,8 +818,8 @@ function caniincasa_ajax_submit_quiz() {
         return $b['match_percentage'] - $a['match_percentage'];
     });
 
-    // Get top 10
-    $top_breeds = array_slice( $breed_matches, 0, 10 );
+    // Get top 5
+    $top_breeds = array_slice( $breed_matches, 0, 5 );
 
     // Save quiz result for logged-in users
     if ( is_user_logged_in() && ! empty( $top_breeds ) ) {
@@ -846,161 +846,193 @@ add_action( 'wp_ajax_nopriv_submit_quiz', 'caniincasa_ajax_submit_quiz' );
  */
 function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers ) {
     $total_points = 0;
-    $max_points = 0;
+    $max_points = 100; // Fixed max points for consistent percentages
 
-    // Experience level (livello_esperienza_richiesto)
+    // Experience level (livello_esperienza_richiesto) - Weight: 10 points
     $required_exp = get_field( 'livello_esperienza_richiesto', $breed_post_id );
-    if ( $required_exp ) {
-        $max_points += 10;
-        $exp_map = array(
-            'principiante' => array( 'principiante' => 10, 'intermedia' => 5, 'esperto' => 3 ),
-            'intermedia'   => array( 'principiante' => 3, 'intermedia' => 10, 'esperto' => 8 ),
-            'esperto'      => array( 'principiante' => 0, 'intermedia' => 5, 'esperto' => 10 ),
-        );
-        if ( isset( $exp_map[ $quiz_answers['esperienza'] ][ $required_exp ] ) ) {
-            $total_points += $exp_map[ $quiz_answers['esperienza'] ][ $required_exp ];
-        }
+    $exp_map = array(
+        'principiante' => array( 'principiante' => 10, 'intermedia' => 7, 'esperto' => 5 ),
+        'intermedia'   => array( 'principiante' => 5, 'intermedia' => 10, 'esperto' => 9 ),
+        'esperto'      => array( 'principiante' => 3, 'intermedia' => 7, 'esperto' => 10 ),
+    );
+
+    if ( $required_exp && isset( $exp_map[ $quiz_answers['esperienza'] ][ $required_exp ] ) ) {
+        $total_points += $exp_map[ $quiz_answers['esperienza'] ][ $required_exp ];
+    } else {
+        // If no data, give neutral score
+        $total_points += 6;
     }
 
-    // Housing (adattabilita_appartamento)
+    // Housing (adattabilita_appartamento) - Weight: 15 points
     $apartment_adapt = get_field( 'adattabilita_appartamento', $breed_post_id );
     if ( $apartment_adapt ) {
-        $max_points += 10;
         if ( $quiz_answers['abitazione'] === 'appartamento' ) {
             // Higher apartment adaptability = better match for apartments
-            $total_points += ( $apartment_adapt / 5 ) * 10;
+            $total_points += ( $apartment_adapt / 5 ) * 15;
         } elseif ( $quiz_answers['abitazione'] === 'casa_giardino' ) {
             // Any adaptability works for house with garden
-            $total_points += 8;
+            $total_points += 12;
         } else { // fattoria
             // Lower apartment adaptability might mean larger, more active dogs (good for farm)
-            $total_points += ( ( 5 - $apartment_adapt ) / 5 ) * 10;
+            $total_points += max( 10, ( ( 5 - $apartment_adapt ) / 5 ) * 15 );
         }
+    } else {
+        // No data, give good score
+        $total_points += 10;
     }
 
-    // Time/Activity (livello_energia + bisogno_esercizio)
+    // Time/Activity (livello_energia + bisogno_esercizio) - Weight: 20 points
     $energy_level = get_field( 'livello_energia', $breed_post_id );
     $exercise_need = get_field( 'bisogno_esercizio', $breed_post_id );
-    if ( $energy_level || $exercise_need ) {
-        $max_points += 15;
+
+    if ( $energy_level && $exercise_need ) {
         $avg_activity = ( $energy_level + $exercise_need ) / 2;
-
-        $time_activity_map = array(
-            'poco'        => array( 'threshold' => 2, 'ideal' => 1 ),
-            'medio'       => array( 'threshold' => 3.5, 'ideal' => 3 ),
-            'molto'       => array( 'threshold' => 5, 'ideal' => 4.5 ),
-        );
-
         $user_time = $quiz_answers['tempo'];
         $user_activity = $quiz_answers['attivita'];
 
         // Match based on time and activity
         if ( $user_time === 'poco' && $user_activity === 'sedentario' ) {
-            // Low energy breeds
-            $total_points += max( 0, 15 - ( abs( $avg_activity - 1.5 ) * 3 ) );
+            // Low energy breeds - ideal range 1-2
+            $total_points += max( 5, 20 - ( abs( $avg_activity - 1.5 ) * 4 ) );
         } elseif ( $user_time === 'molto' && $user_activity === 'molto_attivo' ) {
-            // High energy breeds
-            $total_points += max( 0, 15 - ( abs( $avg_activity - 4.5 ) * 3 ) );
+            // High energy breeds - ideal range 4-5
+            $total_points += max( 5, 20 - ( abs( $avg_activity - 4.5 ) * 4 ) );
         } else {
-            // Medium energy breeds
-            $total_points += max( 0, 15 - ( abs( $avg_activity - 3 ) * 3 ) );
+            // Medium energy breeds - ideal range 2.5-3.5
+            $total_points += max( 5, 20 - ( abs( $avg_activity - 3 ) * 4 ) );
         }
+    } else {
+        // No data, give neutral score
+        $total_points += 12;
     }
 
-    // Children compatibility (tolleranza_bambini)
+    // Children compatibility (tolleranza_bambini) - Weight: 12 points
     $child_tolerance = get_field( 'tolleranza_bambini', $breed_post_id );
     if ( $child_tolerance ) {
-        $max_points += 10;
         if ( $quiz_answers['bambini'] === 'piccoli' ) {
             // Need high tolerance for young children
-            $total_points += ( $child_tolerance >= 4 ) ? 10 : ( $child_tolerance * 2 );
+            $total_points += min( 12, $child_tolerance * 2.4 );
         } elseif ( $quiz_answers['bambini'] === 'grandi' ) {
             // Medium to high tolerance for older children
-            $total_points += ( $child_tolerance >= 3 ) ? 10 : ( $child_tolerance * 2.5 );
+            $total_points += min( 12, $child_tolerance * 2.5 );
         } else {
-            // No children - tolerance doesn't matter much
-            $total_points += 5;
+            // No children - tolerance doesn't matter much, give high score
+            $total_points += 10;
         }
+    } else {
+        // No data, give neutral score
+        $total_points += 8;
     }
 
-    // Other animals (socievolezza_cani + socievolezza_altri_animali)
+    // Other animals (socievolezza_cani + socievolezza_altri_animali) - Weight: 10 points
     $dog_sociability = get_field( 'socievolezza_cani', $breed_post_id );
     $other_animals = get_field( 'socievolezza_altri_animali', $breed_post_id );
-    if ( $dog_sociability || $other_animals ) {
-        $max_points += 10;
-        if ( $quiz_answers['animali'] === 'gatti' ) {
-            // Need good sociability with other animals
-            $total_points += ( $other_animals >= 3 ) ? 10 : ( $other_animals * 2.5 );
-        } elseif ( $quiz_answers['animali'] === 'cani' ) {
-            // Need good sociability with dogs
-            $total_points += ( $dog_sociability >= 3 ) ? 10 : ( $dog_sociability * 2.5 );
-        } else {
-            // No other animals
-            $total_points += 5;
-        }
+
+    if ( $quiz_answers['animali'] === 'gatti' && $other_animals ) {
+        // Need good sociability with other animals
+        $total_points += min( 10, $other_animals * 2 );
+    } elseif ( $quiz_answers['animali'] === 'cani' && $dog_sociability ) {
+        // Need good sociability with dogs
+        $total_points += min( 10, $dog_sociability * 2 );
+    } elseif ( $quiz_answers['animali'] === 'no' ) {
+        // No other animals, give high score
+        $total_points += 8;
+    } else {
+        // No data, give neutral score
+        $total_points += 6;
     }
 
-    // Climate tolerance (tolleranza_freddo + tolleranza_caldo)
+    // Climate tolerance (tolleranza_freddo + tolleranza_caldo) - Weight: 10 points
     $cold_tolerance = get_field( 'tolleranza_freddo', $breed_post_id );
     $heat_tolerance = get_field( 'tolleranza_caldo', $breed_post_id );
-    if ( $cold_tolerance || $heat_tolerance ) {
-        $max_points += 10;
-        if ( $quiz_answers['clima'] === 'freddo' ) {
-            $total_points += ( $cold_tolerance >= 4 ) ? 10 : ( $cold_tolerance * 2 );
-        } elseif ( $quiz_answers['clima'] === 'caldo' ) {
-            $total_points += ( $heat_tolerance >= 4 ) ? 10 : ( $heat_tolerance * 2 );
-        } else { // temperato
-            $avg_climate = ( $cold_tolerance + $heat_tolerance ) / 2;
-            $total_points += ( $avg_climate >= 3 ) ? 10 : ( $avg_climate * 2.5 );
-        }
+
+    if ( $quiz_answers['clima'] === 'freddo' && $cold_tolerance ) {
+        $total_points += min( 10, $cold_tolerance * 2 );
+    } elseif ( $quiz_answers['clima'] === 'caldo' && $heat_tolerance ) {
+        $total_points += min( 10, $heat_tolerance * 2 );
+    } elseif ( $quiz_answers['clima'] === 'temperato' && $cold_tolerance && $heat_tolerance ) {
+        // Temperato - need balanced tolerance
+        $avg_climate = ( $cold_tolerance + $heat_tolerance ) / 2;
+        $total_points += min( 10, $avg_climate * 2 );
+    } else {
+        // No data, give neutral score
+        $total_points += 7;
     }
 
-    // Grooming needs (necessita_toelettatura)
+    // Grooming needs (necessita_toelettatura) - Weight: 8 points
     $grooming_needs = get_field( 'necessita_toelettatura', $breed_post_id );
     if ( $grooming_needs ) {
-        $max_points += 10;
         $grooming_map = array(
-            'bassa' => array( 1 => 10, 2 => 8, 3 => 5, 4 => 3, 5 => 1 ),
-            'media' => array( 1 => 5, 2 => 8, 3 => 10, 4 => 8, 5 => 5 ),
-            'alta'  => array( 1 => 1, 2 => 3, 3 => 5, 4 => 8, 5 => 10 ),
+            'bassa' => array( 1 => 8, 2 => 7, 3 => 5, 4 => 3, 5 => 2 ),
+            'media' => array( 1 => 5, 2 => 7, 3 => 8, 4 => 7, 5 => 5 ),
+            'alta'  => array( 1 => 2, 2 => 4, 3 => 6, 4 => 7, 5 => 8 ),
         );
         if ( isset( $grooming_map[ $quiz_answers['manutenzione'] ][ $grooming_needs ] ) ) {
             $total_points += $grooming_map[ $quiz_answers['manutenzione'] ][ $grooming_needs ];
+        } else {
+            $total_points += 5;
         }
+    } else {
+        // No data, give neutral score
+        $total_points += 5;
     }
 
-    // Purpose (tendenza_abbaio for guardia, affettuosita for compagnia, etc.)
+    // Purpose (tendenza_abbaio for guardia, affettuosita for compagnia, etc.) - Weight: 15 points
     $affection = get_field( 'affettuosita', $breed_post_id );
     $barking = get_field( 'tendenza_abbaio', $breed_post_id );
     $trainability = get_field( 'addestrabilita', $breed_post_id );
-    if ( $affection || $barking || $trainability ) {
-        $max_points += 15;
-        if ( $quiz_answers['scopo'] === 'compagnia' ) {
-            // High affection, moderate barking
-            $total_points += ( $affection >= 4 ) ? 10 : ( $affection * 2 );
-            $total_points += ( $barking <= 2 ) ? 5 : max( 0, 5 - $barking );
-        } elseif ( $quiz_answers['scopo'] === 'guardia' ) {
-            // High barking, protective
-            $total_points += ( $barking >= 3 ) ? 10 : ( $barking * 2.5 );
-            $total_points += 5;
-        } elseif ( $quiz_answers['scopo'] === 'sport' ) {
-            // High trainability, high energy
-            $total_points += ( $trainability >= 4 ) ? 15 : ( $trainability * 3 );
-        } else { // famiglia
-            // Balanced affection, trainability, moderate barking
-            $total_points += ( $affection >= 3 ) ? 5 : ( $affection * 1.5 );
-            $total_points += ( $trainability >= 3 ) ? 5 : ( $trainability * 1.5 );
-            $total_points += ( $barking <= 3 ) ? 5 : max( 0, 5 - ( $barking - 3 ) );
+
+    $purpose_points = 0;
+    if ( $quiz_answers['scopo'] === 'compagnia' ) {
+        // High affection, moderate barking
+        if ( $affection ) {
+            $purpose_points += min( 10, $affection * 2 );
+        } else {
+            $purpose_points += 6;
+        }
+        if ( $barking ) {
+            $purpose_points += max( 0, 5 - ( $barking - 2 ) );
+        } else {
+            $purpose_points += 3;
+        }
+    } elseif ( $quiz_answers['scopo'] === 'guardia' ) {
+        // High barking, protective
+        if ( $barking ) {
+            $purpose_points += min( 10, $barking * 2 );
+        } else {
+            $purpose_points += 6;
+        }
+        $purpose_points += 5;
+    } elseif ( $quiz_answers['scopo'] === 'sport' ) {
+        // High trainability, high energy
+        if ( $trainability ) {
+            $purpose_points += min( 15, $trainability * 3 );
+        } else {
+            $purpose_points += 9;
+        }
+    } else { // famiglia
+        // Balanced affection, trainability, moderate barking
+        if ( $affection ) {
+            $purpose_points += min( 5, $affection * 1 );
+        } else {
+            $purpose_points += 3;
+        }
+        if ( $trainability ) {
+            $purpose_points += min( 5, $trainability * 1 );
+        } else {
+            $purpose_points += 3;
+        }
+        if ( $barking ) {
+            $purpose_points += max( 0, 5 - abs( $barking - 3 ) );
+        } else {
+            $purpose_points += 3;
         }
     }
+    $total_points += $purpose_points;
 
-    // Calculate percentage
-    if ( $max_points > 0 ) {
-        $percentage = round( ( $total_points / $max_points ) * 100 );
-        return max( 0, min( 100, $percentage ) ); // Clamp between 0-100
-    }
-
-    return 0;
+    // Calculate percentage (max_points is always 100)
+    $percentage = round( ( $total_points / $max_points ) * 100 );
+    return max( 0, min( 100, $percentage ) ); // Clamp between 0-100
 }
 
 /**
@@ -1035,8 +1067,8 @@ function caniincasa_ajax_email_quiz_results() {
     $body .= '<p>Ciao ' . esc_html( $user->display_name ) . ',</p>';
     $body .= '<p>Ecco le razze di cani più adatte a te in base alle tue risposte:</p>';
 
-    // Top 10 breeds
-    $body .= '<h2 style="color: #f97316; margin-top: 30px;">Top 10 Razze per Te:</h2>';
+    // Top 5 breeds
+    $body .= '<h2 style="color: #f97316; margin-top: 30px;">Top 5 Razze per Te:</h2>';
     foreach ( $results['breeds'] as $index => $breed ) {
         $rank = $index + 1;
         $body .= '<div style="margin: 20px 0; padding: 15px; border: 2px solid #e2e8f0; border-radius: 8px;">';
@@ -1171,7 +1203,7 @@ function caniincasa_ajax_download_quiz_pdf() {
         <h1>Quiz Selezione Razza - I Tuoi Risultati</h1>
         <p><strong>Data:</strong> <?php echo date( 'd/m/Y' ); ?></p>
 
-        <h2>Top 10 Razze per Te:</h2>
+        <h2>Top 5 Razze per Te:</h2>
 
         <?php foreach ( $results['breeds'] as $index => $breed ) : ?>
             <div class="breed-item">

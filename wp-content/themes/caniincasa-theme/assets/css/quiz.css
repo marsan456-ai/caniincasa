@@ -145,9 +145,11 @@
 
 .option-content {
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 24px 20px;
     border: 2px solid var(--quiz-border);
     border-radius: 12px;
     transition: var(--quiz-transition);
@@ -168,39 +170,30 @@
 
 .option-icon {
     flex-shrink: 0;
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--quiz-bg-light);
-    border-radius: 12px;
-    font-size: 32px;
+    border-radius: 16px;
+    font-size: 36px;
     transition: var(--quiz-transition);
 }
 
 .quiz-option-card input:checked + .option-content .option-icon {
     background: var(--quiz-primary);
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
-/* Filter for emoji to white when selected */
-.quiz-option-card input:checked + .option-content .option-icon {
-    filter: brightness(0) invert(1);
-}
-
-.option-text {
-    flex: 1;
-}
-
-.option-text h3 {
+.option-content h3 {
     font-size: 18px;
     font-weight: 600;
     color: var(--quiz-text);
     margin: 0 0 6px;
 }
 
-.option-text p {
+.option-content p {
     font-size: 14px;
     color: var(--quiz-text-light);
     margin: 0;
