@@ -199,8 +199,299 @@ function caniincasa_customize_register( $wp_customize ) {
         'type'     => 'text',
     ) );
 
+    /**
+     * Homepage Settings Panel
+     */
+    $wp_customize->add_panel( 'homepage_settings', array(
+        'title'    => __( 'Impostazioni Homepage', 'caniincasa' ),
+        'priority' => 30,
+    ) );
+
+    /**
+     * Hero Section
+     */
+    $wp_customize->add_section( 'hero_section', array(
+        'title'    => __( 'Hero Section', 'caniincasa' ),
+        'panel'    => 'homepage_settings',
+        'priority' => 10,
+    ) );
+
+    // Hero Background Image
+    $wp_customize->add_setting( 'hero_background_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_background_image', array(
+        'label'    => __( 'Immagine di Sfondo Hero', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'settings' => 'hero_background_image',
+    ) ) );
+
+    // Hero Overlay Color
+    $wp_customize->add_setting( 'hero_overlay_color', array(
+        'default'           => '#000000',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'hero_overlay_color', array(
+        'label'    => __( 'Colore Overlay Hero', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'settings' => 'hero_overlay_color',
+    ) ) );
+
+    // Hero Overlay Opacity
+    $wp_customize->add_setting( 'hero_overlay_opacity', array(
+        'default'           => '0.6',
+        'sanitize_callback' => 'caniincasa_sanitize_float',
+    ) );
+    $wp_customize->add_control( 'hero_overlay_opacity', array(
+        'label'       => __( 'Opacità Overlay (0-1)', 'caniincasa' ),
+        'description' => __( 'Inserisci un valore tra 0 (trasparente) e 1 (opaco)', 'caniincasa' ),
+        'section'     => 'hero_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 0,
+            'max'  => 1,
+            'step' => 0.1,
+        ),
+    ) );
+
+    // Hero Title
+    $wp_customize->add_setting( 'hero_title', array(
+        'default'           => 'Il tuo portale cinofilo di riferimento',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'hero_title', array(
+        'label'    => __( 'Titolo Hero', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'text',
+    ) );
+
+    // Hero Subtitle
+    $wp_customize->add_setting( 'hero_subtitle', array(
+        'default'           => 'Scopri razze, trova allevamenti, adotta un amico a quattro zampe',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'hero_subtitle', array(
+        'label'    => __( 'Sottotitolo Hero', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'textarea',
+    ) );
+
+    // Hero Button 1 Text
+    $wp_customize->add_setting( 'hero_button1_text', array(
+        'default'           => 'Esplora le Razze',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'hero_button1_text', array(
+        'label'    => __( 'Testo Pulsante 1', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'text',
+    ) );
+
+    // Hero Button 1 URL
+    $wp_customize->add_setting( 'hero_button1_url', array(
+        'default'           => '/razze-di-cani/',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'hero_button1_url', array(
+        'label'    => __( 'Link Pulsante 1', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'url',
+    ) );
+
+    // Hero Button 2 Text
+    $wp_customize->add_setting( 'hero_button2_text', array(
+        'default'           => 'Vedi Annunci',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'hero_button2_text', array(
+        'label'    => __( 'Testo Pulsante 2', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'text',
+    ) );
+
+    // Hero Button 2 URL
+    $wp_customize->add_setting( 'hero_button2_url', array(
+        'default'           => '/annunci/',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'hero_button2_url', array(
+        'label'    => __( 'Link Pulsante 2', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'url',
+    ) );
+
+    // Hero Button 3 Text
+    $wp_customize->add_setting( 'hero_button3_text', array(
+        'default'           => 'Fai il Quiz',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'hero_button3_text', array(
+        'label'    => __( 'Testo Pulsante 3', 'caniincasa' ),
+        'section'  => 'hero_section',
+        'type'     => 'text',
+    ) );
+
+    // Hero Button 3 URL
+    $wp_customize->add_setting( 'hero_button3_url', array(
+        'default'           => '#quiz-section',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'hero_button3_url', array(
+        'label'       => __( 'Link Pulsante 3', 'caniincasa' ),
+        'description' => __( 'Usa #quiz-section per scroll smooth alla sezione quiz', 'caniincasa' ),
+        'section'     => 'hero_section',
+        'type'        => 'text',
+    ) );
+
+    /**
+     * Annunci Section
+     */
+    $wp_customize->add_section( 'annunci_section', array(
+        'title'    => __( 'Sezione Annunci', 'caniincasa' ),
+        'panel'    => 'homepage_settings',
+        'priority' => 20,
+    ) );
+
+    // Annunci Section Title
+    $wp_customize->add_setting( 'annunci_title', array(
+        'default'           => 'Annunci Amici 4 Zampe',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'annunci_title', array(
+        'label'    => __( 'Titolo Sezione', 'caniincasa' ),
+        'section'  => 'annunci_section',
+        'type'     => 'text',
+    ) );
+
+    // Annunci Section Subtitle
+    $wp_customize->add_setting( 'annunci_subtitle', array(
+        'default'           => 'Trova il tuo prossimo compagno di avventure',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'annunci_subtitle', array(
+        'label'    => __( 'Sottotitolo Sezione', 'caniincasa' ),
+        'section'  => 'annunci_section',
+        'type'     => 'text',
+    ) );
+
+    /**
+     * Razze Section
+     */
+    $wp_customize->add_section( 'razze_section', array(
+        'title'    => __( 'Sezione Razze', 'caniincasa' ),
+        'panel'    => 'homepage_settings',
+        'priority' => 30,
+    ) );
+
+    // Razze Section Title
+    $wp_customize->add_setting( 'razze_title', array(
+        'default'           => 'Esplora le Razze di Cani',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'razze_title', array(
+        'label'    => __( 'Titolo Sezione', 'caniincasa' ),
+        'section'  => 'razze_section',
+        'type'     => 'text',
+    ) );
+
+    // Razze Section Subtitle
+    $wp_customize->add_setting( 'razze_subtitle', array(
+        'default'           => 'Scopri caratteristiche, temperamento e curiosità di oltre 400 razze',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'razze_subtitle', array(
+        'label'    => __( 'Sottotitolo Sezione', 'caniincasa' ),
+        'section'  => 'razze_section',
+        'type'     => 'textarea',
+    ) );
+
+    /**
+     * Quiz Section
+     */
+    $wp_customize->add_section( 'quiz_section', array(
+        'title'    => __( 'Sezione Quiz', 'caniincasa' ),
+        'panel'    => 'homepage_settings',
+        'priority' => 40,
+    ) );
+
+    // Quiz Title
+    $wp_customize->add_setting( 'quiz_title', array(
+        'default'           => 'Trova la Razza Perfetta per Te',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'quiz_title', array(
+        'label'    => __( 'Titolo Quiz', 'caniincasa' ),
+        'section'  => 'quiz_section',
+        'type'     => 'text',
+    ) );
+
+    // Quiz Description
+    $wp_customize->add_setting( 'quiz_description', array(
+        'default'           => 'Rispondi a 9 semplici domande e scopri quali razze sono più compatibili con il tuo stile di vita. Il nostro algoritmo analizzerà le tue risposte e ti suggerirà le razze ideali.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'quiz_description', array(
+        'label'    => __( 'Descrizione Quiz', 'caniincasa' ),
+        'section'  => 'quiz_section',
+        'type'     => 'textarea',
+    ) );
+
+    // Quiz Button Text
+    $wp_customize->add_setting( 'quiz_button_text', array(
+        'default'           => 'Inizia il Quiz',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'quiz_button_text', array(
+        'label'    => __( 'Testo Pulsante Quiz', 'caniincasa' ),
+        'section'  => 'quiz_section',
+        'type'     => 'text',
+    ) );
+
+    // Quiz Button URL
+    $wp_customize->add_setting( 'quiz_button_url', array(
+        'default'           => '/quiz-razza/',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'quiz_button_url', array(
+        'label'    => __( 'Link Pulsante Quiz', 'caniincasa' ),
+        'section'  => 'quiz_section',
+        'type'     => 'url',
+    ) );
+
+    // Quiz Illustration Image
+    $wp_customize->add_setting( 'quiz_illustration', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'quiz_illustration', array(
+        'label'       => __( 'Immagine Quiz', 'caniincasa' ),
+        'description' => __( 'Immagine affiancata alla descrizione del quiz', 'caniincasa' ),
+        'section'     => 'quiz_section',
+        'settings'    => 'quiz_illustration',
+    ) ) );
+
 }
 add_action( 'customize_register', 'caniincasa_customize_register' );
+
+/**
+ * Sanitize float value
+ */
+function caniincasa_sanitize_float( $value ) {
+    return floatval( $value );
+}
 
 /**
  * Google Fonts List (30+ fonts)
@@ -252,6 +543,11 @@ function caniincasa_customizer_css() {
     $container_width = get_theme_mod( 'caniincasa_container_width', '1280' );
     $base_font_size  = get_theme_mod( 'caniincasa_base_font_size', '16' );
 
+    // Hero section customizer values
+    $hero_bg_image     = get_theme_mod( 'hero_background_image' );
+    $hero_overlay_color = get_theme_mod( 'hero_overlay_color', '#000000' );
+    $hero_overlay_opacity = get_theme_mod( 'hero_overlay_opacity', '0.6' );
+
     ?>
     <style type="text/css">
         :root {
@@ -263,6 +559,20 @@ function caniincasa_customizer_css() {
         body {
             font-size: <?php echo esc_attr( $base_font_size ); ?>px;
         }
+        <?php if ( $hero_bg_image ) : ?>
+        .hero-section {
+            background-image: url(<?php echo esc_url( $hero_bg_image ); ?>);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        <?php endif; ?>
+        <?php if ( $hero_overlay_color && $hero_overlay_opacity ) : ?>
+        .hero-overlay {
+            background-color: <?php echo esc_attr( $hero_overlay_color ); ?>;
+            opacity: <?php echo esc_attr( $hero_overlay_opacity ); ?>;
+        }
+        <?php endif; ?>
     </style>
     <?php
 }

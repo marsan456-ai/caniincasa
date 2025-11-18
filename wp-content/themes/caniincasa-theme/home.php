@@ -18,13 +18,6 @@ get_header();
         </div>
     </div>
 
-    <!-- Breadcrumbs -->
-    <div class="container">
-        <div class="breadcrumbs-wrapper">
-            <?php caniincasa_breadcrumbs(); ?>
-        </div>
-    </div>
-
     <!-- Content Area -->
     <div class="container">
         <div class="archive-content-wrapper-blog">

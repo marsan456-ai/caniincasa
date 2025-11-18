@@ -22,14 +22,14 @@ get_header();
 					<?php echo get_theme_mod( 'hero_subtitle', 'Scopri razze, trova allevamenti, adotta un amico a quattro zampe' ); ?>
 				</p>
 				<div class="hero-cta-buttons">
-					<a href="<?php echo esc_url( home_url( '/razze-di-cani/' ) ); ?>" class="btn btn-primary btn-large">
-						<?php esc_html_e( 'Esplora le Razze', 'caniincasa' ); ?>
+					<a href="<?php echo esc_url( get_theme_mod( 'hero_button1_url', home_url( '/razze-di-cani/' ) ) ); ?>" class="btn btn-primary btn-large">
+						<?php echo esc_html( get_theme_mod( 'hero_button1_text', 'Esplora le Razze' ) ); ?>
 					</a>
-					<a href="<?php echo esc_url( home_url( '/annunci/' ) ); ?>" class="btn btn-secondary btn-large">
-						<?php esc_html_e( 'Vedi Annunci', 'caniincasa' ); ?>
+					<a href="<?php echo esc_url( get_theme_mod( 'hero_button2_url', home_url( '/annunci/' ) ) ); ?>" class="btn btn-secondary btn-large">
+						<?php echo esc_html( get_theme_mod( 'hero_button2_text', 'Vedi Annunci' ) ); ?>
 					</a>
-					<a href="#quiz-section" class="btn btn-accent btn-large smooth-scroll">
-						<?php esc_html_e( 'Fai il Quiz', 'caniincasa' ); ?>
+					<a href="<?php echo esc_url( get_theme_mod( 'hero_button3_url', '#quiz-section' ) ); ?>" class="btn btn-accent btn-large smooth-scroll">
+						<?php echo esc_html( get_theme_mod( 'hero_button3_text', 'Fai il Quiz' ) ); ?>
 					</a>
 				</div>
 
@@ -70,10 +70,10 @@ get_header();
 			<div class="section-header">
 				<h2 class="section-title">
 					<span class="icon">🐾</span>
-					<?php esc_html_e( 'Annunci Amici 4 Zampe', 'caniincasa' ); ?>
+					<?php echo esc_html( get_theme_mod( 'annunci_title', 'Annunci Amici 4 Zampe' ) ); ?>
 				</h2>
 				<p class="section-subtitle">
-					<?php esc_html_e( 'Trova il tuo prossimo compagno di avventure', 'caniincasa' ); ?>
+					<?php echo esc_html( get_theme_mod( 'annunci_subtitle', 'Trova il tuo prossimo compagno di avventure' ) ); ?>
 				</p>
 			</div>
 
@@ -176,10 +176,10 @@ get_header();
 			<div class="section-header">
 				<h2 class="section-title">
 					<span class="icon">🐕</span>
-					<?php esc_html_e( 'Esplora il Database Razze', 'caniincasa' ); ?>
+					<?php echo esc_html( get_theme_mod( 'razze_title', 'Esplora il Database Razze' ) ); ?>
 				</h2>
 				<p class="section-subtitle">
-					<?php esc_html_e( 'Oltre 400 razze di cani con schede complete', 'caniincasa' ); ?>
+					<?php echo esc_html( get_theme_mod( 'razze_subtitle', 'Oltre 400 razze di cani con schede complete' ) ); ?>
 				</p>
 			</div>
 
@@ -279,10 +279,10 @@ get_header();
 				<div class="quiz-info">
 					<h2 class="section-title">
 						<span class="icon">🎯</span>
-						<?php esc_html_e( 'Trova la Razza Perfetta per Te', 'caniincasa' ); ?>
+						<?php echo esc_html( get_theme_mod( 'quiz_title', 'Trova la Razza Perfetta per Te' ) ); ?>
 					</h2>
 					<p class="quiz-description">
-						<?php esc_html_e( 'Rispondi a 9 semplici domande e scopri quali razze sono più compatibili con il tuo stile di vita. Il nostro algoritmo analizzerà le tue risposte e ti suggerirà le razze ideali.', 'caniincasa' ); ?>
+						<?php echo esc_html( get_theme_mod( 'quiz_description', 'Rispondi a 9 semplici domande e scopri quali razze sono più compatibili con il tuo stile di vita. Il nostro algoritmo analizzerà le tue risposte e ti suggerirà le razze ideali.' ) ); ?>
 					</p>
 
 					<!-- Quiz Stats -->
@@ -322,8 +322,8 @@ get_header();
 					</div>
 
 					<!-- CTA Button -->
-					<a href="<?php echo esc_url( home_url( '/quiz-razza/' ) ); ?>" class="btn btn-accent btn-large btn-quiz">
-						<?php esc_html_e( 'Inizia il Quiz', 'caniincasa' ); ?>
+					<a href="<?php echo esc_url( get_theme_mod( 'quiz_button_url', home_url( '/quiz-razza/' ) ) ); ?>" class="btn btn-accent btn-large btn-quiz">
+						<?php echo esc_html( get_theme_mod( 'quiz_button_text', 'Inizia il Quiz' ) ); ?>
 						<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 							<path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
@@ -333,10 +333,18 @@ get_header();
 				<!-- Quiz Visual -->
 				<div class="quiz-visual">
 					<div class="quiz-illustration">
-						<!-- Placeholder per illustrazione/immagine quiz -->
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/quiz-illustration.svg' ); ?>"
-						     alt="<?php esc_attr_e( 'Quiz Illustrazione', 'caniincasa' ); ?>"
-						     onerror="this.style.display='none'">
+						<?php
+						$quiz_illustration = get_theme_mod( 'quiz_illustration' );
+						if ( $quiz_illustration ) :
+							?>
+							<img src="<?php echo esc_url( $quiz_illustration ); ?>"
+							     alt="<?php esc_attr_e( 'Quiz Illustrazione', 'caniincasa' ); ?>">
+						<?php else : ?>
+							<!-- Placeholder per illustrazione/immagine quiz -->
+							<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/quiz-illustration.svg' ); ?>"
+							     alt="<?php esc_attr_e( 'Quiz Illustrazione', 'caniincasa' ); ?>"
+							     onerror="this.style.display='none'">
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
