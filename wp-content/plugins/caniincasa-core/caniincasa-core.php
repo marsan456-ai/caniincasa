@@ -89,6 +89,9 @@ class Caniincasa_Core {
         // Messaging System
         require_once CANIINCASA_CORE_PATH . 'includes/messaging-system.php';
 
+        // Newsletter System
+        require_once CANIINCASA_CORE_PATH . 'includes/newsletter-system.php';
+
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 
@@ -228,6 +231,30 @@ class Caniincasa_Core {
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
+
+        // Newsletter subscribers table
+        $newsletter_table = $wpdb->prefix . 'caniincasa_newsletter';
+
+        $newsletter_sql = "CREATE TABLE IF NOT EXISTS $newsletter_table (
+            id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            email varchar(255) NOT NULL,
+            name varchar(255) DEFAULT NULL,
+            status varchar(20) DEFAULT 'active',
+            gdpr_consent tinyint(1) DEFAULT 1,
+            ip_address varchar(45) DEFAULT NULL,
+            user_agent text DEFAULT NULL,
+            source varchar(50) DEFAULT 'form',
+            subscribed_at datetime DEFAULT CURRENT_TIMESTAMP,
+            unsubscribed_at datetime DEFAULT NULL,
+            confirm_token varchar(64) DEFAULT NULL,
+            confirmed tinyint(1) DEFAULT 0,
+            PRIMARY KEY  (id),
+            UNIQUE KEY email (email),
+            KEY status (status),
+            KEY source (source)
+        ) $charset_collate;";
+
+        dbDelta( $newsletter_sql );
 
         // Update version
         update_option( 'caniincasa_core_db_version', CANIINCASA_CORE_VERSION );

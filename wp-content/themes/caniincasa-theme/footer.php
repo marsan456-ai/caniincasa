@@ -146,6 +146,111 @@
 </div>
 <?php endif; ?>
 
+<!-- Cookie Banner GDPR -->
+<div class="cookie-banner">
+    <div class="container">
+        <div class="cookie-banner-content">
+            <div class="cookie-info">
+                <h3><?php esc_html_e( 'Utilizziamo i Cookie', 'caniincasa' ); ?></h3>
+                <p>
+                    <?php esc_html_e( 'Utilizziamo cookie tecnici e, previo tuo consenso, cookie analitici e di profilazione di terze parti per offrirti una migliore esperienza di navigazione. Puoi acconsentire a tutti i cookie cliccando su "Accetta tutti", negare il consenso cliccando su "Rifiuta" o gestire le tue preferenze attraverso le impostazioni.', 'caniincasa' ); ?>
+                    <a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'caniincasa' ); ?></a>
+                </p>
+            </div>
+            <div class="cookie-actions">
+                <button id="cookie-settings-btn" class="cookie-btn cookie-btn-settings">
+                    <?php esc_html_e( 'Impostazioni', 'caniincasa' ); ?>
+                </button>
+                <button id="reject-all-cookies" class="cookie-btn cookie-btn-secondary">
+                    <?php esc_html_e( 'Rifiuta', 'caniincasa' ); ?>
+                </button>
+                <button id="accept-all-cookies" class="cookie-btn cookie-btn-primary">
+                    <?php esc_html_e( 'Accetta tutti', 'caniincasa' ); ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Settings Modal -->
+<div class="cookie-settings-modal">
+    <div class="cookie-settings-content">
+        <div class="cookie-settings-header">
+            <h2><?php esc_html_e( 'Gestione Cookie', 'caniincasa' ); ?></h2>
+            <button class="cookie-settings-close" aria-label="<?php esc_attr_e( 'Chiudi', 'caniincasa' ); ?>">&times;</button>
+        </div>
+
+        <div class="cookie-settings-body">
+            <p><?php esc_html_e( 'Puoi gestire le tue preferenze sui cookie selezionando le categorie qui sotto. I cookie necessari sono sempre attivi in quanto indispensabili per il funzionamento del sito.', 'caniincasa' ); ?></p>
+
+            <!-- Necessary Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h3 class="cookie-category-title"><?php esc_html_e( 'Cookie Necessari', 'caniincasa' ); ?></h3>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" checked disabled>
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    <?php esc_html_e( 'Questi cookie sono essenziali per il funzionamento del sito web e non possono essere disabilitati. Vengono utilizzati per gestire la navigazione e permettere le funzionalità di base.', 'caniincasa' ); ?>
+                </p>
+            </div>
+
+            <!-- Functional Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h3 class="cookie-category-title"><?php esc_html_e( 'Cookie Funzionali', 'caniincasa' ); ?></h3>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-functional">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    <?php esc_html_e( 'Questi cookie permettono al sito di ricordare le tue scelte (come username, lingua o regione) e fornire funzionalità migliorate e più personalizzate.', 'caniincasa' ); ?>
+                </p>
+            </div>
+
+            <!-- Analytics Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h3 class="cookie-category-title"><?php esc_html_e( 'Cookie Analitici', 'caniincasa' ); ?></h3>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-analytics">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    <?php esc_html_e( 'Questi cookie ci aiutano a capire come i visitatori interagiscono con il sito raccogliendo e segnalando informazioni in forma anonima. Ci permettono di migliorare il sito.', 'caniincasa' ); ?>
+                </p>
+            </div>
+
+            <!-- Marketing Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h3 class="cookie-category-title"><?php esc_html_e( 'Cookie di Marketing', 'caniincasa' ); ?></h3>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-marketing">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    <?php esc_html_e( 'Questi cookie vengono utilizzati per mostrarti annunci pubblicitari pertinenti ai tuoi interessi. Possono essere utilizzati anche per limitare il numero di volte che vedi un annuncio.', 'caniincasa' ); ?>
+                </p>
+            </div>
+        </div>
+
+        <div class="cookie-settings-footer">
+            <button id="save-cookie-preferences" class="cookie-btn cookie-btn-secondary">
+                <?php esc_html_e( 'Salva Preferenze', 'caniincasa' ); ?>
+            </button>
+            <button id="accept-all-from-settings" class="cookie-btn cookie-btn-primary">
+                <?php esc_html_e( 'Accetta Tutti', 'caniincasa' ); ?>
+            </button>
+        </div>
+    </div>
+</div>
+
 <?php wp_footer(); ?>
 
 </body>

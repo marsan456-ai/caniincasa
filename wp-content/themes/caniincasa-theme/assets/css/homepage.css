@@ -950,3 +950,238 @@ section {
 		grid-template-columns: 1fr;
 	}
 }
+
+/* ==========================================================================
+   Newsletter Modal
+   ========================================================================== */
+
+.newsletter-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+.newsletter-modal .modal-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.75);
+	backdrop-filter: blur(4px);
+	cursor: pointer;
+}
+
+.newsletter-modal .modal-content {
+	position: relative;
+	background: #fff;
+	border-radius: 16px;
+	max-width: 500px;
+	width: 100%;
+	max-height: 90vh;
+	overflow-y: auto;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+	animation: modalSlideIn 0.3s ease-out;
+	z-index: 1;
+}
+
+@keyframes modalSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.newsletter-modal .modal-close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 40px;
+	height: 40px;
+	border: none;
+	background: rgba(0, 0, 0, 0.05);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	z-index: 2;
+	color: #64748b;
+}
+
+.newsletter-modal .modal-close:hover {
+	background: rgba(0, 0, 0, 0.1);
+	color: #1e293b;
+	transform: rotate(90deg);
+}
+
+.newsletter-modal .modal-header {
+	padding: 40px 40px 20px;
+	text-align: center;
+	border-bottom: 1px solid #e2e8f0;
+}
+
+.newsletter-modal .modal-header h2 {
+	margin: 0 0 12px;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--color-primary);
+}
+
+.newsletter-modal .modal-header p {
+	margin: 0;
+	font-size: 16px;
+	color: #64748b;
+	line-height: 1.6;
+}
+
+.newsletter-modal .modal-body {
+	padding: 30px 40px 40px;
+}
+
+.newsletter-modal .newsletter-form .form-group {
+	margin-bottom: 24px;
+}
+
+.newsletter-modal .newsletter-form label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: #1e293b;
+	font-size: 14px;
+}
+
+.newsletter-modal .newsletter-form .form-control {
+	width: 100%;
+	padding: 12px 16px;
+	border: 2px solid #e2e8f0;
+	border-radius: 8px;
+	font-size: 16px;
+	transition: all 0.2s ease;
+	background: #fff;
+	color: #1e293b;
+}
+
+.newsletter-modal .newsletter-form .form-control:focus {
+	outline: none;
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.newsletter-modal .newsletter-form .form-control::placeholder {
+	color: #94a3b8;
+}
+
+.newsletter-modal .newsletter-form .form-checkbox {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
+.newsletter-modal .newsletter-form .form-checkbox input[type="checkbox"] {
+	margin-top: 4px;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.newsletter-modal .newsletter-form .form-checkbox label {
+	margin: 0;
+	font-weight: 400;
+	font-size: 14px;
+	color: #475569;
+	cursor: pointer;
+}
+
+.newsletter-modal .newsletter-form .form-checkbox label a {
+	color: var(--color-primary);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.newsletter-modal .newsletter-form .form-checkbox label a:hover {
+	text-decoration: underline;
+}
+
+.newsletter-modal .form-messages {
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.newsletter-modal .form-messages.success {
+	background: #d1fae5;
+	color: #065f46;
+	border: 1px solid #6ee7b7;
+}
+
+.newsletter-modal .form-messages.error {
+	background: #fee2e2;
+	color: #991b1b;
+	border: 1px solid #fca5a5;
+}
+
+.newsletter-modal .btn-block {
+	width: 100%;
+	justify-content: center;
+}
+
+.newsletter-modal .btn-loading {
+	display: none;
+	align-items: center;
+	gap: 8px;
+}
+
+.newsletter-modal .spinner {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+	.newsletter-modal .modal-header,
+	.newsletter-modal .modal-body {
+		padding: 24px 20px;
+	}
+
+	.newsletter-modal .modal-header h2 {
+		font-size: 24px;
+	}
+
+	.newsletter-modal .modal-header p {
+		font-size: 14px;
+	}
+
+	.cta-buttons {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.cta-buttons .btn {
+		width: 100%;
+	}
+}

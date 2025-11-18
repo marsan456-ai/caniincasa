@@ -308,6 +308,13 @@ get_header();
                             </label>
                         </div>
 
+                        <div class="form-group form-checkbox">
+                            <input type="checkbox" id="newsletter_subscribe" name="newsletter_subscribe" value="1">
+                            <label for="newsletter_subscribe">
+                                Iscrivimi alla newsletter per ricevere aggiornamenti su razze, annunci e consigli per il tuo amico a quattro zampe
+                            </label>
+                        </div>
+
                         <div class="form-step-actions">
                             <button type="button" class="btn btn-outline prev-step">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">

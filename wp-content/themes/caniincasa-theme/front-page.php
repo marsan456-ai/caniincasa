@@ -485,10 +485,73 @@ get_header();
 					<a href="<?php echo esc_url( wp_login_url() ); ?>" class="btn btn-secondary btn-large">
 						<?php esc_html_e( 'Accedi', 'caniincasa' ); ?>
 					</a>
+					<button type="button" class="btn btn-accent btn-large" id="open-newsletter-modal">
+						<?php esc_html_e( 'Iscriviti alla Newsletter', 'caniincasa' ); ?>
+					</button>
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<!-- Newsletter Modal -->
+	<div id="newsletter-modal" class="modal newsletter-modal" style="display: none;">
+		<div class="modal-overlay"></div>
+		<div class="modal-content">
+			<button type="button" class="modal-close" aria-label="Chiudi">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+					<path d="M18 6L6 18M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+
+			<div class="modal-header">
+				<h2><?php esc_html_e( 'Iscriviti alla Newsletter', 'caniincasa' ); ?></h2>
+				<p><?php esc_html_e( 'Ricevi aggiornamenti su razze, annunci e consigli per il tuo amico a quattro zampe', 'caniincasa' ); ?></p>
+			</div>
+
+			<div class="modal-body">
+				<form id="newsletter-form" class="newsletter-form">
+					<div id="newsletter-messages" class="form-messages" style="display: none;"></div>
+
+					<div class="form-group">
+						<label for="newsletter-name"><?php esc_html_e( 'Nome', 'caniincasa' ); ?></label>
+						<input type="text" id="newsletter-name" name="newsletter_name" class="form-control" placeholder="Il tuo nome">
+					</div>
+
+					<div class="form-group">
+						<label for="newsletter-email"><?php esc_html_e( 'Email *', 'caniincasa' ); ?></label>
+						<input type="email" id="newsletter-email" name="newsletter_email" class="form-control" required placeholder="tua@email.com">
+					</div>
+
+					<div class="form-group form-checkbox">
+						<input type="checkbox" id="newsletter-gdpr" name="newsletter_gdpr" required>
+						<label for="newsletter-gdpr">
+							<?php esc_html_e( 'Acconsento al trattamento dei miei dati personali secondo la ', 'caniincasa' ); ?>
+							<a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>" target="_blank"><?php esc_html_e( 'Privacy Policy', 'caniincasa' ); ?></a> *
+						</label>
+					</div>
+
+					<div class="form-group form-checkbox">
+						<input type="checkbox" id="newsletter-marketing" name="newsletter_marketing" required>
+						<label for="newsletter-marketing">
+							<?php esc_html_e( 'Acconsento a ricevere comunicazioni commerciali e newsletter', 'caniincasa' ); ?> *
+						</label>
+					</div>
+
+					<?php wp_nonce_field( 'newsletter_subscribe', 'newsletter_nonce' ); ?>
+
+					<button type="submit" class="btn btn-primary btn-lg btn-block">
+						<span class="btn-text"><?php esc_html_e( 'Iscriviti', 'caniincasa' ); ?></span>
+						<span class="btn-loading" style="display: none;">
+							<svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+							</svg>
+							<?php esc_html_e( 'Iscrizione...', 'caniincasa' ); ?>
+						</span>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
 
 </main>
 

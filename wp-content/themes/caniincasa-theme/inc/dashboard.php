@@ -710,6 +710,13 @@ function caniincasa_ajax_register_user() {
         update_user_meta( $user_id, 'provincia', $provincia );
     }
 
+    // Handle newsletter subscription
+    $newsletter_subscribe = isset( $_POST['newsletter_subscribe'] ) && $_POST['newsletter_subscribe'] === '1';
+    if ( $newsletter_subscribe && class_exists( 'Caniincasa_Newsletter_System' ) ) {
+        $newsletter = Caniincasa_Newsletter_System::instance();
+        $newsletter->subscribe( $email, $first_name . ' ' . $last_name, 1, 'registration' );
+    }
+
     // Auto-login after registration
     wp_set_current_user( $user_id );
     wp_set_auth_cookie( $user_id );
