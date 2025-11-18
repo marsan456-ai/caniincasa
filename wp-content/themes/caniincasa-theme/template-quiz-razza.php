@@ -22,18 +22,22 @@ get_header();
     <!-- Quiz Section -->
     <section class="quiz-section">
         <div class="container">
-            <div class="quiz-wrapper">
+            <div class="quiz-container">
 
                 <!-- Progress Bar -->
                 <div class="quiz-progress-wrapper">
+                    <div class="quiz-progress-text">
+                        <span>Domanda <span class="quiz-progress-current">1</span> di <span class="quiz-progress-total">9</span></span>
+                    </div>
                     <div class="quiz-progress-bar">
                         <div class="quiz-progress-fill" style="width: 11.11%;"></div>
                     </div>
-                    <p class="quiz-progress-text">Domanda <span id="current-question">1</span> di 9</p>
                 </div>
 
-                <!-- Quiz Form -->
-                <form id="quiz-form" class="quiz-form">
+                <!-- Quiz Form Wrapper -->
+                <div class="quiz-form-wrapper">
+                    <!-- Quiz Form -->
+                    <form id="quiz-form" class="quiz-form">
 
                     <!-- Question 1: Esperienza -->
                     <div class="quiz-question active" data-question="1">
@@ -333,19 +337,19 @@ get_header();
 
                     <!-- Navigation Buttons -->
                     <div class="quiz-navigation">
-                        <button type="button" class="btn btn-outline quiz-prev" style="display: none;">
+                        <button type="button" class="btn btn-outline btn-prev" style="display: none;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
                             Indietro
                         </button>
-                        <button type="button" class="btn btn-primary btn-lg quiz-next">
+                        <button type="button" class="btn btn-primary btn-lg btn-next">
                             Avanti
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </button>
-                        <button type="submit" class="btn btn-primary btn-lg quiz-submit" style="display: none;">
+                        <button type="submit" class="btn btn-primary btn-lg btn-submit" style="display: none;">
                             <span class="btn-text">Vedi Risultati</span>
                             <span class="btn-loading" style="display: none;">
                                 <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -359,6 +363,7 @@ get_header();
                     <?php wp_nonce_field( 'caniincasa_quiz', 'quiz_nonce' ); ?>
 
                 </form>
+                </div><!-- .quiz-form-wrapper -->
 
                 <!-- Results Section (initially hidden) -->
                 <div id="quiz-results" class="quiz-results" style="display: none;">
@@ -373,23 +378,25 @@ get_header();
 
                     <div class="results-actions">
                         <?php if ( is_user_logged_in() ) : ?>
-                            <button type="button" class="btn btn-outline" id="email-results">
+                            <button type="button" class="btn btn-success btn-email">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                                     <polyline points="22,6 12,13 2,6"></polyline>
                                 </svg>
-                                Invia via Email
+                                <span class="btn-text">Invia via Email</span>
+                                <span class="btn-loading" style="display: none;">Invio...</span>
                             </button>
                         <?php endif; ?>
-                        <button type="button" class="btn btn-primary" id="download-pdf">
+                        <button type="button" class="btn btn-primary btn-pdf">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            Scarica PDF
+                            <span class="btn-text">Scarica PDF</span>
+                            <span class="btn-loading" style="display: none;">Download...</span>
                         </button>
-                        <button type="button" class="btn btn-outline quiz-restart">
+                        <button type="button" class="btn btn-outline btn-restart">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <polyline points="1 4 1 10 7 10"></polyline>
                                 <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
@@ -399,8 +406,8 @@ get_header();
                     </div>
                 </div>
 
-            </div>
-        </div>
+            </div><!-- .quiz-container -->
+        </div><!-- .container -->
     </section>
 
 </main>
