@@ -105,6 +105,10 @@
     gap: 5px;
 }
 
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
 .info-label {
     font-weight: 600;
     color: var(--color-text-light);
