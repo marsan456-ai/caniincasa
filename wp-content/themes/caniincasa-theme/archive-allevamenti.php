@@ -144,19 +144,21 @@ get_header();
                     <?php endif; ?>
                 </div>
 
-                <!-- Pagination -->
-                <?php
-                if ( $wp_query->max_num_pages > 1 ) :
-                    ?>
-                    <div class="strutture-pagination">
-                        <?php
-                        caniincasa_pagination( array(
-                            'prev_text' => '&laquo; Precedente',
-                            'next_text' => 'Successiva &raquo;',
-                        ) );
+                <!-- Pagination Container -->
+                <div id="allevamenti-pagination-container">
+                    <?php
+                    if ( $wp_query->max_num_pages > 1 ) :
                         ?>
-                    </div>
-                <?php endif; ?>
+                        <div class="strutture-pagination">
+                            <?php
+                            caniincasa_pagination( array(
+                                'prev_text' => '&laquo; Precedente',
+                                'next_text' => 'Successiva &raquo;',
+                            ) );
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
             </div>
 
@@ -173,6 +175,7 @@ jQuery(document).ready(function($) {
     const $grid = $('#allevamenti-grid');
     const $loading = $('#allevamenti-loading');
     const $count = $('#allevamenti-count');
+    const $paginationContainer = $('#allevamenti-pagination-container');
 
     // Debounce helper
     let filterTimer;
@@ -215,6 +218,13 @@ jQuery(document).ready(function($) {
                     $grid.html(response.data.html);
                     $count.text(response.data.found);
 
+                    // Update pagination
+                    if (response.data.pagination) {
+                        $paginationContainer.html(response.data.pagination);
+                    } else {
+                        $paginationContainer.html('');
+                    }
+
                     // Update URL without reload
                     if (history.pushState) {
                         const newUrl = window.location.pathname + '?' + formData;
@@ -222,10 +232,12 @@ jQuery(document).ready(function($) {
                     }
                 } else {
                     $grid.html('<div class="no-results"><h3>Errore nel caricamento</h3></div>');
+                    $paginationContainer.html('');
                 }
             },
             error: function() {
                 $grid.html('<div class="no-results"><h3>Errore nel caricamento</h3></div>');
+                $paginationContainer.html('');
             },
             complete: function() {
                 $loading.hide();
@@ -234,13 +246,23 @@ jQuery(document).ready(function($) {
     }
 
     // Handle pagination clicks
-    $(document).on('click', '.strutture-pagination a', function(e) {
+    $(document).on('click', '.strutture-pagination a.pagination-link', function(e) {
         e.preventDefault();
-        const url = $(this).attr('href');
-        const page = new URL(url).searchParams.get('paged') || 1;
+
+        // Get page number from data attribute (more reliable than parsing URL)
+        let page = $(this).data('page');
+
+        // Fallback: try to extract from href
+        if (!page) {
+            const url = $(this).attr('href');
+            const match = url.match(/[?&]paged=(\d+)/);
+            page = match ? parseInt(match[1]) : 1;
+        }
+
+        console.log('Pagination clicked - Loading page:', page);
         loadAllevamenti(page);
 
-        // Scroll to top
+        // Scroll to top smoothly
         $('html, body').animate({
             scrollTop: $('.archive-allevamenti').offset().top - 100
         }, 500);
