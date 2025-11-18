@@ -808,3 +808,42 @@ function caniincasa_register_annunci_dogsitter_acf_fields() {
     ) );
 }
 caniincasa_register_annunci_dogsitter_acf_fields();
+
+/**
+ * ACF Fields for Allevamenti
+ */
+function caniincasa_register_allevamenti_acf_fields() {
+    acf_add_local_field_group( array(
+        'key'      => 'group_allevamenti',
+        'title'    => 'Informazioni Allevamento',
+        'fields'   => array(
+            array(
+                'key'   => 'field_razze_allevate',
+                'label' => 'Razze Allevate',
+                'name'  => 'razze_allevate',
+                'type'  => 'relationship',
+                'instructions' => 'Seleziona le razze allevate in questa struttura',
+                'post_type' => array(
+                    0 => 'razze_di_cani',
+                ),
+                'filters' => array(
+                    0 => 'search',
+                ),
+                'return_format' => 'object',
+                'min' => 0,
+                'max' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param'    => 'post_type',
+                    'operator' => '==',
+                    'value'    => 'allevamenti',
+                ),
+            ),
+        ),
+        'position' => 'normal',
+    ) );
+}
+caniincasa_register_allevamenti_acf_fields();
