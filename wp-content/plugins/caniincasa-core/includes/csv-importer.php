@@ -361,7 +361,7 @@ class Caniincasa_CSV_Importer {
      * @param array $data Row data
      * @return array Result
      */
-    private function import_single_allevamento( $data ) {
+    public function import_single_allevamento( $data ) {
         $slug = ! empty( $data['Slug'] ) ? sanitize_title( $data['Slug'] ) : sanitize_title( $data['Title'] );
         $existing = get_page_by_path( $slug, OBJECT, 'allevamenti' );
 
@@ -400,7 +400,7 @@ class Caniincasa_CSV_Importer {
             'persona'       => 'persona',
             'desindirizzo'  => 'indirizzo',
             'deslocalita'   => 'localita',
-            'desprovincia'  => 'provincia',
+            'provincia_'    => 'provincia',  // Corretto: era 'desprovincia'
             'codcap'        => 'cap',
             'telefono'      => 'telefono',
             'email'         => 'email',
@@ -413,6 +413,46 @@ class Caniincasa_CSV_Importer {
         foreach ( $acf_fields as $csv_field => $acf_field ) {
             if ( ! empty( $data[ $csv_field ] ) ) {
                 update_field( $acf_field, sanitize_text_field( $data[ $csv_field ] ), $post_id );
+            }
+        }
+
+        // Import Razze Allevate (relationship field)
+        if ( ! empty( $data['Razze Allevamenti'] ) ) {
+            $razze_names = explode( '|', $data['Razze Allevamenti'] );
+            $razze_ids = array();
+
+            foreach ( $razze_names as $razza_name ) {
+                $razza_name = trim( $razza_name );
+                if ( empty( $razza_name ) ) {
+                    continue;
+                }
+
+                // Cerca la razza per titolo
+                $razza_post = get_page_by_title( $razza_name, OBJECT, 'razze_di_cani' );
+
+                if ( ! $razza_post ) {
+                    // Prova ricerca case-insensitive
+                    $args = array(
+                        'post_type'      => 'razze_di_cani',
+                        'posts_per_page' => 1,
+                        'post_status'    => 'publish',
+                        's'              => $razza_name,
+                    );
+                    $query = new WP_Query( $args );
+                    if ( $query->have_posts() ) {
+                        $razza_post = $query->posts[0];
+                    }
+                    wp_reset_postdata();
+                }
+
+                if ( $razza_post ) {
+                    $razze_ids[] = $razza_post->ID;
+                }
+            }
+
+            // Salva il relationship field
+            if ( ! empty( $razze_ids ) ) {
+                update_field( 'razze_allevate', $razze_ids, $post_id );
             }
         }
 
