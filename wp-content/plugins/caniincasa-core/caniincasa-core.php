@@ -83,6 +83,9 @@ class Caniincasa_Core {
         // AJAX Handlers
         require_once CANIINCASA_CORE_PATH . 'includes/ajax-handlers.php';
 
+        // Messaging System
+        require_once CANIINCASA_CORE_PATH . 'includes/messaging-system.php';
+
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 

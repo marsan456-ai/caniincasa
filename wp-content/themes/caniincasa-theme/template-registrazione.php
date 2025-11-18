@@ -159,6 +159,12 @@ get_header();
                                     autocomplete="family-name"
                                     placeholder="Il tuo cognome"
                                 >
+                                <small class="form-help-text" style="display: block; margin-top: 8px; color: #64748b; font-size: 14px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 4px;">
+                                        <path d="M13 16H12V12H11M12 8H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    Per la tua privacy, sul sito sarà visibile solo la tua iniziale (es. Mario R.)
+                                </small>
                             </div>
                         </div>
 
