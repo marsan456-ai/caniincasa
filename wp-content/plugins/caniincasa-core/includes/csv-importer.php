@@ -167,6 +167,13 @@ class Caniincasa_CSV_Importer {
      * @param array $data    Row data
      */
     private function import_razza_acf_fields( $post_id, $data ) {
+        error_log( '=== INIZIO IMPORT ACF FIELDS PER POST ID: ' . $post_id . ' ===' );
+        error_log( 'Titolo: ' . ( isset( $data['Title'] ) ? $data['Title'] : 'N/A' ) );
+
+        // Debug: mostra TUTTE le chiavi disponibili nel CSV
+        error_log( '--- TUTTE LE CHIAVI CSV DISPONIBILI ---' );
+        error_log( print_r( array_keys( $data ), true ) );
+
         // Info fields
         $info_fields = array(
             'nazione_origine'      => 'nazione_origine',
@@ -174,9 +181,15 @@ class Caniincasa_CSV_Importer {
             'temperamento_breve'   => 'temperamento_breve',
         );
 
+        error_log( '--- INFO FIELDS ---' );
         foreach ( $info_fields as $csv_field => $acf_field ) {
             if ( ! empty( $data[ $csv_field ] ) ) {
-                update_field( $acf_field, sanitize_text_field( $data[ $csv_field ] ), $post_id );
+                $value = sanitize_text_field( $data[ $csv_field ] );
+                error_log( "Campo: $csv_field => $acf_field = $value" );
+                $result = update_field( $acf_field, $value, $post_id );
+                error_log( "update_field result: " . ( $result ? 'SUCCESS' : 'FAILED' ) );
+            } else {
+                error_log( "Campo $csv_field: VUOTO o NON TROVATO" );
             }
         }
 
@@ -191,9 +204,15 @@ class Caniincasa_CSV_Importer {
             'ideale_per'               => 'ideale_per',
         );
 
+        error_log( '--- CONTENT FIELDS ---' );
         foreach ( $content_fields as $csv_field => $acf_field ) {
             if ( ! empty( $data[ $csv_field ] ) ) {
-                update_field( $acf_field, wp_kses_post( $data[ $csv_field ] ), $post_id );
+                $value = wp_kses_post( $data[ $csv_field ] );
+                error_log( "Campo: $csv_field => $acf_field (lunghezza: " . strlen( $value ) . " caratteri)" );
+                $result = update_field( $acf_field, $value, $post_id );
+                error_log( "update_field result: " . ( $result ? 'SUCCESS' : 'FAILED' ) );
+            } else {
+                error_log( "Campo $csv_field: VUOTO o NON TROVATO" );
             }
         }
 
@@ -222,19 +241,43 @@ class Caniincasa_CSV_Importer {
             'istinti_di_caccia'                          => 'istinti_di_caccia',
         );
 
+        error_log( '--- RATING FIELDS (i più importanti per i filtri!) ---' );
         foreach ( $rating_fields as $csv_field => $acf_field ) {
+            // Mostra sempre il debug, anche se il campo è vuoto
+            $csv_value = isset( $data[ $csv_field ] ) ? $data[ $csv_field ] : 'NON TROVATO';
+            error_log( "CSV Field: '$csv_field' => valore raw: '$csv_value'" );
+
             if ( ! empty( $data[ $csv_field ] ) && is_numeric( $data[ $csv_field ] ) ) {
                 $value = floatval( $data[ $csv_field ] );
                 // Ensure value is between 1 and 5
                 $value = max( 1, min( 5, $value ) );
-                update_field( $acf_field, $value, $post_id );
+                error_log( "  -> Salvo in ACF '$acf_field' = $value" );
+                $result = update_field( $acf_field, $value, $post_id );
+                error_log( "  -> update_field result: " . ( $result ? 'SUCCESS' : 'FAILED' ) );
+
+                // Verifica immediatamente se il valore è stato salvato
+                $saved_value = get_field( $acf_field, $post_id );
+                error_log( "  -> VERIFICA: get_field restituisce: " . var_export( $saved_value, true ) );
+            } else {
+                if ( ! isset( $data[ $csv_field ] ) ) {
+                    error_log( "  -> PROBLEMA: Campo '$csv_field' NON ESISTE nel CSV!" );
+                } elseif ( empty( $data[ $csv_field ] ) ) {
+                    error_log( "  -> Campo vuoto" );
+                } elseif ( ! is_numeric( $data[ $csv_field ] ) ) {
+                    error_log( "  -> PROBLEMA: Valore non numerico: '" . $data[ $csv_field ] . "'" );
+                }
             }
         }
 
         // SEO Fields (if old_slug provided)
+        error_log( '--- SEO FIELDS ---' );
         if ( ! empty( $data['Slug'] ) && $data['Slug'] !== sanitize_title( $data['Title'] ) ) {
+            error_log( "Old slug: " . sanitize_title( $data['Slug'] ) );
             update_field( 'old_slug', sanitize_title( $data['Slug'] ), $post_id );
         }
+
+        error_log( '=== FINE IMPORT ACF FIELDS PER POST ID: ' . $post_id . ' ===' );
+        error_log( '' );
     }
 
     /**
