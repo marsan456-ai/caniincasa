@@ -120,6 +120,14 @@ while ( have_posts() ) :
                                     </span>
                                 </div>
                             <?php endif; ?>
+
+                            <!-- Altre Informazioni -->
+                            <?php if ( $altre_informazioni ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Altre Informazioni:</span>
+                                    <span class="info-value"><?php echo nl2br( esc_html( $altre_informazioni ) ); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -129,16 +137,6 @@ while ( have_posts() ) :
                             <h2>Descrizione</h2>
                             <div class="description-content">
                                 <?php the_content(); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Altre Informazioni -->
-                    <?php if ( $altre_informazioni ) : ?>
-                        <div class="struttura-altre-info">
-                            <h2>Altre Informazioni</h2>
-                            <div class="altre-info-content">
-                                <p><?php echo nl2br( esc_html( $altre_informazioni ) ); ?></p>
                             </div>
                         </div>
                     <?php endif; ?>
