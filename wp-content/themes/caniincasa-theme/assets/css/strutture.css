@@ -722,3 +722,123 @@
         margin: 0 auto;
     }
 }
+
+/* ========================================================================
+   RAZZE ALLEVATE SECTION
+   ======================================================================== */
+
+.razze-allevate-section {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.razze-allevate-section .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #2d3748;
+}
+
+/* Grid compatto per razze (2 colonne desktop) */
+.razze-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Card razze compatte - stile archivio */
+.razze-grid-compact .razza-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.razze-grid-compact .razza-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.razze-grid-compact .razza-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.razze-grid-compact .razza-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 60%;
+    overflow: hidden;
+    background: #f7fafc;
+}
+
+.razze-grid-compact .razza-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.razze-grid-compact .razza-card-content {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.razze-grid-compact .razza-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2d3748;
+    line-height: 1.3;
+}
+
+.razze-grid-compact .razza-card-meta {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 10px;
+}
+
+.razze-grid-compact .razza-card-characteristics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.razze-grid-compact .characteristic-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: #edf2f7;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #4a5568;
+}
+
+.razze-grid-compact .characteristic-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .razze-grid-compact {
+        grid-template-columns: 1fr;
+    }
+
+    .razze-allevate-section .section-title {
+        font-size: 1.5rem;
+    }
+}

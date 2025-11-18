@@ -439,7 +439,7 @@ function caniincasa_ajax_filter_allevamenti() {
     $args = array(
         'post_type'      => 'allevamenti',
         'post_status'    => 'publish',
-        'posts_per_page' => 12,
+        'posts_per_page' => 24,
         'paged'          => $paged,
     );
 

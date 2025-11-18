@@ -300,3 +300,24 @@ function caniincasa_webp_upload_mimes( $existing_mimes ) {
     return $existing_mimes;
 }
 add_filter( 'mime_types', 'caniincasa_webp_upload_mimes' );
+
+/**
+ * Modify archive queries for custom post types
+ */
+function caniincasa_modify_archive_query( $query ) {
+    // Only for main query on frontend archives
+    if ( is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    // Allevamenti archive: 24 posts per page
+    if ( is_post_type_archive( 'allevamenti' ) ) {
+        $query->set( 'posts_per_page', 24 );
+    }
+
+    // Razze archive: already set to 24 in razze archive template
+    if ( is_post_type_archive( 'razze_di_cani' ) ) {
+        $query->set( 'posts_per_page', 24 );
+    }
+}
+add_action( 'pre_get_posts', 'caniincasa_modify_archive_query' );

@@ -141,7 +141,7 @@ while ( have_posts() ) :
                     <?php if ( $razze_allevate && is_array( $razze_allevate ) && count( $razze_allevate ) > 0 ) : ?>
                         <div class="razze-allevate-section">
                             <h2 class="section-title">Razze Allevate</h2>
-                            <div class="razze-grid">
+                            <div class="razze-grid razze-grid-compact">
                                 <?php
                                 foreach ( $razze_allevate as $razza_post ) :
                                     // Set up post data for the razza
@@ -185,7 +185,7 @@ while ( have_posts() ) :
                     <!-- Share Box -->
                     <div class="sidebar-box share-box">
                         <h3 class="box-title">Condividi</h3>
-                        <?php caniincasa_social_share(); ?>
+                        <?php caniincasa_social_share_buttons(); ?>
                     </div>
 
                 </aside>
