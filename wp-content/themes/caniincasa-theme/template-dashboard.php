@@ -138,6 +138,14 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                         </div>
                         <h3 class="user-name"><?php echo esc_html( $current_user->display_name ); ?></h3>
                         <p class="user-email"><?php echo esc_html( $current_user->user_email ); ?></p>
+                        <?php
+                        $user_type = get_user_meta( $user_id, 'user_type', true );
+                        if ( $user_type ) {
+                            $user_types = caniincasa_get_user_types();
+                            $user_type_label = isset( $user_types[ $user_type ] ) ? $user_types[ $user_type ] : $user_type;
+                            ?>
+                            <span class="user-type-badge"><?php echo esc_html( $user_type_label ); ?></span>
+                        <?php } ?>
                     </div>
 
                     <nav class="dashboard-nav">

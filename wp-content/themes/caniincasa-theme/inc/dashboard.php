@@ -221,9 +221,21 @@ function caniincasa_get_quiz_results( $user_id, $limit = -1 ) {
  * Enqueue dashboard scripts and styles
  */
 function caniincasa_dashboard_scripts() {
+    // Dashboard page
     if ( is_page_template( 'template-dashboard.php' ) ) {
         wp_enqueue_style( 'caniincasa-dashboard', CANIINCASA_THEME_URI . '/assets/css/dashboard.css', array(), CANIINCASA_VERSION );
         wp_enqueue_script( 'caniincasa-dashboard', CANIINCASA_THEME_URI . '/assets/js/dashboard.js', array( 'jquery' ), CANIINCASA_VERSION, true );
+    }
+
+    // Auth pages (Registration and Login)
+    if ( is_page_template( 'template-registrazione.php' ) || is_page_template( 'template-login.php' ) ) {
+        wp_enqueue_style( 'caniincasa-auth', CANIINCASA_THEME_URI . '/assets/css/auth.css', array(), CANIINCASA_VERSION );
+        wp_enqueue_script( 'caniincasa-auth', CANIINCASA_THEME_URI . '/assets/js/auth.js', array( 'jquery' ), CANIINCASA_VERSION, true );
+
+        // Localize script with AJAX URL
+        wp_localize_script( 'caniincasa-auth', 'caniincasaAuth', array(
+            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+        ) );
     }
 
     // Preferiti functionality on all pages (for single pages with add button)
@@ -448,3 +460,255 @@ function caniincasa_ajax_submit_annuncio_dogsitter() {
     ) );
 }
 add_action( 'wp_ajax_submit_annuncio_dogsitter', 'caniincasa_ajax_submit_annuncio_dogsitter' );
+
+/**
+ * Register custom user roles
+ */
+function caniincasa_register_custom_roles() {
+    // Define custom roles with same capabilities as subscriber for now
+    $subscriber_caps = get_role( 'subscriber' )->capabilities;
+
+    $custom_roles = array(
+        'privato' => array(
+            'display_name' => 'Privato',
+            'capabilities' => $subscriber_caps,
+        ),
+        'veterinario' => array(
+            'display_name' => 'Veterinario',
+            'capabilities' => $subscriber_caps,
+        ),
+        'allevatore' => array(
+            'display_name' => 'Allevatore',
+            'capabilities' => $subscriber_caps,
+        ),
+        'titolare_pensione' => array(
+            'display_name' => 'Titolare Pensione',
+            'capabilities' => $subscriber_caps,
+        ),
+        'dog_sitter' => array(
+            'display_name' => 'Dog Sitter',
+            'capabilities' => $subscriber_caps,
+        ),
+        'educatore_cinofilo' => array(
+            'display_name' => 'Educatore Cinofilo',
+            'capabilities' => $subscriber_caps,
+        ),
+        'altro' => array(
+            'display_name' => 'Altro',
+            'capabilities' => $subscriber_caps,
+        ),
+    );
+
+    foreach ( $custom_roles as $role_slug => $role_data ) {
+        if ( ! get_role( $role_slug ) ) {
+            add_role( $role_slug, $role_data['display_name'], $role_data['capabilities'] );
+        }
+    }
+}
+add_action( 'init', 'caniincasa_register_custom_roles' );
+
+/**
+ * Get available user types for registration
+ */
+function caniincasa_get_user_types() {
+    return array(
+        'privato'            => 'Privato',
+        'veterinario'        => 'Veterinario',
+        'allevatore'         => 'Allevatore',
+        'titolare_pensione'  => 'Titolare Pensione',
+        'dog_sitter'         => 'Dog Sitter',
+        'educatore_cinofilo' => 'Educatore Cinofilo',
+        'altro'              => 'Altro',
+    );
+}
+
+/**
+ * Block access to wp-admin for non-admin users
+ */
+function caniincasa_block_wp_admin_access() {
+    if ( is_admin() && ! current_user_can( 'administrator' ) && ! wp_doing_ajax() ) {
+        wp_redirect( home_url( '/dashboard' ) );
+        exit;
+    }
+}
+add_action( 'admin_init', 'caniincasa_block_wp_admin_access' );
+
+/**
+ * Redirect to custom login page
+ */
+function caniincasa_redirect_login_page() {
+    $login_page = home_url( '/login' );
+    $page_viewed = basename( $_SERVER['REQUEST_URI'] );
+
+    if ( $page_viewed == 'wp-login.php' && $_SERVER['REQUEST_METHOD'] == 'GET' ) {
+        wp_redirect( $login_page );
+        exit;
+    }
+}
+add_action( 'init', 'caniincasa_redirect_login_page' );
+
+/**
+ * Redirect failed login to custom login page
+ */
+function caniincasa_redirect_login_fail( $username ) {
+    $referrer = $_SERVER['HTTP_REFERER'];
+
+    if ( ! empty( $referrer ) && ! strstr( $referrer, 'wp-login' ) && ! strstr( $referrer, 'wp-admin' ) ) {
+        if ( ! empty( $username ) ) {
+            wp_redirect( home_url( '/login' ) . '?login=failed&username=' . urlencode( $username ) );
+        } else {
+            wp_redirect( home_url( '/login' ) . '?login=failed' );
+        }
+        exit;
+    }
+}
+add_action( 'wp_login_failed', 'caniincasa_redirect_login_fail' );
+
+/**
+ * Redirect after successful login
+ */
+function caniincasa_redirect_after_login( $redirect_to, $request, $user ) {
+    // Don't redirect if there's an error
+    if ( isset( $user->errors ) && ! empty( $user->errors ) ) {
+        return $redirect_to;
+    }
+
+    // Redirect to dashboard for non-admin users
+    if ( ! is_wp_error( $user ) && ! current_user_can( 'administrator', $user ) ) {
+        return home_url( '/dashboard' );
+    }
+
+    return $redirect_to;
+}
+add_filter( 'login_redirect', 'caniincasa_redirect_after_login', 10, 3 );
+
+/**
+ * AJAX: Handle user registration
+ */
+function caniincasa_ajax_register_user() {
+    check_ajax_referer( 'caniincasa_register', 'nonce' );
+
+    // Sanitize inputs
+    $username       = isset( $_POST['username'] ) ? sanitize_user( $_POST['username'] ) : '';
+    $email          = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+    $password       = isset( $_POST['password'] ) ? $_POST['password'] : '';
+    $confirm_pass   = isset( $_POST['confirm_password'] ) ? $_POST['confirm_password'] : '';
+    $first_name     = isset( $_POST['first_name'] ) ? sanitize_text_field( $_POST['first_name'] ) : '';
+    $last_name      = isset( $_POST['last_name'] ) ? sanitize_text_field( $_POST['last_name'] ) : '';
+    $user_type      = isset( $_POST['user_type'] ) ? sanitize_text_field( $_POST['user_type'] ) : '';
+    $phone          = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+    $city           = isset( $_POST['city'] ) ? sanitize_text_field( $_POST['city'] ) : '';
+    $provincia      = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
+    $accept_privacy = isset( $_POST['accept_privacy'] ) ? $_POST['accept_privacy'] === 'true' : false;
+
+    // Validation
+    if ( empty( $username ) || empty( $email ) || empty( $password ) || empty( $first_name ) || empty( $last_name ) || empty( $user_type ) ) {
+        wp_send_json_error( array( 'message' => 'Compila tutti i campi obbligatori.' ) );
+    }
+
+    if ( ! $accept_privacy ) {
+        wp_send_json_error( array( 'message' => 'Devi accettare la privacy policy.' ) );
+    }
+
+    if ( strlen( $username ) < 4 ) {
+        wp_send_json_error( array( 'message' => 'Il nome utente deve contenere almeno 4 caratteri.' ) );
+    }
+
+    if ( ! is_email( $email ) ) {
+        wp_send_json_error( array( 'message' => 'Email non valida.' ) );
+    }
+
+    if ( strlen( $password ) < 8 ) {
+        wp_send_json_error( array( 'message' => 'La password deve contenere almeno 8 caratteri.' ) );
+    }
+
+    if ( $password !== $confirm_pass ) {
+        wp_send_json_error( array( 'message' => 'Le password non corrispondono.' ) );
+    }
+
+    if ( username_exists( $username ) ) {
+        wp_send_json_error( array( 'message' => 'Nome utente già in uso.' ) );
+    }
+
+    if ( email_exists( $email ) ) {
+        wp_send_json_error( array( 'message' => 'Email già registrata.' ) );
+    }
+
+    // Validate user type
+    $available_types = array_keys( caniincasa_get_user_types() );
+    if ( ! in_array( $user_type, $available_types ) ) {
+        wp_send_json_error( array( 'message' => 'Tipologia utente non valida.' ) );
+    }
+
+    // Create user
+    $user_data = array(
+        'user_login'   => $username,
+        'user_email'   => $email,
+        'user_pass'    => $password,
+        'first_name'   => $first_name,
+        'last_name'    => $last_name,
+        'display_name' => $first_name . ' ' . $last_name,
+        'role'         => $user_type, // Set custom role directly
+    );
+
+    $user_id = wp_insert_user( $user_data );
+
+    if ( is_wp_error( $user_id ) ) {
+        wp_send_json_error( array( 'message' => 'Errore durante la registrazione: ' . $user_id->get_error_message() ) );
+    }
+
+    // Save additional meta
+    update_user_meta( $user_id, 'user_type', $user_type );
+    if ( $phone ) {
+        update_user_meta( $user_id, 'phone', $phone );
+    }
+    if ( $city ) {
+        update_user_meta( $user_id, 'city', $city );
+    }
+    if ( $provincia ) {
+        update_user_meta( $user_id, 'provincia', $provincia );
+    }
+
+    // Auto-login after registration
+    wp_set_current_user( $user_id );
+    wp_set_auth_cookie( $user_id );
+
+    wp_send_json_success( array(
+        'message'      => 'Registrazione completata con successo!',
+        'redirect_url' => home_url( '/dashboard' ),
+    ) );
+}
+add_action( 'wp_ajax_nopriv_register_user', 'caniincasa_ajax_register_user' );
+
+/**
+ * AJAX: Handle user login
+ */
+function caniincasa_ajax_login_user() {
+    check_ajax_referer( 'caniincasa_login', 'nonce' );
+
+    $username = isset( $_POST['username'] ) ? sanitize_text_field( $_POST['username'] ) : '';
+    $password = isset( $_POST['password'] ) ? $_POST['password'] : '';
+    $remember = isset( $_POST['remember'] ) ? $_POST['remember'] === 'true' : false;
+
+    if ( empty( $username ) || empty( $password ) ) {
+        wp_send_json_error( array( 'message' => 'Inserisci username e password.' ) );
+    }
+
+    $creds = array(
+        'user_login'    => $username,
+        'user_password' => $password,
+        'remember'      => $remember,
+    );
+
+    $user = wp_signon( $creds, false );
+
+    if ( is_wp_error( $user ) ) {
+        wp_send_json_error( array( 'message' => 'Credenziali non valide.' ) );
+    }
+
+    wp_send_json_success( array(
+        'message'      => 'Login effettuato con successo!',
+        'redirect_url' => home_url( '/dashboard' ),
+    ) );
+}
+add_action( 'wp_ajax_nopriv_login_user', 'caniincasa_ajax_login_user' );

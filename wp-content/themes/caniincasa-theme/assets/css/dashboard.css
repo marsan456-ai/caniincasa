@@ -142,6 +142,18 @@
     word-break: break-word;
 }
 
+.user-type-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+
 /* Dashboard Navigation */
 .dashboard-nav {
     background: var(--color-white);
