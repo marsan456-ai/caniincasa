@@ -257,31 +257,51 @@ function caniincasa_dashboard_scripts() {
 add_action( 'wp_enqueue_scripts', 'caniincasa_dashboard_scripts' );
 
 /**
- * Create dashboard page programmatically if it doesn't exist
+ * Create required pages programmatically if they don't exist
  */
-function caniincasa_create_dashboard_page() {
-    // Check if dashboard page already exists
-    $dashboard_page = get_page_by_path( 'dashboard' );
+function caniincasa_create_required_pages() {
+    // Pages to create
+    $pages = array(
+        array(
+            'slug'     => 'dashboard',
+            'title'    => 'Dashboard',
+            'template' => 'template-dashboard.php',
+        ),
+        array(
+            'slug'     => 'login',
+            'title'    => 'Login',
+            'template' => 'template-login.php',
+        ),
+        array(
+            'slug'     => 'registrazione',
+            'title'    => 'Registrazione',
+            'template' => 'template-registrazione.php',
+        ),
+    );
 
-    if ( ! $dashboard_page ) {
-        $page_id = wp_insert_post( array(
-            'post_title'     => 'Dashboard',
-            'post_name'      => 'dashboard',
-            'post_content'   => '',
-            'post_status'    => 'publish',
-            'post_type'      => 'page',
-            'post_author'    => 1,
-            'comment_status' => 'closed',
-            'ping_status'    => 'closed',
-        ) );
+    foreach ( $pages as $page ) {
+        // Check if page already exists
+        $existing_page = get_page_by_path( $page['slug'] );
 
-        if ( $page_id && ! is_wp_error( $page_id ) ) {
-            update_post_meta( $page_id, '_wp_page_template', 'template-dashboard.php' );
+        if ( ! $existing_page ) {
+            $page_id = wp_insert_post( array(
+                'post_title'     => $page['title'],
+                'post_name'      => $page['slug'],
+                'post_content'   => '',
+                'post_status'    => 'publish',
+                'post_type'      => 'page',
+                'post_author'    => 1,
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+            ) );
+
+            if ( $page_id && ! is_wp_error( $page_id ) ) {
+                update_post_meta( $page_id, '_wp_page_template', $page['template'] );
+            }
         }
     }
 }
-// Uncomment to auto-create dashboard page on theme activation
-// add_action( 'after_setup_theme', 'caniincasa_create_dashboard_page' );
+add_action( 'after_setup_theme', 'caniincasa_create_required_pages' );
 
 /**
  * Enable user registration programmatically
@@ -532,6 +552,16 @@ function caniincasa_get_user_types() {
         'altro'              => 'Altro',
     );
 }
+
+/**
+ * Hide admin bar for non-admin users
+ */
+function caniincasa_hide_admin_bar() {
+    if ( ! current_user_can( 'administrator' ) ) {
+        show_admin_bar( false );
+    }
+}
+add_action( 'after_setup_theme', 'caniincasa_hide_admin_bar' );
 
 /**
  * Block access to wp-admin for non-admin users
