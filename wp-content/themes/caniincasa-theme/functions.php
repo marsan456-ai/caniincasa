@@ -21,6 +21,42 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/gdpr-disclaimers.php';
 
 /**
+ * Register Navigation Menus
+ */
+function caniincasa_register_menus() {
+    register_nav_menus(
+        array(
+            'primary'   => __( 'Menu Principale', 'caniincasa' ),
+            'secondary' => __( 'Menu Secondario', 'caniincasa' ),
+            'footer'    => __( 'Menu Footer', 'caniincasa' ),
+        )
+    );
+}
+add_action( 'after_setup_theme', 'caniincasa_register_menus' );
+
+/**
+ * Add dropdown support to menus
+ */
+function caniincasa_add_menu_parent_class( $items ) {
+    $parents = array();
+
+    foreach ( $items as $item ) {
+        if ( $item->menu_item_parent && $item->menu_item_parent > 0 ) {
+            $parents[] = $item->menu_item_parent;
+        }
+    }
+
+    foreach ( $items as $item ) {
+        if ( in_array( $item->ID, $parents ) ) {
+            $item->classes[] = 'menu-item-has-children';
+        }
+    }
+
+    return $items;
+}
+add_filter( 'wp_nav_menu_objects', 'caniincasa_add_menu_parent_class' );
+
+/**
  * Enqueue theme styles and scripts
  */
 function caniincasa_enqueue_assets() {

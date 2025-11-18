@@ -8,12 +8,33 @@
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Seleziona tutti gli elementi del menu con sottomenu
-        const menuItems = document.querySelectorAll('.main-navigation .menu-item-has-children');
+        // Seleziona tutti gli elementi del menu con sottomenu - Multiple selectors for compatibility
+        const menuSelectors = [
+            '.main-navigation .menu-item-has-children',
+            '.primary-navigation .menu-item-has-children',
+            '.site-navigation .menu-item-has-children',
+            'nav.navigation .menu-item-has-children',
+            '.header-menu .menu-item-has-children',
+            '.navigation-menu .menu-item-has-children',
+            '.menu .menu-item-has-children',
+            '.nav-menu .menu-item-has-children',
+            '[data-header] .menu-item-has-children',
+            '.ct-header-nav .menu-item-has-children',
+            '.ast-desktop-nav .menu-item-has-children',
+            '.main-nav .menu-item-has-children',
+            '#site-navigation .menu-item-has-children',
+            '.main-navigation .page_item_has_children',
+            '.primary-navigation .page_item_has_children'
+        ];
+
+        const menuItems = document.querySelectorAll(menuSelectors.join(', '));
 
         if (!menuItems.length) {
+            console.log('Dropdown Menu: No menu items with children found');
             return;
         }
+
+        console.log('Dropdown Menu: Found ' + menuItems.length + ' menu items with children');
 
         // Funzione per chiudere tutti i sottomenu
         function closeAllSubmenus() {

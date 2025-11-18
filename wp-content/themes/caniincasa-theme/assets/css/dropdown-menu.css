@@ -2,23 +2,63 @@
  * Dropdown Menu Support
  *
  * Questo file aggiunge il supporto per i menu a discesa (dropdown)
- * nei menu di navigazione WordPress
+ * Supporta: WordPress standard, Blocksy, Astra, GeneratePress, Elementor, Custom themes
  */
 
-/* Main Menu Container */
-.main-navigation ul {
+/* Main Menu Container - Multiple selectors for compatibility */
+.main-navigation ul,
+.primary-navigation ul,
+.site-navigation ul,
+nav.navigation ul,
+.header-menu ul,
+.navigation-menu ul,
+.menu ul,
+.nav-menu,
+[data-header] .menu,
+.ct-header-nav ul,
+.ast-desktop-nav ul,
+.main-nav ul,
+#site-navigation ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.main-navigation li {
+/* Menu Items - Inline display for top level */
+.main-navigation > ul > li,
+.primary-navigation > ul > li,
+.site-navigation > ul > li,
+nav.navigation > ul > li,
+.header-menu > ul > li,
+.navigation-menu > ul > li,
+.menu > ul > li,
+.nav-menu > li,
+[data-header] .menu > li,
+.ct-header-nav > ul > li,
+.ast-desktop-nav > ul > li,
+.main-nav > ul > li,
+#site-navigation > ul > li {
     position: relative;
     display: inline-block;
 }
 
-/* Sub-Menu (Dropdown) */
-.main-navigation .sub-menu {
+/* Sub-Menu (Dropdown) - Multiple selectors for compatibility */
+.main-navigation .sub-menu,
+.primary-navigation .sub-menu,
+.site-navigation .sub-menu,
+nav.navigation .sub-menu,
+.header-menu .sub-menu,
+.navigation-menu .sub-menu,
+.menu .sub-menu,
+.nav-menu .sub-menu,
+[data-header] .sub-menu,
+.ct-header-nav .sub-menu,
+.ast-desktop-nav .sub-menu,
+.main-nav .sub-menu,
+#site-navigation .sub-menu,
+.main-navigation .children,
+.primary-navigation .children,
+.site-navigation .children {
     position: absolute;
     top: 100%;
     left: 0;
@@ -34,21 +74,62 @@
     transition: all 0.3s ease;
 }
 
-/* Show dropdown on hover */
+/* Show dropdown on hover - Multiple selectors */
 .main-navigation li:hover > .sub-menu,
-.main-navigation li:focus-within > .sub-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+.main-navigation li:focus-within > .sub-menu,
+.primary-navigation li:hover > .sub-menu,
+.primary-navigation li:focus-within > .sub-menu,
+.site-navigation li:hover > .sub-menu,
+.site-navigation li:focus-within > .sub-menu,
+nav.navigation li:hover > .sub-menu,
+nav.navigation li:focus-within > .sub-menu,
+.header-menu li:hover > .sub-menu,
+.navigation-menu li:hover > .sub-menu,
+.menu li:hover > .sub-menu,
+.nav-menu li:hover > .sub-menu,
+[data-header] li:hover > .sub-menu,
+.ct-header-nav li:hover > .sub-menu,
+.ast-desktop-nav li:hover > .sub-menu,
+.main-nav li:hover > .sub-menu,
+#site-navigation li:hover > .sub-menu,
+.main-navigation li:hover > .children,
+.main-navigation li:focus-within > .children {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
 }
 
 /* Sub-menu Items */
-.main-navigation .sub-menu li {
+.main-navigation .sub-menu li,
+.primary-navigation .sub-menu li,
+.site-navigation .sub-menu li,
+nav.navigation .sub-menu li,
+.header-menu .sub-menu li,
+.navigation-menu .sub-menu li,
+.menu .sub-menu li,
+.nav-menu .sub-menu li,
+[data-header] .sub-menu li,
+.ct-header-nav .sub-menu li,
+.ast-desktop-nav .sub-menu li,
+.main-nav .sub-menu li,
+#site-navigation .sub-menu li {
     display: block;
     width: 100%;
 }
 
-.main-navigation .sub-menu a {
+.main-navigation .sub-menu a,
+.primary-navigation .sub-menu a,
+.site-navigation .sub-menu a,
+nav.navigation .sub-menu a,
+.header-menu .sub-menu a,
+.navigation-menu .sub-menu a,
+.menu .sub-menu a,
+.nav-menu .sub-menu a,
+[data-header] .sub-menu a,
+.ct-header-nav .sub-menu a,
+.ast-desktop-nav .sub-menu a,
+.main-nav .sub-menu a,
+#site-navigation .sub-menu a {
     display: block;
     padding: 12px 20px;
     color: #333;
@@ -58,21 +139,54 @@
 }
 
 .main-navigation .sub-menu a:hover,
-.main-navigation .sub-menu a:focus {
+.main-navigation .sub-menu a:focus,
+.primary-navigation .sub-menu a:hover,
+.site-navigation .sub-menu a:hover,
+nav.navigation .sub-menu a:hover,
+.header-menu .sub-menu a:hover,
+.navigation-menu .sub-menu a:hover,
+.menu .sub-menu a:hover,
+.nav-menu .sub-menu a:hover,
+[data-header] .sub-menu a:hover,
+.ct-header-nav .sub-menu a:hover,
+.ast-desktop-nav .sub-menu a:hover,
+.main-nav .sub-menu a:hover,
+#site-navigation .sub-menu a:hover {
     background: #f8f9fa;
     color: var(--primary-color, #ff6b35);
     padding-left: 25px;
 }
 
 /* Nested Sub-Menus (Third Level) */
-.main-navigation .sub-menu .sub-menu {
+.main-navigation .sub-menu .sub-menu,
+.primary-navigation .sub-menu .sub-menu,
+.site-navigation .sub-menu .sub-menu,
+nav.navigation .sub-menu .sub-menu,
+.menu .sub-menu .sub-menu,
+[data-header] .sub-menu .sub-menu,
+.ct-header-nav .sub-menu .sub-menu,
+.ast-desktop-nav .sub-menu .sub-menu {
     top: 0;
     left: 100%;
     margin-left: 5px;
 }
 
 /* Menu Item with Children - Add Arrow Indicator */
-.main-navigation .menu-item-has-children > a::after {
+.main-navigation .menu-item-has-children > a::after,
+.primary-navigation .menu-item-has-children > a::after,
+.site-navigation .menu-item-has-children > a::after,
+nav.navigation .menu-item-has-children > a::after,
+.header-menu .menu-item-has-children > a::after,
+.navigation-menu .menu-item-has-children > a::after,
+.menu .menu-item-has-children > a::after,
+.nav-menu .menu-item-has-children > a::after,
+[data-header] .menu-item-has-children > a::after,
+.ct-header-nav .menu-item-has-children > a::after,
+.ast-desktop-nav .menu-item-has-children > a::after,
+.main-nav .menu-item-has-children > a::after,
+#site-navigation .menu-item-has-children > a::after,
+.main-navigation .page_item_has_children > a::after,
+.primary-navigation .page_item_has_children > a::after {
     content: '▼';
     font-size: 0.7em;
     margin-left: 6px;
@@ -80,14 +194,22 @@
     transition: transform 0.3s ease;
 }
 
-.main-navigation .sub-menu .menu-item-has-children > a::after {
+.main-navigation .sub-menu .menu-item-has-children > a::after,
+.primary-navigation .sub-menu .menu-item-has-children > a::after,
+.site-navigation .sub-menu .menu-item-has-children > a::after,
+.menu .sub-menu .menu-item-has-children > a::after,
+[data-header] .sub-menu .menu-item-has-children > a::after {
     content: '▶';
     float: right;
     margin-left: 10px;
 }
 
 /* Rotate arrow on hover */
-.main-navigation .menu-item-has-children:hover > a::after {
+.main-navigation .menu-item-has-children:hover > a::after,
+.primary-navigation .menu-item-has-children:hover > a::after,
+.site-navigation .menu-item-has-children:hover > a::after,
+.menu .menu-item-has-children:hover > a::after,
+[data-header] .menu-item-has-children:hover > a::after {
     transform: rotate(180deg);
 }
 
