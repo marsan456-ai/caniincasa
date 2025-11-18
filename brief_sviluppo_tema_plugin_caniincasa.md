@@ -480,3 +480,232 @@ Opzioni configurabili:
 - NB: Importa tutti i dati ma poi mostra solo quelli strettamente necessari indicati negli screenshot
 - NB ogni volta che fai aggiornamenti al sito inserisci in coda a questo file gli sviluppi realizzati
 
+---
+
+## SVILUPPI COMPLETATI
+
+### 18 Novembre 2025 - Sistema Registrazione e Login Frontend Completo
+
+**Branch:** `claude/review-acf-imports-01HChB9ve2NrEpsr3nZpXudp`
+**Commit:** `118ef03 - Feature: Sistema registrazione e login frontend completo`
+
+#### ✅ Ruoli Utente Personalizzati
+Implementati 7 ruoli custom WordPress con capability subscriber (espandibili in futuro):
+- **Privato** - Utente standard appassionato di cani
+- **Veterinario** - Medico veterinario o struttura veterinaria
+- **Allevatore** - Allevamento riconosciuto
+- **Titolare Pensione** - Pensione o asilo per cani
+- **Dog Sitter** - Professionista dog sitting
+- **Educatore Cinofilo** - Istruttore o centro cinofilo
+- **Altro** - Altre categorie
+
+Ogni utente ha il proprio ruolo salvato come `user_type` in user meta, pronto per future funzionalità specifiche per ruolo.
+
+#### ✅ Template Registrazione Frontend (`template-registrazione.php`)
+Form multi-step responsive con 3 fasi progressive:
+
+**Step 1 - Informazioni Account:**
+- Username (min 4 caratteri, unique)
+- Email (validazione + unique check)
+- Password (min 8 caratteri)
+- Conferma password (matching validation)
+- Toggle password visibility
+
+**Step 2 - Informazioni Personali:**
+- Nome e Cognome (required)
+- Telefono (opzionale, utile per contatti annunci)
+- Città (opzionale)
+- Provincia (dropdown taxonomy, opzionale)
+
+**Step 3 - Tipologia Utente:**
+- Card selezionabili con icone SVG personalizzate
+- 7 tipologie disponibili
+- Privacy policy e termini (checkbox obbligatorio)
+- Submit con AJAX e loading state
+
+**Features:**
+- Progress indicator animato con 3 step
+- Validazione frontend completa per ogni step
+- Validazione backend sanitizzazione totale
+- Auto-login dopo registrazione
+- Redirect automatico a /dashboard
+- Toast notifications success/error
+
+#### ✅ Template Login Frontend (`template-login.php`)
+Form login semplificato e user-friendly:
+- Username o Email
+- Password con toggle visibility
+- Remember me checkbox
+- Link recupero password (wp_lostpassword_url)
+- Gestione errori con query parameters (?login=failed)
+- Success notification per password cambiata
+- AJAX submission con redirect
+
+#### ✅ Sicurezza e Access Control
+Implementato sistema di sicurezza completo:
+- **Blocco wp-admin:** Utenti non-admin vengono reindirizzati a `/dashboard`
+- **Redirect login:** `wp-login.php` reindirizza al template custom `/login`
+- **Login failed:** Errori di login mostrano messaggio nel template frontend
+- **Login success:** Redirect automatico a `/dashboard` per utenti non-admin
+- **Admin access:** Gli amministratori mantengono accesso completo al backend
+
+#### ✅ CSS Mobile-First (`auth.css` - 650 righe)
+Design responsive professionale con 3 breakpoint:
+
+**Mobile (<768px):**
+- Hero gradient arancione full-width
+- Form single column con padding 20px
+- User type cards single column
+- Progress indicator compatto
+- Bottoni full-width
+
+**Tablet (768px-1024px):**
+- Form a 2 colonne per campi nome/cognome
+- User type grid 2 colonne
+- Padding aumentato (40px)
+- Hero più spaziosa
+
+**Desktop (>1024px):**
+- Max-width contenitori (900px registration, 480px login)
+- User type grid 2 colonne ottimizzate
+- Hero imponente con titolo 48px
+- Spaziature generose
+
+**Componenti Styled:**
+- Form fields con focus states (border arancione + shadow)
+- Password toggle buttons
+- User type cards interattive (hover + selected animations)
+- Progress indicator con connettori animati
+- Toast messages (success verde, error rosso)
+- Loading spinners sui bottoni
+- Checkbox custom con accent color
+
+**Animazioni:**
+- fadeInUp per step transition
+- slideDown per messages
+- scaleIn per checkbox selection
+- spin per loading state
+
+#### ✅ JavaScript AJAX (`auth.js` - 350 righe)
+Gestione completa interazioni frontend:
+
+**Multi-Step Navigation:**
+- Next/Previous step con validazioni
+- Update progress indicator
+- Smooth scroll to form top
+- Step-by-step validation
+
+**Validazioni Frontend:**
+- Required fields check
+- Email format validation
+- Password min 8 characters
+- Password confirmation matching
+- User type selection required
+- Privacy checkbox required
+
+**AJAX Handlers:**
+- **Registration:** Submit completo con validazione, creazione utente, auto-login
+- **Login:** Authentication con remember me, redirect
+- **Error handling:** Toast notifications con retry capability
+- **Success handling:** Messages + auto-redirect dopo 1-2 secondi
+
+**UX Features:**
+- Password toggle visibility (icona eye)
+- User type selection animation
+- Loading states sui bottoni (spinner + testo "Registrazione...")
+- Form error highlighting (.form-group.error)
+- Auto-focus sui campi con errori
+
+#### ✅ Backend Handlers (`dashboard.php`)
+Implementati handler AJAX sicuri:
+
+**`caniincasa_ajax_register_user`:**
+- Nonce verification
+- Input sanitization completa
+- Validazioni server-side:
+  - Username min 4, unique
+  - Email valid + unique
+  - Password min 8
+  - Passwords matching
+  - User type valido
+  - Privacy accepted
+- User creation con ruolo personalizzato
+- User meta save (user_type, phone, city, provincia)
+- Auto-login con wp_set_auth_cookie
+- JSON response con redirect URL
+
+**`caniincasa_ajax_login_user`:**
+- Nonce verification
+- Credentials validation
+- wp_signon authentication
+- Remember me functionality
+- Error handling
+- JSON response con redirect
+
+**Helper Functions:**
+- `caniincasa_register_custom_roles()` - Crea 7 ruoli custom all'init
+- `caniincasa_get_user_types()` - Array tipologie disponibili
+- `caniincasa_block_wp_admin_access()` - Blocco backend per non-admin
+- `caniincasa_redirect_login_page()` - Redirect wp-login.php
+- `caniincasa_redirect_login_fail()` - Gestione errori login
+- `caniincasa_redirect_after_login()` - Redirect post-login
+
+#### ✅ Dashboard Aggiornata
+Miglioramenti template dashboard:
+- **User Type Badge:** Visualizzazione ruolo utente nella sidebar
+- Badge con gradient arancione
+- Text-transform capitalize
+- Posizionamento sotto email nella user card
+
+#### ✅ Enqueue Scripts Condizionale
+Sistema di caricamento ottimizzato:
+- CSS e JS auth caricati SOLO su template registrazione/login
+- Localized script con `caniincasaAuth.ajaxUrl`
+- Dependency management corretto (jQuery)
+- Versioning con CANIINCASA_VERSION
+
+#### 📋 File Modificati
+```
+wp-content/themes/caniincasa-theme/inc/dashboard.php (+350 righe)
+wp-content/themes/caniincasa-theme/template-dashboard.php (user type badge)
+wp-content/themes/caniincasa-theme/assets/css/dashboard.css (badge styles)
+```
+
+#### 📋 File Creati
+```
+wp-content/themes/caniincasa-theme/template-registrazione.php (370 righe)
+wp-content/themes/caniincasa-theme/template-login.php (130 righe)
+wp-content/themes/caniincasa-theme/assets/css/auth.css (650 righe)
+wp-content/themes/caniincasa-theme/assets/js/auth.js (350 righe)
+```
+
+**Totale:** ~1.850 righe di codice nuovo
+
+#### 🚀 Come Attivare il Sistema
+1. **Creare pagine WordPress:**
+   - Pagina `/registrazione` → Assegna template "Registrazione"
+   - Pagina `/login` → Assegna template "Login"
+   - Pagina `/dashboard` → Assegna template "Dashboard Utente" (già esistente)
+
+2. **I ruoli si creano automaticamente** all'init del sito
+
+3. **Il blocco wp-admin è attivo automaticamente** per tutti gli utenti non-amministratori
+
+4. **Test Flow:**
+   - Vai su `/registrazione`
+   - Compila form 3 step
+   - Seleziona tipologia utente
+   - Accetta privacy
+   - Submit → Auto-login → Redirect `/dashboard`
+   - Verifica badge tipologia utente nella sidebar
+   - Logout
+   - Vai su `/login`
+   - Login → Redirect `/dashboard`
+
+#### 🎯 Prossimi Step Suggeriti
+- **Email Verification:** Invio email conferma registrazione
+- **Social Login:** Google + Facebook OAuth
+- **Password Recovery:** Form custom recupero password
+- **User Profile:** Possibilità di cambiare tipologia utente
+- **Role-Based Features:** Funzionalità specifiche per ruolo (es. veterinari possono gestire strutture)
+
