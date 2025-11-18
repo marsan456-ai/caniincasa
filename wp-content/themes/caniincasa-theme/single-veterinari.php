@@ -135,48 +135,38 @@ while ( have_posts() ) :
                                     </span>
                                 </div>
                             <?php endif; ?>
+
+                            <!-- Servizi e Disponibilità -->
+                            <?php if ( $pronto_soccorso ) : ?>
+                                <div class="info-item">
+                                    <span class="info-label">Pronto Soccorso H24:</span>
+                                    <span class="info-value"><?php echo esc_html( $pronto_soccorso ); ?></span>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ( $reperibilita ) : ?>
+                                <div class="info-item">
+                                    <span class="info-label">Reperibilità H24:</span>
+                                    <span class="info-value"><?php echo esc_html( $reperibilita ); ?></span>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ( $specie_trattate ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Specie Animali Trattate:</span>
+                                    <span class="info-value"><?php echo nl2br( esc_html( $specie_trattate ) ); ?></span>
+                                </div>
+                            <?php endif; ?>
+
+                            <!-- Orari di Apertura -->
+                            <?php if ( $orari ) : ?>
+                                <div class="info-item full-width">
+                                    <span class="info-label">Orari di Apertura:</span>
+                                    <span class="info-value"><?php echo wp_kses_post( $orari ); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-
-                    <!-- Servizi Specifici Veterinari -->
-                    <?php if ( $pronto_soccorso || $reperibilita || $specie_trattate ) : ?>
-                        <div class="struttura-servizi-box">
-                            <h2 class="box-title">Servizi e Disponibilità</h2>
-
-                            <div class="info-grid">
-                                <?php if ( $pronto_soccorso ) : ?>
-                                    <div class="info-item">
-                                        <span class="info-label">Pronto Soccorso H24:</span>
-                                        <span class="info-value"><?php echo esc_html( $pronto_soccorso ); ?></span>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if ( $reperibilita ) : ?>
-                                    <div class="info-item">
-                                        <span class="info-label">Reperibilità H24:</span>
-                                        <span class="info-value"><?php echo esc_html( $reperibilita ); ?></span>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if ( $specie_trattate ) : ?>
-                                    <div class="info-item full-width">
-                                        <span class="info-label">Specie Animali Trattate:</span>
-                                        <span class="info-value"><?php echo nl2br( esc_html( $specie_trattate ) ); ?></span>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Orari di Apertura -->
-                    <?php if ( $orari ) : ?>
-                        <div class="struttura-orari-box">
-                            <h2 class="box-title">Orari di Apertura</h2>
-                            <div class="orari-content">
-                                <?php echo wp_kses_post( $orari ); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
 
                     <!-- Servizi Offerti -->
                     <?php if ( $servizi ) : ?>
