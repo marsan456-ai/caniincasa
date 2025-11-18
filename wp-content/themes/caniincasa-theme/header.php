@@ -38,8 +38,8 @@
                         <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>"><?php esc_html_e( 'Dashboard', 'caniincasa' ); ?></a>
                         <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>"><?php esc_html_e( 'Logout', 'caniincasa' ); ?></a>
                     <?php } else { ?>
-                        <a href="<?php echo esc_url( wp_login_url() ); ?>"><?php esc_html_e( 'Login', 'caniincasa' ); ?></a>
-                        <a href="<?php echo esc_url( wp_registration_url() ); ?>"><?php esc_html_e( 'Registrazione', 'caniincasa' ); ?></a>
+                        <a href="<?php echo esc_url( home_url( '/login' ) ); ?>"><?php esc_html_e( 'Login', 'caniincasa' ); ?></a>
+                        <a href="<?php echo esc_url( home_url( '/registrazione' ) ); ?>"><?php esc_html_e( 'Registrazione', 'caniincasa' ); ?></a>
                     <?php } ?>
                     <a href="<?php echo esc_url( home_url( '/contatti' ) ); ?>"><?php esc_html_e( 'Contatti', 'caniincasa' ); ?></a>
                 </nav>
@@ -164,10 +164,10 @@
                         <?php esc_html_e( 'Logout', 'caniincasa' ); ?>
                     </a>
                 <?php else : ?>
-                    <a href="<?php echo esc_url( wp_login_url() ); ?>" class="mobile-user-link">
+                    <a href="<?php echo esc_url( home_url( '/login' ) ); ?>" class="mobile-user-link">
                         <?php esc_html_e( 'Login', 'caniincasa' ); ?>
                     </a>
-                    <a href="<?php echo esc_url( wp_registration_url() ); ?>" class="mobile-user-link">
+                    <a href="<?php echo esc_url( home_url( '/registrazione' ) ); ?>" class="mobile-user-link">
                         <?php esc_html_e( 'Registrazione', 'caniincasa' ); ?>
                     </a>
                 <?php endif; ?>
