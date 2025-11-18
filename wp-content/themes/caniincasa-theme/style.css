@@ -79,6 +79,7 @@ Caniincasa Theme is distributed under the terms of the GNU GPL
 
     /* Z-index layers */
     --z-header: 1000;
+    --z-dropdown: 1020;
     --z-mobile-menu: 1100;
     --z-modal: 1200;
     --z-overlay: 1050;

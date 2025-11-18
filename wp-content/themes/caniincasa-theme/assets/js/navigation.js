@@ -131,23 +131,129 @@
         });
 
         /**
-         * Dropdown Menu Support (if needed)
+         * Dropdown Menu Support - Desktop & Mobile
          */
-        const menuItemsWithChildren = document.querySelectorAll('.menu-item-has-children');
+        const menuItemsWithChildren = document.querySelectorAll('.primary-menu .menu-item-has-children');
 
         menuItemsWithChildren.forEach(function(item) {
-            const link = item.querySelector('a');
-            const submenu = item.querySelector('.sub-menu');
+            const link = item.querySelector('> a');
+            const submenu = item.querySelector('> .sub-menu');
 
             if (link && submenu) {
-                // Desktop: hover behavior is handled by CSS
-                // Mobile: click to toggle
-                if (window.innerWidth <= 768) {
-                    link.addEventListener('click', function(e) {
+                // Click handler for touch devices and keyboard accessibility
+                link.addEventListener('click', function(e) {
+                    // On mobile, always prevent default and toggle
+                    if (window.innerWidth <= 768) {
                         e.preventDefault();
+                        closeAllDropdowns(item);
                         item.classList.toggle('open');
+                        return;
+                    }
+
+                    // On desktop, allow click to toggle for touch devices
+                    const isOpen = item.classList.contains('open');
+
+                    // Check if this is a touch device
+                    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                        e.preventDefault();
+
+                        if (!isOpen) {
+                            closeAllDropdowns(item);
+                            item.classList.add('open');
+                        } else {
+                            item.classList.remove('open');
+                        }
+                    } else {
+                        // On non-touch desktop, if the link has a valid URL, allow navigation
+                        // Otherwise prevent default
+                        if (link.getAttribute('href') === '#' || link.getAttribute('href') === '') {
+                            e.preventDefault();
+                        }
+                    }
+                });
+
+                // Desktop hover support
+                if (window.innerWidth > 768) {
+                    item.addEventListener('mouseenter', function() {
+                        closeAllDropdowns(item);
+                        item.classList.add('open');
+                    });
+
+                    item.addEventListener('mouseleave', function() {
+                        item.classList.remove('open');
                     });
                 }
+
+                // Keyboard accessibility
+                link.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        closeAllDropdowns(item);
+                        item.classList.toggle('open');
+                    }
+                });
+            }
+        });
+
+        /**
+         * Close all dropdowns except the current one
+         */
+        function closeAllDropdowns(currentItem) {
+            const allDropdowns = document.querySelectorAll('.primary-menu .menu-item-has-children');
+            allDropdowns.forEach(function(dropdown) {
+                if (dropdown !== currentItem && !dropdown.contains(currentItem)) {
+                    dropdown.classList.remove('open');
+                }
+            });
+        }
+
+        /**
+         * Close dropdowns when clicking outside
+         */
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.primary-menu')) {
+                closeAllDropdowns(null);
+            }
+        });
+
+        /**
+         * Close dropdowns on ESC key
+         */
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAllDropdowns(null);
+            }
+        });
+
+        /**
+         * Mobile Menu Dropdown Support
+         */
+        const mobileMenuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children');
+
+        mobileMenuItemsWithChildren.forEach(function(item) {
+            const link = item.querySelector('> a');
+            const submenu = item.querySelector('> .sub-menu');
+
+            if (link && submenu) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Toggle current item
+                    const isOpen = item.classList.contains('open');
+
+                    // Close all sibling dropdowns
+                    const siblings = Array.from(item.parentElement.children).filter(child =>
+                        child !== item && child.classList.contains('menu-item-has-children')
+                    );
+                    siblings.forEach(sibling => sibling.classList.remove('open'));
+
+                    // Toggle current
+                    if (isOpen) {
+                        item.classList.remove('open');
+                    } else {
+                        item.classList.add('open');
+                    }
+                });
             }
         });
 
