@@ -671,12 +671,81 @@ function caniincasa_ajax_filter_veterinari() {
 	endif;
 
 	$html = ob_get_clean();
+
+	// Generate pagination HTML
+	ob_start();
+	if ( $query->max_num_pages > 1 ) :
+		$current_page = max( 1, $paged );
+		$total_pages = $query->max_num_pages;
+
+		echo '<div class="strutture-pagination">';
+		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione veterinari">';
+		echo '<ul class="pagination-list">';
+
+		// Previous button
+		if ( $current_page > 1 ) {
+			echo '<li class="pagination-item pagination-prev">';
+			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
+			echo '<span aria-hidden="true">&laquo;</span> Precedente';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		// First page
+		if ( $current_page > 3 ) {
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
+			echo '</li>';
+			if ( $current_page > 4 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+		}
+
+		// Pages around current
+		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
+			if ( $i == $current_page ) {
+				echo '<li class="pagination-item pagination-current">';
+				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
+				echo '</li>';
+			} else {
+				echo '<li class="pagination-item">';
+				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
+				echo '</li>';
+			}
+		}
+
+		// Last page
+		if ( $current_page < $total_pages - 2 ) {
+			if ( $current_page < $total_pages - 3 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
+			echo '</li>';
+		}
+
+		// Next button
+		if ( $current_page < $total_pages ) {
+			echo '<li class="pagination-item pagination-next">';
+			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
+			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
+		echo '</div>';
+	endif;
+	$pagination = ob_get_clean();
+
 	wp_reset_postdata();
 
 	wp_send_json_success( array(
-		'html'  => $html,
-		'found' => $query->found_posts,
-		'pages' => $query->max_num_pages,
+		'html'       => $html,
+		'pagination' => $pagination,
+		'found'      => $query->found_posts,
+		'pages'      => $query->max_num_pages,
 	) );
 }
 add_action( 'wp_ajax_filter_veterinari', 'caniincasa_ajax_filter_veterinari' );
@@ -760,12 +829,81 @@ function caniincasa_ajax_filter_canili() {
 	endif;
 
 	$html = ob_get_clean();
+
+	// Generate pagination HTML
+	ob_start();
+	if ( $query->max_num_pages > 1 ) :
+		$current_page = max( 1, $paged );
+		$total_pages = $query->max_num_pages;
+
+		echo '<div class="strutture-pagination">';
+		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione canili">';
+		echo '<ul class="pagination-list">';
+
+		// Previous button
+		if ( $current_page > 1 ) {
+			echo '<li class="pagination-item pagination-prev">';
+			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
+			echo '<span aria-hidden="true">&laquo;</span> Precedente';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		// First page
+		if ( $current_page > 3 ) {
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
+			echo '</li>';
+			if ( $current_page > 4 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+		}
+
+		// Pages around current
+		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
+			if ( $i == $current_page ) {
+				echo '<li class="pagination-item pagination-current">';
+				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
+				echo '</li>';
+			} else {
+				echo '<li class="pagination-item">';
+				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
+				echo '</li>';
+			}
+		}
+
+		// Last page
+		if ( $current_page < $total_pages - 2 ) {
+			if ( $current_page < $total_pages - 3 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
+			echo '</li>';
+		}
+
+		// Next button
+		if ( $current_page < $total_pages ) {
+			echo '<li class="pagination-item pagination-next">';
+			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
+			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
+		echo '</div>';
+	endif;
+	$pagination = ob_get_clean();
+
 	wp_reset_postdata();
 
 	wp_send_json_success( array(
-		'html'  => $html,
-		'found' => $query->found_posts,
-		'pages' => $query->max_num_pages,
+		'html'       => $html,
+		'pagination' => $pagination,
+		'found'      => $query->found_posts,
+		'pages'      => $query->max_num_pages,
 	) );
 }
 add_action( 'wp_ajax_filter_canili', 'caniincasa_ajax_filter_canili' );
@@ -849,12 +987,81 @@ function caniincasa_ajax_filter_pensioni() {
 	endif;
 
 	$html = ob_get_clean();
+
+	// Generate pagination HTML
+	ob_start();
+	if ( $query->max_num_pages > 1 ) :
+		$current_page = max( 1, $paged );
+		$total_pages = $query->max_num_pages;
+
+		echo '<div class="strutture-pagination">';
+		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione pensioni">';
+		echo '<ul class="pagination-list">';
+
+		// Previous button
+		if ( $current_page > 1 ) {
+			echo '<li class="pagination-item pagination-prev">';
+			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
+			echo '<span aria-hidden="true">&laquo;</span> Precedente';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		// First page
+		if ( $current_page > 3 ) {
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
+			echo '</li>';
+			if ( $current_page > 4 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+		}
+
+		// Pages around current
+		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
+			if ( $i == $current_page ) {
+				echo '<li class="pagination-item pagination-current">';
+				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
+				echo '</li>';
+			} else {
+				echo '<li class="pagination-item">';
+				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
+				echo '</li>';
+			}
+		}
+
+		// Last page
+		if ( $current_page < $total_pages - 2 ) {
+			if ( $current_page < $total_pages - 3 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
+			echo '</li>';
+		}
+
+		// Next button
+		if ( $current_page < $total_pages ) {
+			echo '<li class="pagination-item pagination-next">';
+			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
+			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
+		echo '</div>';
+	endif;
+	$pagination = ob_get_clean();
+
 	wp_reset_postdata();
 
 	wp_send_json_success( array(
-		'html'  => $html,
-		'found' => $query->found_posts,
-		'pages' => $query->max_num_pages,
+		'html'       => $html,
+		'pagination' => $pagination,
+		'found'      => $query->found_posts,
+		'pages'      => $query->max_num_pages,
 	) );
 }
 add_action( 'wp_ajax_filter_pensioni', 'caniincasa_ajax_filter_pensioni' );
@@ -938,12 +1145,81 @@ function caniincasa_ajax_filter_centri() {
 	endif;
 
 	$html = ob_get_clean();
+
+	// Generate pagination HTML
+	ob_start();
+	if ( $query->max_num_pages > 1 ) :
+		$current_page = max( 1, $paged );
+		$total_pages = $query->max_num_pages;
+
+		echo '<div class="strutture-pagination">';
+		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione centri">';
+		echo '<ul class="pagination-list">';
+
+		// Previous button
+		if ( $current_page > 1 ) {
+			echo '<li class="pagination-item pagination-prev">';
+			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
+			echo '<span aria-hidden="true">&laquo;</span> Precedente';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		// First page
+		if ( $current_page > 3 ) {
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
+			echo '</li>';
+			if ( $current_page > 4 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+		}
+
+		// Pages around current
+		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
+			if ( $i == $current_page ) {
+				echo '<li class="pagination-item pagination-current">';
+				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
+				echo '</li>';
+			} else {
+				echo '<li class="pagination-item">';
+				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
+				echo '</li>';
+			}
+		}
+
+		// Last page
+		if ( $current_page < $total_pages - 2 ) {
+			if ( $current_page < $total_pages - 3 ) {
+				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
+			}
+			echo '<li class="pagination-item">';
+			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
+			echo '</li>';
+		}
+
+		// Next button
+		if ( $current_page < $total_pages ) {
+			echo '<li class="pagination-item pagination-next">';
+			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
+			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
+			echo '</a>';
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
+		echo '</div>';
+	endif;
+	$pagination = ob_get_clean();
+
 	wp_reset_postdata();
 
 	wp_send_json_success( array(
-		'html'  => $html,
-		'found' => $query->found_posts,
-		'pages' => $query->max_num_pages,
+		'html'       => $html,
+		'pagination' => $pagination,
+		'found'      => $query->found_posts,
+		'pages'      => $query->max_num_pages,
 	) );
 }
 add_action( 'wp_ajax_filter_centri', 'caniincasa_ajax_filter_centri' );
