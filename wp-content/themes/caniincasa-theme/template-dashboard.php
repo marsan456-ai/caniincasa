@@ -8,7 +8,7 @@
 
 // Redirect to login if not logged in
 if ( ! is_user_logged_in() ) {
-    wp_redirect( wp_login_url( get_permalink() ) );
+    wp_redirect( home_url( '/login?redirect_to=' . urlencode( get_permalink() ) ) );
     exit;
 }
 

@@ -219,6 +219,10 @@
             // Disable submit button
             $submitBtn.prop('disabled', true).addClass('loading');
 
+            // Get redirect_to from URL if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectTo = urlParams.get('redirect_to');
+
             // Prepare form data
             const formData = {
                 action: 'login_user',
@@ -227,6 +231,10 @@
                 password: $('#password').val(),
                 remember: $('#remember').is(':checked')
             };
+
+            if (redirectTo) {
+                formData.redirect_to = redirectTo;
+            }
 
             // Validation
             if (!formData.username || !formData.password) {
@@ -281,9 +289,11 @@
         }
 
         // Scroll to message
-        $('html, body').animate({
-            scrollTop: $messagesContainer.offset().top - 100
-        }, 300);
+        if ($messagesContainer.length && $messagesContainer.offset()) {
+            $('html, body').animate({
+                scrollTop: $messagesContainer.offset().top - 100
+            }, 300);
+        }
     }
 
     function getMessageIcon(type) {

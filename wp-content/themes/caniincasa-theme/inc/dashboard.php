@@ -700,6 +700,7 @@ function caniincasa_ajax_login_user() {
     $username = isset( $_POST['username'] ) ? sanitize_text_field( $_POST['username'] ) : '';
     $password = isset( $_POST['password'] ) ? $_POST['password'] : '';
     $remember = isset( $_POST['remember'] ) ? $_POST['remember'] === 'true' : false;
+    $redirect_to = isset( $_POST['redirect_to'] ) ? esc_url_raw( $_POST['redirect_to'] ) : home_url( '/dashboard' );
 
     if ( empty( $username ) || empty( $password ) ) {
         wp_send_json_error( array( 'message' => 'Inserisci username e password.' ) );
@@ -719,7 +720,7 @@ function caniincasa_ajax_login_user() {
 
     wp_send_json_success( array(
         'message'      => 'Login effettuato con successo!',
-        'redirect_url' => home_url( '/dashboard' ),
+        'redirect_url' => $redirect_to,
     ) );
 }
 add_action( 'wp_ajax_nopriv_login_user', 'caniincasa_ajax_login_user' );
