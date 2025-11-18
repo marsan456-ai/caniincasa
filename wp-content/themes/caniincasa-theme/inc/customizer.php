@@ -542,6 +542,577 @@ function caniincasa_customize_register( $wp_customize ) {
         'settings'    => 'quiz_illustration',
     ) ) );
 
+    /**
+     * CHI SIAMO PAGE PANEL
+     */
+    $wp_customize->add_panel( 'chi_siamo_panel', array(
+        'title'    => __( 'Pagina Chi Siamo', 'caniincasa' ),
+        'priority' => 50,
+    ) );
+
+    /**
+     * Chi Siamo - Hero Section
+     */
+    $wp_customize->add_section( 'chi_siamo_hero', array(
+        'title' => __( 'Hero Chi Siamo', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_title', array(
+        'default'           => 'Chi Siamo',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_title', array(
+        'label'   => __( 'Titolo Pagina', 'caniincasa' ),
+        'section' => 'chi_siamo_hero',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_subtitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_subtitle', array(
+        'label'   => __( 'Sottotitolo', 'caniincasa' ),
+        'section' => 'chi_siamo_hero',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_hero_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'chi_siamo_hero_image', array(
+        'label'   => __( 'Immagine Hero', 'caniincasa' ),
+        'section' => 'chi_siamo_hero',
+    ) ) );
+
+    /**
+     * Chi Siamo - Intro Section
+     */
+    $wp_customize->add_section( 'chi_siamo_intro', array(
+        'title' => __( 'Sezione Intro', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_intro_title', array(
+        'default'           => 'La Nostra Storia',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_intro_title', array(
+        'label'   => __( 'Titolo Intro', 'caniincasa' ),
+        'section' => 'chi_siamo_intro',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_intro_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_intro_text', array(
+        'label'   => __( 'Testo Intro', 'caniincasa' ),
+        'section' => 'chi_siamo_intro',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_intro_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'chi_siamo_intro_image', array(
+        'label'   => __( 'Immagine Intro', 'caniincasa' ),
+        'section' => 'chi_siamo_intro',
+    ) ) );
+
+    /**
+     * Chi Siamo - Mission Section
+     */
+    $wp_customize->add_section( 'chi_siamo_mission', array(
+        'title' => __( 'Sezione Missione', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_mission_title', array(
+        'default'           => 'La Nostra Missione',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_mission_title', array(
+        'label'   => __( 'Titolo Missione', 'caniincasa' ),
+        'section' => 'chi_siamo_mission',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_mission_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_mission_text', array(
+        'label'   => __( 'Testo Missione', 'caniincasa' ),
+        'section' => 'chi_siamo_mission',
+        'type'    => 'textarea',
+    ) );
+
+    /**
+     * Chi Siamo - Values Section
+     */
+    $wp_customize->add_section( 'chi_siamo_values', array(
+        'title' => __( 'Sezione Valori', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_show_values', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_show_values', array(
+        'label'   => __( 'Mostra Sezione Valori', 'caniincasa' ),
+        'section' => 'chi_siamo_values',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_values_title', array(
+        'default'           => 'I Nostri Valori',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_values_title', array(
+        'label'   => __( 'Titolo Sezione', 'caniincasa' ),
+        'section' => 'chi_siamo_values',
+        'type'    => 'text',
+    ) );
+
+    // 4 Valori
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $wp_customize->add_setting( "chi_siamo_value_{$i}_icon", array(
+            'default'           => '⭐',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_value_{$i}_icon", array(
+            'label'   => sprintf( __( 'Valore %d - Icona (Emoji)', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_values',
+            'type'    => 'text',
+        ) );
+
+        $wp_customize->add_setting( "chi_siamo_value_{$i}_title", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_value_{$i}_title", array(
+            'label'   => sprintf( __( 'Valore %d - Titolo', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_values',
+            'type'    => 'text',
+        ) );
+
+        $wp_customize->add_setting( "chi_siamo_value_{$i}_text", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_value_{$i}_text", array(
+            'label'   => sprintf( __( 'Valore %d - Testo', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_values',
+            'type'    => 'textarea',
+        ) );
+    }
+
+    /**
+     * Chi Siamo - Team Section
+     */
+    $wp_customize->add_section( 'chi_siamo_team', array(
+        'title' => __( 'Sezione Team', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_show_team', array(
+        'default'           => false,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_show_team', array(
+        'label'   => __( 'Mostra Sezione Team', 'caniincasa' ),
+        'section' => 'chi_siamo_team',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_team_title', array(
+        'default'           => 'Il Nostro Team',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_team_title', array(
+        'label'   => __( 'Titolo Sezione', 'caniincasa' ),
+        'section' => 'chi_siamo_team',
+        'type'    => 'text',
+    ) );
+
+    // 6 Team Members
+    for ( $i = 1; $i <= 6; $i++ ) {
+        $wp_customize->add_setting( "chi_siamo_member_{$i}_name", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_member_{$i}_name", array(
+            'label'   => sprintf( __( 'Membro %d - Nome', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_team',
+            'type'    => 'text',
+        ) );
+
+        $wp_customize->add_setting( "chi_siamo_member_{$i}_role", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_member_{$i}_role", array(
+            'label'   => sprintf( __( 'Membro %d - Ruolo', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_team',
+            'type'    => 'text',
+        ) );
+
+        $wp_customize->add_setting( "chi_siamo_member_{$i}_image", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ) );
+        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "chi_siamo_member_{$i}_image", array(
+            'label'   => sprintf( __( 'Membro %d - Foto', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_team',
+        ) ) );
+
+        $wp_customize->add_setting( "chi_siamo_member_{$i}_bio", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ) );
+        $wp_customize->add_control( "chi_siamo_member_{$i}_bio", array(
+            'label'   => sprintf( __( 'Membro %d - Bio', 'caniincasa' ), $i ),
+            'section' => 'chi_siamo_team',
+            'type'    => 'textarea',
+        ) );
+    }
+
+    /**
+     * Chi Siamo - CTA Section
+     */
+    $wp_customize->add_section( 'chi_siamo_cta', array(
+        'title' => __( 'Sezione CTA', 'caniincasa' ),
+        'panel' => 'chi_siamo_panel',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_cta_title', array(
+        'default'           => 'Unisciti a Noi',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_cta_title', array(
+        'label'   => __( 'Titolo CTA', 'caniincasa' ),
+        'section' => 'chi_siamo_cta',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_cta_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_cta_text', array(
+        'label'   => __( 'Testo CTA', 'caniincasa' ),
+        'section' => 'chi_siamo_cta',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_cta_button_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_cta_button_text', array(
+        'label'   => __( 'Testo Pulsante', 'caniincasa' ),
+        'section' => 'chi_siamo_cta',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'chi_siamo_cta_button_url', array(
+        'default'           => '#',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'chi_siamo_cta_button_url', array(
+        'label'   => __( 'URL Pulsante', 'caniincasa' ),
+        'section' => 'chi_siamo_cta',
+        'type'    => 'url',
+    ) );
+
+    /**
+     * CONTATTI PAGE PANEL
+     */
+    $wp_customize->add_panel( 'contatti_panel', array(
+        'title'    => __( 'Pagina Contatti', 'caniincasa' ),
+        'priority' => 51,
+    ) );
+
+    /**
+     * Contatti - Hero Section
+     */
+    $wp_customize->add_section( 'contatti_hero', array(
+        'title' => __( 'Hero Contatti', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_title', array(
+        'default'           => 'Contatti',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_title', array(
+        'label'   => __( 'Titolo Pagina', 'caniincasa' ),
+        'section' => 'contatti_hero',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_subtitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_subtitle', array(
+        'label'   => __( 'Sottotitolo', 'caniincasa' ),
+        'section' => 'contatti_hero',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_hero_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'contatti_hero_image', array(
+        'label'   => __( 'Immagine Hero', 'caniincasa' ),
+        'section' => 'contatti_hero',
+    ) ) );
+
+    /**
+     * Contatti - Form Section
+     */
+    $wp_customize->add_section( 'contatti_form', array(
+        'title' => __( 'Form Contatti', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_form_title', array(
+        'default'           => 'Inviaci un Messaggio',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_form_title', array(
+        'label'   => __( 'Titolo Form', 'caniincasa' ),
+        'section' => 'contatti_form',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_form_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_form_text', array(
+        'label'   => __( 'Testo Introduttivo Form', 'caniincasa' ),
+        'section' => 'contatti_form',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_form_button_text', array(
+        'default'           => 'Invia Messaggio',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_form_button_text', array(
+        'label'   => __( 'Testo Pulsante', 'caniincasa' ),
+        'section' => 'contatti_form',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_form_shortcode', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_form_shortcode', array(
+        'label'       => __( 'Shortcode Contact Form 7', 'caniincasa' ),
+        'description' => __( 'Inserisci lo shortcode di Contact Form 7 (es: [contact-form-7 id="123"]) per sovrascrivere il form predefinito', 'caniincasa' ),
+        'section'     => 'contatti_form',
+        'type'        => 'text',
+    ) );
+
+    /**
+     * Contatti - Info Section
+     */
+    $wp_customize->add_section( 'contatti_info', array(
+        'title' => __( 'Informazioni Contatto', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_show_info', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'contatti_show_info', array(
+        'label'   => __( 'Mostra Informazioni', 'caniincasa' ),
+        'section' => 'contatti_info',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_info_title', array(
+        'default'           => 'Informazioni di Contatto',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_info_title', array(
+        'label'   => __( 'Titolo Sezione', 'caniincasa' ),
+        'section' => 'contatti_info',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_address', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'contatti_address', array(
+        'label'   => __( 'Indirizzo', 'caniincasa' ),
+        'section' => 'contatti_info',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_phone', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_phone', array(
+        'label'   => __( 'Telefono', 'caniincasa' ),
+        'section' => 'contatti_info',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_email', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_email',
+    ) );
+    $wp_customize->add_control( 'contatti_email', array(
+        'label'   => __( 'Email', 'caniincasa' ),
+        'section' => 'contatti_info',
+        'type'    => 'email',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_whatsapp', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_whatsapp', array(
+        'label'       => __( 'WhatsApp', 'caniincasa' ),
+        'description' => __( 'Numero con prefisso internazionale (es: +39123456789)', 'caniincasa' ),
+        'section'     => 'contatti_info',
+        'type'        => 'text',
+    ) );
+
+    /**
+     * Contatti - Hours Section
+     */
+    $wp_customize->add_section( 'contatti_hours', array(
+        'title' => __( 'Orari di Apertura', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_show_hours', array(
+        'default'           => false,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'contatti_show_hours', array(
+        'label'   => __( 'Mostra Orari', 'caniincasa' ),
+        'section' => 'contatti_hours',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_hours_title', array(
+        'default'           => 'Orari di Apertura',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_hours_title', array(
+        'label'   => __( 'Titolo Orari', 'caniincasa' ),
+        'section' => 'contatti_hours',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_hours_text', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+    $wp_customize->add_control( 'contatti_hours_text', array(
+        'label'   => __( 'Orari (HTML permesso)', 'caniincasa' ),
+        'section' => 'contatti_hours',
+        'type'    => 'textarea',
+    ) );
+
+    /**
+     * Contatti - Social Section
+     */
+    $wp_customize->add_section( 'contatti_social', array(
+        'title' => __( 'Social Media', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_show_social', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'contatti_show_social', array(
+        'label'   => __( 'Mostra Social Media', 'caniincasa' ),
+        'section' => 'contatti_social',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_social_title', array(
+        'default'           => 'Seguici sui Social',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_social_title', array(
+        'label'   => __( 'Titolo Sezione', 'caniincasa' ),
+        'section' => 'contatti_social',
+        'type'    => 'text',
+    ) );
+
+    $social_networks = array( 'facebook', 'instagram', 'twitter', 'youtube' );
+    foreach ( $social_networks as $network ) {
+        $wp_customize->add_setting( "contatti_social_{$network}", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ) );
+        $wp_customize->add_control( "contatti_social_{$network}", array(
+            'label'   => sprintf( __( 'URL %s', 'caniincasa' ), ucfirst( $network ) ),
+            'section' => 'contatti_social',
+            'type'    => 'url',
+        ) );
+    }
+
+    /**
+     * Contatti - Map Section
+     */
+    $wp_customize->add_section( 'contatti_map', array(
+        'title' => __( 'Mappa', 'caniincasa' ),
+        'panel' => 'contatti_panel',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_show_map', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ) );
+    $wp_customize->add_control( 'contatti_show_map', array(
+        'label'   => __( 'Mostra Mappa', 'caniincasa' ),
+        'section' => 'contatti_map',
+        'type'    => 'checkbox',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_map_title', array(
+        'default'           => 'Dove Siamo',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'contatti_map_title', array(
+        'label'   => __( 'Titolo Mappa', 'caniincasa' ),
+        'section' => 'contatti_map',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'contatti_map_embed', array(
+        'default'           => '',
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+    $wp_customize->add_control( 'contatti_map_embed', array(
+        'label'       => __( 'Codice Embed Mappa', 'caniincasa' ),
+        'description' => __( 'Incolla il codice iframe di Google Maps', 'caniincasa' ),
+        'section'     => 'contatti_map',
+        'type'        => 'textarea',
+    ) );
+
 }
 add_action( 'customize_register', 'caniincasa_customize_register' );
 
