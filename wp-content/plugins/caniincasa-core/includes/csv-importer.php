@@ -198,26 +198,28 @@ class Caniincasa_CSV_Importer {
         }
 
         // Characteristics (numeric ratings 1-5)
+        // IMPORTANTE: i nomi ACF devono corrispondere ESATTAMENTE a quelli definiti in acf-fields.php
         $rating_fields = array(
             'energia_e_livelli_di_attivita'              => 'energia_e_livelli_di_attivita',
             'affettuosita'                               => 'affettuosita',
             'vocalita_e_predisposizione_ad_abbaiare'     => 'vocalita_e_predisposizione_ad_abbaiare',
             'socievolezza_cani'                          => 'socievolezza_cani',
-            'adattabilita_appartamento'                  => 'adattabilita_ad_appartamento',
+            'adattabilita_appartamento'                  => 'adattabilita_appartamento', // FIX: era 'adattabilita_ad_appartamento'
             'adattabilita_clima_caldo'                   => 'adattabilita_clima_caldo',
             'adattabilita_clima_freddo'                  => 'adattabilita_clima_freddo',
             'tolleranza_alla_solitudine'                 => 'tolleranza_alla_solitudine',
-            'compatibilita_con_i_bambini'                => 'compatibile_con_bambini',
-            'tolleranza_estranei'                        => 'tolleranza_verso_estranei',
-            'compatibilita_con_altri_animali_domestici'  => 'compatibilita_con_altri_animali',
-            'facilita_di_addestramento'                  => 'facilita_addestramento',
+            'compatibilita_con_i_bambini'                => 'compatibilita_con_i_bambini', // FIX: era 'compatibile_con_bambini'
+            'tolleranza_estranei'                        => 'tolleranza_estranei', // FIX: era 'tolleranza_verso_estranei'
+            'compatibilita_con_altri_animali_domestici'  => 'compatibilita_con_altri_animali_domestici',
+            'facilita_di_addestramento'                  => 'facilita_di_addestramento',
             'intelligenza'                               => 'intelligenza',
-            'esigenze_di_esercizio'                      => 'esigenze_esercizio',
+            'esigenze_di_esercizio'                      => 'esigenze_di_esercizio',
             'facilita_toelettatura'                      => 'facilita_toelettatura',
-            'cura_e_perdita_pelo_'                       => 'perdita_pelo',
-            'predisposizioni_per_la_salute'              => 'predisposizioni_salute',
-            'livello_esperienza_richiesto'               => 'esperienza_richiesta',
-            'istinti_di_caccia'                          => 'istinto_caccia',
+            'cura_e_perdita_pelo_'                       => 'cura_e_perdita_pelo',
+            'predisposizioni_per_la_salute'              => 'predisposizioni_per_la_salute',
+            'livello_esperienza_richiesto'               => 'livello_esperienza_richiesto', // FIX: era 'esperienza_richiesta'
+            'costo_mantenimento'                         => 'costo_mantenimento',
+            'istinti_di_caccia'                          => 'istinti_di_caccia',
         );
 
         foreach ( $rating_fields as $csv_field => $acf_field ) {
