@@ -203,6 +203,16 @@ function caniincasa_scripts() {
         ) );
     }
 
+    // Chi Siamo page styles
+    if ( is_page_template( 'template-chi-siamo.php' ) ) {
+        wp_enqueue_style( 'caniincasa-chi-siamo', CANIINCASA_THEME_URI . '/assets/css/chi-siamo.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
+    // Contatti page styles
+    if ( is_page_template( 'template-contatti.php' ) ) {
+        wp_enqueue_style( 'caniincasa-contatti', CANIINCASA_THEME_URI . '/assets/css/contatti.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+    }
+
     // Main JavaScript
     wp_enqueue_script( 'caniincasa-main', CANIINCASA_THEME_URI . '/assets/js/main.js', array( 'jquery' ), CANIINCASA_VERSION, true );
 
