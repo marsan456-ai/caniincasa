@@ -474,6 +474,84 @@ get_header();
                         <?php endif; ?>
                     </div>
 
+                    <!-- Allevamenti Consigliati -->
+                    <?php
+                    $allevamenti_args = array(
+                        'post_type'      => 'allevamenti',
+                        'posts_per_page' => 3,
+                        'post_status'    => 'publish',
+                        'orderby'        => 'rand',
+                    );
+
+                    $allevamenti_query = new WP_Query( $allevamenti_args );
+
+                    if ( $allevamenti_query->have_posts() ) :
+                        ?>
+                        <div class="razza-allevamenti-box">
+                            <h3 class="box-title">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                Allevamenti Consigliati
+                            </h3>
+                            <p class="box-subtitle">Trova cuccioli di <?php the_title(); ?> presso allevatori certificati</p>
+
+                            <div class="allevamenti-list">
+                                <?php
+                                while ( $allevamenti_query->have_posts() ) :
+                                    $allevamenti_query->the_post();
+                                    $localita = get_field( 'localita' );
+                                    $provincia = get_field( 'provincia' );
+                                    $telefono = get_field( 'telefono' );
+                                    $provincia_term = get_the_terms( get_the_ID(), 'provincia' );
+                                    $provincia_name = $provincia_term && ! is_wp_error( $provincia_term ) ? $provincia_term[0]->name : $provincia;
+                                    ?>
+                                    <div class="allevamento-item">
+                                        <h4 class="allevamento-nome">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                                <polyline points="9 22 9 12 15 12 15 22"/>
+                                            </svg>
+                                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                        </h4>
+                                        <?php if ( $localita || $provincia_name ) : ?>
+                                            <p class="allevamento-location">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                    <circle cx="12" cy="10" r="3"/>
+                                                </svg>
+                                                <?php
+                                                $location_parts = array_filter( array( $localita, $provincia_name ) );
+                                                echo esc_html( implode( ', ', $location_parts ) );
+                                                ?>
+                                            </p>
+                                        <?php endif; ?>
+                                        <?php if ( $telefono ) : ?>
+                                            <p class="allevamento-phone">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                                </svg>
+                                                <a href="tel:<?php echo esc_attr( caniincasa_format_phone_link( $telefono ) ); ?>">
+                                                    <?php echo esc_html( $telefono ); ?>
+                                                </a>
+                                            </p>
+                                        <?php endif; ?>
+                                        <a href="<?php the_permalink(); ?>" class="allevamento-link">
+                                            Vedi dettagli →
+                                        </a>
+                                    </div>
+                                <?php endwhile; ?>
+                            </div>
+
+                            <a href="<?php echo esc_url( home_url( '/allevamenti/' ) ); ?>" class="view-all-link">
+                                Vedi tutti gli allevamenti →
+                            </a>
+                        </div>
+                        <?php
+                        wp_reset_postdata();
+                    endif;
+                    ?>
+
                     <!-- CTA Box -->
                     <div class="razza-cta-box">
                         <h3>Ti piace questa razza?</h3>

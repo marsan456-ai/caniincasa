@@ -902,3 +902,311 @@
         align-items: flex-start;
     }
 }
+
+/* ==========================================================================
+   Social Share Buttons
+   ========================================================================== */
+
+.social-share-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.social-share-wrapper .share-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+}
+
+.social-share-wrapper .share-title svg {
+    flex-shrink: 0;
+    color: #FF6B35;
+}
+
+.social-share-wrapper .share-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.social-share-wrapper .share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+.social-share-wrapper .share-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.social-share-wrapper .share-btn .share-label {
+    white-space: nowrap;
+}
+
+/* Platform-specific colors */
+.share-btn-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.share-btn-facebook:hover {
+    background: #0c63d4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(24, 119, 242, 0.3);
+}
+
+.share-btn-twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-btn-twitter:hover {
+    background: #0d8bd9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 161, 242, 0.3);
+}
+
+.share-btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-btn-whatsapp:hover {
+    background: #1ebe57;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+}
+
+.share-btn-telegram {
+    background: #0088cc;
+    color: white;
+}
+
+.share-btn-telegram:hover {
+    background: #0077b5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
+}
+
+.share-btn-linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-btn-linkedin:hover {
+    background: #005885;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 119, 181, 0.3);
+}
+
+.share-btn-email {
+    background: #6c757d;
+    color: white;
+}
+
+.share-btn-email:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
+}
+
+/* ==========================================================================
+   Allevamenti Box
+   ========================================================================== */
+
+.razza-allevamenti-box {
+    background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
+    border: 2px solid #FF6B35;
+    border-radius: 16px;
+    padding: 25px;
+    margin: 0 0 25px 0;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.1);
+}
+
+.razza-allevamenti-box .box-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FF6B35;
+    margin: 0 0 8px 0;
+}
+
+.razza-allevamenti-box .box-title svg {
+    flex-shrink: 0;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.razza-allevamenti-box .box-subtitle {
+    color: #6c757d;
+    font-size: 14px;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.razza-allevamenti-box .allevamenti-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.razza-allevamenti-box .allevamento-item {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.razza-allevamenti-box .allevamento-item:hover {
+    border-color: #FF6B35;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+    transform: translateX(5px);
+}
+
+.razza-allevamenti-box .allevamento-nome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+}
+
+.razza-allevamenti-box .allevamento-nome svg {
+    flex-shrink: 0;
+    color: #FF6B35;
+}
+
+.razza-allevamenti-box .allevamento-nome a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.razza-allevamenti-box .allevamento-nome a:hover {
+    color: #FF6B35;
+}
+
+.razza-allevamenti-box .allevamento-location,
+.razza-allevamenti-box .allevamento-phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #6c757d;
+    margin: 5px 0;
+}
+
+.razza-allevamenti-box .allevamento-location svg,
+.razza-allevamenti-box .allevamento-phone svg {
+    flex-shrink: 0;
+    color: #adb5bd;
+}
+
+.razza-allevamenti-box .allevamento-phone a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.razza-allevamenti-box .allevamento-phone a:hover {
+    color: #FF6B35;
+}
+
+.razza-allevamenti-box .allevamento-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #FF6B35;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: gap 0.2s ease;
+}
+
+.razza-allevamenti-box .allevamento-link:hover {
+    gap: 8px;
+}
+
+.razza-allevamenti-box .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 20px;
+    background: #FF6B35;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.razza-allevamenti-box .view-all-link:hover {
+    background: #e55a28;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+/* ==========================================================================
+   Responsive for Social & Allevamenti
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .social-share-wrapper .share-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .social-share-wrapper .share-btn {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    .social-share-wrapper .share-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .razza-allevamenti-box {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-share-wrapper .share-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .social-share-wrapper .share-btn .share-label {
+        font-size: 12px;
+    }
+}
