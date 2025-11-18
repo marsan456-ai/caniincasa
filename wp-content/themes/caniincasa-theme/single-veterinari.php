@@ -203,13 +203,7 @@ while ( have_posts() ) :
                     <?php endif; ?>
 
                     <!-- Owner Box -->
-                    <div class="sidebar-box owner-box">
-                        <h3 class="box-title">Gestisci questa struttura?</h3>
-                        <p>Contattaci per modificare le informazioni di questa struttura veterinaria.</p>
-                        <a href="<?php echo esc_url( home_url( '/contatti' ) ); ?>" class="btn btn-primary btn-block">
-                            Contattaci
-                        </a>
-                    </div>
+                    <?php caniincasa_struttura_claim_buttons( get_the_ID(), 'veterinari' ); ?>
 
                     <!-- Back to Search Box -->
                     <div class="sidebar-box back-search-box">

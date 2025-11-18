@@ -162,13 +162,7 @@ while ( have_posts() ) :
                 <aside class="struttura-sidebar">
 
                     <!-- Owner Box -->
-                    <div class="sidebar-box owner-box">
-                        <h3 class="box-title">Sei il proprietario?</h3>
-                        <p>Contattaci per modificare le informazioni di questo allevamento o per inserire annunci di cucciolate.</p>
-                        <a href="<?php echo esc_url( home_url( '/contatti' ) ); ?>" class="btn btn-primary btn-block">
-                            Contattaci
-                        </a>
-                    </div>
+                    <?php caniincasa_struttura_claim_buttons( get_the_ID(), 'allevamenti' ); ?>
 
                     <!-- Back to Search Box -->
                     <div class="sidebar-box back-search-box">

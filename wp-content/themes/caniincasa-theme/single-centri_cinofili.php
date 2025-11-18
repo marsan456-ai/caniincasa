@@ -135,13 +135,7 @@ while ( have_posts() ) :
                 <aside class="struttura-sidebar">
 
                     <!-- Owner Box -->
-                    <div class="sidebar-box owner-box">
-                        <h3 class="box-title">Gestisci questo centro?</h3>
-                        <p>Contattaci per modificare le informazioni di questo centro cinofilo.</p>
-                        <a href="<?php echo esc_url( home_url( '/contatti' ) ); ?>" class="btn btn-primary btn-block">
-                            Contattaci
-                        </a>
-                    </div>
+                    <?php caniincasa_struttura_claim_buttons( get_the_ID(), 'centri_cinofili' ); ?>
 
                     <!-- Back to Search Box -->
                     <div class="sidebar-box back-search-box">

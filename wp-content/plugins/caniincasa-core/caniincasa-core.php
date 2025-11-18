@@ -77,6 +77,9 @@ class Caniincasa_Core {
         require_once CANIINCASA_CORE_PATH . 'includes/cpt-strutture.php';
         require_once CANIINCASA_CORE_PATH . 'includes/cpt-annunci.php';
 
+        // Strutture Claims Management
+        require_once CANIINCASA_CORE_PATH . 'includes/cpt-strutture-claims.php';
+
         // Helper functions
         require_once CANIINCASA_CORE_PATH . 'includes/helpers.php';
 
