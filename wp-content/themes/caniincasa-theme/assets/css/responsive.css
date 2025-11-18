@@ -1,0 +1,281 @@
+/**
+ * Responsive Styles
+ *
+ * @package Caniincasa
+ */
+
+/* ==========================================================================
+   Tablet Styles (768px - 1024px)
+   ========================================================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 0 var(--container-padding-tablet);
+    }
+
+    .primary-menu {
+        gap: 20px;
+    }
+
+    .primary-menu li a {
+        font-size: 15px;
+    }
+
+    .header-wrapper {
+        padding: 15px 0;
+    }
+}
+
+/* ==========================================================================
+   Mobile Styles (< 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Typography */
+    body {
+        font-size: 16px; /* Prevent auto-zoom on iOS */
+    }
+
+    /* Touch-friendly sizing */
+    button,
+    .btn,
+    a.btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Forms */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="search"],
+    input[type="number"],
+    textarea,
+    select {
+        font-size: 16px; /* Prevent auto-zoom */
+        padding: 12px;
+        min-height: 44px;
+    }
+
+    /* Images */
+    img {
+        height: auto;
+    }
+
+    /* Header adjustments */
+    .custom-logo-link img {
+        max-height: 50px;
+    }
+
+    .site-title {
+        font-size: 1.25rem;
+    }
+
+    /* Search overlay on mobile */
+    .search-overlay-content {
+        padding: 20px;
+    }
+
+    .search-form input[type="search"] {
+        font-size: 1.25rem;
+        padding: 16px;
+    }
+
+    /* Content spacing */
+    .site-main {
+        padding: 30px 0 100px;
+    }
+
+    /* Footer */
+    .site-footer {
+        margin-top: 40px;
+        padding-bottom: 80px; /* Extra space for bottom nav */
+    }
+
+    .footer-widgets {
+        padding: 40px 0;
+    }
+
+    .footer-bottom {
+        padding: 20px 0;
+    }
+
+    .footer-menu {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Widget spacing */
+    .widget {
+        margin-bottom: 30px;
+    }
+
+    /* Entry meta */
+    .entry-meta {
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Pagination */
+    .pagination {
+        font-size: 14px;
+    }
+
+    .pagination .page-numbers {
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px 12px;
+    }
+
+    /* Tables */
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide elements on mobile */
+    .mobile-hide {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   Small Mobile (< 480px)
+   ========================================================================== */
+
+@media (max-width: 480px) {
+    :root {
+        --spacing-md: 20px;
+        --spacing-lg: 28px;
+        --spacing-xl: 36px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.35rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .mobile-nav-overlay {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+}
+
+/* ==========================================================================
+   Landscape Orientation
+   ========================================================================== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .mobile-bottom-nav {
+        padding: 6px 0;
+    }
+
+    .mobile-nav-item {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    .mobile-nav-item svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .site-header,
+    .site-footer,
+    .mobile-bottom-nav,
+    .search-overlay,
+    .mobile-nav-overlay,
+    .widget,
+    .pagination,
+    .social-share {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #000;
+        background: #fff;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+}
+
+/* ==========================================================================
+   High DPI / Retina Displays
+   ========================================================================== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Use higher quality images for retina displays */
+    /* This will be handled by srcset in WordPress */
+}
+
+/* ==========================================================================
+   Accessibility - Prefers Reduced Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================================================================
+   Dark Mode (if enabled)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    body.dark-mode-enabled {
+        --color-bg: #1a1a1a;
+        --color-bg-light: #2a2a2a;
+        --color-text: #e0e0e0;
+        --color-text-light: #b0b0b0;
+        --color-border: #3a3a3a;
+    }
+
+    body.dark-mode-enabled .site-header {
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    body.dark-mode-enabled .top-bar {
+        background-color: var(--color-bg-light);
+    }
+
+    body.dark-mode-enabled .mobile-nav-overlay {
+        background-color: var(--color-bg);
+    }
+}
