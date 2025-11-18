@@ -1,0 +1,144 @@
+/**
+ * Dropdown Menu Support
+ *
+ * Questo file aggiunge il supporto per i menu a discesa (dropdown)
+ * nei menu di navigazione WordPress
+ */
+
+/* Main Menu Container */
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-navigation li {
+    position: relative;
+    display: inline-block;
+}
+
+/* Sub-Menu (Dropdown) */
+.main-navigation .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 220px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.main-navigation li:hover > .sub-menu,
+.main-navigation li:focus-within > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Sub-menu Items */
+.main-navigation .sub-menu li {
+    display: block;
+    width: 100%;
+}
+
+.main-navigation .sub-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.main-navigation .sub-menu a:hover,
+.main-navigation .sub-menu a:focus {
+    background: #f8f9fa;
+    color: var(--primary-color, #ff6b35);
+    padding-left: 25px;
+}
+
+/* Nested Sub-Menus (Third Level) */
+.main-navigation .sub-menu .sub-menu {
+    top: 0;
+    left: 100%;
+    margin-left: 5px;
+}
+
+/* Menu Item with Children - Add Arrow Indicator */
+.main-navigation .menu-item-has-children > a::after {
+    content: '▼';
+    font-size: 0.7em;
+    margin-left: 6px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.main-navigation .sub-menu .menu-item-has-children > a::after {
+    content: '▶';
+    float: right;
+    margin-left: 10px;
+}
+
+/* Rotate arrow on hover */
+.main-navigation .menu-item-has-children:hover > a::after {
+    transform: rotate(180deg);
+}
+
+/* Mobile Menu Support */
+@media (max-width: 768px) {
+    .main-navigation .sub-menu {
+        position: static;
+        box-shadow: none;
+        padding-left: 20px;
+        background: transparent;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+    }
+
+    .main-navigation .menu-item-has-children.active > .sub-menu {
+        display: block;
+    }
+
+    .main-navigation .sub-menu a {
+        padding: 10px 15px;
+        border-left: 2px solid var(--primary-color, #ff6b35);
+    }
+
+    .main-navigation .menu-item-has-children > a::after {
+        float: right;
+        transform: none !important;
+    }
+
+    .main-navigation .menu-item-has-children.active > a::after {
+        transform: rotate(180deg) !important;
+    }
+}
+
+/* Accessibility */
+.main-navigation a:focus {
+    outline: 2px solid var(--primary-color, #ff6b35);
+    outline-offset: 2px;
+}
+
+/* Alternative: Click-based dropdown for touch devices */
+@media (hover: none) {
+    .main-navigation .sub-menu {
+        display: none;
+    }
+
+    .main-navigation .menu-item-has-children.active > .sub-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
