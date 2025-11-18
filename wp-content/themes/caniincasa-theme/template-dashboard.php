@@ -173,6 +173,18 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                             </svg>
                             Preferiti
                         </a>
+                        <a href="?tab=messaggi" class="dashboard-nav-item <?php echo $current_tab === 'messaggi' ? 'active' : ''; ?>">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+                            </svg>
+                            Messaggi
+                            <?php
+                            $unread_count = caniincasa_get_unread_count( $user_id );
+                            if ( $unread_count > 0 ) :
+                            ?>
+                                <span class="messages-badge"><?php echo esc_html( $unread_count ); ?></span>
+                            <?php endif; ?>
+                        </a>
                     </nav>
                 </aside>
 
@@ -469,6 +481,126 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                     </div>
                                 </div>
                             <?php endif; ?>
+                        </div>
+
+                    <?php elseif ( $current_tab === 'messaggi' ) : ?>
+                        <!-- MESSAGGI TAB -->
+                        <div class="dashboard-section messages-section">
+                            <h2 class="section-title">Messaggi</h2>
+
+                            <!-- Messages Tabs -->
+                            <div class="messages-tabs">
+                                <button class="messages-tab active" data-tab="inbox">
+                                    <?php esc_html_e( 'Ricevuti', 'caniincasa' ); ?>
+                                    <?php
+                                    $inbox_count = caniincasa_get_unread_count( $user_id );
+                                    if ( $inbox_count > 0 ) :
+                                    ?>
+                                        <span class="messages-badge"><?php echo esc_html( $inbox_count ); ?></span>
+                                    <?php endif; ?>
+                                </button>
+                                <button class="messages-tab" data-tab="sent">
+                                    <?php esc_html_e( 'Inviati', 'caniincasa' ); ?>
+                                </button>
+                            </div>
+
+                            <!-- Inbox Messages -->
+                            <div id="inbox-messages" class="messages-list">
+                                <?php
+                                $inbox_messages = caniincasa_get_user_messages( $user_id, 'inbox' );
+
+                                if ( ! empty( $inbox_messages ) ) :
+                                    foreach ( $inbox_messages as $message ) :
+                                        $sender_name = caniincasa_get_user_display_name( $message->sender_id );
+                                        $date = date_i18n( 'j M Y', strtotime( $message->created_at ) );
+                                        $unread_class = $message->is_read ? '' : 'unread';
+                                ?>
+                                    <div class="message-item <?php echo esc_attr( $unread_class ); ?>" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                        <div class="message-icon">
+                                            <?php echo esc_html( strtoupper( substr( $sender_name, 0, 1 ) ) ); ?>
+                                        </div>
+                                        <div class="message-content-preview">
+                                            <div class="message-header-row">
+                                                <span class="message-from"><?php echo esc_html( $sender_name ); ?></span>
+                                                <span class="message-date"><?php echo esc_html( $date ); ?></span>
+                                            </div>
+                                            <div class="message-subject"><?php echo esc_html( $message->subject ); ?></div>
+                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( $message->message, 15 ) ); ?></div>
+                                            <div class="message-actions">
+                                                <?php if ( ! $message->is_read ) : ?>
+                                                    <button class="message-action-btn mark-read-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                        <?php esc_html_e( 'Segna come letto', 'caniincasa' ); ?>
+                                                    </button>
+                                                <?php endif; ?>
+                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                    <?php esc_html_e( 'Elimina', 'caniincasa' ); ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                    endforeach;
+                                else :
+                                ?>
+                                    <p class="no-messages"><?php esc_html_e( 'Nessun messaggio ricevuto.', 'caniincasa' ); ?></p>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Sent Messages -->
+                            <div id="sent-messages" class="messages-list" style="display: none;">
+                                <?php
+                                $sent_messages = caniincasa_get_user_messages( $user_id, 'sent' );
+
+                                if ( ! empty( $sent_messages ) ) :
+                                    foreach ( $sent_messages as $message ) :
+                                        $recipient_name = caniincasa_get_user_display_name( $message->recipient_id );
+                                        $date = date_i18n( 'j M Y', strtotime( $message->created_at ) );
+                                ?>
+                                    <div class="message-item" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                        <div class="message-icon">
+                                            <?php echo esc_html( strtoupper( substr( $recipient_name, 0, 1 ) ) ); ?>
+                                        </div>
+                                        <div class="message-content-preview">
+                                            <div class="message-header-row">
+                                                <span class="message-from"><?php echo esc_html( $recipient_name ); ?></span>
+                                                <span class="message-date"><?php echo esc_html( $date ); ?></span>
+                                            </div>
+                                            <div class="message-subject"><?php echo esc_html( $message->subject ); ?></div>
+                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( $message->message, 15 ) ); ?></div>
+                                            <div class="message-actions">
+                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                    <?php esc_html_e( 'Elimina', 'caniincasa' ); ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                    endforeach;
+                                else :
+                                ?>
+                                    <p class="no-messages"><?php esc_html_e( 'Nessun messaggio inviato.', 'caniincasa' ); ?></p>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Tab Switching Script -->
+                            <script>
+                            jQuery(document).ready(function($) {
+                                $('.messages-tab').on('click', function() {
+                                    var tab = $(this).data('tab');
+
+                                    $('.messages-tab').removeClass('active');
+                                    $(this).addClass('active');
+
+                                    if (tab === 'inbox') {
+                                        $('#inbox-messages').show();
+                                        $('#sent-messages').hide();
+                                    } else {
+                                        $('#inbox-messages').hide();
+                                        $('#sent-messages').show();
+                                    }
+                                });
+                            });
+                            </script>
                         </div>
 
                     <?php endif; ?>

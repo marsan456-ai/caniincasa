@@ -286,22 +286,25 @@ while ( have_posts() ) :
 								</a>
 							<?php endif; ?>
 
-							<?php if ( ! $contatto_preferito || $contatto_preferito === 'email' ) : ?>
-								<a href="mailto:<?php echo esc_attr( $author_email ); ?>?subject=<?php echo rawurlencode( 'Re: ' . get_the_title() ); ?>" class="btn btn-secondary btn-block">
-									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
-										<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-									<?php esc_html_e( 'Invia Email', 'caniincasa' ); ?>
-								</a>
-							<?php endif; ?>
-
-							<?php if ( is_user_logged_in() ) : ?>
-								<button class="btn btn-outline btn-block" data-annuncio-id="<?php the_ID(); ?>" data-action="send-message">
+							<?php if ( is_user_logged_in() && get_current_user_id() != $author_id ) : ?>
+								<button class="btn btn-send-message btn-primary btn-block"
+									data-recipient-id="<?php echo esc_attr( $author_id ); ?>"
+									data-recipient-name="<?php echo esc_attr( caniincasa_get_user_display_name( $author_id ) ); ?>"
+									data-post-id="<?php the_ID(); ?>"
+									data-post-type="annunci_4zampe"
+									data-subject="<?php echo esc_attr( 'Re: ' . get_the_title() ); ?>">
 									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
 										<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
 									<?php esc_html_e( 'Invia Messaggio', 'caniincasa' ); ?>
 								</button>
+							<?php elseif ( ! is_user_logged_in() ) : ?>
+								<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="btn btn-primary btn-block">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
+										<path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15M10 17L15 12M15 12L10 7M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+									<?php esc_html_e( 'Accedi per Contattare', 'caniincasa' ); ?>
+								</a>
 							<?php endif; ?>
 						</div>
 					<?php else : ?>

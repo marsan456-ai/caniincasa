@@ -35,7 +35,15 @@
                         <span class="top-bar-welcome">
                             <?php printf( __( 'Ciao, %s', 'caniincasa' ), esc_html( $current_user->display_name ) ); ?>
                         </span>
-                        <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>"><?php esc_html_e( 'Dashboard', 'caniincasa' ); ?></a>
+                        <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>" style="position: relative; display: inline-flex; align-items: center; gap: 6px;">
+                            <?php esc_html_e( 'Dashboard', 'caniincasa' ); ?>
+                            <?php
+                            $unread_count = caniincasa_get_unread_count( get_current_user_id() );
+                            if ( $unread_count > 0 ) :
+                            ?>
+                                <span class="messages-badge"><?php echo esc_html( $unread_count ); ?></span>
+                            <?php endif; ?>
+                        </a>
                         <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>"><?php esc_html_e( 'Logout', 'caniincasa' ); ?></a>
                     <?php } else { ?>
                         <a href="<?php echo esc_url( home_url( '/login' ) ); ?>"><?php esc_html_e( 'Login', 'caniincasa' ); ?></a>
@@ -151,11 +159,17 @@
             <!-- Mobile User Menu -->
             <div class="mobile-user-menu">
                 <?php if ( is_user_logged_in() ) : ?>
-                    <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>" class="mobile-user-link">
+                    <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>" class="mobile-user-link" style="position: relative;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                             <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         <?php esc_html_e( 'Dashboard', 'caniincasa' ); ?>
+                        <?php
+                        $unread_count = caniincasa_get_unread_count( get_current_user_id() );
+                        if ( $unread_count > 0 ) :
+                        ?>
+                            <span class="messages-badge" style="position: absolute; top: -5px; right: -5px;"><?php echo esc_html( $unread_count ); ?></span>
+                        <?php endif; ?>
                     </a>
                     <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="mobile-user-link">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">

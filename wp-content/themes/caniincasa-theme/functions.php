@@ -191,6 +191,18 @@ function caniincasa_scripts() {
         wp_enqueue_style( 'caniincasa-blog', CANIINCASA_THEME_URI . '/assets/css/blog.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
     }
 
+    // Messaging styles and scripts (conditional - logged in users only)
+    if ( is_user_logged_in() ) {
+        wp_enqueue_style( 'caniincasa-messaging', CANIINCASA_THEME_URI . '/assets/css/messaging.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+        wp_enqueue_script( 'caniincasa-messaging', CANIINCASA_THEME_URI . '/assets/js/messaging.js', array( 'jquery' ), CANIINCASA_VERSION, true );
+
+        // Localize script for messaging AJAX
+        wp_localize_script( 'caniincasa-messaging', 'caniincasaData', array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'caniincasa_nonce' ),
+        ) );
+    }
+
     // Main JavaScript
     wp_enqueue_script( 'caniincasa-main', CANIINCASA_THEME_URI . '/assets/js/main.js', array( 'jquery' ), CANIINCASA_VERSION, true );
 

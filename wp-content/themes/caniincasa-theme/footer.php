@@ -104,6 +104,48 @@
 </nav>
 <?php endif; ?>
 
+<!-- Message Modal (only for logged in users) -->
+<?php if ( is_user_logged_in() ) : ?>
+<div id="message-modal" class="message-modal">
+    <div class="message-modal-overlay"></div>
+    <div class="message-modal-content">
+        <div class="message-modal-header">
+            <h2><?php esc_html_e( 'Invia Messaggio', 'caniincasa' ); ?></h2>
+            <button class="message-modal-close" aria-label="<?php esc_attr_e( 'Chiudi', 'caniincasa' ); ?>">&times;</button>
+        </div>
+
+        <div class="message-modal-body">
+            <div class="message-recipient-info">
+                <strong><?php esc_html_e( 'Destinatario:', 'caniincasa' ); ?></strong>
+                <span id="message-recipient-name"></span>
+            </div>
+
+            <div class="message-response"></div>
+
+            <form id="message-form">
+                <input type="hidden" id="message-recipient-id" name="recipient_id">
+                <input type="hidden" id="message-related-post-id" name="related_post_id">
+                <input type="hidden" id="message-related-post-type" name="related_post_type">
+
+                <div class="message-form-group">
+                    <label for="message-subject"><?php esc_html_e( 'Oggetto', 'caniincasa' ); ?> *</label>
+                    <input type="text" id="message-subject" name="subject" required placeholder="<?php esc_attr_e( 'Oggetto del messaggio', 'caniincasa' ); ?>">
+                </div>
+
+                <div class="message-form-group">
+                    <label for="message-content"><?php esc_html_e( 'Messaggio', 'caniincasa' ); ?> *</label>
+                    <textarea id="message-content" name="message" required placeholder="<?php esc_attr_e( 'Scrivi il tuo messaggio qui...', 'caniincasa' ); ?>"></textarea>
+                </div>
+
+                <button type="submit" class="message-submit-btn">
+                    <?php esc_html_e( 'Invia Messaggio', 'caniincasa' ); ?>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 
 </body>
