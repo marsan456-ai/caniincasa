@@ -73,6 +73,34 @@ get_header();
                             </select>
                         </div>
 
+                        <!-- Servizi Offerti -->
+                        <div class="filter-group">
+                            <label>
+                                🏥 Servizi Offerti
+                            </label>
+                            <div class="filter-checkboxes">
+                                <?php
+                                $servizi = array(
+                                    'Analisi di laboratorio',
+                                    'Chirurgia generale',
+                                    'Chirurgia specialistica',
+                                    'Day hospital',
+                                    'Degenza',
+                                    'Diagnostica per immagini',
+                                    'Medicina generale',
+                                    'Medicina specialistica',
+                                );
+                                foreach ( $servizi as $servizio ) :
+                                    $servizio_slug = sanitize_title( $servizio );
+                                    ?>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="servizi[]" value="<?php echo esc_attr( $servizio ); ?>" class="filter-checkbox">
+                                        <span><?php echo esc_html( $servizio ); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
                         <!-- Ordina per -->
                         <div class="filter-group">
                             <label for="filter-order">

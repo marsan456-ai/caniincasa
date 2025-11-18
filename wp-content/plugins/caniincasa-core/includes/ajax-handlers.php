@@ -605,6 +605,7 @@ function caniincasa_ajax_filter_veterinari() {
 
 	$search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
 	$provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
+	$servizi   = isset( $_POST['servizi'] ) ? array_map( 'sanitize_text_field', $_POST['servizi'] ) : array();
 	$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
 	$paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
@@ -627,6 +628,19 @@ function caniincasa_ajax_filter_veterinari() {
 				'terms'    => $provincia,
 			),
 		);
+	}
+
+	// Filter by servizi (OR relation - at least one service)
+	if ( ! empty( $servizi ) ) {
+		$meta_query = array( 'relation' => 'OR' );
+		foreach ( $servizi as $servizio ) {
+			$meta_query[] = array(
+				'key'     => 'servizi',
+				'value'   => $servizio,
+				'compare' => 'LIKE',
+			);
+		}
+		$args['meta_query'] = $meta_query;
 	}
 
 	switch ( $order ) {
