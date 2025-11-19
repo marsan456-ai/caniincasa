@@ -869,6 +869,11 @@
 }
 
 .single-hero .entry-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
 	color: #ffffff;
 	opacity: 0.9;
 }

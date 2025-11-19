@@ -12,15 +12,8 @@
 	background-color: var(--color-background, #f8f9fa);
 }
 
-/* Hero Section
+/* Hero Section - Specific styles for annunci (extends global from main.css)
    ========================================================================== */
-
-.annuncio-hero {
-	background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-	color: #ffffff;
-	padding: 3rem 0 2rem;
-	position: relative;
-}
 
 .annuncio-hero.annuncio-expired {
 	background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
@@ -49,12 +42,7 @@
 	flex-shrink: 0;
 }
 
-.annuncio-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-bottom: 1rem;
-	line-height: 1.2;
-}
+/* Titles already centered via global CSS in main.css */
 
 .annuncio-meta {
 	display: flex;
