@@ -630,3 +630,263 @@ function caniincasa_handle_reject_annuncio() {
     exit;
 }
 add_action( 'admin_post_reject_annuncio', 'caniincasa_handle_reject_annuncio' );
+
+/**
+ * Add Author column to Annunci admin list
+ */
+function caniincasa_annunci_add_author_column( $columns ) {
+    // Insert author column after title
+    $new_columns = array();
+    foreach ( $columns as $key => $value ) {
+        $new_columns[ $key ] = $value;
+        if ( $key === 'title' ) {
+            $new_columns['author'] = __( 'Autore', 'caniincasa-core' );
+        }
+    }
+    return $new_columns;
+}
+add_filter( 'manage_annunci_4zampe_posts_columns', 'caniincasa_annunci_add_author_column' );
+add_filter( 'manage_annunci_dogsitter_posts_columns', 'caniincasa_annunci_add_author_column' );
+
+/**
+ * Display Author column content
+ */
+function caniincasa_annunci_author_column_content( $column, $post_id ) {
+    if ( $column === 'author' ) {
+        $author_id = get_post_field( 'post_author', $post_id );
+        $author = get_userdata( $author_id );
+
+        if ( $author ) {
+            $edit_link = add_query_arg(
+                array(
+                    'user_id' => $author_id,
+                ),
+                admin_url( 'user-edit.php' )
+            );
+
+            echo '<a href="' . esc_url( $edit_link ) . '">';
+            echo esc_html( $author->display_name );
+            echo '</a>';
+            echo '<br><small>' . esc_html( $author->user_email ) . '</small>';
+        }
+    }
+}
+add_action( 'manage_annunci_4zampe_posts_custom_column', 'caniincasa_annunci_author_column_content', 10, 2 );
+add_action( 'manage_annunci_dogsitter_posts_custom_column', 'caniincasa_annunci_author_column_content', 10, 2 );
+
+/**
+ * Make Author column sortable
+ */
+function caniincasa_annunci_sortable_columns( $columns ) {
+    $columns['author'] = 'author';
+    return $columns;
+}
+add_filter( 'manage_edit-annunci_4zampe_sortable_columns', 'caniincasa_annunci_sortable_columns' );
+add_filter( 'manage_edit-annunci_dogsitter_sortable_columns', 'caniincasa_annunci_sortable_columns' );
+
+/**
+ * Add filter dropdown for Author in admin list
+ */
+function caniincasa_annunci_author_filter() {
+    global $typenow;
+
+    if ( in_array( $typenow, array( 'annunci_4zampe', 'annunci_dogsitter' ) ) ) {
+        $selected = isset( $_GET['author_filter'] ) ? intval( $_GET['author_filter'] ) : 0;
+
+        $users = get_users( array(
+            'orderby' => 'display_name',
+            'order'   => 'ASC',
+        ) );
+
+        if ( ! empty( $users ) ) {
+            echo '<select name="author_filter">';
+            echo '<option value="0">' . __( 'Tutti gli autori', 'caniincasa-core' ) . '</option>';
+
+            foreach ( $users as $user ) {
+                // Count posts for this author
+                $count = count_user_posts( $user->ID, $typenow );
+
+                if ( $count > 0 ) {
+                    printf(
+                        '<option value="%s"%s>%s (%d)</option>',
+                        $user->ID,
+                        selected( $selected, $user->ID, false ),
+                        esc_html( $user->display_name ),
+                        $count
+                    );
+                }
+            }
+
+            echo '</select>';
+        }
+    }
+}
+add_action( 'restrict_manage_posts', 'caniincasa_annunci_author_filter' );
+
+/**
+ * Filter posts by selected author
+ */
+function caniincasa_annunci_filter_by_author( $query ) {
+    global $pagenow, $typenow;
+
+    if ( is_admin()
+        && $pagenow === 'edit.php'
+        && in_array( $typenow, array( 'annunci_4zampe', 'annunci_dogsitter' ) )
+        && isset( $_GET['author_filter'] )
+        && ! empty( $_GET['author_filter'] )
+    ) {
+        $query->set( 'author', intval( $_GET['author_filter'] ) );
+    }
+}
+add_filter( 'parse_query', 'caniincasa_annunci_filter_by_author' );
+
+/**
+ * Add custom meta box for changing author
+ */
+function caniincasa_annunci_add_author_meta_box() {
+    add_meta_box(
+        'caniincasa_annuncio_author',
+        __( 'Cambia Autore Annuncio', 'caniincasa-core' ),
+        'caniincasa_annunci_author_meta_box_callback',
+        array( 'annunci_4zampe', 'annunci_dogsitter' ),
+        'side',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'caniincasa_annunci_add_author_meta_box' );
+
+/**
+ * Meta box callback for author selection
+ */
+function caniincasa_annunci_author_meta_box_callback( $post ) {
+    $current_author_id = $post->post_author;
+    $current_author = get_userdata( $current_author_id );
+
+    // Get all users
+    $users = get_users( array(
+        'orderby' => 'display_name',
+        'order'   => 'ASC',
+    ) );
+
+    wp_nonce_field( 'caniincasa_change_annuncio_author', 'caniincasa_author_nonce' );
+    ?>
+
+    <div class="caniincasa-author-select">
+        <p>
+            <strong><?php _e( 'Autore Corrente:', 'caniincasa-core' ); ?></strong><br>
+            <?php echo esc_html( $current_author->display_name ); ?><br>
+            <small><?php echo esc_html( $current_author->user_email ); ?></small>
+        </p>
+
+        <p>
+            <label for="post_author_override">
+                <strong><?php _e( 'Cambia in:', 'caniincasa-core' ); ?></strong>
+            </label>
+            <select name="post_author_override" id="post_author_override" style="width: 100%; margin-top: 5px;">
+                <?php foreach ( $users as $user ) : ?>
+                    <option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( $current_author_id, $user->ID ); ?>>
+                        <?php echo esc_html( $user->display_name . ' (' . $user->user_email . ')' ); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+
+        <p class="description">
+            <?php _e( 'Seleziona un nuovo autore per questo annuncio. Il cambio sarà effettivo dopo aver salvato.', 'caniincasa-core' ); ?>
+        </p>
+    </div>
+
+    <style>
+        .caniincasa-author-select {
+            padding: 10px 0;
+        }
+        .caniincasa-author-select p {
+            margin-bottom: 15px;
+        }
+        .caniincasa-author-select small {
+            color: #666;
+        }
+    </style>
+    <?php
+}
+
+/**
+ * Save the author change
+ */
+function caniincasa_save_annuncio_author( $post_id ) {
+    // Check nonce
+    if ( ! isset( $_POST['caniincasa_author_nonce'] ) ||
+         ! wp_verify_nonce( $_POST['caniincasa_author_nonce'], 'caniincasa_change_annuncio_author' ) ) {
+        return;
+    }
+
+    // Check autosave
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    // Check permissions
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    // Check if author field is set
+    if ( ! isset( $_POST['post_author_override'] ) ) {
+        return;
+    }
+
+    $new_author_id = intval( $_POST['post_author_override'] );
+
+    // Verify user exists
+    if ( ! get_userdata( $new_author_id ) ) {
+        return;
+    }
+
+    // Update post author
+    remove_action( 'save_post', 'caniincasa_save_annuncio_author' );
+
+    wp_update_post( array(
+        'ID'          => $post_id,
+        'post_author' => $new_author_id,
+    ) );
+
+    add_action( 'save_post', 'caniincasa_save_annuncio_author' );
+}
+add_action( 'save_post', 'caniincasa_save_annuncio_author' );
+
+/**
+ * Add author to quick edit
+ */
+function caniincasa_annunci_quick_edit_author( $column_name, $post_type ) {
+    if ( ! in_array( $post_type, array( 'annunci_4zampe', 'annunci_dogsitter' ) ) ) {
+        return;
+    }
+
+    if ( $column_name !== 'author' ) {
+        return;
+    }
+
+    $users = get_users( array(
+        'orderby' => 'display_name',
+        'order'   => 'ASC',
+    ) );
+
+    ?>
+    <fieldset class="inline-edit-col-right">
+        <div class="inline-edit-col">
+            <label>
+                <span class="title"><?php _e( 'Autore', 'caniincasa-core' ); ?></span>
+                <select name="post_author">
+                    <?php foreach ( $users as $user ) : ?>
+                        <option value="<?php echo esc_attr( $user->ID ); ?>">
+                            <?php echo esc_html( $user->display_name ); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </div>
+    </fieldset>
+    <?php
+}
+add_action( 'quick_edit_custom_box', 'caniincasa_annunci_quick_edit_author', 10, 2 );
+
