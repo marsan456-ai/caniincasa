@@ -316,6 +316,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/dashboard.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/dashboard.php';
 }
 
+// Include Schema.org structured data
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/schema-org.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/schema-org.php';
+}
+
 /**
  * Security: Remove WordPress version from head
  */
