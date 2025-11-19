@@ -761,6 +761,15 @@ function caniincasa_annunci_add_author_meta_box() {
         'side',
         'high'
     );
+
+    add_meta_box(
+        'caniincasa_annuncio_contact',
+        __( 'Dati di Contatto Annuncio', 'caniincasa-core' ),
+        'caniincasa_annunci_contact_meta_box_callback',
+        array( 'annunci_4zampe', 'annunci_dogsitter' ),
+        'side',
+        'default'
+    );
 }
 add_action( 'add_meta_boxes', 'caniincasa_annunci_add_author_meta_box' );
 
@@ -1182,6 +1191,170 @@ function caniincasa_annunci_filter_by_anonymous( $query ) {
 add_filter( 'parse_query', 'caniincasa_annunci_filter_by_anonymous', 11 );
 
 /**
+ * Meta box callback for annuncio contact info
+ */
+function caniincasa_annunci_contact_meta_box_callback( $post ) {
+    $author_id = $post->post_author;
+    $author = get_userdata( $author_id );
+
+    // Get saved contact info or defaults from author profile
+    $annuncio_email = get_post_meta( $post->ID, '_annuncio_email', true );
+    $annuncio_phone = get_post_meta( $post->ID, '_annuncio_phone', true );
+
+    // If empty and post is new, populate from author profile
+    if ( empty( $annuncio_email ) && $author ) {
+        $annuncio_email = $author->user_email;
+    }
+    if ( empty( $annuncio_phone ) && $author ) {
+        $annuncio_phone = get_user_meta( $author_id, 'phone', true );
+    }
+
+    wp_nonce_field( 'caniincasa_save_annuncio_contact', 'caniincasa_contact_nonce' );
+    ?>
+
+    <div class="caniincasa-contact-info">
+        <p class="description" style="margin-bottom: 15px;">
+            <?php _e( 'Questi dati di contatto saranno mostrati pubblicamente per questo annuncio. Vengono inizialmente popolati dal tuo profilo ma puoi modificarli liberamente.', 'caniincasa-core' ); ?>
+        </p>
+
+        <p>
+            <label for="annuncio_email">
+                <strong><?php _e( 'Email di Contatto *', 'caniincasa-core' ); ?></strong>
+            </label>
+            <input type="email"
+                   name="annuncio_email"
+                   id="annuncio_email"
+                   value="<?php echo esc_attr( $annuncio_email ); ?>"
+                   style="width: 100%; margin-top: 5px;"
+                   placeholder="<?php esc_attr_e( 'email@esempio.it', 'caniincasa-core' ); ?>"
+                   required>
+        </p>
+
+        <p>
+            <label for="annuncio_phone">
+                <strong><?php _e( 'Telefono di Contatto *', 'caniincasa-core' ); ?></strong>
+            </label>
+            <input type="tel"
+                   name="annuncio_phone"
+                   id="annuncio_phone"
+                   value="<?php echo esc_attr( $annuncio_phone ); ?>"
+                   style="width: 100%; margin-top: 5px;"
+                   placeholder="<?php esc_attr_e( '+39 123 456 7890', 'caniincasa-core' ); ?>"
+                   required>
+        </p>
+
+        <?php if ( $author ) : ?>
+            <p class="description" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd;">
+                <strong><?php _e( 'Dati dal tuo profilo:', 'caniincasa-core' ); ?></strong><br>
+                Email: <?php echo esc_html( $author->user_email ); ?><br>
+                <?php
+                $profile_phone = get_user_meta( $author_id, 'phone', true );
+                if ( $profile_phone ) :
+                    ?>
+                    Tel: <?php echo esc_html( $profile_phone ); ?>
+                <?php else : ?>
+                    <em><?php _e( 'Telefono non impostato nel profilo', 'caniincasa-core' ); ?></em>
+                <?php endif; ?>
+            </p>
+        <?php endif; ?>
+    </div>
+
+    <style>
+        .caniincasa-contact-info {
+            padding: 10px 0;
+        }
+        .caniincasa-contact-info p {
+            margin-bottom: 15px;
+        }
+        .caniincasa-contact-info input[type="email"],
+        .caniincasa-contact-info input[type="tel"] {
+            padding: 6px 8px;
+        }
+        .caniincasa-contact-info .description {
+            font-style: italic;
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+    <?php
+}
+
+/**
+ * Save annuncio contact info
+ */
+function caniincasa_save_annuncio_contact( $post_id ) {
+    // Check nonce
+    if ( ! isset( $_POST['caniincasa_contact_nonce'] ) ||
+         ! wp_verify_nonce( $_POST['caniincasa_contact_nonce'], 'caniincasa_save_annuncio_contact' ) ) {
+        return;
+    }
+
+    // Check autosave
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    // Check permissions
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    // Check post type
+    $post_type = get_post_type( $post_id );
+    if ( ! in_array( $post_type, array( 'annunci_4zampe', 'annunci_dogsitter' ) ) ) {
+        return;
+    }
+
+    // Validate and save email
+    if ( isset( $_POST['annuncio_email'] ) ) {
+        $email = sanitize_email( $_POST['annuncio_email'] );
+
+        if ( ! is_email( $email ) ) {
+            set_transient( 'caniincasa_contact_error_' . $post_id, __( 'L\'indirizzo email inserito non è valido.', 'caniincasa-core' ), 45 );
+            return;
+        }
+
+        update_post_meta( $post_id, '_annuncio_email', $email );
+    }
+
+    // Validate and save phone
+    if ( isset( $_POST['annuncio_phone'] ) ) {
+        $phone = sanitize_text_field( $_POST['annuncio_phone'] );
+
+        if ( empty( $phone ) ) {
+            set_transient( 'caniincasa_contact_error_' . $post_id, __( 'Il numero di telefono è obbligatorio.', 'caniincasa-core' ), 45 );
+            return;
+        }
+
+        update_post_meta( $post_id, '_annuncio_phone', $phone );
+    }
+}
+add_action( 'save_post', 'caniincasa_save_annuncio_contact' );
+
+/**
+ * Show admin notices for contact info validation errors
+ */
+function caniincasa_contact_admin_notices() {
+    global $post;
+
+    if ( ! $post || ! isset( $post->ID ) ) {
+        return;
+    }
+
+    $error = get_transient( 'caniincasa_contact_error_' . $post->ID );
+
+    if ( $error ) {
+        ?>
+        <div class="notice notice-error is-dismissible">
+            <p><strong><?php _e( 'Errore Dati Contatto:', 'caniincasa-core' ); ?></strong> <?php echo esc_html( $error ); ?></p>
+        </div>
+        <?php
+        delete_transient( 'caniincasa_contact_error_' . $post->ID );
+    }
+}
+add_action( 'admin_notices', 'caniincasa_contact_admin_notices' );
+
+/**
  * Helper function to get annuncio contact info (for frontend use)
  *
  * @param int $post_id Post ID
@@ -1190,6 +1363,7 @@ add_filter( 'parse_query', 'caniincasa_annunci_filter_by_anonymous', 11 );
 function caniincasa_get_annuncio_contact_info( $post_id ) {
     $is_anonymous = get_post_meta( $post_id, '_is_anonymous_user', true );
 
+    // For anonymous users, use anonymous data
     if ( $is_anonymous === '1' ) {
         return array(
             'is_anonymous' => true,
@@ -1197,26 +1371,39 @@ function caniincasa_get_annuncio_contact_info( $post_id ) {
             'email'        => get_post_meta( $post_id, '_anonymous_email', true ),
             'phone'        => get_post_meta( $post_id, '_anonymous_phone', true ),
         );
-    } else {
-        $author_id = get_post_field( 'post_author', $post_id );
-        $author = get_userdata( $author_id );
+    }
 
-        if ( ! $author ) {
-            return array(
-                'is_anonymous' => false,
-                'name'         => '',
-                'email'        => '',
-                'phone'        => '',
-            );
-        }
+    // For registered users, get contact info from annuncio meta or author profile
+    $author_id = get_post_field( 'post_author', $post_id );
+    $author = get_userdata( $author_id );
 
+    if ( ! $author ) {
         return array(
             'is_anonymous' => false,
-            'name'         => $author->display_name,
-            'email'        => $author->user_email,
-            'phone'        => get_user_meta( $author_id, 'phone', true ),
-            'user_id'      => $author_id,
+            'name'         => '',
+            'email'        => '',
+            'phone'        => '',
         );
     }
+
+    // Get annuncio-specific email and phone (saved in meta box)
+    $annuncio_email = get_post_meta( $post_id, '_annuncio_email', true );
+    $annuncio_phone = get_post_meta( $post_id, '_annuncio_phone', true );
+
+    // Fallback to author profile if annuncio fields are empty
+    if ( empty( $annuncio_email ) ) {
+        $annuncio_email = $author->user_email;
+    }
+    if ( empty( $annuncio_phone ) ) {
+        $annuncio_phone = get_user_meta( $author_id, 'phone', true );
+    }
+
+    return array(
+        'is_anonymous' => false,
+        'name'         => $author->display_name,
+        'email'        => $annuncio_email,
+        'phone'        => $annuncio_phone,
+        'user_id'      => $author_id,
+    );
 }
 

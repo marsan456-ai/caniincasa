@@ -1,11 +1,29 @@
-# Guida Utilizzo Utenti Anonimi negli Annunci
+# Guida Gestione Contatti Annunci
 
 ## Panoramica
-Gli amministratori possono creare annunci per utenti non registrati, inserendo manualmente i dati di contatto (nome, email, telefono).
+Il sistema offre due modalità di gestione dei contatti per gli annunci:
+
+1. **Annunci Utenti Registrati**: Email e telefono vengono salvati per ogni singolo annuncio (inizialmente popolati dal profilo ma modificabili)
+2. **Annunci Utenti Anonimi**: Gli amministratori possono creare annunci per utenti non registrati, inserendo manualmente tutti i dati (nome, email, telefono)
 
 ## Utilizzo nell'Admin
 
-### 1. Creare un Annuncio Anonimo
+### 1. Dati di Contatto Annuncio (Utenti Registrati)
+
+Quando crei o modifichi un annuncio come **utente registrato**, trovi la meta box **"Dati di Contatto Annuncio"**:
+
+**Funzionamento:**
+- I campi Email e Telefono vengono **automaticamente popolati** dai dati del tuo profilo
+- Puoi **modificarli liberamente** per questo specifico annuncio
+- Le modifiche **non influenzano** il tuo profilo utente
+- I dati originali del profilo sono sempre visibili in fondo alla meta box per riferimento
+
+**Vantaggi:**
+- Ogni annuncio può avere contatti diversi (es: numero aziendale vs personale)
+- Mantieni i tuoi dati di profilo invariati
+- Flessibilità completa per gestire più annunci con contatti differenti
+
+### 2. Creare un Annuncio Anonimo (Solo Amministratori)
 1. Vai su **Annunci 4 Zampe** o **Annunci Dogsitter**
 2. Clicca su **Aggiungi Nuovo**
 3. Nella sidebar, trovi la meta box **"Utente Anonimo"**
@@ -129,8 +147,11 @@ $contact = caniincasa_get_annuncio_contact_info( get_the_ID() );
 
 ## Meta Fields Salvati
 
-Per ogni annuncio anonimo, vengono salvati questi meta fields:
+### Per Annunci Utenti Registrati:
+- `_annuncio_email` → Email di contatto specifica per questo annuncio
+- `_annuncio_phone` → Telefono di contatto specifico per questo annuncio
 
+### Per Annunci Anonimi:
 - `_is_anonymous_user` → `'1'` se anonimo, `'0'` se registrato
 - `_anonymous_name` → Nome completo
 - `_anonymous_email` → Indirizzo email
