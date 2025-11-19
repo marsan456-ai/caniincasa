@@ -10,8 +10,8 @@ get_header();
 
 <main id="main-content" class="site-main archive-blog">
 
-    <!-- Hero Section -->
-    <div class="archive-hero">
+    <!-- Archive Header -->
+    <div class="archive-header">
         <div class="container">
             <h1 class="archive-title">Blog</h1>
             <p class="archive-description">Scopri tutte le novità, consigli e curiosità sul mondo dei cani</p>
