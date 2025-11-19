@@ -124,11 +124,13 @@ while ( have_posts() ) :
 				<div class="annuncio-main-content">
 
 					<!-- Featured Image -->
-					<?php if ( has_post_thumbnail() ) : ?>
-						<div class="annuncio-featured-image">
+					<div class="annuncio-featured-image">
+						<?php if ( has_post_thumbnail() ) : ?>
 							<?php the_post_thumbnail( 'caniincasa-large' ); ?>
-						</div>
-					<?php endif; ?>
+						<?php else : ?>
+							<img src="https://www.caniincasa.it/wp-content/uploads/2025/11/image_placeholder.webp" alt="<?php echo esc_attr( get_the_title() ); ?>" class="placeholder-image">
+						<?php endif; ?>
+					</div>
 
 					<!-- Info Box -->
 					<div class="annuncio-info-box">
@@ -457,24 +459,26 @@ while ( have_posts() ) :
 							$related_tipo = get_field( 'tipo' );
 							?>
 							<article class="annuncio-card">
-								<?php if ( has_post_thumbnail() ) : ?>
-									<div class="annuncio-card-image">
-										<a href="<?php the_permalink(); ?>">
+								<div class="annuncio-card-image">
+									<a href="<?php the_permalink(); ?>">
+										<?php if ( has_post_thumbnail() ) : ?>
 											<?php the_post_thumbnail( 'caniincasa-medium' ); ?>
-										</a>
-										<?php if ( $related_tipo ) : ?>
-											<span class="annuncio-badge badge-<?php echo esc_attr( $related_tipo === 'offro' ? 'offro' : 'cerco' ); ?>">
-												<?php
-												if ( $related_tipo === 'offro' ) {
-													esc_html_e( 'Offro', 'caniincasa' );
-												} else {
+										<?php else : ?>
+											<img src="https://www.caniincasa.it/wp-content/uploads/2025/11/image_placeholder.webp" alt="<?php echo esc_attr( get_the_title() ); ?>" class="placeholder-image">
+										<?php endif; ?>
+									</a>
+									<?php if ( $related_tipo ) : ?>
+										<span class="annuncio-badge badge-<?php echo esc_attr( $related_tipo === 'offro' ? 'offro' : 'cerco' ); ?>">
+											<?php
+											if ( $related_tipo === 'offro' ) {
+												esc_html_e( 'Offro', 'caniincasa' );
+											} else {
 													esc_html_e( 'Cerco', 'caniincasa' );
 												}
 												?>
 											</span>
 										<?php endif; ?>
-									</div>
-								<?php endif; ?>
+								</div>
 								<div class="annuncio-card-content">
 									<h3 class="annuncio-card-title">
 										<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>

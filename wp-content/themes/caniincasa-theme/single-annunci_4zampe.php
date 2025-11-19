@@ -131,11 +131,13 @@ while ( have_posts() ) :
 				<div class="annuncio-main-content">
 
 					<!-- Featured Image -->
-					<?php if ( has_post_thumbnail() ) : ?>
-						<div class="annuncio-featured-image">
+					<div class="annuncio-featured-image">
+						<?php if ( has_post_thumbnail() ) : ?>
 							<?php the_post_thumbnail( 'caniincasa-large' ); ?>
-						</div>
-					<?php endif; ?>
+						<?php else : ?>
+							<img src="https://www.caniincasa.it/wp-content/uploads/2025/11/image_placeholder.webp" alt="<?php echo esc_attr( get_the_title() ); ?>" class="placeholder-image">
+						<?php endif; ?>
+					</div>
 
 					<!-- Info Box -->
 					<div class="annuncio-info-box">
@@ -451,21 +453,23 @@ while ( have_posts() ) :
 							$related_query->the_post();
 							?>
 							<article class="annuncio-card">
-								<?php if ( has_post_thumbnail() ) : ?>
-									<div class="annuncio-card-image">
-										<a href="<?php the_permalink(); ?>">
+								<div class="annuncio-card-image">
+									<a href="<?php the_permalink(); ?>">
+										<?php if ( has_post_thumbnail() ) : ?>
 											<?php the_post_thumbnail( 'caniincasa-medium' ); ?>
-										</a>
-										<?php
-										$related_tipo = get_field( 'tipo_annuncio' );
-										if ( $related_tipo ) :
-											?>
-											<span class="annuncio-badge badge-<?php echo esc_attr( $related_tipo ); ?>">
-												<?php echo esc_html( ucfirst( $related_tipo ) ); ?>
-											</span>
+										<?php else : ?>
+											<img src="https://www.caniincasa.it/wp-content/uploads/2025/11/image_placeholder.webp" alt="<?php echo esc_attr( get_the_title() ); ?>" class="placeholder-image">
 										<?php endif; ?>
-									</div>
-								<?php endif; ?>
+									</a>
+									<?php
+									$related_tipo = get_field( 'tipo_annuncio' );
+									if ( $related_tipo ) :
+										?>
+										<span class="annuncio-badge badge-<?php echo esc_attr( $related_tipo ); ?>">
+											<?php echo esc_html( ucfirst( $related_tipo ) ); ?>
+										</span>
+									<?php endif; ?>
+								</div>
 								<div class="annuncio-card-content">
 									<h3 class="annuncio-card-title">
 										<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
