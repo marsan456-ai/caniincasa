@@ -741,13 +741,22 @@ function caniincasa_annunci_filter_by_author( $query ) {
 add_filter( 'parse_query', 'caniincasa_annunci_filter_by_author' );
 
 /**
- * Add custom meta box for changing author
+ * Add custom meta boxes
  */
 function caniincasa_annunci_add_author_meta_box() {
     add_meta_box(
         'caniincasa_annuncio_author',
         __( 'Cambia Autore Annuncio', 'caniincasa-core' ),
         'caniincasa_annunci_author_meta_box_callback',
+        array( 'annunci_4zampe', 'annunci_dogsitter' ),
+        'side',
+        'high'
+    );
+
+    add_meta_box(
+        'caniincasa_annuncio_anonymous',
+        __( 'Utente Anonimo', 'caniincasa-core' ),
+        'caniincasa_annunci_anonymous_meta_box_callback',
         array( 'annunci_4zampe', 'annunci_dogsitter' ),
         'side',
         'high'
@@ -889,4 +898,325 @@ function caniincasa_annunci_quick_edit_author( $column_name, $post_type ) {
     <?php
 }
 add_action( 'quick_edit_custom_box', 'caniincasa_annunci_quick_edit_author', 10, 2 );
+
+/**
+ * Meta box callback for anonymous user data
+ */
+function caniincasa_annunci_anonymous_meta_box_callback( $post ) {
+    $is_anonymous = get_post_meta( $post->ID, '_is_anonymous_user', true );
+    $anon_name = get_post_meta( $post->ID, '_anonymous_name', true );
+    $anon_email = get_post_meta( $post->ID, '_anonymous_email', true );
+    $anon_phone = get_post_meta( $post->ID, '_anonymous_phone', true );
+
+    wp_nonce_field( 'caniincasa_save_anonymous_data', 'caniincasa_anonymous_nonce' );
+    ?>
+
+    <div class="caniincasa-anonymous-user">
+        <p>
+            <label>
+                <input type="checkbox" name="is_anonymous_user" id="is_anonymous_user" value="1" <?php checked( $is_anonymous, '1' ); ?>>
+                <strong><?php _e( 'Questo è un annuncio per utente anonimo (non registrato)', 'caniincasa-core' ); ?></strong>
+            </label>
+        </p>
+
+        <div id="anonymous-fields" style="<?php echo $is_anonymous === '1' ? '' : 'display: none;'; ?>">
+            <hr style="margin: 15px 0;">
+
+            <p>
+                <label for="anonymous_name">
+                    <strong><?php _e( 'Nome e Cognome *', 'caniincasa-core' ); ?></strong>
+                </label>
+                <input type="text"
+                       name="anonymous_name"
+                       id="anonymous_name"
+                       value="<?php echo esc_attr( $anon_name ); ?>"
+                       style="width: 100%; margin-top: 5px;"
+                       placeholder="<?php esc_attr_e( 'Es: Mario Rossi', 'caniincasa-core' ); ?>">
+            </p>
+
+            <p>
+                <label for="anonymous_email">
+                    <strong><?php _e( 'Email *', 'caniincasa-core' ); ?></strong>
+                </label>
+                <input type="email"
+                       name="anonymous_email"
+                       id="anonymous_email"
+                       value="<?php echo esc_attr( $anon_email ); ?>"
+                       style="width: 100%; margin-top: 5px;"
+                       placeholder="<?php esc_attr_e( 'email@esempio.it', 'caniincasa-core' ); ?>">
+            </p>
+
+            <p>
+                <label for="anonymous_phone">
+                    <strong><?php _e( 'Telefono *', 'caniincasa-core' ); ?></strong>
+                </label>
+                <input type="tel"
+                       name="anonymous_phone"
+                       id="anonymous_phone"
+                       value="<?php echo esc_attr( $anon_phone ); ?>"
+                       style="width: 100%; margin-top: 5px;"
+                       placeholder="<?php esc_attr_e( '+39 123 456 7890', 'caniincasa-core' ); ?>">
+            </p>
+
+            <p class="description">
+                <?php _e( 'Questi dati di contatto saranno visualizzati pubblicamente al posto dei dati dell\'autore.', 'caniincasa-core' ); ?>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .caniincasa-anonymous-user {
+            padding: 10px 0;
+        }
+        .caniincasa-anonymous-user p {
+            margin-bottom: 15px;
+        }
+        .caniincasa-anonymous-user input[type="text"],
+        .caniincasa-anonymous-user input[type="email"],
+        .caniincasa-anonymous-user input[type="tel"] {
+            padding: 6px 8px;
+        }
+        .caniincasa-anonymous-user .description {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        jQuery(document).ready(function($) {
+            $('#is_anonymous_user').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#anonymous-fields').slideDown(200);
+                } else {
+                    $('#anonymous-fields').slideUp(200);
+                }
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Save anonymous user data
+ */
+function caniincasa_save_anonymous_data( $post_id ) {
+    // Check nonce
+    if ( ! isset( $_POST['caniincasa_anonymous_nonce'] ) ||
+         ! wp_verify_nonce( $_POST['caniincasa_anonymous_nonce'], 'caniincasa_save_anonymous_data' ) ) {
+        return;
+    }
+
+    // Check autosave
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    // Check permissions
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    // Check post type
+    $post_type = get_post_type( $post_id );
+    if ( ! in_array( $post_type, array( 'annunci_4zampe', 'annunci_dogsitter' ) ) ) {
+        return;
+    }
+
+    // Save is_anonymous flag
+    $is_anonymous = isset( $_POST['is_anonymous_user'] ) && $_POST['is_anonymous_user'] === '1';
+    update_post_meta( $post_id, '_is_anonymous_user', $is_anonymous ? '1' : '0' );
+
+    if ( $is_anonymous ) {
+        // Validate and save anonymous data
+        $anon_name = isset( $_POST['anonymous_name'] ) ? sanitize_text_field( $_POST['anonymous_name'] ) : '';
+        $anon_email = isset( $_POST['anonymous_email'] ) ? sanitize_email( $_POST['anonymous_email'] ) : '';
+        $anon_phone = isset( $_POST['anonymous_phone'] ) ? sanitize_text_field( $_POST['anonymous_phone'] ) : '';
+
+        // Validation
+        if ( empty( $anon_name ) || empty( $anon_email ) || empty( $anon_phone ) ) {
+            // Set admin notice for missing required fields
+            set_transient( 'caniincasa_anonymous_error_' . $post_id, __( 'Per gli annunci anonimi sono obbligatori Nome, Email e Telefono.', 'caniincasa-core' ), 45 );
+            return;
+        }
+
+        if ( ! is_email( $anon_email ) ) {
+            set_transient( 'caniincasa_anonymous_error_' . $post_id, __( 'L\'indirizzo email inserito non è valido.', 'caniincasa-core' ), 45 );
+            return;
+        }
+
+        // Save data
+        update_post_meta( $post_id, '_anonymous_name', $anon_name );
+        update_post_meta( $post_id, '_anonymous_email', $anon_email );
+        update_post_meta( $post_id, '_anonymous_phone', $anon_phone );
+    } else {
+        // Remove anonymous data if checkbox is unchecked
+        delete_post_meta( $post_id, '_anonymous_name' );
+        delete_post_meta( $post_id, '_anonymous_email' );
+        delete_post_meta( $post_id, '_anonymous_phone' );
+    }
+}
+add_action( 'save_post', 'caniincasa_save_anonymous_data' );
+
+/**
+ * Show admin notices for anonymous user validation errors
+ */
+function caniincasa_anonymous_admin_notices() {
+    global $post;
+
+    if ( ! $post || ! isset( $post->ID ) ) {
+        return;
+    }
+
+    $error = get_transient( 'caniincasa_anonymous_error_' . $post->ID );
+
+    if ( $error ) {
+        ?>
+        <div class="notice notice-error is-dismissible">
+            <p><strong><?php _e( 'Errore Utente Anonimo:', 'caniincasa-core' ); ?></strong> <?php echo esc_html( $error ); ?></p>
+        </div>
+        <?php
+        delete_transient( 'caniincasa_anonymous_error_' . $post->ID );
+    }
+}
+add_action( 'admin_notices', 'caniincasa_anonymous_admin_notices' );
+
+/**
+ * Update author column to show anonymous status
+ */
+function caniincasa_annunci_author_column_content_with_anonymous( $column, $post_id ) {
+    if ( $column === 'author' ) {
+        $is_anonymous = get_post_meta( $post_id, '_is_anonymous_user', true );
+
+        if ( $is_anonymous === '1' ) {
+            $anon_name = get_post_meta( $post_id, '_anonymous_name', true );
+            $anon_email = get_post_meta( $post_id, '_anonymous_email', true );
+
+            echo '<span style="color: #d63638; font-weight: 600;">🔒 ' . esc_html__( 'ANONIMO', 'caniincasa-core' ) . '</span><br>';
+            echo '<strong>' . esc_html( $anon_name ) . '</strong><br>';
+            echo '<small>' . esc_html( $anon_email ) . '</small>';
+        } else {
+            $author_id = get_post_field( 'post_author', $post_id );
+            $author = get_userdata( $author_id );
+
+            if ( $author ) {
+                $edit_link = add_query_arg(
+                    array(
+                        'user_id' => $author_id,
+                    ),
+                    admin_url( 'user-edit.php' )
+                );
+
+                echo '<a href="' . esc_url( $edit_link ) . '">';
+                echo esc_html( $author->display_name );
+                echo '</a>';
+                echo '<br><small>' . esc_html( $author->user_email ) . '</small>';
+            }
+        }
+    }
+}
+// Remove old action and add new one
+remove_action( 'manage_annunci_4zampe_posts_custom_column', 'caniincasa_annunci_author_column_content', 10 );
+remove_action( 'manage_annunci_dogsitter_posts_custom_column', 'caniincasa_annunci_author_column_content', 10 );
+add_action( 'manage_annunci_4zampe_posts_custom_column', 'caniincasa_annunci_author_column_content_with_anonymous', 10, 2 );
+add_action( 'manage_annunci_dogsitter_posts_custom_column', 'caniincasa_annunci_author_column_content_with_anonymous', 10, 2 );
+
+/**
+ * Add filter for anonymous users
+ */
+function caniincasa_annunci_anonymous_filter() {
+    global $typenow;
+
+    if ( in_array( $typenow, array( 'annunci_4zampe', 'annunci_dogsitter' ) ) ) {
+        $selected = isset( $_GET['anonymous_filter'] ) ? $_GET['anonymous_filter'] : '';
+
+        echo '<select name="anonymous_filter">';
+        echo '<option value="">' . __( 'Tutti i tipi', 'caniincasa-core' ) . '</option>';
+        echo '<option value="registered"' . selected( $selected, 'registered', false ) . '>' . __( 'Solo Utenti Registrati', 'caniincasa-core' ) . '</option>';
+        echo '<option value="anonymous"' . selected( $selected, 'anonymous', false ) . '>' . __( 'Solo Anonimi', 'caniincasa-core' ) . '</option>';
+        echo '</select>';
+    }
+}
+add_action( 'restrict_manage_posts', 'caniincasa_annunci_anonymous_filter', 11 );
+
+/**
+ * Filter posts by anonymous status
+ */
+function caniincasa_annunci_filter_by_anonymous( $query ) {
+    global $pagenow, $typenow;
+
+    if ( is_admin()
+        && $pagenow === 'edit.php'
+        && in_array( $typenow, array( 'annunci_4zampe', 'annunci_dogsitter' ) )
+        && isset( $_GET['anonymous_filter'] )
+        && ! empty( $_GET['anonymous_filter'] )
+    ) {
+        $meta_query = array();
+
+        if ( $_GET['anonymous_filter'] === 'anonymous' ) {
+            $meta_query[] = array(
+                'key'     => '_is_anonymous_user',
+                'value'   => '1',
+                'compare' => '=',
+            );
+        } elseif ( $_GET['anonymous_filter'] === 'registered' ) {
+            $meta_query[] = array(
+                'relation' => 'OR',
+                array(
+                    'key'     => '_is_anonymous_user',
+                    'value'   => '0',
+                    'compare' => '=',
+                ),
+                array(
+                    'key'     => '_is_anonymous_user',
+                    'compare' => 'NOT EXISTS',
+                ),
+            );
+        }
+
+        if ( ! empty( $meta_query ) ) {
+            $query->set( 'meta_query', $meta_query );
+        }
+    }
+}
+add_filter( 'parse_query', 'caniincasa_annunci_filter_by_anonymous', 11 );
+
+/**
+ * Helper function to get annuncio contact info (for frontend use)
+ *
+ * @param int $post_id Post ID
+ * @return array Contact information
+ */
+function caniincasa_get_annuncio_contact_info( $post_id ) {
+    $is_anonymous = get_post_meta( $post_id, '_is_anonymous_user', true );
+
+    if ( $is_anonymous === '1' ) {
+        return array(
+            'is_anonymous' => true,
+            'name'         => get_post_meta( $post_id, '_anonymous_name', true ),
+            'email'        => get_post_meta( $post_id, '_anonymous_email', true ),
+            'phone'        => get_post_meta( $post_id, '_anonymous_phone', true ),
+        );
+    } else {
+        $author_id = get_post_field( 'post_author', $post_id );
+        $author = get_userdata( $author_id );
+
+        if ( ! $author ) {
+            return array(
+                'is_anonymous' => false,
+                'name'         => '',
+                'email'        => '',
+                'phone'        => '',
+            );
+        }
+
+        return array(
+            'is_anonymous' => false,
+            'name'         => $author->display_name,
+            'email'        => $author->user_email,
+            'phone'        => get_user_meta( $author_id, 'phone', true ),
+            'user_id'      => $author_id,
+        );
+    }
+}
 
