@@ -269,14 +269,13 @@ function caniincasa_send_message_notification( $message_id ) {
         $sender_name
     );
 
-    $message_url = home_url( '/dashboard/?section=messaggi&message=' . $message_id );
+    $dashboard_url = home_url( '/dashboard/?section=messaggi' );
 
     $email_message = sprintf(
-        __( "Ciao,\n\nHai ricevuto un nuovo messaggio da %s:\n\nOggetto: %s\n\n%s\n\nRispondi al messaggio: %s\n\nGrazie!", 'caniincasa-core' ),
+        __( "Ciao,\n\nHai ricevuto un nuovo messaggio da %s.\n\nOggetto: %s\n\nPer leggere il messaggio e rispondere, accedi alla tua dashboard:\n%s\n\nGrazie!", 'caniincasa-core' ),
         $sender_name,
         $message->subject,
-        wp_trim_words( $message->message, 50 ),
-        $message_url
+        $dashboard_url
     );
 
     wp_mail( $recipient_email, $subject, $email_message );

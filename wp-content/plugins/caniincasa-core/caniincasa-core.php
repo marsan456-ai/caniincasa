@@ -109,6 +109,7 @@ class Caniincasa_Core {
         // Admin functionality
         if ( is_admin() ) {
             require_once CANIINCASA_CORE_PATH . 'admin/admin-import.php';
+            require_once CANIINCASA_CORE_PATH . 'admin/admin-messages.php';
         }
 
         // Public/Frontend functionality (TODO: Implement)
