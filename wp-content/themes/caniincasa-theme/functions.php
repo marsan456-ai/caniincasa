@@ -321,6 +321,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/schema-org.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/schema-org.php';
 }
 
+// Include Custom SEO Meta Tags system
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/seo-meta-custom.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/seo-meta-custom.php';
+}
+
 /**
  * Security: Remove WordPress version from head
  */
