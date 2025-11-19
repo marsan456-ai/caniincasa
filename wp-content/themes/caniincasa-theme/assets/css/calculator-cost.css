@@ -1,0 +1,296 @@
+/**
+ * Dog Cost Calculator Styles
+ *
+ * @package Caniincasa
+ * @since 1.0.1
+ */
+
+/* Import base calculator styles */
+@import 'calculator-age.css';
+
+/* Cost-specific styles */
+.dog-cost-calculator .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.dog-cost-calculator .checkbox-group label {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.dog-cost-calculator .checkbox-group label:hover {
+    background: #e9ecef;
+    border-color: var(--color-accent, #FF6B35);
+}
+
+.dog-cost-calculator .checkbox-group input[type="checkbox"] {
+    margin-right: 0.75rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.dog-cost-calculator .checkbox-group span {
+    font-weight: 500;
+    color: #2D3E50;
+}
+
+/* Tabs */
+.breakdown-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.tab-btn:hover {
+    color: var(--color-primary, #2D3E50);
+    background: #f8f9fa;
+}
+
+.tab-btn.active {
+    color: var(--color-primary, #2D3E50);
+    border-bottom-color: var(--color-accent, #FF6B35);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Cost breakdown */
+.cost-breakdown {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.cost-breakdown h4 {
+    margin: 0 0 1.5rem 0;
+    color: #2D3E50;
+    font-size: 1.2rem;
+}
+
+.cost-breakdown h5 {
+    margin: 1.5rem 0 1rem 0;
+    color: var(--color-primary, #2D3E50);
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.breakdown-list .info-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.breakdown-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breakdown-list ul li {
+    padding: 0.5rem 0;
+    color: #2D3E50;
+    font-weight: 500;
+}
+
+/* Cost items */
+.cost-item {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--color-accent, #FF6B35);
+}
+
+.cost-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.cost-item-name {
+    font-weight: 600;
+    color: #2D3E50;
+    font-size: 0.95rem;
+}
+
+.cost-item-amount {
+    font-weight: 700;
+    color: var(--color-primary, #2D3E50);
+    font-size: 1.1rem;
+}
+
+.cost-item-description {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Totals */
+.breakdown-subtotal,
+.breakdown-total {
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.breakdown-subtotal {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.breakdown-total {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.breakdown-subtotal strong,
+.breakdown-total strong {
+    font-size: 1.2rem;
+}
+
+/* Cost chart */
+.cost-chart {
+    padding: 1rem 0;
+}
+
+.chart-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chart-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.chart-bar-label {
+    font-weight: 600;
+    color: #2D3E50;
+    font-size: 0.95rem;
+}
+
+.chart-bar-visual {
+    width: 100%;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chart-bar-fill {
+    height: 100%;
+    border-radius: 15px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.chart-bar-value {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Calculator info list */
+.dog-cost-calculator .calculator-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.dog-cost-calculator .calculator-info ul li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #555;
+    line-height: 1.6;
+}
+
+.dog-cost-calculator .calculator-info ul li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent, #FF6B35);
+    font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .breakdown-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+        border-left: 3px solid transparent;
+    }
+
+    .tab-btn.active {
+        border-bottom-color: #e0e0e0;
+        border-left-color: var(--color-accent, #FF6B35);
+    }
+
+    .cost-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .breakdown-subtotal,
+    .breakdown-total {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+}

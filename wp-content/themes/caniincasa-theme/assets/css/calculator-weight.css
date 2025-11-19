@@ -1,0 +1,217 @@
+/**
+ * Dog Weight Calculator Styles
+ *
+ * @package Caniincasa
+ * @since 1.0.1
+ */
+
+/* Import base calculator styles if needed */
+@import 'calculator-age.css';
+
+/* Weight-specific styles */
+.dog-weight-calculator .form-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px dashed #e0e0e0;
+}
+
+.dog-weight-calculator .form-section:last-of-type {
+    border-bottom: none;
+}
+
+.dog-weight-calculator .form-section h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-primary, #2D3E50);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dog-weight-calculator .section-description {
+    margin: 0 0 1.5rem 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* BCS Questions */
+.bcs-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.bcs-question {
+    padding: 1.25rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-accent, #FF6B35);
+}
+
+.bcs-question > label {
+    display: block;
+    font-weight: 600;
+    color: #2D3E50;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-radius: 4px;
+}
+
+.radio-group label:hover {
+    background: rgba(255, 107, 53, 0.1);
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Plans */
+.results-plan {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.results-plan h4 {
+    margin: 0 0 1rem 0;
+    color: #2D3E50;
+    font-size: 1.2rem;
+}
+
+.plan-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.plan-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    align-items: flex-start;
+}
+
+.plan-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.plan-details {
+    flex: 1;
+}
+
+.plan-details h5 {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-primary, #2D3E50);
+    font-size: 1rem;
+}
+
+.plan-details p {
+    margin: 0 0 0.3rem 0;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.plan-note {
+    font-size: 0.85rem !important;
+    color: #888 !important;
+    font-style: italic;
+}
+
+/* Insight types */
+.insight-item.insight-success {
+    background: #e8f5e9;
+    border-left: 4px solid #4CAF50;
+}
+
+.insight-item.insight-warning {
+    background: #fff3e0;
+    border-left: 4px solid #FF9800;
+}
+
+.insight-item.insight-alert {
+    background: #ffebee;
+    border-left: 4px solid #F44336;
+}
+
+.insight-item.insight-info {
+    background: #e3f2fd;
+    border-left: 4px solid #2196F3;
+}
+
+/* BCS Scale */
+.bcs-scale {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+    .bcs-scale {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.bcs-item {
+    padding: 1.25rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+.bcs-item.bcs-ideal {
+    background: #e8f5e9;
+    border-color: #4CAF50;
+}
+
+.bcs-item strong {
+    display: block;
+    color: var(--color-primary, #2D3E50);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.bcs-item small {
+    display: block;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .dog-weight-calculator .form-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .bcs-question {
+        padding: 1rem;
+    }
+
+    .radio-group {
+        font-size: 0.9rem;
+    }
+
+    .plan-icon {
+        font-size: 1.5rem;
+    }
+}

@@ -326,6 +326,31 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/seo-meta-custom.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/seo-meta-custom.php';
 }
 
+// Include ACF Calculator Fields for Razze
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/acf-razze-calculator-fields.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/acf-razze-calculator-fields.php';
+}
+
+// Include Breed Data Importer
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/breed-data-importer.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/breed-data-importer.php';
+}
+
+// Include Dog Age Calculator
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-age.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/calculator-age.php';
+}
+
+// Include Dog Weight Calculator
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-weight.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/calculator-weight.php';
+}
+
+// Include Dog Cost Calculator
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-cost.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/calculator-cost.php';
+}
+
 /**
  * Security: Remove WordPress version from head
  */
