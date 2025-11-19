@@ -58,15 +58,13 @@ function caniincasa_breed_importer_page() {
 
         <div class="card" style="max-width: 800px;">
             <h2>Informazioni Importazione</h2>
-            <p>Questo strumento importa i dati dal file <strong>dog_breed_age_calculator.json</strong> posizionato nella root del sito.</p>
+            <p>Questo strumento importa i dati dal file <strong>dog_breed_calculators_complete.json</strong> posizionato nella root del sito.</p>
 
-            <h3>Dati che verranno importati:</h3>
+            <h3>Dati che verranno importati (16 campi):</h3>
             <ul style="list-style: disc; margin-left: 20px;">
-                <li><strong>Taglia Standard</strong>: toy, piccola, media, grande, gigante</li>
-                <li><strong>Aspettativa Vita Min/Max</strong>: in anni</li>
-                <li><strong>Coefficiente Cucciolo</strong>: per calcolo età 0-2 anni</li>
-                <li><strong>Coefficiente Adulto</strong>: per calcolo età 2-7 anni</li>
-                <li><strong>Coefficiente Senior</strong>: per calcolo età 7+ anni</li>
+                <li><strong>Calcolatore Età:</strong> taglia_standard, aspettativa_vita_min/max, coefficienti cucciolo/adulto/senior</li>
+                <li><strong>Calcolatore Peso:</strong> peso_ideale_min/max maschio/femmina, livello_attivita</li>
+                <li><strong>Calcolatore Costi:</strong> costo_alimentazione_mensile, costo_veterinario_annuale, costo_toelettatura_annuale, predisposizioni_salute</li>
             </ul>
 
             <h3>Come funziona:</h3>
@@ -79,7 +77,7 @@ function caniincasa_breed_importer_page() {
 
             <div class="breed-import-status" style="margin: 20px 0; padding: 15px; background: #f0f0f1; border-radius: 4px;">
                 <?php
-                $json_file = get_template_directory() . '/../../dog_breed_age_calculator.json';
+                $json_file = get_template_directory() . '/../../dog_breed_calculators_complete.json';
                 $file_exists = file_exists( $json_file );
 
                 if ( $file_exists ) {
@@ -159,7 +157,7 @@ function caniincasa_import_breed_data() {
     }
 
     // Locate JSON file
-    $json_file = get_template_directory() . '/../../dog_breed_age_calculator.json';
+    $json_file = get_template_directory() . '/../../dog_breed_calculators_complete.json';
 
     if ( ! file_exists( $json_file ) ) {
         return array(
@@ -201,12 +199,27 @@ function caniincasa_import_breed_data() {
         // Process each breed from JSON
         foreach ( $breed_data as $row ) {
             $nome_razza = $row['nome_razza'] ?? '';
+
+            // Calcolatore Età
             $taglia_standard = $row['taglia_standard'] ?? '';
             $aspettativa_vita_min = $row['aspettativa_vita_min'] ?? 0;
             $aspettativa_vita_max = $row['aspettativa_vita_max'] ?? 0;
             $coefficiente_cucciolo = $row['coefficiente_cucciolo'] ?? 15;
             $coefficiente_adulto = $row['coefficiente_adulto'] ?? 5;
             $coefficiente_senior = $row['coefficiente_senior'] ?? 5.5;
+
+            // Calcolatore Peso
+            $peso_ideale_min_maschio = $row['peso_ideale_min_maschio'] ?? null;
+            $peso_ideale_max_maschio = $row['peso_ideale_max_maschio'] ?? null;
+            $peso_ideale_min_femmina = $row['peso_ideale_min_femmina'] ?? null;
+            $peso_ideale_max_femmina = $row['peso_ideale_max_femmina'] ?? null;
+            $livello_attivita = $row['livello_attivita'] ?? '';
+
+            // Calcolatore Costi
+            $costo_alimentazione_mensile = $row['costo_alimentazione_mensile'] ?? null;
+            $costo_veterinario_annuale = $row['costo_veterinario_annuale'] ?? null;
+            $costo_toelettatura_annuale = $row['costo_toelettatura_annuale'] ?? null;
+            $predisposizioni_salute = $row['predisposizioni_salute'] ?? '';
 
             // Skip empty rows
             if ( empty( $nome_razza ) ) {
@@ -219,13 +232,44 @@ function caniincasa_import_breed_data() {
             if ( isset( $breed_map[ $normalized_excel_name ] ) ) {
                 $post_id = $breed_map[ $normalized_excel_name ];
 
-                // Update ACF fields
+                // Update ACF fields - Calcolatore Età
                 update_field( 'taglia_standard', $taglia_standard, $post_id );
                 update_field( 'aspettativa_vita_min', intval( $aspettativa_vita_min ), $post_id );
                 update_field( 'aspettativa_vita_max', intval( $aspettativa_vita_max ), $post_id );
                 update_field( 'coefficiente_cucciolo', floatval( $coefficiente_cucciolo ), $post_id );
                 update_field( 'coefficiente_adulto', floatval( $coefficiente_adulto ), $post_id );
                 update_field( 'coefficiente_senior', floatval( $coefficiente_senior ), $post_id );
+
+                // Update ACF fields - Calcolatore Peso
+                if ( $peso_ideale_min_maschio !== null ) {
+                    update_field( 'peso_ideale_min_maschio', floatval( $peso_ideale_min_maschio ), $post_id );
+                }
+                if ( $peso_ideale_max_maschio !== null ) {
+                    update_field( 'peso_ideale_max_maschio', floatval( $peso_ideale_max_maschio ), $post_id );
+                }
+                if ( $peso_ideale_min_femmina !== null ) {
+                    update_field( 'peso_ideale_min_femmina', floatval( $peso_ideale_min_femmina ), $post_id );
+                }
+                if ( $peso_ideale_max_femmina !== null ) {
+                    update_field( 'peso_ideale_max_femmina', floatval( $peso_ideale_max_femmina ), $post_id );
+                }
+                if ( ! empty( $livello_attivita ) ) {
+                    update_field( 'livello_attivita', $livello_attivita, $post_id );
+                }
+
+                // Update ACF fields - Calcolatore Costi
+                if ( $costo_alimentazione_mensile !== null ) {
+                    update_field( 'costo_alimentazione_mensile', floatval( $costo_alimentazione_mensile ), $post_id );
+                }
+                if ( $costo_veterinario_annuale !== null ) {
+                    update_field( 'costo_veterinario_annuale', floatval( $costo_veterinario_annuale ), $post_id );
+                }
+                if ( $costo_toelettatura_annuale !== null ) {
+                    update_field( 'costo_toelettatura_annuale', floatval( $costo_toelettatura_annuale ), $post_id );
+                }
+                if ( ! empty( $predisposizioni_salute ) ) {
+                    update_field( 'predisposizioni_salute', $predisposizioni_salute, $post_id );
+                }
 
                 $updated++;
                 $details[] = "✓ Aggiornata: {$nome_razza}";
