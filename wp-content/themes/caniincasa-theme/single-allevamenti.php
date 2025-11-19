@@ -177,10 +177,12 @@ while ( have_posts() ) :
                     </div>
 
                     <!-- Preferiti Box -->
+                    <?php if ( is_user_logged_in() ) : ?>
                     <div class="sidebar-box preferiti-action-box">
                         <h3 class="box-title">Ti piace questo allevamento?</h3>
                         <?php echo caniincasa_get_preferiti_button( get_the_ID(), 'allevamenti' ); ?>
                     </div>
+                    <?php endif; ?>
 
                     <!-- Proponi Struttura Box -->
                     <div class="sidebar-box proponi-box">
