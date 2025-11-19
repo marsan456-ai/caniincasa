@@ -387,19 +387,22 @@
 }
 
 .mobile-menu .sub-menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    padding-left: 20px;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-left: 20px !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0s linear 0.3s !important;
 }
 
 .mobile-menu .menu-item-has-children.open > .sub-menu {
-    max-height: 2000px; /* Increased for long menus */
-    opacity: 1;
+    max-height: 3000px !important; /* Increased for very long menus */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition-delay: 0s !important;
 }
 
 .mobile-menu .sub-menu li {

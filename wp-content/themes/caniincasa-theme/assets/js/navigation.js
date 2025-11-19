@@ -229,57 +229,92 @@
          * Mobile Menu Dropdown Support
          * Supports nested submenus (multi-level)
          */
-        const mobileMenuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children');
+        function initMobileMenuDropdowns() {
+            const mobileMenuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children');
 
-        mobileMenuItemsWithChildren.forEach(function(item) {
-            const link = item.querySelector('> a');
-            const submenu = item.querySelector('> .sub-menu');
+            console.log('Mobile menu items with children found:', mobileMenuItemsWithChildren.length);
 
-            if (link && submenu) {
-                // Add dropdown indicator if not present
-                if (!link.querySelector('.dropdown-indicator')) {
-                    const indicator = document.createElement('span');
-                    indicator.className = 'dropdown-indicator';
-                    indicator.setAttribute('aria-hidden', 'true');
-                }
+            if (mobileMenuItemsWithChildren.length === 0) {
+                console.warn('No mobile menu items with children found. Checking after delay...');
 
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                // Try again after mobile menu is loaded
+                setTimeout(function() {
+                    const retryItems = document.querySelectorAll('.mobile-menu .menu-item-has-children');
+                    console.log('Retry - Mobile menu items found:', retryItems.length);
+                    if (retryItems.length > 0) {
+                        attachMobileMenuListeners(retryItems);
+                    }
+                }, 500);
+                return;
+            }
 
-                    // Toggle current item
-                    const isOpen = item.classList.contains('open');
+            attachMobileMenuListeners(mobileMenuItemsWithChildren);
+        }
 
-                    // Close all sibling dropdowns (same level only)
-                    const parent = item.parentElement;
-                    const siblings = Array.from(parent.children).filter(child =>
-                        child !== item && child.classList.contains('menu-item-has-children')
-                    );
-                    siblings.forEach(sibling => {
-                        sibling.classList.remove('open');
-                        // Also close nested items
-                        const nestedOpen = sibling.querySelectorAll('.menu-item-has-children.open');
-                        nestedOpen.forEach(nested => nested.classList.remove('open'));
+        function attachMobileMenuListeners(items) {
+            items.forEach(function(item) {
+                const link = item.querySelector('> a');
+                const submenu = item.querySelector('> .sub-menu');
+
+                if (link && submenu) {
+                    // Remove existing listeners to avoid duplicates
+                    const newLink = link.cloneNode(true);
+                    link.parentNode.replaceChild(newLink, link);
+
+                    newLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        console.log('Mobile menu item clicked:', newLink.textContent.trim());
+
+                        // Toggle current item
+                        const isOpen = item.classList.contains('open');
+
+                        // Close all sibling dropdowns (same level only)
+                        const parent = item.parentElement;
+                        const siblings = Array.from(parent.children).filter(child =>
+                            child !== item && child.classList.contains('menu-item-has-children')
+                        );
+                        siblings.forEach(sibling => {
+                            sibling.classList.remove('open');
+                            // Also close nested items
+                            const nestedOpen = sibling.querySelectorAll('.menu-item-has-children.open');
+                            nestedOpen.forEach(nested => nested.classList.remove('open'));
+                        });
+
+                        // Toggle current
+                        if (isOpen) {
+                            item.classList.remove('open');
+                            console.log('Closed submenu');
+                            // Close all nested open items
+                            const nestedOpen = item.querySelectorAll('.menu-item-has-children.open');
+                            nestedOpen.forEach(nested => nested.classList.remove('open'));
+                        } else {
+                            item.classList.add('open');
+                            console.log('Opened submenu');
+                        }
+
+                        // Update aria-expanded
+                        newLink.setAttribute('aria-expanded', !isOpen);
                     });
 
-                    // Toggle current
-                    if (isOpen) {
-                        item.classList.remove('open');
-                        // Close all nested open items
-                        const nestedOpen = item.querySelectorAll('.menu-item-has-children.open');
-                        nestedOpen.forEach(nested => nested.classList.remove('open'));
-                    } else {
-                        item.classList.add('open');
-                    }
+                    // Initialize aria-expanded
+                    newLink.setAttribute('aria-expanded', 'false');
 
-                    // Update aria-expanded
-                    link.setAttribute('aria-expanded', !isOpen);
-                });
+                    console.log('Attached listener to:', newLink.textContent.trim());
+                }
+            });
+        }
 
-                // Initialize aria-expanded
-                link.setAttribute('aria-expanded', 'false');
-            }
-        });
+        // Initialize mobile menu dropdowns
+        initMobileMenuDropdowns();
+
+        // Re-initialize when mobile nav opens (in case menu is dynamically loaded)
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                setTimeout(initMobileMenuDropdowns, 100);
+            });
+        }
 
         /**
          * Handle window resize
