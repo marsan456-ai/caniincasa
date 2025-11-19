@@ -146,8 +146,14 @@
 
             <nav class="mobile-navigation">
                 <?php
+                // Use mobile menu if set, otherwise fallback to primary menu
+                $mobile_menu_location = 'mobile';
+                if ( ! has_nav_menu( 'mobile' ) && has_nav_menu( 'primary' ) ) {
+                    $mobile_menu_location = 'primary';
+                }
+
                 wp_nav_menu( array(
-                    'theme_location' => 'mobile',
+                    'theme_location' => $mobile_menu_location,
                     'menu_class'     => 'mobile-menu',
                     'container'      => false,
                     'fallback_cb'    => false,

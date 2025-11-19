@@ -624,6 +624,102 @@ function caniincasa_redirect_after_login( $redirect_to, $request, $user ) {
 add_filter( 'login_redirect', 'caniincasa_redirect_after_login', 10, 3 );
 
 /**
+ * Send email confirmation to new users
+ */
+function caniincasa_send_email_confirmation( $user_id, $email, $first_name, $token ) {
+    $site_name = get_bloginfo( 'name' );
+    $confirmation_url = add_query_arg(
+        array(
+            'action' => 'confirm_email',
+            'token'  => $token,
+            'user'   => $user_id,
+        ),
+        home_url()
+    );
+
+    $subject = sprintf( '[%s] Conferma il tuo indirizzo email', $site_name );
+
+    $message = sprintf(
+        "Ciao %s,\n\n" .
+        "Benvenuto/a su %s!\n\n" .
+        "Per completare la registrazione, conferma il tuo indirizzo email cliccando sul link qui sotto:\n\n" .
+        "%s\n\n" .
+        "Il link è valido per 24 ore.\n\n" .
+        "Se non hai creato questo account, puoi ignorare questa email.\n\n" .
+        "Nota: anche senza confermare l'email, puoi già accedere al tuo account e pubblicare annunci. " .
+        "Tuttavia, ti consigliamo di confermare l'email per sbloccare tutte le funzionalità.\n\n" .
+        "Grazie,\n" .
+        "Il team di %s",
+        $first_name,
+        $site_name,
+        $confirmation_url,
+        $site_name
+    );
+
+    $headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+
+    return wp_mail( $email, $subject, $message, $headers );
+}
+
+/**
+ * Handle email confirmation
+ */
+function caniincasa_handle_email_confirmation() {
+    // Only run on front-end with confirmation params
+    if ( is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'confirm_email' ) {
+        return;
+    }
+
+    $token   = isset( $_GET['token'] ) ? sanitize_text_field( $_GET['token'] ) : '';
+    $user_id = isset( $_GET['user'] ) ? absint( $_GET['user'] ) : 0;
+
+    if ( ! $token || ! $user_id ) {
+        wp_die( 'Link di conferma non valido.', 'Errore', array( 'response' => 400 ) );
+    }
+
+    // Get user meta
+    $stored_token = get_user_meta( $user_id, 'email_confirmation_token', true );
+    $expires      = get_user_meta( $user_id, 'email_confirmation_token_expires', true );
+    $status       = get_user_meta( $user_id, 'account_status', true );
+
+    // Validate token
+    if ( $stored_token !== $token ) {
+        wp_die( 'Token di conferma non valido.', 'Errore', array( 'response' => 400 ) );
+    }
+
+    // Check if already confirmed
+    if ( $status === 'active' ) {
+        wp_redirect( add_query_arg( 'email_confirmed', 'already', home_url( '/dashboard' ) ) );
+        exit;
+    }
+
+    // Check expiration
+    if ( $expires && time() > $expires ) {
+        wp_die(
+            'Il link di conferma è scaduto. Per richiedere un nuovo link, accedi al tuo account e visita la dashboard.',
+            'Link Scaduto',
+            array( 'response' => 400 )
+        );
+    }
+
+    // Confirm email
+    update_user_meta( $user_id, 'account_status', 'active' );
+    delete_user_meta( $user_id, 'email_confirmation_token' );
+    delete_user_meta( $user_id, 'email_confirmation_token_expires' );
+
+    // Log user in if not logged in
+    if ( ! is_user_logged_in() ) {
+        wp_set_current_user( $user_id );
+        wp_set_auth_cookie( $user_id );
+    }
+
+    // Redirect to dashboard with success message
+    wp_redirect( add_query_arg( 'email_confirmed', 'success', home_url( '/dashboard' ) ) );
+    exit;
+}
+add_action( 'template_redirect', 'caniincasa_handle_email_confirmation' );
+
+/**
  * AJAX: Handle user registration
  */
 function caniincasa_ajax_register_user() {
@@ -710,6 +806,15 @@ function caniincasa_ajax_register_user() {
         update_user_meta( $user_id, 'provincia', $provincia );
     }
 
+    // Set account as pending and generate confirmation token
+    update_user_meta( $user_id, 'account_status', 'pending' );
+    $confirmation_token = wp_generate_password( 32, false );
+    update_user_meta( $user_id, 'email_confirmation_token', $confirmation_token );
+    update_user_meta( $user_id, 'email_confirmation_token_expires', time() + ( 24 * HOUR_IN_SECONDS ) );
+
+    // Send confirmation email
+    caniincasa_send_email_confirmation( $user_id, $email, $first_name, $confirmation_token );
+
     // Handle newsletter subscription
     $newsletter_subscribe = isset( $_POST['newsletter_subscribe'] ) && $_POST['newsletter_subscribe'] === '1';
     if ( $newsletter_subscribe && class_exists( 'Caniincasa_Newsletter_System' ) ) {
@@ -721,9 +826,12 @@ function caniincasa_ajax_register_user() {
     wp_set_current_user( $user_id );
     wp_set_auth_cookie( $user_id );
 
+    // Get redirect URL
+    $redirect_to = isset( $_POST['redirect_to'] ) ? esc_url_raw( $_POST['redirect_to'] ) : home_url( '/dashboard' );
+
     wp_send_json_success( array(
-        'message'      => 'Registrazione completata con successo!',
-        'redirect_url' => home_url( '/dashboard' ),
+        'message'      => 'Registrazione completata! Ti abbiamo inviato una email per confermare il tuo indirizzo. Puoi già accedere e pubblicare annunci.',
+        'redirect_url' => $redirect_to,
     ) );
 }
 add_action( 'wp_ajax_nopriv_register_user', 'caniincasa_ajax_register_user' );

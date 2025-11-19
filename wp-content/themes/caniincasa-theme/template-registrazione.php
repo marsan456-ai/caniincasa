@@ -6,9 +6,12 @@
  * @package Caniincasa
  */
 
-// Redirect to dashboard if already logged in
+// Get redirect_to parameter
+$redirect_to = isset( $_GET['redirect_to'] ) ? esc_url_raw( $_GET['redirect_to'] ) : home_url( '/dashboard' );
+
+// Redirect if already logged in
 if ( is_user_logged_in() ) {
-    wp_redirect( home_url( '/dashboard' ) );
+    wp_redirect( $redirect_to );
     exit;
 }
 
@@ -335,12 +338,19 @@ get_header();
                     </div>
 
                     <?php wp_nonce_field( 'caniincasa_register', 'register_nonce' ); ?>
+                    <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>">
 
                 </form>
 
                 <!-- Login Link -->
                 <div class="auth-footer">
-                    <p>Hai già un account? <a href="<?php echo esc_url( home_url( '/login' ) ); ?>">Accedi qui</a></p>
+                    <?php
+                    $login_url = home_url( '/login' );
+                    if ( isset( $_GET['redirect_to'] ) ) {
+                        $login_url = add_query_arg( 'redirect_to', urlencode( $_GET['redirect_to'] ), $login_url );
+                    }
+                    ?>
+                    <p>Hai già un account? <a href="<?php echo esc_url( $login_url ); ?>">Accedi qui</a></p>
                 </div>
 
             </div>

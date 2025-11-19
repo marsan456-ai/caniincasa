@@ -227,6 +227,7 @@
 
         /**
          * Mobile Menu Dropdown Support
+         * Supports nested submenus (multi-level)
          */
         const mobileMenuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children');
 
@@ -235,25 +236,48 @@
             const submenu = item.querySelector('> .sub-menu');
 
             if (link && submenu) {
+                // Add dropdown indicator if not present
+                if (!link.querySelector('.dropdown-indicator')) {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'dropdown-indicator';
+                    indicator.setAttribute('aria-hidden', 'true');
+                }
+
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
 
                     // Toggle current item
                     const isOpen = item.classList.contains('open');
 
-                    // Close all sibling dropdowns
-                    const siblings = Array.from(item.parentElement.children).filter(child =>
+                    // Close all sibling dropdowns (same level only)
+                    const parent = item.parentElement;
+                    const siblings = Array.from(parent.children).filter(child =>
                         child !== item && child.classList.contains('menu-item-has-children')
                     );
-                    siblings.forEach(sibling => sibling.classList.remove('open'));
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('open');
+                        // Also close nested items
+                        const nestedOpen = sibling.querySelectorAll('.menu-item-has-children.open');
+                        nestedOpen.forEach(nested => nested.classList.remove('open'));
+                    });
 
                     // Toggle current
                     if (isOpen) {
                         item.classList.remove('open');
+                        // Close all nested open items
+                        const nestedOpen = item.querySelectorAll('.menu-item-has-children.open');
+                        nestedOpen.forEach(nested => nested.classList.remove('open'));
                     } else {
                         item.classList.add('open');
                     }
+
+                    // Update aria-expanded
+                    link.setAttribute('aria-expanded', !isOpen);
                 });
+
+                // Initialize aria-expanded
+                link.setAttribute('aria-expanded', 'false');
             }
         });
 

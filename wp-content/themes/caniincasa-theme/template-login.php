@@ -3,8 +3,11 @@
  * Template Name: Login
  */
 
+// Get redirect_to parameter
+$redirect_to = isset( $_GET['redirect_to'] ) ? esc_url_raw( $_GET['redirect_to'] ) : home_url( '/dashboard' );
+
 if ( is_user_logged_in() ) {
-    wp_redirect( home_url( '/dashboard' ) );
+    wp_redirect( $redirect_to );
     exit;
 }
 
@@ -57,10 +60,17 @@ get_header();
                     </button>
 
                     <?php wp_nonce_field( 'caniincasa_login', 'login_nonce' ); ?>
+                    <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>">
                 </form>
 
                 <div class="auth-footer">
-                    <p>Non hai un account? <a href="<?php echo esc_url( home_url( '/registrazione' ) ); ?>">Registrati qui</a></p>
+                    <?php
+                    $register_url = home_url( '/registrazione' );
+                    if ( isset( $_GET['redirect_to'] ) ) {
+                        $register_url = add_query_arg( 'redirect_to', urlencode( $_GET['redirect_to'] ), $register_url );
+                    }
+                    ?>
+                    <p>Non hai un account? <a href="<?php echo esc_url( $register_url ); ?>">Registrati qui</a></p>
                 </div>
             </div>
         </div>

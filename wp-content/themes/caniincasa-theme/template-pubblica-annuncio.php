@@ -6,9 +6,12 @@
  * @package Caniincasa
  */
 
-// Redirect to login if not logged in
+// Redirect to custom login page if not logged in
 if ( ! is_user_logged_in() ) {
-    wp_redirect( wp_login_url( get_permalink() ) );
+    $redirect_to = get_permalink();
+    $login_url = home_url( '/login' );
+    $login_url = add_query_arg( 'redirect_to', urlencode( $redirect_to ), $login_url );
+    wp_redirect( $login_url );
     exit;
 }
 

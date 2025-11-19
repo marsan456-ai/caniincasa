@@ -147,6 +147,13 @@
             // Disable submit button
             $submitBtn.prop('disabled', true).addClass('loading');
 
+            // Get redirect_to from hidden field or URL
+            let redirectTo = $('input[name="redirect_to"]').val();
+            if (!redirectTo) {
+                const urlParams = new URLSearchParams(window.location.search);
+                redirectTo = urlParams.get('redirect_to');
+            }
+
             // Prepare form data
             const formData = {
                 action: 'register_user',
@@ -163,6 +170,10 @@
                 provincia: $('#provincia').val(),
                 accept_privacy: $('#accept_privacy').is(':checked')
             };
+
+            if (redirectTo) {
+                formData.redirect_to = redirectTo;
+            }
 
             // AJAX request
             $.ajax({
