@@ -42,6 +42,21 @@ function caniincasa_create_messages_table() {
 register_activation_hook( CANIINCASA_CORE_FILE, 'caniincasa_create_messages_table' );
 
 /**
+ * Ensure messages table exists on init
+ * This runs on every page load but only creates table if it doesn't exist
+ */
+function caniincasa_ensure_messages_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'caniincasa_messages';
+
+    // Check if table exists
+    if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+        caniincasa_create_messages_table();
+    }
+}
+add_action( 'init', 'caniincasa_ensure_messages_table' );
+
+/**
  * Send a message
  *
  * @param int    $sender_id Sender user ID
@@ -302,7 +317,13 @@ function caniincasa_ajax_send_message() {
             'message_id' => $message_id,
         ) );
     } else {
-        wp_send_json_error( array( 'message' => __( 'Errore durante l\'invio del messaggio.', 'caniincasa-core' ) ) );
+        global $wpdb;
+        $db_error = $wpdb->last_error ? $wpdb->last_error : __( 'Errore sconosciuto', 'caniincasa-core' );
+
+        wp_send_json_error( array(
+            'message' => __( 'Errore durante l\'invio del messaggio.', 'caniincasa-core' ),
+            'debug' => $db_error
+        ) );
     }
 }
 add_action( 'wp_ajax_send_message', 'caniincasa_ajax_send_message' );

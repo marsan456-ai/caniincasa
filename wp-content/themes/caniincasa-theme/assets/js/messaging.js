@@ -118,6 +118,11 @@
                             this.closeModal();
                         }, 2000);
                     } else {
+                        // Log debug info to console if available
+                        if (response.data.debug) {
+                            console.error('Messaging error:', response.data.debug);
+                        }
+
                         $response
                             .removeClass('success')
                             .addClass('error')
