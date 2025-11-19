@@ -136,8 +136,8 @@
         const menuItemsWithChildren = document.querySelectorAll('.primary-menu .menu-item-has-children');
 
         menuItemsWithChildren.forEach(function(item) {
-            const link = item.querySelector('> a');
-            const submenu = item.querySelector('> .sub-menu');
+            const link = item.querySelector(':scope > a');
+            const submenu = item.querySelector(':scope > .sub-menu');
 
             if (link && submenu) {
                 // Click handler for touch devices and keyboard accessibility
