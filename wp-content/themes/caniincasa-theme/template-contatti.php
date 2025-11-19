@@ -13,22 +13,14 @@ get_header();
 
     <?php while ( have_posts() ) : the_post(); ?>
 
-        <!-- Hero Section Contatti -->
-        <div class="contatti-hero page-hero">
-            <?php
-            $contatti_hero_bg = get_theme_mod( 'contatti_hero_image' );
-            if ( $contatti_hero_bg ) :
-            ?>
-                <div class="hero-background" style="background-image: url(<?php echo esc_url( $contatti_hero_bg ); ?>);"></div>
-                <div class="hero-overlay"></div>
-            <?php endif; ?>
-
+        <!-- Page Hero -->
+        <div class="page-hero">
             <div class="container">
                 <h1 class="page-title">
                     <?php echo esc_html( get_theme_mod( 'contatti_title', get_the_title() ) ); ?>
                 </h1>
                 <?php if ( get_theme_mod( 'contatti_subtitle' ) ) : ?>
-                    <p class="page-subtitle">
+                    <p class="page-description">
                         <?php echo esc_html( get_theme_mod( 'contatti_subtitle', '' ) ); ?>
                     </p>
                 <?php endif; ?>

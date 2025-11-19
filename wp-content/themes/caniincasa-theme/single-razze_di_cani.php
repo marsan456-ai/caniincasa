@@ -12,15 +12,15 @@ get_header();
 
     <?php while ( have_posts() ) : the_post(); ?>
 
-        <!-- Hero Section con Gradiente -->
-        <div class="razza-hero">
+        <!-- Hero Section -->
+        <div class="single-hero">
             <div class="container">
-                <h1 class="razza-title"><?php the_title(); ?></h1>
+                <h1 class="entry-title"><?php the_title(); ?></h1>
                 <?php
                 $nazione = get_field( 'nazione_origine' );
                 if ( $nazione ) :
                     ?>
-                    <p class="razza-subtitle"><?php echo esc_html( $nazione ); ?></p>
+                    <p class="entry-subtitle"><?php echo esc_html( $nazione ); ?></p>
                 <?php endif; ?>
             </div>
         </div>

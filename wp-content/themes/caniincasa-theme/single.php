@@ -13,44 +13,42 @@ get_header();
     <?php while ( have_posts() ) : the_post(); ?>
 
         <!-- Hero Section -->
-        <div class="post-hero">
+        <div class="single-hero">
             <div class="container">
-                <div class="post-hero-content">
-                    <?php
-                    $categories = get_the_category();
-                    if ( ! empty( $categories ) ) :
-                        ?>
-                        <div class="post-categories">
-                            <?php foreach ( $categories as $category ) : ?>
-                                <a href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>" class="category-badge">
-                                    <?php echo esc_html( $category->name ); ?>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <h1 class="post-title"><?php the_title(); ?></h1>
-
-                    <div class="post-meta">
-                        <span class="meta-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                            <?php echo esc_html( get_the_author() ); ?>
-                        </span>
-                        <span class="meta-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                            </svg>
-                            <?php echo esc_html( get_the_date() ); ?>
-                        </span>
-                        <span class="meta-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                            <?php echo caniincasa_get_reading_time() . ' min di lettura'; ?>
-                        </span>
+                <?php
+                $categories = get_the_category();
+                if ( ! empty( $categories ) ) :
+                    ?>
+                    <div class="post-categories">
+                        <?php foreach ( $categories as $category ) : ?>
+                            <a href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>" class="category-badge">
+                                <?php echo esc_html( $category->name ); ?>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
+                <?php endif; ?>
+
+                <h1 class="entry-title"><?php the_title(); ?></h1>
+
+                <div class="entry-meta">
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        <?php echo esc_html( get_the_author() ); ?>
+                    </span>
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                        </svg>
+                        <?php echo esc_html( get_the_date() ); ?>
+                    </span>
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <?php echo caniincasa_get_reading_time() . ' min di lettura'; ?>
+                    </span>
                 </div>
             </div>
         </div>

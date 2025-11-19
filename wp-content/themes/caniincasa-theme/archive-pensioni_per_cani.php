@@ -10,11 +10,11 @@ get_header();
 
 <main id="main-content" class="site-main archive-strutture archive-pensioni">
 
-    <!-- Hero Section -->
-    <div class="strutture-archive-hero">
+    <!-- Archive Header -->
+    <div class="archive-header">
         <div class="container">
             <h1 class="archive-title">Pensioni per Cani</h1>
-            <p class="archive-subtitle">Trova pensioni per cani in tutta Italia</p>
+            <p class="archive-description">Trova pensioni per cani in tutta Italia</p>
         </div>
     </div>
 

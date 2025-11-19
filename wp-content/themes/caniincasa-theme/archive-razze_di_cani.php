@@ -10,11 +10,11 @@ get_header();
 
 <main id="main-content" class="site-main archive-razze">
 
-    <!-- Hero Section -->
-    <div class="razze-archive-hero">
+    <!-- Archive Header -->
+    <div class="archive-header">
         <div class="container">
             <h1 class="archive-title">Razze di Cani</h1>
-            <p class="archive-subtitle">Scopri tutte le razze canine e trova quella perfetta per te</p>
+            <p class="archive-description">Scopri tutte le razze canine e trova quella perfetta per te</p>
         </div>
     </div>
 

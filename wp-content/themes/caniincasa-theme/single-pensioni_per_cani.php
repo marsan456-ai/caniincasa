@@ -27,10 +27,10 @@ while ( have_posts() ) :
     <main id="main-content" class="site-main single-struttura single-pensione">
 
         <!-- Hero Section -->
-        <div class="strutture-archive-hero">
+        <div class="single-hero">
             <div class="container">
-                <h1 class="archive-title"><?php the_title(); ?></h1>
-                <p class="archive-subtitle">Pensione per Cani</p>
+                <h1 class="entry-title"><?php the_title(); ?></h1>
+                <p class="entry-subtitle">Pensione per Cani</p>
             </div>
         </div>
 
