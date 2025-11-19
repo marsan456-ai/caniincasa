@@ -35,9 +35,15 @@ function caniincasa_breed_importer_page() {
         wp_die( 'Non hai i permessi per accedere a questa pagina.' );
     }
 
+    // Handle file upload
+    $uploaded_file = null;
+    if ( isset( $_FILES['json_file'] ) && $_FILES['json_file']['error'] === UPLOAD_ERR_OK ) {
+        $uploaded_file = $_FILES['json_file']['tmp_name'];
+    }
+
     // Handle import
     if ( isset( $_POST['run_import'] ) && check_admin_referer( 'breed_importer_nonce' ) ) {
-        $result = caniincasa_import_breed_data();
+        $result = caniincasa_import_breed_data( $uploaded_file );
         echo '<div class="notice notice-' . esc_attr( $result['status'] ) . '"><p>' . esc_html( $result['message'] ) . '</p></div>';
 
         if ( ! empty( $result['details'] ) ) {
@@ -112,17 +118,40 @@ function caniincasa_breed_importer_page() {
                 ?>
             </div>
 
-            <?php if ( $file_exists && function_exists( 'get_field' ) ) : ?>
-                <form method="post" action="">
+            <?php if ( function_exists( 'get_field' ) ) : ?>
+                <h3 style="margin-top: 2rem;">Opzione 1: Importa da File Server</h3>
+                <?php if ( $file_exists ) : ?>
+                    <form method="post" action="">
+                        <?php wp_nonce_field( 'breed_importer_nonce' ); ?>
+                        <p>
+                            <button type="submit" name="run_import" class="button button-primary button-large">
+                                Avvia Importazione da Server
+                            </button>
+                        </p>
+                    </form>
+                <?php else : ?>
+                    <p style="color: #dc3232;">File JSON non trovato sul server.</p>
+                <?php endif; ?>
+
+                <hr style="margin: 2rem 0;">
+
+                <h3>Opzione 2: Carica File JSON Manualmente</h3>
+                <form method="post" action="" enctype="multipart/form-data">
                     <?php wp_nonce_field( 'breed_importer_nonce' ); ?>
                     <p>
+                        <label for="json_file" style="display: block; margin-bottom: 0.5rem;">
+                            <strong>Seleziona file dog_breed_calculators_complete.json:</strong>
+                        </label>
+                        <input type="file" name="json_file" id="json_file" accept=".json" required>
+                    </p>
+                    <p>
                         <button type="submit" name="run_import" class="button button-primary button-large">
-                            Avvia Importazione
+                            Carica e Importa JSON
                         </button>
                     </p>
                 </form>
             <?php else : ?>
-                <p style="color: #dc3232;"><strong>Impossibile procedere:</strong> Verifica che il file Excel sia presente e che ACF sia attivo.</p>
+                <p style="color: #dc3232;"><strong>Impossibile procedere:</strong> ACF non è attivo. Installare Advanced Custom Fields.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -144,9 +173,11 @@ function caniincasa_breed_importer_page() {
 }
 
 /**
- * Import breed data from Excel file
+ * Import breed data from JSON file
+ *
+ * @param string|null $uploaded_file Path to uploaded temp file
  */
-function caniincasa_import_breed_data() {
+function caniincasa_import_breed_data( $uploaded_file = null ) {
     // Check requirements
     if ( ! function_exists( 'get_field' ) ) {
         return array(
@@ -156,15 +187,21 @@ function caniincasa_import_breed_data() {
         );
     }
 
-    // Locate JSON file
-    $json_file = get_template_directory() . '/../../dog_breed_calculators_complete.json';
+    // Determine JSON file source
+    if ( $uploaded_file && file_exists( $uploaded_file ) ) {
+        $json_file = $uploaded_file;
+        $source = 'upload';
+    } else {
+        $json_file = get_template_directory() . '/../../dog_breed_calculators_complete.json';
+        $source = 'server';
 
-    if ( ! file_exists( $json_file ) ) {
-        return array(
-            'status' => 'error',
-            'message' => 'File JSON non trovato: ' . $json_file,
-            'details' => array(),
-        );
+        if ( ! file_exists( $json_file ) ) {
+            return array(
+                'status' => 'error',
+                'message' => 'File JSON non trovato: ' . $json_file,
+                'details' => array(),
+            );
+        }
     }
 
     try {
@@ -280,7 +317,8 @@ function caniincasa_import_breed_data() {
         }
 
         // Prepare result message
-        $message = "Importazione completata! {$updated} razze aggiornate, {$not_found} non trovate nel database.";
+        $source_text = $source === 'upload' ? 'da file caricato' : 'da file server';
+        $message = "Importazione completata {$source_text}! {$updated} razze aggiornate, {$not_found} non trovate nel database.";
 
         if ( ! empty( $not_found_list ) ) {
             $details[] = '';
