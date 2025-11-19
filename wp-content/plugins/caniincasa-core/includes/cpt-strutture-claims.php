@@ -466,3 +466,254 @@ function caniincasa_submit_structure_claim( $struttura_id, $struttura_type, $cla
 
     return $claim_id;
 }
+
+/**
+ * Add metabox to display claim data
+ */
+function caniincasa_add_claim_metaboxes() {
+    add_meta_box(
+        'claim_data_metabox',
+        'Dati Richiesta Aggiornamento',
+        'caniincasa_render_claim_data_metabox',
+        'strutture_claims',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'caniincasa_add_claim_metaboxes' );
+
+/**
+ * Render claim data metabox
+ */
+function caniincasa_render_claim_data_metabox( $post ) {
+    $claim_id = $post->ID;
+    $struttura_id = get_post_meta( $claim_id, '_struttura_id', true );
+    $struttura_type = get_post_meta( $claim_id, '_struttura_type', true );
+    $user_id = get_post_meta( $claim_id, '_user_id', true );
+    $claim_data = get_post_meta( $claim_id, '_claim_data', true );
+
+    $struttura = get_post( $struttura_id );
+    $user = get_userdata( $user_id );
+
+    if ( ! $struttura || ! $claim_data ) {
+        echo '<p>Dati della richiesta non disponibili.</p>';
+        return;
+    }
+    ?>
+    <style>
+        .claim-info-box {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .claim-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .claim-comparison-table th {
+            background: #f1f3f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .claim-comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+        .claim-comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        .field-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .original-value {
+            color: #6c757d;
+        }
+        .new-value {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .value-changed {
+            background: #fff3cd;
+        }
+        .value-empty {
+            color: #adb5bd;
+            font-style: italic;
+        }
+        .claim-actions-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-approve-claim {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-approve-claim:hover {
+            background: #218838;
+        }
+        .btn-reject-claim {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-reject-claim:hover {
+            background: #c82333;
+        }
+    </style>
+
+    <!-- Informazioni Generali -->
+    <div class="claim-info-box">
+        <h3 style="margin-top: 0;">Informazioni Richiesta</h3>
+        <p><strong>Struttura:</strong> <?php echo esc_html( $struttura->post_title ); ?>
+           <a href="<?php echo get_edit_post_link( $struttura_id ); ?>" target="_blank">(Modifica Struttura)</a>
+           <a href="<?php echo get_permalink( $struttura_id ); ?>" target="_blank">(Visualizza)</a>
+        </p>
+        <p><strong>Tipo:</strong> <?php echo esc_html( ucfirst( str_replace( '_', ' ', $struttura_type ) ) ); ?></p>
+        <p><strong>Richiesta da:</strong> <?php echo $user ? esc_html( $user->display_name ) . ' (' . esc_html( $user->user_email ) . ')' : 'Utente sconosciuto'; ?></p>
+        <p><strong>Data Richiesta:</strong> <?php echo get_the_date( 'd/m/Y H:i', $claim_id ); ?></p>
+    </div>
+
+    <!-- Tabella Confronto Dati -->
+    <h3>Dati Proposti vs Dati Attuali</h3>
+    <table class="claim-comparison-table">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Campo</th>
+                <th style="width: 35%;">Valore Attuale</th>
+                <th style="width: 35%;">Valore Proposto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Get all ACF field labels for better display
+            $field_labels = array(
+                'telefono' => 'Telefono',
+                'email' => 'Email',
+                'indirizzo' => 'Indirizzo',
+                'citta' => 'Città',
+                'provincia' => 'Provincia',
+                'cap' => 'CAP',
+                'sito_web' => 'Sito Web',
+                'orari_apertura' => 'Orari Apertura',
+                'descrizione' => 'Descrizione',
+                'servizi' => 'Servizi',
+                'prezzi' => 'Prezzi',
+                'facebook' => 'Facebook',
+                'instagram' => 'Instagram',
+                'whatsapp' => 'WhatsApp',
+                'youtube' => 'YouTube',
+                'razze_allevate' => 'Razze Allevate',
+                'specializzazioni' => 'Specializzazioni',
+                'certificazioni' => 'Certificazioni',
+            );
+
+            foreach ( $claim_data as $field_key => $new_value ) :
+                $field_label = isset( $field_labels[ $field_key ] ) ? $field_labels[ $field_key ] : ucfirst( str_replace( '_', ' ', $field_key ) );
+                $current_value = get_field( $field_key, $struttura_id );
+
+                // Convert arrays to readable format
+                if ( is_array( $new_value ) ) {
+                    $new_value = implode( ', ', $new_value );
+                }
+                if ( is_array( $current_value ) ) {
+                    $current_value = implode( ', ', $current_value );
+                }
+
+                // Check if value changed
+                $is_changed = ( $new_value != $current_value );
+                $row_class = $is_changed ? 'value-changed' : '';
+                ?>
+                <tr class="<?php echo esc_attr( $row_class ); ?>">
+                    <td class="field-label"><?php echo esc_html( $field_label ); ?></td>
+                    <td class="original-value">
+                        <?php
+                        if ( empty( $current_value ) ) {
+                            echo '<span class="value-empty">(vuoto)</span>';
+                        } else {
+                            echo esc_html( $current_value );
+                        }
+                        ?>
+                    </td>
+                    <td class="new-value">
+                        <?php
+                        if ( empty( $new_value ) ) {
+                            echo '<span class="value-empty">(vuoto)</span>';
+                        } else {
+                            echo esc_html( $new_value );
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- Azioni Rapide -->
+    <?php if ( get_post_status( $claim_id ) === 'pending' ) : ?>
+    <div class="claim-actions-box">
+        <form method="post" style="display: inline;">
+            <?php wp_nonce_field( 'approve-claim-' . $claim_id, 'approve_nonce' ); ?>
+            <input type="hidden" name="claim_id" value="<?php echo esc_attr( $claim_id ); ?>">
+            <button type="submit" name="action" value="approve_single" class="btn-approve-claim" onclick="return confirm('Sei sicuro di voler approvare questa richiesta? I dati della struttura verranno aggiornati.');">
+                ✓ Approva Richiesta
+            </button>
+        </form>
+        <form method="post" style="display: inline;">
+            <?php wp_nonce_field( 'reject-claim-' . $claim_id, 'reject_nonce' ); ?>
+            <input type="hidden" name="claim_id" value="<?php echo esc_attr( $claim_id ); ?>">
+            <button type="submit" name="action" value="reject_single" class="btn-reject-claim" onclick="return confirm('Sei sicuro di voler rifiutare questa richiesta?');">
+                ✗ Rifiuta Richiesta
+            </button>
+        </form>
+    </div>
+    <?php else : ?>
+    <div class="claim-info-box" style="border-left-color: <?php echo get_post_status( $claim_id ) === 'publish' ? '#28a745' : '#dc3545'; ?>;">
+        <p><strong>Stato:</strong> <?php echo get_post_status( $claim_id ) === 'publish' ? 'Approvata' : 'Rifiutata'; ?></p>
+        <p><strong>Data Elaborazione:</strong> <?php echo get_the_modified_date( 'd/m/Y H:i', $claim_id ); ?></p>
+    </div>
+    <?php endif; ?>
+    <?php
+}
+
+/**
+ * Handle single claim approve/reject from metabox
+ */
+function caniincasa_handle_single_claim_action() {
+    if ( ! isset( $_POST['action'] ) || ! isset( $_POST['claim_id'] ) ) {
+        return;
+    }
+
+    $claim_id = absint( $_POST['claim_id'] );
+    $action = sanitize_text_field( $_POST['action'] );
+
+    if ( $action === 'approve_single' && check_admin_referer( 'approve-claim-' . $claim_id, 'approve_nonce' ) ) {
+        caniincasa_approve_claim( $claim_id );
+        wp_redirect( admin_url( 'admin.php?page=strutture-claims' ) );
+        exit;
+    } elseif ( $action === 'reject_single' && check_admin_referer( 'reject-claim-' . $claim_id, 'reject_nonce' ) ) {
+        caniincasa_reject_claim( $claim_id );
+        wp_redirect( admin_url( 'admin.php?page=strutture-claims' ) );
+        exit;
+    }
+}
+add_action( 'admin_init', 'caniincasa_handle_single_claim_action' );
