@@ -57,55 +57,37 @@ get_header();
                                 <p class="form-intro"><?php echo esc_html( get_theme_mod( 'contatti_form_text', '' ) ); ?></p>
                             <?php endif; ?>
 
-                            <!-- Contact Form (usa Contact Form 7 o form custom) -->
+                            <!-- Contact Form 7 Shortcode -->
                             <?php
                             $contact_form_shortcode = get_theme_mod( 'contatti_form_shortcode', '' );
                             if ( $contact_form_shortcode ) {
                                 echo do_shortcode( $contact_form_shortcode );
                             } else {
-                                // Form HTML predefinito
+                                // Messaggio per amministratori se shortcode mancante
+                                if ( current_user_can( 'edit_theme_options' ) ) {
+                                    ?>
+                                    <div class="admin-notice" style="background: #fff3cd; border: 1px solid #ffc107; padding: 20px; border-radius: 8px;">
+                                        <p style="margin: 0; color: #856404;">
+                                            <strong>⚠️ Attenzione Amministratore:</strong><br>
+                                            Nessun form di contatto configurato.
+                                            <a href="<?php echo esc_url( admin_url( 'customize.php?autofocus[section]=contatti_form' ) ); ?>" style="color: #0066cc; text-decoration: underline;">
+                                                Vai al Customizer per inserire lo shortcode di Contact Form 7
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <?php
+                                } else {
+                                    // Per utenti normali, mostra messaggio generico
+                                    ?>
+                                    <div class="contact-form-placeholder" style="background: #f8f9fa; padding: 40px; text-align: center; border-radius: 8px;">
+                                        <p style="margin: 0; color: #6c757d;">
+                                            <?php esc_html_e( 'Il modulo di contatto sarà disponibile a breve.', 'caniincasa' ); ?>
+                                        </p>
+                                    </div>
+                                    <?php
+                                }
+                            }
                             ?>
-                                <form id="contact-form" class="contact-form" method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
-                                    <div class="form-group">
-                                        <label for="contact-name"><?php esc_html_e( 'Nome *', 'caniincasa' ); ?></label>
-                                        <input type="text" id="contact-name" name="contact_name" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="contact-email"><?php esc_html_e( 'Email *', 'caniincasa' ); ?></label>
-                                        <input type="email" id="contact-email" name="contact_email" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="contact-phone"><?php esc_html_e( 'Telefono', 'caniincasa' ); ?></label>
-                                        <input type="tel" id="contact-phone" name="contact_phone" class="form-control">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="contact-subject"><?php esc_html_e( 'Oggetto *', 'caniincasa' ); ?></label>
-                                        <input type="text" id="contact-subject" name="contact_subject" class="form-control" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="contact-message"><?php esc_html_e( 'Messaggio *', 'caniincasa' ); ?></label>
-                                        <textarea id="contact-message" name="contact_message" class="form-control" rows="6" required></textarea>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" name="contact_privacy" required>
-                                            <?php esc_html_e( 'Accetto la Privacy Policy', 'caniincasa' ); ?> *
-                                        </label>
-                                    </div>
-
-                                    <input type="hidden" name="action" value="caniincasa_contact_form">
-                                    <?php wp_nonce_field( 'contact_form_nonce', 'contact_nonce' ); ?>
-
-                                    <button type="submit" class="btn btn-primary btn-lg">
-                                        <?php echo esc_html( get_theme_mod( 'contatti_form_button_text', 'Invia Messaggio' ) ); ?>
-                                    </button>
-                                </form>
-                            <?php } ?>
                         </div>
 
                         <!-- Contact Info Sidebar -->

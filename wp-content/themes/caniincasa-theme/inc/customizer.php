@@ -920,10 +920,13 @@ function caniincasa_customize_register( $wp_customize ) {
         'sanitize_callback' => 'sanitize_text_field',
     ) );
     $wp_customize->add_control( 'contatti_form_shortcode', array(
-        'label'       => __( 'Shortcode Contact Form 7', 'caniincasa' ),
-        'description' => __( 'Inserisci lo shortcode di Contact Form 7 (es: [contact-form-7 id="123"]) per sovrascrivere il form predefinito', 'caniincasa' ),
+        'label'       => __( 'Shortcode Contact Form 7 *', 'caniincasa' ),
+        'description' => __( 'Inserisci lo shortcode di Contact Form 7 (es: [contact-form-7 id="123" title="Contatti"]). Crea prima un form in Contact Form 7, poi copia qui lo shortcode.', 'caniincasa' ),
         'section'     => 'contatti_form',
         'type'        => 'text',
+        'input_attrs' => array(
+            'placeholder' => '[contact-form-7 id="123"]',
+        ),
     ) );
 
     /**
