@@ -625,6 +625,67 @@
 }
 
 /* ========================================
+   Responsive - Mobile Small Screens
+======================================== */
+@media (max-width: 479px) {
+    .quiz-container {
+        padding: 30px 16px;
+    }
+
+    .quiz-navigation {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .quiz-navigation .btn {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        min-width: 100px;
+    }
+
+    /* Ensure primary button takes full width on very small screens if needed */
+    .btn-primary {
+        min-width: 0;
+    }
+
+    .question-title {
+        font-size: 20px;
+    }
+
+    .option-content h3 {
+        font-size: 16px;
+    }
+
+    .option-content p {
+        font-size: 13px;
+    }
+}
+
+/* Extra small screens - stack buttons vertically if still too narrow */
+@media (max-width: 360px) {
+    .quiz-navigation {
+        flex-direction: column;
+    }
+
+    .quiz-navigation .btn {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
+    .btn-outline {
+        min-width: auto;
+        order: 2;
+    }
+
+    .btn-primary {
+        order: 1;
+    }
+}
+
+/* ========================================
    Responsive - Tablet
 ======================================== */
 @media (min-width: 768px) {
