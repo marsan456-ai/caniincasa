@@ -5,57 +5,8 @@
  */
 
 /* ==========================================================================
-   Hero Section
+   Hero Section - Now using global styles from main.css
    ========================================================================== */
-
-.contatti-hero {
-    position: relative;
-    padding: 80px 0;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-    color: white;
-    text-align: center;
-    overflow: hidden;
-}
-
-.contatti-hero .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-}
-
-.contatti-hero .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
-}
-
-.contatti-hero .container {
-    position: relative;
-    z-index: 3;
-}
-
-.contatti-hero .page-title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: white;
-}
-
-.contatti-hero .page-subtitle {
-    font-size: 1.25rem;
-    max-width: 700px;
-    margin: 0 auto;
-    opacity: 0.95;
-}
 
 /* ==========================================================================
    Section Padding
@@ -353,28 +304,12 @@
    ========================================================================== */
 
 @media (max-width: 1024px) {
-    .contatti-hero .page-title {
-        font-size: 2.5rem;
-    }
-
     .contatti-grid {
         gap: 40px;
     }
 }
 
 @media (max-width: 768px) {
-    .contatti-hero {
-        padding: 60px 0;
-    }
-
-    .contatti-hero .page-title {
-        font-size: 2rem;
-    }
-
-    .contatti-hero .page-subtitle {
-        font-size: 1rem;
-    }
-
     .section-padding {
         padding: 40px 0;
     }

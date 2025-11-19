@@ -9,19 +9,7 @@
    SINGLE POST & PAGE
    ======================================================================== */
 
-/* Hero Sections */
-.post-hero,
-.page-hero {
-    background: linear-gradient(135deg, #FF6B35 0%, #4A5568 100%);
-    padding: 60px 0;
-    color: white;
-    margin-bottom: 40px;
-}
-
-.post-hero-content,
-.page-hero h1 {
-    max-width: 800px;
-}
+/* Hero Sections - Now using global styles from main.css */
 
 .post-categories {
     margin-bottom: 15px;
