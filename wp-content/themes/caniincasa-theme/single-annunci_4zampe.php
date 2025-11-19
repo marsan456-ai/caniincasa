@@ -18,11 +18,24 @@ while ( have_posts() ) :
 	$contatto_preferito = get_field( 'contatto_preferito' );
 	$giorni_scadenza    = get_field( 'giorni_scadenza' );
 
-	// Get author info
-	$author_id    = get_the_author_meta( 'ID' );
-	$author_name  = caniincasa_get_user_display_name( $author_id ); // Use privacy-safe name (Nome I.)
-	$author_email = get_the_author_meta( 'user_email' );
-	$author_phone = get_user_meta( $author_id, 'phone', true );
+	// Get contact info (handles both regular and anonymous users)
+	$contact_info = caniincasa_get_annuncio_contact_info( get_the_ID() );
+	$is_anonymous = isset( $contact_info['is_anonymous'] ) && $contact_info['is_anonymous'];
+
+	// For display purposes
+	if ( $is_anonymous ) {
+		// Anonymous user: show anonymous name and contacts
+		$author_name  = $contact_info['name'];
+		$author_email = $contact_info['email'];
+		$author_phone = $contact_info['phone'];
+		$author_id    = 0; // No real author ID for anonymous
+	} else {
+		// Regular user: show author info
+		$author_id    = get_the_author_meta( 'ID' );
+		$author_name  = caniincasa_get_user_display_name( $author_id ); // Privacy-safe name (Nome I.)
+		$author_email = $contact_info['email']; // Use contact info (handles annuncio-specific email)
+		$author_phone = $contact_info['phone']; // Use contact info (handles annuncio-specific phone)
+	}
 
 	// Get razza details if exists
 	$razza_name = '';
@@ -208,52 +221,104 @@ while ( have_posts() ) :
 				<!-- Sidebar -->
 				<aside class="annuncio-sidebar">
 
-					<!-- Author Box -->
+					<!-- Author/Contact Box -->
 					<div class="sidebar-box author-box">
 						<h3 class="box-title"><?php esc_html_e( 'Pubblicato da', 'caniincasa' ); ?></h3>
 
-						<div class="author-info">
-							<div class="author-avatar">
-								<?php echo get_avatar( $author_id, 80 ); ?>
-							</div>
-							<div class="author-details">
-								<h4 class="author-name"><?php echo esc_html( $author_name ); ?></h4>
-								<p class="author-meta">
+						<?php if ( $is_anonymous ) : ?>
+							<!-- Anonymous User -->
+							<div class="author-info">
+								<div class="author-avatar">
 									<?php
-									printf(
-										// translators: %s: registration date
-										esc_html__( 'Membro da %s', 'caniincasa' ),
-										get_the_author_meta( 'user_registered' ) ? date_i18n( 'F Y', strtotime( get_the_author_meta( 'user_registered' ) ) ) : ''
-									);
+									// Generic avatar for anonymous users
+									echo '<div class="anonymous-avatar">' .
+										'<svg width="60" height="60" viewBox="0 0 24 24" fill="none">' .
+										'<path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' .
+										'<path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' .
+										'</svg>' .
+										'</div>';
 									?>
-								</p>
+								</div>
+								<div class="author-details">
+									<h4 class="author-name"><?php echo esc_html( $author_name ); ?></h4>
+									<p class="author-meta">
+										<span class="badge badge-anonymous" style="background-color: #6c757d; color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 3px;">
+											<?php esc_html_e( 'Utente Privato', 'caniincasa' ); ?>
+										</span>
+									</p>
+								</div>
 							</div>
-						</div>
 
-						<?php
-						// Count author's posts
-						$author_posts_count = count_user_posts( $author_id, 'annunci_4zampe' );
-						if ( $author_posts_count > 1 ) :
-							?>
-							<div class="author-stats">
-								<span class="stat-item">
-									<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-										<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-									<?php
-									printf(
-										// translators: %d: number of posts
-										esc_html( _n( '%d annuncio pubblicato', '%d annunci pubblicati', $author_posts_count, 'caniincasa' ) ),
-										$author_posts_count
-									);
-									?>
-								</span>
+							<!-- Contact Info for Anonymous -->
+							<div class="anonymous-contact-info" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--color-border);">
+								<?php if ( $author_email ) : ?>
+									<div class="contact-item" style="margin-bottom: 12px; font-size: 0.9rem;">
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 6px; color: var(--color-primary);">
+											<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										<a href="mailto:<?php echo esc_attr( $author_email ); ?>" style="color: var(--color-text); text-decoration: none;">
+											<?php echo esc_html( $author_email ); ?>
+										</a>
+									</div>
+								<?php endif; ?>
+
+								<?php if ( $author_phone ) : ?>
+									<div class="contact-item" style="font-size: 0.9rem;">
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 6px; color: var(--color-primary);">
+											<path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $author_phone ) ); ?>" style="color: var(--color-text); text-decoration: none;">
+											<?php echo esc_html( $author_phone ); ?>
+										</a>
+									</div>
+								<?php endif; ?>
 							</div>
+
+						<?php else : ?>
+							<!-- Registered User -->
+							<div class="author-info">
+								<div class="author-avatar">
+									<?php echo get_avatar( $author_id, 80 ); ?>
+								</div>
+								<div class="author-details">
+									<h4 class="author-name"><?php echo esc_html( $author_name ); ?></h4>
+									<p class="author-meta">
+										<?php
+										printf(
+											// translators: %s: registration date
+											esc_html__( 'Membro da %s', 'caniincasa' ),
+											get_the_author_meta( 'user_registered' ) ? date_i18n( 'F Y', strtotime( get_the_author_meta( 'user_registered' ) ) ) : ''
+										);
+										?>
+									</p>
+								</div>
+							</div>
+
+							<?php
+							// Count author's posts
+							$author_posts_count = count_user_posts( $author_id, 'annunci_4zampe' );
+							if ( $author_posts_count > 1 ) :
+								?>
+								<div class="author-stats">
+									<span class="stat-item">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+											<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										<?php
+										printf(
+											// translators: %d: number of posts
+											esc_html( _n( '%d annuncio pubblicato', '%d annunci pubblicati', $author_posts_count, 'caniincasa' ) ),
+											$author_posts_count
+										);
+										?>
+									</span>
+								</div>
+							<?php endif; ?>
+
+							<a href="<?php echo esc_url( get_author_posts_url( $author_id ) ); ?>" class="btn btn-secondary btn-block">
+								<?php esc_html_e( 'Vedi tutti gli annunci', 'caniincasa' ); ?>
+							</a>
 						<?php endif; ?>
-
-						<a href="<?php echo esc_url( get_author_posts_url( $author_id ) ); ?>" class="btn btn-secondary btn-block">
-							<?php esc_html_e( 'Vedi tutti gli annunci', 'caniincasa' ); ?>
-						</a>
 					</div>
 
 					<!-- Contact Box -->
@@ -286,25 +351,39 @@ while ( have_posts() ) :
 								</a>
 							<?php endif; ?>
 
-							<?php if ( is_user_logged_in() && get_current_user_id() != $author_id ) : ?>
-								<button class="btn btn-send-message btn-primary btn-block"
-									data-recipient-id="<?php echo esc_attr( $author_id ); ?>"
-									data-recipient-name="<?php echo esc_attr( caniincasa_get_user_display_name( $author_id ) ); ?>"
-									data-post-id="<?php the_ID(); ?>"
-									data-post-type="annunci_4zampe"
-									data-subject="<?php echo esc_attr( 'Re: ' . get_the_title() ); ?>">
+							<?php if ( $author_email ) : ?>
+								<a href="mailto:<?php echo esc_attr( $author_email ); ?>" class="btn btn-primary btn-block">
 									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
-										<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
-									<?php esc_html_e( 'Invia Messaggio', 'caniincasa' ); ?>
-								</button>
-							<?php elseif ( ! is_user_logged_in() ) : ?>
-								<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="btn btn-primary btn-block">
-									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
-										<path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15M10 17L15 12M15 12L10 7M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-									<?php esc_html_e( 'Accedi per Contattare', 'caniincasa' ); ?>
+									<?php esc_html_e( 'Invia Email', 'caniincasa' ); ?>
 								</a>
+							<?php endif; ?>
+
+							<?php
+							// Message button only for registered users (not anonymous)
+							if ( ! $is_anonymous ) :
+								if ( is_user_logged_in() && get_current_user_id() != $author_id ) :
+									?>
+									<button class="btn btn-send-message btn-secondary btn-block"
+										data-recipient-id="<?php echo esc_attr( $author_id ); ?>"
+										data-recipient-name="<?php echo esc_attr( caniincasa_get_user_display_name( $author_id ) ); ?>"
+										data-post-id="<?php the_ID(); ?>"
+										data-post-type="annunci_4zampe"
+										data-subject="<?php echo esc_attr( 'Re: ' . get_the_title() ); ?>">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
+											<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										<?php esc_html_e( 'Messaggio Interno', 'caniincasa' ); ?>
+									</button>
+								<?php elseif ( ! is_user_logged_in() ) : ?>
+									<a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="btn btn-secondary btn-block">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-right: 5px;">
+											<path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15M10 17L15 12M15 12L10 7M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										<?php esc_html_e( 'Accedi per Messaggiare', 'caniincasa' ); ?>
+									</a>
+								<?php endif; ?>
 							<?php endif; ?>
 						</div>
 					<?php else : ?>

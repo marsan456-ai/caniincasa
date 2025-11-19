@@ -338,6 +338,31 @@
 	object-fit: cover;
 }
 
+/* Anonymous user avatar */
+.anonymous-avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: var(--color-bg-light);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-text-light);
+}
+
+.anonymous-avatar svg {
+	stroke: var(--color-text-light);
+}
+
+.anonymous-contact-info .contact-item {
+	display: flex;
+	align-items: center;
+}
+
+.anonymous-contact-info .contact-item a:hover {
+	color: var(--color-primary);
+}
+
 .author-details {
 	flex: 1;
 	min-width: 0;
