@@ -92,6 +92,9 @@ class Caniincasa_Core {
         // Newsletter System
         require_once CANIINCASA_CORE_PATH . 'includes/newsletter-system.php';
 
+        // Statistics System
+        require_once CANIINCASA_CORE_PATH . 'includes/statistics-system.php';
+
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 
