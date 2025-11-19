@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Semplice Dropdown</title>
+    <style>
+        .sub-menu {
+            display: none;
+            padding-left: 20px;
+            background: #f0f0f0;
+        }
+        
+        .menu-item-has-children.open .sub-menu {
+            display: block !important;
+        }
+        
+        .menu-item-has-children > a::after {
+            content: " ▼";
+        }
+        
+        .menu-item-has-children.open > a::after {
+            content: " ▲";
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Ultra-Semplice</h1>
+    
+    <ul class="mobile-menu">
+        <li class="menu-item">
+            <a href="#">Menu Normale</a>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#" onclick="toggleMenu(event, this)">Menu con Dropdown</a>
+            <ul class="sub-menu">
+                <li><a href="#">Sub 1</a></li>
+                <li><a href="#">Sub 2</a></li>
+            </ul>
+        </li>
+    </ul>
+    
+    <script>
+        function toggleMenu(e, link) {
+            e.preventDefault();
+            const parent = link.parentElement;
+            parent.classList.toggle('open');
+            console.log('Toggled! Open:', parent.classList.contains('open'));
+        }
+    </script>
+</body>
+</html>

@@ -253,8 +253,9 @@
 
         function attachMobileMenuListeners(items) {
             items.forEach(function(item) {
-                const link = item.querySelector('> a');
-                const submenu = item.querySelector('> .sub-menu');
+                // Use :scope to select direct children
+                const link = item.querySelector(':scope > a');
+                const submenu = item.querySelector(':scope > .sub-menu');
 
                 if (link && submenu) {
                     // Remove existing listeners to avoid duplicates
