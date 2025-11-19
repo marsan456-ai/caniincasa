@@ -1,0 +1,323 @@
+nome_razza,taglia_standard,aspettativa_vita_min,aspettativa_vita_max,coefficiente_cucciolo,coefficiente_adulto,coefficiente_senior,peso_ideale_min_maschio,peso_ideale_max_maschio,peso_ideale_min_femmina,peso_ideale_max_femmina,livello_attivita,costo_alimentazione_mensile,costo_veterinario_annuale,costo_toelettatura_annuale,predisposizioni_salute
+Airedale terrier,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Akita,grande,8,13,14.5,6,7,34,45,25,35,moderato,135,380,250,media
+Akita americano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Alano,gigante,7,10,14.5,7,9,54,91,45,59,moderato,165,500,120,alta
+Alaskan malamute,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Alpenlaendische dachsbracke,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+American water spaniel,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Amstaff – american staffordshire terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Anglo francais de petite venerie,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Ariegeois,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Australian cattledog,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Australian shepherd,grande,8,13,14.5,6,7,25,29,18,25,molto_alto,135,300,250,bassa
+Australian silky terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Australian stumpy tail cattle dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Australian terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Azawakh,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Barbet,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Barboni,piccola,10,15,15.5,4.5,4.5,6,7,6,7,moderato,60,300,400,bassa
+Barzoi,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Basenji,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Basset artesien normand,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Basset blue de gascogne,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bassethound,grande,8,13,14.5,6,7,23,29,20,27,basso,135,380,120,media
+Bassett fauve de bretagne,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bassotti tedeschi,media,10,14,15,5,5.5,7,14,7,14,moderato,90,380,120,media
+Bayerischer gebirgsschweisshund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Beagle,piccola,10,15,15.5,4.5,4.5,13,16,11,13,moderato,60,380,120,media
+Beagle harrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Bearded collie,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bedlington terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Bichon a poil frise,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Bichon havanais,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Billy,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Black and tan coonhound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bloodhound chien de saint-ubert,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bobtail,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bolognese,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Border collie,grande,8,13,14.5,6,7,19,24,18,22,molto_alto,135,300,250,bassa
+Border terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Boston terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Bouledogue francese,gigante,7,10,14.5,7,9,12,15,10,11,basso,165,500,120,alta
+Bovaro del bernese,gigante,7,10,14.5,7,9,38,50,35,48,moderato,165,500,250,alta
+Bovaro delle ardenne,grande,8,13,14.5,6,7,38,50,35,48,moderato,135,380,250,media
+Bovaro delle fiandre,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bovaro dell’appenzell,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bovaro dell’entlebuch,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Boxer,grande,8,13,14.5,6,7,30,32,25,27,alto,135,500,120,alta
+Bracco del bourbonnais,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco di burgos,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco d’ariege,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco d’auvergne,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco francese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco italiano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco portoghese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco saint germain,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco slovacco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Bracco ungherese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Briquet griffon vendeen,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Broholmer,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Bull terrier inglese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Bulldog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bulldog Francese,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Bullmastiff,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cairn terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Canaan dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane corso,gigante,7,10,14.5,7,9,45,50,40,45,alto,165,300,80,bassa
+Cane da ferma boemo,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane da ferma tedesco,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane da lupo cecoslovacco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da lupo saarloos,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da montagna dei pirenei,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane da orso della carelia,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane da pastore australiano kelpie,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore belga,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore bergamasco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore catalano,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane da pastore croato,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore dei pirenei,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane da pastore dei tatra,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane da pastore del caucaso,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane da pastore dell'Anatolia,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane da pastore della russia meridionale,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore dell’asia centrale,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di Islanda,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di beauce,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di brie,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di ciarplanina,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di karst,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore di picardia,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore mallorquin,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore maremmano abruzzese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore olandese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore polacco di vallee,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da pastore scozzese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Cane da sierra di estrela,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane de castro laboreiro,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane dell’atlas,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cane di san bernardo,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cane fonnese,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cao da sierra de aires,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cao de agua,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cao fila de sao miguel,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Carlino,piccola,10,15,15.5,4.5,4.5,6,9,6,8,basso,60,500,120,alta
+Cavalier king charles spaniel,toy,12,18,15.5,4,4,5,9,5,8,moderato,50,500,250,alta
+Chesapeake bay retriever,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Chien d’artois,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Chihuahua,toy,12,18,15.5,4,4,1.5,3,1.5,2.5,moderato,50,380,80,media
+Chin,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Chinese crested dog,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Chow-chow,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Cimarron uruguayo,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Ciobanesc romanesc de bucovina,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Cirneco dell’etna,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Clumber spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Cocker americano,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Cocker spaniel inglese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Coton de tulear,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Curly-coated retriever,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Dalmata,media,10,14,15,5,5.5,27,32,24,29,alto,90,380,120,media
+Dandie dinmont terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Dansk-svensk gardshund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Deerhound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Deutscher jagdterrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Dobermann,grande,8,13,14.5,6,7,34,41,29.5,36,molto_alto,135,500,120,alta
+Dogo argentino,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Dogo canario,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Dogue de bordeaux,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Drever,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Dunker,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+English toy terrier black and tan,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Epagneul blue de picardie,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Epagneul breton,media,10,14,15,5,5.5,14,18,13,15,alto,90,300,250,bassa
+Epagneul de pont au de mer,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Epagneul francais,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Epagneul nano,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Epagneul olandese di drent,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Epagneul picard,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Eurasier,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Field spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Fila brasileiro,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Flat coated retriever,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Fox terrier,piccola,10,15,15.5,4.5,4.5,7.25,8.25,6.75,7.75,alto,60,300,200,bassa
+Foxhound americano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Galgo espanol,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Gammel dansk honsenhund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Gascogne saintongeois,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Golden retriever,grande,8,13,14.5,6,7,32,36,27,32,alto,135,380,250,media
+Gonczy polski,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Grand anglo francais,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Grand basset griffon vendeen,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Grand bleu de gascogne,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Grand griffon vendeen,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Grande bovaro svizzero,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Grande muensterlander,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Greyhound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Griffon bleu de gascogne,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Griffon fauve de bretagne,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Griffon nivernais,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Griffone a pelo duro (Korthals),toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Griffone belga,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Griffone di bruxelles,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Groenlandese,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Haldenstovare,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Hamilton stovare,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Hannoverischer schweisshund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Harrier,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Hokkaido,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Hovawart,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Hyghenhund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Irish glen of imaal terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Irish soft-coated wheaten terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Irish terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Irish water spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Irish wolfhound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Jack russell terrier,toy,12,18,15.5,4,4,6,8,5,7,alto,50,300,120,bassa
+Jamthund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Kai,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Kerry blue terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+King charles spaniel,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Kishu,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Komondor,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Kooikerhondje,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Korea Jindo Dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Kromfohrländer,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Kuvasz,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Labrador Retriever,grande,8,13,14.5,6,7,29,36,25,32,alto,135,380,120,media
+Lagotto Romagnolo,media,10,14,15,5,5.5,13,16,11,13,alto,90,300,400,bassa
+Laika Russo-Europeo,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Laika della Siberia Occidentale,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Lakeland Terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Landseer (Tipo Continentale Europeo),media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Lapinkoira,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Leonberger,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Levriero afgano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Levriero polacco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Lhasa apso,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Magyar agar,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Maltese,toy,12,18,15.5,4,4,2,4,2,4,moderato,50,300,400,bassa
+Manchester terrier,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Mastiff,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Mastino dei pirenei,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Mastino napoletano,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Mastino spagnolo,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Mudi,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Norbottenspets,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Norfolk terrier,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Norsk buhund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Norsk elghund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Norsk lundehund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Norwich terrier,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Nova scotia duck tolling retriever,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Parson russell terrier,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Pastore svizzero bianco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Pastore tedesco,grande,8,13,14.5,6,7,30,40,22,32,molto_alto,135,500,250,alta
+Pechinese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Perro de agua espanol,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Perro dogo mallorquin,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Perro sin pelo del peru’,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Petit basset griffon vendeen,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Petit bleu de gascogne,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Pharaon hound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Piccolo brabantino,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Piccolo cane leone,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Piccolo levriero italiano,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Piccolo muensterlander,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Piccolo segugio della svizzera,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Podenco canario,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Podenco ibicenco,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Podengo portugues,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Pointer inglese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Poitevin,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Porcelaine,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Pudel pointer,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Puli,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Pumi,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Rafeiro do alentejo,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Rhodesian ridgeback,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Riesenschnauzer,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Romanian carpathian sheperd dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Romanian mioritic sheperd dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Rottweiler,gigante,7,10,14.5,7,9,45.5,54.5,36,41,alto,165,500,120,alta
+Russian toy,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Sabueso espagnol,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Saluki,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Samoiedo,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Schapendoes,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Schiller stovare,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Schipperkee,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Schnauzer,piccola,10,15,15.5,4.5,4.5,16,23,14,20,alto,60,300,200,bassa
+Scottish terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Sealyham terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Segugi svizzeri,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Segugio austriaco nero focato,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio dei balcani,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio della bosnia a pelo duro,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio della stiria a pelo ruvido,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio della transilvania,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio della westfalia,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio dell’appennino,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio dell’istria,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio ellenico,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio finlandese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio italiano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio maremmano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio polacco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio posavatz,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio tedesco,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio tirolese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio tricolore jugoslavo,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Segugio yugoslavo da montagna,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Setter gordon,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Setter inglese,grande,8,13,14.5,6,7,25,36,20,32,alto,135,380,250,media
+Setter irlandese,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Shar pei,media,10,14,15,5,5.5,22,29,18,25,moderato,90,500,120,alta
+Shiba,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Shiba Inu,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Shih tzu,toy,12,18,15.5,4,4,4.5,8.1,4,7.2,moderato,50,380,400,media
+Shikoku,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Siberian husky,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Skye terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Sloughi,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Slovensky cuvac,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Slovensky kopov,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Smaalandsstovare,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Smoushond olandese,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Spaniel olandese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Spaniel tedesco,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Spinone italiano,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Spitz finnico,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Spitz giapponese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Spitz tedeschi,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Springer spaniel inglese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Stabyhound,grande,8,13,14.5,6,7,30,40,27,36,alto,135,380,120,media
+Staffordshire bull terrier,piccola,10,15,15.5,4.5,4.5,13,17,11,15.5,alto,60,380,120,media
+Sussex spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Svensk lapphund,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Taiwan dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Terranova,gigante,7,10,14.5,7,9,64,69,50,54,moderato,165,500,250,alta
+Terrier boemo,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Terrier brazileiro,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Terrier giapponese,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Terrier nero russo,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Thai bangkaew dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Thai ridgeback dog,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Tibetan mastiff,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Tibetan spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Tibetan terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Tornjak,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Tosa,gigante,7,10,14.5,7,9,50,80,45,72,moderato,165,380,120,media
+Vastgotsaspets,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Volpino italiano,toy,12,18,15.5,4,4,4,5,4,5,moderato,50,300,80,bassa
+Weimaraner,grande,8,13,14.5,6,7,30,40,25,35,molto_alto,135,380,120,media
+Welsh corgi pembroke,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Welsh corgie cardigan,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Welsh springer spaniel,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Welsh terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+West highland white terrier,piccola,10,15,15.5,4.5,4.5,6,10,5.4,9,moderato,60,380,120,media
+Whippet,media,10,14,15,5,5.5,10,13,8,11,alto,90,300,120,bassa
+Xoloitzcuintle,media,10,14,15,5,5.5,15,25,13.5,22.5,alto,90,380,120,media
+Yorkshire terrier,toy,12,18,15.5,4,4,2,3,2,3,moderato,50,300,400,bassa
+Zwergpinscher,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
+Zwergschnauzer,toy,12,18,15.5,4,4,1.5,4,1.4,3.6,moderato,50,380,120,media
