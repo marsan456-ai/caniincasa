@@ -435,31 +435,33 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
     background-color: var(--color-bg);
     border-top: 1px solid var(--color-border);
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     z-index: var(--z-header);
     display: none;
-    padding: 8px 0;
-}
-
-.mobile-bottom-nav {
-    display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    padding: 8px 0;
 }
 
 .mobile-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     padding: 8px 12px;
     color: var(--color-text-light);
     font-size: 11px;
     text-align: center;
+    text-decoration: none;
     transition: color var(--transition-fast);
     min-width: 60px;
+    flex: 1 1 auto;
+    max-width: 80px;
 }
 
 .mobile-nav-item.active,
