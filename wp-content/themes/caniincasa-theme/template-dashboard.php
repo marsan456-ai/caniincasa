@@ -545,6 +545,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                     </button>
                                                 <?php endif; ?>
                                                 <button class="message-action-btn btn-reply-message"
+                                                    onclick="alert('TEST: Click funziona! Msg ID: <?php echo $message['id']; ?>'); document.getElementById('message-modal').classList.add('active'); document.body.classList.add('modal-open'); return false;"
                                                     data-message-id="<?php echo esc_attr( $message['id'] ); ?>"
                                                     data-recipient-id="<?php echo esc_attr( $message['sender_id'] ); ?>"
                                                     data-recipient-name="<?php echo esc_attr( $message['sender_name'] ); ?>"
