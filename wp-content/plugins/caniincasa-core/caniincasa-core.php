@@ -89,9 +89,6 @@ class Caniincasa_Core {
         // Messaging System
         require_once CANIINCASA_CORE_PATH . 'includes/messaging-system.php';
 
-        // Messaging Debug (temporary)
-        require_once CANIINCASA_CORE_PATH . 'includes/messaging-debug.php';
-
         // Newsletter System
         require_once CANIINCASA_CORE_PATH . 'includes/newsletter-system.php';
 
