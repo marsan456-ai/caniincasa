@@ -24,6 +24,9 @@
             // Open modal button
             $(document).on('click', '.btn-send-message', this.openModal.bind(this));
 
+            // Reply to message
+            $(document).on('click', '.btn-reply-message', this.openReplyModal.bind(this));
+
             // Close modal
             $(document).on('click', '.message-modal-close, .message-modal-overlay', this.closeModal.bind(this));
 
@@ -35,6 +38,12 @@
 
             // Delete message
             $(document).on('click', '.delete-message-btn', this.deleteMessage.bind(this));
+
+            // Block user
+            $(document).on('click', '.btn-block-user', this.blockUser.bind(this));
+
+            // Unblock user
+            $(document).on('click', '.btn-unblock-user', this.unblockUser.bind(this));
 
             // Refresh count periodically
             setInterval(this.updateUnreadCount.bind(this), 60000); // Every minute
@@ -52,10 +61,43 @@
 
             // Populate form
             $('#message-recipient-id').val(recipientId);
+            $('#message-parent-id').val(''); // Clear parent ID for new messages
             $('#message-related-post-id').val(relatedPostId);
             $('#message-related-post-type').val(relatedPostType);
             $('#message-subject').val(subject);
             $('#message-recipient-name').text(recipientName);
+            $('.message-modal-header h2').text('Invia Messaggio');
+
+            // Show modal
+            this.modal.addClass('active');
+            $('body').addClass('modal-open');
+
+            // Focus message textarea
+            setTimeout(() => {
+                $('#message-content').focus();
+            }, 300);
+        },
+
+        openReplyModal: function(e) {
+            e.preventDefault();
+
+            const $btn = $(e.currentTarget);
+            const parentId = $btn.data('message-id');
+            const recipientId = $btn.data('recipient-id');
+            const recipientName = $btn.data('recipient-name');
+            const subject = $btn.data('subject') || '';
+
+            // Populate form for reply
+            $('#message-recipient-id').val(recipientId);
+            $('#message-parent-id').val(parentId);
+            $('#message-related-post-id').val('');
+            $('#message-related-post-type').val('');
+
+            // Add Re: to subject if not already there
+            const replySubject = subject.startsWith('Re:') ? subject : 'Re: ' + subject;
+            $('#message-subject').val(replySubject);
+            $('#message-recipient-name').text(recipientName);
+            $('.message-modal-header h2').text('Rispondi al Messaggio');
 
             // Show modal
             this.modal.addClass('active');
@@ -95,6 +137,7 @@
                 action: 'send_message',
                 nonce: caniincasaData.nonce,
                 recipient_id: $('#message-recipient-id').val(),
+                parent_id: $('#message-parent-id').val() || null,
                 subject: $('#message-subject').val(),
                 message: $('#message-content').val(),
                 related_post_id: $('#message-related-post-id').val(),
@@ -227,6 +270,90 @@
                             $badge.hide();
                         }
                     }
+                }
+            });
+        },
+
+        blockUser: function(e) {
+            e.preventDefault();
+
+            if (!confirm('Sei sicuro di voler bloccare questo utente? Non potrete più inviarvi messaggi.')) {
+                return;
+            }
+
+            const $btn = $(e.currentTarget);
+            const blockedUserId = $btn.data('user-id');
+
+            $btn.prop('disabled', true).text('Blocco...');
+
+            $.ajax({
+                url: caniincasaData.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'block_user',
+                    nonce: caniincasaData.nonce,
+                    blocked_user_id: blockedUserId
+                },
+                success: (response) => {
+                    if (response.success) {
+                        alert(response.data.message);
+
+                        // Replace block button with unblock button
+                        $btn.removeClass('btn-block-user btn-danger')
+                            .addClass('btn-unblock-user btn-secondary')
+                            .data('user-id', blockedUserId)
+                            .text('Sblocca Utente')
+                            .prop('disabled', false);
+                    } else {
+                        alert(response.data.message);
+                        $btn.prop('disabled', false).text('Blocca Utente');
+                    }
+                },
+                error: () => {
+                    alert('Errore di connessione. Riprova.');
+                    $btn.prop('disabled', false).text('Blocca Utente');
+                }
+            });
+        },
+
+        unblockUser: function(e) {
+            e.preventDefault();
+
+            if (!confirm('Vuoi sbloccare questo utente?')) {
+                return;
+            }
+
+            const $btn = $(e.currentTarget);
+            const blockedUserId = $btn.data('user-id');
+
+            $btn.prop('disabled', true).text('Sblocco...');
+
+            $.ajax({
+                url: caniincasaData.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'unblock_user',
+                    nonce: caniincasaData.nonce,
+                    blocked_user_id: blockedUserId
+                },
+                success: (response) => {
+                    if (response.success) {
+                        alert(response.data.message);
+
+                        // Replace unblock button with block button
+                        $btn.removeClass('btn-unblock-user btn-secondary')
+                            .addClass('btn-block-user btn-danger')
+                            .data('user-id', blockedUserId)
+                            .text('Blocca Utente')
+                            .prop('disabled', false);
+                    } else {
+                        alert(response.data.message);
+                        $btn.prop('disabled', false).text('Sblocca Utente');
+                    }
+                },
+                error: () => {
+                    alert('Errore di connessione. Riprova.');
+                    $btn.prop('disabled', false).text('Sblocca Utente');
                 }
             });
         }

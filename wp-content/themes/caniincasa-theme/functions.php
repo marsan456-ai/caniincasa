@@ -357,6 +357,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-cost.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/calculator-cost.php';
 }
 
+// Include Messaging System
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/messaging-system.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/messaging-system.php';
+}
+
 /**
  * Security: Remove WordPress version from head
  */

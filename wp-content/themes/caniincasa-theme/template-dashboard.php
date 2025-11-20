@@ -507,34 +507,56 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                             <!-- Inbox Messages -->
                             <div id="inbox-messages" class="messages-list">
                                 <?php
-                                $inbox_messages = caniincasa_get_user_messages( $user_id, 'inbox' );
+                                $inbox_messages = caniincasa_get_messages( $user_id, 'inbox' );
 
                                 if ( ! empty( $inbox_messages ) ) :
                                     foreach ( $inbox_messages as $message ) :
-                                        $sender_name = caniincasa_get_user_display_name( $message->sender_id );
-                                        $date = date_i18n( 'j M Y', strtotime( $message->created_at ) );
-                                        $unread_class = $message->is_read ? '' : 'unread';
+                                        $date = date_i18n( 'j M Y, H:i', strtotime( $message['created_at'] ) );
+                                        $unread_class = $message['is_read'] ? '' : 'unread';
+                                        $is_blocked = caniincasa_is_user_blocked( $user_id, $message['sender_id'] );
+                                        $reply_count_text = $message['reply_count'] > 0 ? ' (' . $message['reply_count'] . ' risposte)' : '';
                                 ?>
-                                    <div class="message-item <?php echo esc_attr( $unread_class ); ?>" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                    <div class="message-item <?php echo esc_attr( $unread_class ); ?>" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                         <div class="message-icon">
-                                            <?php echo esc_html( strtoupper( substr( $sender_name, 0, 1 ) ) ); ?>
+                                            <?php echo esc_html( strtoupper( substr( $message['sender_name'], 0, 1 ) ) ); ?>
                                         </div>
                                         <div class="message-content-preview">
                                             <div class="message-header-row">
-                                                <span class="message-from"><?php echo esc_html( $sender_name ); ?></span>
+                                                <span class="message-from"><?php echo esc_html( $message['sender_name'] ); ?></span>
                                                 <span class="message-date"><?php echo esc_html( $date ); ?></span>
                                             </div>
-                                            <div class="message-subject"><?php echo esc_html( $message->subject ); ?></div>
-                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( $message->message, 15 ) ); ?></div>
+                                            <div class="message-subject">
+                                                <?php echo esc_html( $message['subject'] ); ?>
+                                                <?php if ( $reply_count_text ) : ?>
+                                                    <span class="reply-count"><?php echo esc_html( $reply_count_text ); ?></span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
                                             <div class="message-actions">
-                                                <?php if ( ! $message->is_read ) : ?>
-                                                    <button class="message-action-btn mark-read-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                <?php if ( ! $message['is_read'] ) : ?>
+                                                    <button class="message-action-btn mark-read-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                                         <?php esc_html_e( 'Segna come letto', 'caniincasa' ); ?>
                                                     </button>
                                                 <?php endif; ?>
-                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                <button class="message-action-btn btn-reply-message"
+                                                    data-message-id="<?php echo esc_attr( $message['id'] ); ?>"
+                                                    data-recipient-id="<?php echo esc_attr( $message['sender_id'] ); ?>"
+                                                    data-recipient-name="<?php echo esc_attr( $message['sender_name'] ); ?>"
+                                                    data-subject="<?php echo esc_attr( $message['subject'] ); ?>">
+                                                    <?php esc_html_e( 'Rispondi', 'caniincasa' ); ?>
+                                                </button>
+                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                                     <?php esc_html_e( 'Elimina', 'caniincasa' ); ?>
                                                 </button>
+                                                <?php if ( $is_blocked ) : ?>
+                                                    <button class="message-action-btn btn-unblock-user btn-secondary" data-user-id="<?php echo esc_attr( $message['sender_id'] ); ?>">
+                                                        <?php esc_html_e( 'Sblocca Utente', 'caniincasa' ); ?>
+                                                    </button>
+                                                <?php else : ?>
+                                                    <button class="message-action-btn btn-block-user btn-danger" data-user-id="<?php echo esc_attr( $message['sender_id'] ); ?>">
+                                                        <?php esc_html_e( 'Blocca Utente', 'caniincasa' ); ?>
+                                                    </button>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -549,26 +571,31 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                             <!-- Sent Messages -->
                             <div id="sent-messages" class="messages-list" style="display: none;">
                                 <?php
-                                $sent_messages = caniincasa_get_user_messages( $user_id, 'sent' );
+                                $sent_messages = caniincasa_get_messages( $user_id, 'sent' );
 
                                 if ( ! empty( $sent_messages ) ) :
                                     foreach ( $sent_messages as $message ) :
-                                        $recipient_name = caniincasa_get_user_display_name( $message->recipient_id );
-                                        $date = date_i18n( 'j M Y', strtotime( $message->created_at ) );
+                                        $date = date_i18n( 'j M Y, H:i', strtotime( $message['created_at'] ) );
+                                        $reply_count_text = $message['reply_count'] > 0 ? ' (' . $message['reply_count'] . ' risposte)' : '';
                                 ?>
-                                    <div class="message-item" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                    <div class="message-item" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                         <div class="message-icon">
-                                            <?php echo esc_html( strtoupper( substr( $recipient_name, 0, 1 ) ) ); ?>
+                                            <?php echo esc_html( strtoupper( substr( $message['recipient_name'], 0, 1 ) ) ); ?>
                                         </div>
                                         <div class="message-content-preview">
                                             <div class="message-header-row">
-                                                <span class="message-from"><?php echo esc_html( $recipient_name ); ?></span>
+                                                <span class="message-from">A: <?php echo esc_html( $message['recipient_name'] ); ?></span>
                                                 <span class="message-date"><?php echo esc_html( $date ); ?></span>
                                             </div>
-                                            <div class="message-subject"><?php echo esc_html( $message->subject ); ?></div>
-                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( $message->message, 15 ) ); ?></div>
+                                            <div class="message-subject">
+                                                <?php echo esc_html( $message['subject'] ); ?>
+                                                <?php if ( $reply_count_text ) : ?>
+                                                    <span class="reply-count"><?php echo esc_html( $reply_count_text ); ?></span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
                                             <div class="message-actions">
-                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message->id ); ?>">
+                                                <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                                     <?php esc_html_e( 'Elimina', 'caniincasa' ); ?>
                                                 </button>
                                             </div>

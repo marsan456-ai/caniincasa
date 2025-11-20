@@ -124,6 +124,7 @@
 
             <form id="message-form">
                 <input type="hidden" id="message-recipient-id" name="recipient_id">
+                <input type="hidden" id="message-parent-id" name="parent_id">
                 <input type="hidden" id="message-related-post-id" name="related_post_id">
                 <input type="hidden" id="message-related-post-type" name="related_post_type">
 
