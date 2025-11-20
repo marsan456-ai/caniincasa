@@ -354,6 +354,30 @@
     white-space: nowrap;
 }
 
+.message-full-content {
+    margin-top: 12px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.message-full-text {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.message-full-text p {
+    margin-bottom: 12px;
+}
+
+.message-full-text p:last-child {
+    margin-bottom: 0;
+}
+
 .message-actions {
     display: flex;
     gap: 8px;

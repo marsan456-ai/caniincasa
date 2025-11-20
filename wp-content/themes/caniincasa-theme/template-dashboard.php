@@ -532,7 +532,13 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                 <?php endif; ?>
                                             </div>
                                             <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
+                                            <div class="message-full-content" style="display: none;">
+                                                <div class="message-full-text"><?php echo wp_kses_post( $message['message'] ); ?></div>
+                                            </div>
                                             <div class="message-actions">
+                                                <button class="message-action-btn view-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
+                                                    <?php esc_html_e( 'Visualizza', 'caniincasa' ); ?>
+                                                </button>
                                                 <?php if ( ! $message['is_read'] ) : ?>
                                                     <button class="message-action-btn mark-read-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                                         <?php esc_html_e( 'Segna come letto', 'caniincasa' ); ?>
@@ -594,7 +600,13 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                 <?php endif; ?>
                                             </div>
                                             <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
+                                            <div class="message-full-content" style="display: none;">
+                                                <div class="message-full-text"><?php echo wp_kses_post( $message['message'] ); ?></div>
+                                            </div>
                                             <div class="message-actions">
+                                                <button class="message-action-btn view-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
+                                                    <?php esc_html_e( 'Visualizza', 'caniincasa' ); ?>
+                                                </button>
                                                 <button class="message-action-btn delete-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
                                                     <?php esc_html_e( 'Elimina', 'caniincasa' ); ?>
                                                 </button>

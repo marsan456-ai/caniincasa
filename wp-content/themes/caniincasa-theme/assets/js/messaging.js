@@ -33,6 +33,9 @@
             // Submit form
             this.form.on('submit', this.sendMessage.bind(this));
 
+            // View full message
+            $(document).on('click', '.view-message-btn', this.viewMessage.bind(this));
+
             // Mark as read
             $(document).on('click', '.mark-read-btn', this.markAsRead.bind(this));
 
@@ -185,6 +188,35 @@
                     $submitBtn.prop('disabled', false).text('Invia Messaggio');
                 }
             });
+        },
+
+        viewMessage: function(e) {
+            e.preventDefault();
+
+            const $btn = $(e.currentTarget);
+            const $messageItem = $btn.closest('.message-item');
+            const $preview = $messageItem.find('.message-preview-text');
+            const $fullContent = $messageItem.find('.message-full-content');
+            const messageId = $btn.data('message-id');
+
+            // Toggle visibility
+            if ($fullContent.is(':visible')) {
+                $fullContent.slideUp(300);
+                $preview.show();
+                $btn.text('Visualizza');
+            } else {
+                $preview.hide();
+                $fullContent.slideDown(300);
+                $btn.text('Nascondi');
+
+                // Auto mark as read when viewing
+                if ($messageItem.hasClass('unread')) {
+                    this.markAsRead({
+                        currentTarget: $messageItem.find('.mark-read-btn')[0] || $btn[0],
+                        preventDefault: () => {}
+                    });
+                }
+            }
         },
 
         markAsRead: function(e) {
