@@ -16,6 +16,18 @@
             this.modal = $('#message-modal');
             this.form = $('#message-form');
 
+            // Debug log
+            if (this.modal.length === 0) {
+                console.error('Messaging: Modal #message-modal not found!');
+                return;
+            }
+
+            if (this.form.length === 0) {
+                console.error('Messaging: Form #message-form not found!');
+                return;
+            }
+
+            console.log('Messaging: Initialized successfully');
             this.bindEvents();
             this.updateUnreadCount();
         },
@@ -84,11 +96,15 @@
         openReplyModal: function(e) {
             e.preventDefault();
 
+            console.log('Messaging: Reply button clicked');
+
             const $btn = $(e.currentTarget);
             const parentId = $btn.data('message-id');
             const recipientId = $btn.data('recipient-id');
             const recipientName = $btn.data('recipient-name');
             const subject = $btn.data('subject') || '';
+
+            console.log('Reply data:', { parentId, recipientId, recipientName, subject });
 
             // Populate form for reply
             $('#message-recipient-id').val(recipientId);
@@ -101,6 +117,8 @@
             $('#message-subject').val(replySubject);
             $('#message-recipient-name').text(recipientName);
             $('.message-modal-header h2').text('Rispondi al Messaggio');
+
+            console.log('Opening modal...');
 
             // Show modal
             this.modal.addClass('active');

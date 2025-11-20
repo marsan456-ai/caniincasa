@@ -188,6 +188,31 @@
             }, 5000);
         }
 
+        /**
+         * Messages tabs switching (Ricevuti/Inviati)
+         */
+        $(document).on('click', '.messages-tab', function(e) {
+            e.preventDefault();
+
+            var $tab = $(this);
+            var targetTab = $tab.data('tab');
+
+            console.log('Dashboard: Switching to messages tab:', targetTab);
+
+            // Update active state
+            $('.messages-tab').removeClass('active');
+            $tab.addClass('active');
+
+            // Show/hide message lists
+            if (targetTab === 'inbox') {
+                $('#inbox-messages').show();
+                $('#sent-messages').hide();
+            } else if (targetTab === 'sent') {
+                $('#inbox-messages').hide();
+                $('#sent-messages').show();
+            }
+        });
+
     });
 
 })(jQuery);
