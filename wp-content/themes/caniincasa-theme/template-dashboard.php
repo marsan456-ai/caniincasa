@@ -545,19 +545,6 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                     </button>
                                                 <?php endif; ?>
                                                 <button class="message-action-btn btn-reply-message"
-                                                    onclick="(function(){
-                                                        var modal = document.getElementById('message-modal');
-                                                        if (!modal) { alert('ERRORE: Modal non trovato!'); return false; }
-                                                        document.getElementById('message-recipient-id').value = '<?php echo esc_js( $message['sender_id'] ); ?>';
-                                                        document.getElementById('message-parent-id').value = '<?php echo esc_js( $message['id'] ); ?>';
-                                                        document.getElementById('message-subject').value = 'Re: <?php echo esc_js( $message['subject'] ); ?>';
-                                                        document.getElementById('message-recipient-name').textContent = '<?php echo esc_js( $message['sender_name'] ); ?>';
-                                                        document.querySelector('.message-modal-header h2').textContent = 'Rispondi al Messaggio';
-                                                        modal.style.display = 'flex';
-                                                        modal.classList.add('active');
-                                                        document.body.classList.add('modal-open');
-                                                        setTimeout(function(){ document.getElementById('message-content').focus(); }, 300);
-                                                    })(); return false;"
                                                     data-message-id="<?php echo esc_attr( $message['id'] ); ?>"
                                                     data-recipient-id="<?php echo esc_attr( $message['sender_id'] ); ?>"
                                                     data-recipient-name="<?php echo esc_attr( $message['sender_name'] ); ?>"
