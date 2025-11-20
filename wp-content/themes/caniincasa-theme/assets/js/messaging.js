@@ -16,18 +16,15 @@
             this.modal = $('#message-modal');
             this.form = $('#message-form');
 
-            // Debug log
+            // Check if modal exists
             if (this.modal.length === 0) {
-                console.error('Messaging: Modal #message-modal not found!');
                 return;
             }
 
             if (this.form.length === 0) {
-                console.error('Messaging: Form #message-form not found!');
                 return;
             }
 
-            console.log('Messaging: Initialized successfully');
             this.bindEvents();
             this.updateUnreadCount();
         },
@@ -199,11 +196,6 @@
                             this.closeModal();
                         }, 2000);
                     } else {
-                        // Log debug info to console if available
-                        if (response.data.debug) {
-                            console.error('Messaging error:', response.data.debug);
-                        }
-
                         $response
                             .removeClass('success')
                             .addClass('error')
@@ -252,8 +244,6 @@
                     // Load replies via AJAX
                     $repliesLoading.show();
 
-                    console.log('Loading replies for message ID:', messageId);
-
                     $.ajax({
                         url: caniincasaData.ajaxurl,
                         type: 'POST',
@@ -263,24 +253,13 @@
                             parent_id: messageId
                         },
                         success: (response) => {
-                            console.log('AJAX response:', response);
                             $repliesLoading.hide();
 
-                            if (response.success) {
-                                console.log('Success! Found', response.data.count, 'replies');
-                                if (response.data.replies.length > 0) {
-                                    this.renderReplies($repliesContainer, response.data.replies);
-                                } else {
-                                    console.log('No replies to display');
-                                }
-                            } else {
-                                console.error('Response not successful:', response.data.message);
-                                $repliesContainer.html('<p class="error-text">' + response.data.message + '</p>');
+                            if (response.success && response.data.replies.length > 0) {
+                                this.renderReplies($repliesContainer, response.data.replies);
                             }
                         },
-                        error: (xhr, status, error) => {
-                            console.error('AJAX error:', status, error);
-                            console.error('Response:', xhr.responseText);
+                        error: () => {
                             $repliesLoading.hide();
                             $repliesContainer.html('<p class="error-text">Errore nel caricamento delle risposte.</p>');
                         }
