@@ -651,16 +651,22 @@ function caniincasa_get_blocked_users( $user_id ) {
  * AJAX: Get message replies
  */
 function caniincasa_ajax_get_message_replies() {
+    error_log( 'AJAX get_message_replies called' );
+
     check_ajax_referer( 'caniincasa_ajax_nonce', 'nonce' );
 
     if ( ! is_user_logged_in() ) {
+        error_log( 'Get replies: User not logged in' );
         wp_send_json_error( array( 'message' => 'Devi essere loggato per visualizzare i messaggi.' ) );
     }
 
     $user_id = get_current_user_id();
     $parent_id = isset( $_POST['parent_id'] ) ? absint( $_POST['parent_id'] ) : 0;
 
+    error_log( "Get replies: user_id=$user_id, parent_id=$parent_id" );
+
     if ( ! $parent_id ) {
+        error_log( 'Get replies: Invalid parent_id' );
         wp_send_json_error( array( 'message' => 'ID messaggio non valido.' ) );
     }
 
@@ -673,11 +679,15 @@ function caniincasa_ajax_get_message_replies() {
     ), ARRAY_A );
 
     if ( ! $parent_message ) {
+        error_log( "Get replies: Parent message not found (ID: $parent_id)" );
         wp_send_json_error( array( 'message' => 'Messaggio non trovato.' ) );
     }
 
+    error_log( "Get replies: Parent message found, sender={$parent_message['sender_id']}, recipient={$parent_message['recipient_id']}" );
+
     // Verify user is sender or recipient of parent message
     if ( $parent_message['sender_id'] != $user_id && $parent_message['recipient_id'] != $user_id ) {
+        error_log( "Get replies: User $user_id not authorized for message $parent_id" );
         wp_send_json_error( array( 'message' => 'Non hai i permessi per visualizzare questo messaggio.' ) );
     }
 
@@ -692,6 +702,12 @@ function caniincasa_ajax_get_message_replies() {
         $user_id
     ), ARRAY_A );
 
+    if ( $wpdb->last_error ) {
+        error_log( "Get replies: DB error - " . $wpdb->last_error );
+    }
+
+    error_log( "Get replies: Found " . count( $replies ) . " replies" );
+
     // Enrich with user data
     foreach ( $replies as &$reply ) {
         $sender = get_userdata( $reply['sender_id'] );
@@ -701,6 +717,8 @@ function caniincasa_ajax_get_message_replies() {
         $reply['recipient_name'] = $recipient ? $recipient->display_name : 'Utente eliminato';
         $reply['is_mine'] = ( $reply['sender_id'] == $user_id );
     }
+
+    error_log( "Get replies: Sending success response" );
 
     wp_send_json_success( array(
         'replies' => $replies,
