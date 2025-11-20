@@ -33,42 +33,57 @@
         },
 
         bindEvents: function() {
-            // TEST: Verifica immediata se l'evento si attacca
-            console.log('Messaging: Binding events to buttons');
-            console.log('Messaging: Reply buttons found:', $('.btn-reply-message').length);
+            var self = this; // Save reference to avoid context issues
 
             // Open modal button
-            $(document).on('click', '.btn-send-message', this.openModal.bind(this));
+            $(document).on('click', '.btn-send-message', function(e) {
+                self.openModal(e);
+            });
 
-            // Reply to message
+            // Reply to message - FIXED
             $(document).on('click', '.btn-reply-message', function(e) {
-                alert('CLICK RILEVATO! Il pulsante funziona. Ora apro il modal...');
-                Messaging.openReplyModal(e);
+                self.openReplyModal(e);
             });
 
             // Close modal
-            $(document).on('click', '.message-modal-close, .message-modal-overlay', this.closeModal.bind(this));
+            $(document).on('click', '.message-modal-close, .message-modal-overlay', function(e) {
+                self.closeModal(e);
+            });
 
             // Submit form
-            this.form.on('submit', this.sendMessage.bind(this));
+            this.form.on('submit', function(e) {
+                self.sendMessage(e);
+            });
 
             // View full message
-            $(document).on('click', '.view-message-btn', this.viewMessage.bind(this));
+            $(document).on('click', '.view-message-btn', function(e) {
+                self.viewMessage(e);
+            });
 
             // Mark as read
-            $(document).on('click', '.mark-read-btn', this.markAsRead.bind(this));
+            $(document).on('click', '.mark-read-btn', function(e) {
+                self.markAsRead(e);
+            });
 
             // Delete message
-            $(document).on('click', '.delete-message-btn', this.deleteMessage.bind(this));
+            $(document).on('click', '.delete-message-btn', function(e) {
+                self.deleteMessage(e);
+            });
 
             // Block user
-            $(document).on('click', '.btn-block-user', this.blockUser.bind(this));
+            $(document).on('click', '.btn-block-user', function(e) {
+                self.blockUser(e);
+            });
 
             // Unblock user
-            $(document).on('click', '.btn-unblock-user', this.unblockUser.bind(this));
+            $(document).on('click', '.btn-unblock-user', function(e) {
+                self.unblockUser(e);
+            });
 
             // Refresh count periodically
-            setInterval(this.updateUnreadCount.bind(this), 60000); // Every minute
+            setInterval(function() {
+                self.updateUnreadCount();
+            }, 60000);
         },
 
         openModal: function(e) {
@@ -103,15 +118,11 @@
         openReplyModal: function(e) {
             e.preventDefault();
 
-            console.log('Messaging: Reply button clicked');
-
-            const $btn = $(e.currentTarget);
-            const parentId = $btn.data('message-id');
-            const recipientId = $btn.data('recipient-id');
-            const recipientName = $btn.data('recipient-name');
-            const subject = $btn.data('subject') || '';
-
-            console.log('Reply data:', { parentId, recipientId, recipientName, subject });
+            var $btn = $(e.currentTarget);
+            var parentId = $btn.data('message-id');
+            var recipientId = $btn.data('recipient-id');
+            var recipientName = $btn.data('recipient-name');
+            var subject = $btn.data('subject') || '';
 
             // Populate form for reply
             $('#message-recipient-id').val(recipientId);
@@ -120,19 +131,18 @@
             $('#message-related-post-type').val('');
 
             // Add Re: to subject if not already there
-            const replySubject = subject.startsWith('Re:') ? subject : 'Re: ' + subject;
+            var replySubject = subject.indexOf('Re:') === 0 ? subject : 'Re: ' + subject;
             $('#message-subject').val(replySubject);
             $('#message-recipient-name').text(recipientName);
             $('.message-modal-header h2').text('Rispondi al Messaggio');
-
-            console.log('Opening modal...');
 
             // Show modal
             this.modal.addClass('active');
             $('body').addClass('modal-open');
 
             // Focus message textarea
-            setTimeout(() => {
+            var self = this;
+            setTimeout(function() {
                 $('#message-content').focus();
             }, 300);
         },
