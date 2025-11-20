@@ -534,6 +534,14 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                             <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
                                             <div class="message-full-content" style="display: none;">
                                                 <div class="message-full-text"><?php echo wp_kses_post( $message['message'] ); ?></div>
+                                                <?php if ( $message['reply_count'] > 0 ) : ?>
+                                                    <div class="message-replies-container">
+                                                        <div class="replies-loading" style="display: none;">
+                                                            <span class="spinner"></span> Caricamento risposte...
+                                                        </div>
+                                                        <div class="message-replies"></div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="message-actions">
                                                 <button class="message-action-btn view-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">
@@ -602,6 +610,14 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                             <div class="message-preview-text"><?php echo esc_html( wp_trim_words( strip_tags( $message['message'] ), 15 ) ); ?></div>
                                             <div class="message-full-content" style="display: none;">
                                                 <div class="message-full-text"><?php echo wp_kses_post( $message['message'] ); ?></div>
+                                                <?php if ( $message['reply_count'] > 0 ) : ?>
+                                                    <div class="message-replies-container">
+                                                        <div class="replies-loading" style="display: none;">
+                                                            <span class="spinner"></span> Caricamento risposte...
+                                                        </div>
+                                                        <div class="message-replies"></div>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="message-actions">
                                                 <button class="message-action-btn view-message-btn" data-message-id="<?php echo esc_attr( $message['id'] ); ?>">

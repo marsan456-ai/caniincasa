@@ -646,3 +646,65 @@ function caniincasa_get_blocked_users( $user_id ) {
 
     return $blocked_users;
 }
+
+/**
+ * AJAX: Get message replies
+ */
+function caniincasa_ajax_get_message_replies() {
+    check_ajax_referer( 'caniincasa_ajax_nonce', 'nonce' );
+
+    if ( ! is_user_logged_in() ) {
+        wp_send_json_error( array( 'message' => 'Devi essere loggato per visualizzare i messaggi.' ) );
+    }
+
+    $user_id = get_current_user_id();
+    $parent_id = isset( $_POST['parent_id'] ) ? absint( $_POST['parent_id'] ) : 0;
+
+    if ( ! $parent_id ) {
+        wp_send_json_error( array( 'message' => 'ID messaggio non valido.' ) );
+    }
+
+    // Get the parent message to verify user is involved
+    global $wpdb;
+    $table = $wpdb->prefix . 'caniincasa_messages';
+    $parent_message = $wpdb->get_row( $wpdb->prepare(
+        "SELECT * FROM $table WHERE id = %d",
+        $parent_id
+    ), ARRAY_A );
+
+    if ( ! $parent_message ) {
+        wp_send_json_error( array( 'message' => 'Messaggio non trovato.' ) );
+    }
+
+    // Verify user is sender or recipient of parent message
+    if ( $parent_message['sender_id'] != $user_id && $parent_message['recipient_id'] != $user_id ) {
+        wp_send_json_error( array( 'message' => 'Non hai i permessi per visualizzare questo messaggio.' ) );
+    }
+
+    // Get all replies to this message
+    $replies = $wpdb->get_results( $wpdb->prepare(
+        "SELECT * FROM $table
+        WHERE parent_id = %d
+        AND ((sender_id = %d AND COALESCE(sender_deleted, 0) = 0) OR (recipient_id = %d AND COALESCE(recipient_deleted, 0) = 0))
+        ORDER BY created_at ASC",
+        $parent_id,
+        $user_id,
+        $user_id
+    ), ARRAY_A );
+
+    // Enrich with user data
+    foreach ( $replies as &$reply ) {
+        $sender = get_userdata( $reply['sender_id'] );
+        $recipient = get_userdata( $reply['recipient_id'] );
+
+        $reply['sender_name'] = $sender ? $sender->display_name : 'Utente eliminato';
+        $reply['recipient_name'] = $recipient ? $recipient->display_name : 'Utente eliminato';
+        $reply['is_mine'] = ( $reply['sender_id'] == $user_id );
+    }
+
+    wp_send_json_success( array(
+        'replies' => $replies,
+        'count'   => count( $replies )
+    ) );
+}
+add_action( 'wp_ajax_get_message_replies', 'caniincasa_ajax_get_message_replies' );

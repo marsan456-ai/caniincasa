@@ -244,6 +244,36 @@
                 $fullContent.slideDown(300);
                 $btn.text('Nascondi');
 
+                // Load replies if they exist and haven't been loaded yet
+                const $repliesContainer = $fullContent.find('.message-replies');
+                const $repliesLoading = $fullContent.find('.replies-loading');
+
+                if ($repliesContainer.length > 0 && $repliesContainer.is(':empty')) {
+                    // Load replies via AJAX
+                    $repliesLoading.show();
+
+                    $.ajax({
+                        url: caniincasaData.ajaxurl,
+                        type: 'POST',
+                        data: {
+                            action: 'get_message_replies',
+                            nonce: caniincasaData.nonce,
+                            parent_id: messageId
+                        },
+                        success: (response) => {
+                            $repliesLoading.hide();
+
+                            if (response.success && response.data.replies.length > 0) {
+                                this.renderReplies($repliesContainer, response.data.replies);
+                            }
+                        },
+                        error: () => {
+                            $repliesLoading.hide();
+                            $repliesContainer.html('<p class="error-text">Errore nel caricamento delle risposte.</p>');
+                        }
+                    });
+                }
+
                 // Auto mark as read when viewing
                 if ($messageItem.hasClass('unread')) {
                     this.markAsRead({
@@ -252,6 +282,39 @@
                     });
                 }
             }
+        },
+
+        renderReplies: function($container, replies) {
+            let html = '<div class="message-thread-header">';
+            html += '<strong>' + replies.length + ' ' + (replies.length === 1 ? 'Risposta' : 'Risposte') + ':</strong>';
+            html += '</div>';
+
+            replies.forEach((reply) => {
+                const date = new Date(reply.created_at);
+                const dateStr = date.toLocaleDateString('it-IT') + ' ' + date.toLocaleTimeString('it-IT', {hour: '2-digit', minute: '2-digit'});
+                const isMineCls = reply.is_mine ? 'reply-mine' : 'reply-theirs';
+
+                html += '<div class="message-reply ' + isMineCls + '">';
+                html += '<div class="reply-header">';
+                html += '<strong>' + this.escapeHtml(reply.sender_name) + '</strong>';
+                html += '<span class="reply-date">' + dateStr + '</span>';
+                html += '</div>';
+                html += '<div class="reply-content">' + this.escapeHtml(reply.message) + '</div>';
+                html += '</div>';
+            });
+
+            $container.html(html);
+        },
+
+        escapeHtml: function(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, (m) => map[m]);
         },
 
         markAsRead: function(e) {
