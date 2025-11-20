@@ -20,6 +20,24 @@ get_header();
 $current_user = wp_get_current_user();
 $user_id      = $current_user->ID;
 
+// Check if editing existing post
+$edit_mode = false;
+$edit_post = null;
+$edit_post_id = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0;
+
+if ( $edit_post_id ) {
+    $edit_post = get_post( $edit_post_id );
+
+    // Verify post exists and user owns it
+    if ( $edit_post && $edit_post->post_author == $user_id ) {
+        $edit_mode = true;
+    } else {
+        // Unauthorized - redirect to dashboard
+        wp_redirect( home_url( '/dashboard' ) );
+        exit;
+    }
+}
+
 // Get user data for pre-fill
 $user_phone = get_user_meta( $user_id, 'phone', true );
 $user_city  = get_user_meta( $user_id, 'city', true );
@@ -31,8 +49,8 @@ $user_provincia = get_user_meta( $user_id, 'provincia', true );
     <!-- Hero Section -->
     <div class="annuncio-hero">
         <div class="container">
-            <h1 class="page-title">Pubblica un Annuncio</h1>
-            <p class="page-subtitle">Scegli il tipo di annuncio che vuoi pubblicare</p>
+            <h1 class="page-title"><?php echo $edit_mode ? 'Modifica Annuncio' : 'Pubblica un Annuncio'; ?></h1>
+            <p class="page-subtitle"><?php echo $edit_mode ? 'Aggiorna le informazioni del tuo annuncio' : 'Scegli il tipo di annuncio che vuoi pubblicare'; ?></p>
         </div>
     </div>
 
@@ -41,7 +59,7 @@ $user_provincia = get_user_meta( $user_id, 'provincia', true );
         <div class="annuncio-content-wrapper">
 
             <!-- Type Selection -->
-            <div class="annuncio-type-selection" id="type-selection">
+            <div class="annuncio-type-selection<?php echo $edit_mode ? ' hidden' : ''; ?>" id="type-selection">
                 <div class="type-cards">
                     <div class="type-card" data-type="4zampe">
                         <div class="type-icon">
@@ -68,18 +86,23 @@ $user_provincia = get_user_meta( $user_id, 'provincia', true );
             </div>
 
             <!-- Form 4 Zampe -->
-            <div class="annuncio-form-container hidden" id="form-4zampe">
+            <div class="annuncio-form-container<?php echo ($edit_mode && $edit_post->post_type === '4zampe') ? '' : ' hidden'; ?>" id="form-4zampe">
+                <?php if ( ! $edit_mode ) : ?>
                 <button class="btn-back" id="back-from-4zampe">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                     </svg>
                     Torna Indietro
                 </button>
+                <?php endif; ?>
 
-                <h2 class="form-title">Pubblica Annuncio 4 Zampe</h2>
+                <h2 class="form-title"><?php echo $edit_mode ? 'Modifica Annuncio 4 Zampe' : 'Pubblica Annuncio 4 Zampe'; ?></h2>
 
                 <form id="annuncio-4zampe-form" class="annuncio-form">
                     <?php wp_nonce_field( 'submit_annuncio_4zampe', 'annuncio_4zampe_nonce' ); ?>
+                    <?php if ( $edit_mode ) : ?>
+                        <input type="hidden" name="edit_post_id" value="<?php echo esc_attr( $edit_post_id ); ?>">
+                    <?php endif; ?>
 
                     <div class="form-section">
                         <h3 class="section-title">Informazioni Generali</h3>
@@ -224,18 +247,23 @@ $user_provincia = get_user_meta( $user_id, 'provincia', true );
             </div>
 
             <!-- Form Dogsitter -->
-            <div class="annuncio-form-container hidden" id="form-dogsitter">
+            <div class="annuncio-form-container<?php echo ($edit_mode && $edit_post->post_type === 'dogsitter') ? '' : ' hidden'; ?>" id="form-dogsitter">
+                <?php if ( ! $edit_mode ) : ?>
                 <button class="btn-back" id="back-from-dogsitter">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                     </svg>
                     Torna Indietro
                 </button>
+                <?php endif; ?>
 
-                <h2 class="form-title">Pubblica Annuncio Dogsitter</h2>
+                <h2 class="form-title"><?php echo $edit_mode ? 'Modifica Annuncio Dogsitter' : 'Pubblica Annuncio Dogsitter'; ?></h2>
 
                 <form id="annuncio-dogsitter-form" class="annuncio-form">
                     <?php wp_nonce_field( 'submit_annuncio_dogsitter', 'annuncio_dogsitter_nonce' ); ?>
+                    <?php if ( $edit_mode ) : ?>
+                        <input type="hidden" name="edit_post_id" value="<?php echo esc_attr( $edit_post_id ); ?>">
+                    <?php endif; ?>
 
                     <div class="form-section">
                         <h3 class="section-title">Informazioni Generali</h3>
@@ -361,6 +389,54 @@ $user_provincia = get_user_meta( $user_id, 'provincia', true );
     </div>
 
 </main>
+
+<?php if ( $edit_mode && $edit_post ) : ?>
+<script>
+// Pre-fill form with existing post data in edit mode
+document.addEventListener('DOMContentLoaded', function() {
+    const editData = {
+        title: <?php echo json_encode( $edit_post->post_title ); ?>,
+        content: <?php echo json_encode( $edit_post->post_content ); ?>,
+        postType: <?php echo json_encode( $edit_post->post_type ); ?>,
+        meta: <?php echo json_encode( get_post_meta( $edit_post_id ) ); ?>
+    };
+
+    // Determine which form to use
+    const formId = editData.postType === '4zampe' ? 'annuncio-4zampe-form' : 'annuncio-dogsitter-form';
+    const form = document.getElementById(formId);
+
+    if (form) {
+        // Pre-fill title field
+        const titleField = form.querySelector('[name="titolo"]');
+        if (titleField) titleField.value = editData.title;
+
+        // Pre-fill description/content field
+        const descField = form.querySelector('[name="descrizione"]');
+        if (descField) descField.value = editData.content;
+
+        // Pre-fill meta fields
+        for (const [key, value] of Object.entries(editData.meta)) {
+            const field = form.querySelector('[name="' + key + '"]');
+            if (field) {
+                const metaValue = Array.isArray(value) && value.length > 0 ? value[0] : value;
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    field.checked = (metaValue === '1' || metaValue === 'yes' || metaValue === field.value);
+                } else {
+                    field.value = metaValue;
+                }
+            }
+        }
+
+        // Change submit button text
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            const btnText = submitBtn.querySelector('span') || submitBtn;
+            btnText.textContent = 'Aggiorna Annuncio';
+        }
+    }
+});
+</script>
+<?php endif; ?>
 
 <?php
 get_footer();

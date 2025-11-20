@@ -320,7 +320,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                 </div>
                                                 <div class="annuncio-actions">
                                                     <a href="<?php the_permalink(); ?>" class="btn btn-sm btn-outline">Visualizza</a>
-                                                    <a href="<?php echo get_edit_post_link(); ?>" class="btn btn-sm btn-primary">Modifica</a>
+                                                    <a href="<?php echo add_query_arg( 'edit', get_the_ID(), home_url( '/pubblica-annuncio' ) ); ?>" class="btn btn-sm btn-primary">Modifica</a>
                                                 </div>
                                             </div>
                                         <?php endwhile; ?>
@@ -342,7 +342,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
                                                 </div>
                                                 <div class="annuncio-actions">
                                                     <a href="<?php the_permalink(); ?>" class="btn btn-sm btn-outline">Visualizza</a>
-                                                    <a href="<?php echo get_edit_post_link(); ?>" class="btn btn-sm btn-primary">Modifica</a>
+                                                    <a href="<?php echo add_query_arg( 'edit', get_the_ID(), home_url( '/pubblica-annuncio' ) ); ?>" class="btn btn-sm btn-primary">Modifica</a>
                                                 </div>
                                             </div>
                                         <?php endwhile; ?>
