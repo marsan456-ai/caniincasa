@@ -251,6 +251,97 @@
     </div>
 </div>
 
+<!-- Modal Registrazione per Annunci -->
+<?php if ( ! is_user_logged_in() ) : ?>
+<div id="annuncio-registration-modal" class="auth-modal" style="display: none;">
+    <div class="auth-modal-overlay"></div>
+    <div class="auth-modal-content">
+        <button type="button" class="auth-modal-close" id="close-annuncio-modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+
+        <div class="auth-modal-header">
+            <div class="auth-modal-icon">🐾</div>
+            <h2 class="auth-modal-title">Pubblica il Tuo Annuncio</h2>
+            <p class="auth-modal-subtitle">Registrati o accedi per inserire annunci di cuccioli</p>
+        </div>
+
+        <div class="auth-modal-body">
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" data-tab="register">
+                    <strong>Registrati</strong> <span class="tab-badge">Consigliato</span>
+                </button>
+                <button type="button" class="auth-tab" data-tab="login">
+                    Ho già un account
+                </button>
+            </div>
+
+            <!-- Tab Registrazione -->
+            <div class="auth-tab-content active" id="tab-register">
+                <p class="tab-intro">
+                    Crea un account gratuito in pochi secondi e inizia subito a pubblicare i tuoi annunci!
+                </p>
+
+                <div class="auth-benefits">
+                    <h3>Perché registrarsi?</h3>
+                    <ul class="benefits-list">
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4CAF50">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span><strong>Annunci verificati:</strong> Il tuo profilo garantisce qualità e affidabilità agli acquirenti</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4CAF50">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span><strong>Gestione centralizzata:</strong> Modifica, aggiorna ed elimina i tuoi annunci quando vuoi</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4CAF50">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span><strong>Messaggistica diretta:</strong> Ricevi e rispondi ai messaggi degli interessati</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4CAF50">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span><strong>Statistiche:</strong> Visualizza quante persone hanno visto i tuoi annunci</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="<?php echo esc_url( wp_registration_url() ); ?>" class="btn btn-auth-primary btn-block">
+                    Crea Account Gratuito
+                </a>
+
+                <p class="auth-note">
+                    Hai già un account? <button type="button" class="auth-switch-tab" data-tab="login">Accedi qui</button>
+                </p>
+            </div>
+
+            <!-- Tab Login -->
+            <div class="auth-tab-content" id="tab-login">
+                <p class="tab-intro">
+                    Accedi con il tuo account per continuare a pubblicare annunci.
+                </p>
+
+                <a href="<?php echo esc_url( wp_login_url( home_url( '/inserisci-annuncio/' ) ) ); ?>" class="btn btn-auth-secondary btn-block">
+                    Accedi
+                </a>
+
+                <p class="auth-note">
+                    Non hai un account? <button type="button" class="auth-switch-tab" data-tab="register">Registrati qui</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 
 </body>

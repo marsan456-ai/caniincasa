@@ -176,6 +176,12 @@ function caniincasa_scripts() {
         wp_enqueue_style( 'caniincasa-strutture', CANIINCASA_THEME_URI . '/assets/css/strutture.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
     }
 
+    // Annunci CTA & Auth Modal (conditional - single allevamenti only)
+    if ( is_singular( 'allevamenti' ) ) {
+        wp_enqueue_style( 'caniincasa-annunci-cta', CANIINCASA_THEME_URI . '/assets/css/annunci-cta.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
+        wp_enqueue_script( 'caniincasa-annunci-cta', CANIINCASA_THEME_URI . '/assets/js/annunci-cta.js', array( 'jquery' ), CANIINCASA_VERSION, true );
+    }
+
     // Annunci styles (conditional)
     $annunci_types = array( 'annunci_4zampe', 'annunci_dogsitter' );
     if ( is_singular( $annunci_types ) || is_post_type_archive( $annunci_types ) ) {

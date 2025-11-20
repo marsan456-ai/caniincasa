@@ -156,6 +156,46 @@ while ( have_posts() ) :
                         </div>
                     <?php endif; ?>
 
+                    <!-- CTA Box Annunci Cuccioli -->
+                    <div class="annunci-cuccioli-cta-box">
+                        <div class="cta-content">
+                            <div class="cta-icon">🐾</div>
+                            <h3 class="cta-title">Cerchi o Offri Cuccioli?</h3>
+                            <p class="cta-description">Pubblica il tuo annuncio gratuitamente e raggiungi migliaia di appassionati!</p>
+
+                            <div class="cta-features">
+                                <div class="cta-feature">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4CAF50">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                    <span>Annunci verificati</span>
+                                </div>
+                                <div class="cta-feature">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4CAF50">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                    <span>Visibilità garantita</span>
+                                </div>
+                                <div class="cta-feature">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4CAF50">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                    <span>Contatti diretti</span>
+                                </div>
+                            </div>
+
+                            <?php if ( is_user_logged_in() ) : ?>
+                                <a href="<?php echo esc_url( home_url( '/inserisci-annuncio/' ) ); ?>" class="btn btn-cta-primary">
+                                    Inserisci Annuncio
+                                </a>
+                            <?php else : ?>
+                                <button type="button" class="btn btn-cta-primary" id="open-annuncio-modal">
+                                    Inserisci Annuncio
+                                </button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Sidebar -->
