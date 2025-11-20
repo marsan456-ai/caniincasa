@@ -9,31 +9,45 @@
    TOPBAR & MOBILE MENU CTA BUTTON
 ======================================== */
 
-.top-bar-cta {
-    display: inline-flex;
+/* TopBar CTA - Link o Button */
+.top-bar-nav .top-bar-cta,
+a.top-bar-cta,
+button.top-bar-cta {
+    display: inline-flex !important;
     align-items: center;
     padding: 0.5rem 1.25rem;
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%);
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%) !important;
     color: #ffffff !important;
     font-weight: 600;
     font-size: 0.9rem;
     border-radius: 20px;
     border: none;
     cursor: pointer;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
-.top-bar-cta:hover {
-    background: linear-gradient(135deg, #FF8C61 0%, #FF6B35 100%);
+.top-bar-nav .top-bar-cta:hover,
+a.top-bar-cta:hover,
+button.top-bar-cta:hover {
+    background: linear-gradient(135deg, #FF8C61 0%, #FF6B35 100%) !important;
+    color: #ffffff !important;
     box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
     transform: translateY(-1px);
 }
 
-.top-bar-cta:active {
+.top-bar-nav .top-bar-cta:active,
+a.top-bar-cta:active,
+button.top-bar-cta:active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+}
+
+.top-bar-cta svg {
+    stroke: #ffffff;
 }
 
 /* Mobile CTA Link/Button */

@@ -188,9 +188,15 @@ get_header();
 				<a href="<?php echo esc_url( home_url( '/annunci/' ) ); ?>" class="btn btn-primary btn-large">
 					<?php esc_html_e( 'Vedi Tutti gli Annunci', 'caniincasa' ); ?>
 				</a>
-				<a href="<?php echo esc_url( home_url( '/inserisci-annuncio/' ) ); ?>" class="btn btn-secondary btn-large">
-					<?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
-				</a>
+				<?php if ( is_user_logged_in() ) : ?>
+					<a href="<?php echo esc_url( home_url( '/inserisci-annuncio/' ) ); ?>" class="btn btn-secondary btn-large">
+						<?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+					</a>
+				<?php else : ?>
+					<button type="button" class="btn btn-secondary btn-large js-open-annuncio-modal">
+						<?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+					</button>
+				<?php endif; ?>
 			</div>
 		</div>
 	</section>
