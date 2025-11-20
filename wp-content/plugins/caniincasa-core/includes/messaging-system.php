@@ -651,7 +651,7 @@ function caniincasa_get_blocked_users( $user_id ) {
  * AJAX: Get message replies
  */
 function caniincasa_ajax_get_message_replies() {
-    check_ajax_referer( 'caniincasa_ajax_nonce', 'nonce' );
+    check_ajax_referer( 'caniincasa_nonce', 'nonce' );
 
     if ( ! is_user_logged_in() ) {
         wp_send_json_error( array( 'message' => 'Devi essere loggato per visualizzare i messaggi.' ) );
