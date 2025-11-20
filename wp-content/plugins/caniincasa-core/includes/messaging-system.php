@@ -208,10 +208,17 @@ function caniincasa_ensure_messaging_tables() {
         return;
     }
 
-    // Check if messages table has sender_deleted and recipient_deleted columns
+    // Check if messages table has all required columns
     $columns = $wpdb->get_col( "DESCRIBE $messages_table" );
 
     $columns_added = false;
+
+    // Add parent_id if missing (for threading/replies)
+    if ( ! in_array( 'parent_id', $columns ) ) {
+        $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN parent_id bigint(20) UNSIGNED DEFAULT NULL AFTER recipient_id" );
+        $wpdb->query( "ALTER TABLE $messages_table ADD KEY parent_id (parent_id)" );
+        $columns_added = true;
+    }
 
     if ( ! in_array( 'sender_deleted', $columns ) ) {
         $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN sender_deleted tinyint(1) DEFAULT 0 AFTER is_read" );
