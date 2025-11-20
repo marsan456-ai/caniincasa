@@ -33,11 +33,18 @@
         },
 
         bindEvents: function() {
+            // TEST: Verifica immediata se l'evento si attacca
+            console.log('Messaging: Binding events to buttons');
+            console.log('Messaging: Reply buttons found:', $('.btn-reply-message').length);
+
             // Open modal button
             $(document).on('click', '.btn-send-message', this.openModal.bind(this));
 
             // Reply to message
-            $(document).on('click', '.btn-reply-message', this.openReplyModal.bind(this));
+            $(document).on('click', '.btn-reply-message', function(e) {
+                alert('CLICK RILEVATO! Il pulsante funziona. Ora apro il modal...');
+                Messaging.openReplyModal(e);
+            });
 
             // Close modal
             $(document).on('click', '.message-modal-close, .message-modal-overlay', this.closeModal.bind(this));
