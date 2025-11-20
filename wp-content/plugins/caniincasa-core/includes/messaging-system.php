@@ -104,7 +104,7 @@ function caniincasa_get_unread_count( $user_id ) {
         "SELECT COUNT(*) FROM $table
         WHERE recipient_id = %d
         AND is_read = 0
-        AND recipient_deleted = 0",
+        AND COALESCE(recipient_deleted, 0) = 0",
         $user_id
     ) );
 
@@ -128,7 +128,7 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
         $messages = $wpdb->get_results( $wpdb->prepare(
             "SELECT * FROM $table
             WHERE (id = %d OR parent_id = %d)
-            AND ((sender_id = %d AND sender_deleted = 0) OR (recipient_id = %d AND recipient_deleted = 0))
+            AND ((sender_id = %d AND COALESCE(sender_deleted, 0) = 0) OR (recipient_id = %d AND COALESCE(recipient_deleted, 0) = 0))
             ORDER BY created_at ASC",
             $parent_id,
             $parent_id,
@@ -140,7 +140,7 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
         $messages = $wpdb->get_results( $wpdb->prepare(
             "SELECT * FROM $table
             WHERE sender_id = %d
-            AND sender_deleted = 0
+            AND COALESCE(sender_deleted, 0) = 0
             AND parent_id IS NULL
             ORDER BY created_at DESC",
             $user_id
@@ -150,7 +150,7 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
         $messages = $wpdb->get_results( $wpdb->prepare(
             "SELECT * FROM $table
             WHERE recipient_id = %d
-            AND recipient_deleted = 0
+            AND COALESCE(recipient_deleted, 0) = 0
             AND parent_id IS NULL
             ORDER BY created_at DESC",
             $user_id
@@ -198,12 +198,22 @@ function caniincasa_ensure_messaging_tables() {
     // Check if messages table has sender_deleted and recipient_deleted columns
     $columns = $wpdb->get_col( "DESCRIBE $messages_table" );
 
+    $columns_added = false;
+
     if ( ! in_array( 'sender_deleted', $columns ) ) {
         $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN sender_deleted tinyint(1) DEFAULT 0 AFTER is_read" );
+        $columns_added = true;
     }
 
     if ( ! in_array( 'recipient_deleted', $columns ) ) {
         $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN recipient_deleted tinyint(1) DEFAULT 0 AFTER sender_deleted" );
+        $columns_added = true;
+    }
+
+    // If columns were just added, update existing NULL values to 0
+    if ( $columns_added ) {
+        $wpdb->query( "UPDATE $messages_table SET sender_deleted = 0 WHERE sender_deleted IS NULL" );
+        $wpdb->query( "UPDATE $messages_table SET recipient_deleted = 0 WHERE recipient_deleted IS NULL" );
     }
 }
 
