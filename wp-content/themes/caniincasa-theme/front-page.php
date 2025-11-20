@@ -479,16 +479,17 @@ get_header();
 	</section>
 
 	<!-- Call to Action Final -->
+	<?php if ( ! is_user_logged_in() ) : ?>
 	<section class="cta-final-section">
 		<div class="container">
 			<div class="cta-content">
 				<h2><?php esc_html_e( 'Pronto a trovare il tuo amico a quattro zampe?', 'caniincasa' ); ?></h2>
 				<p><?php esc_html_e( 'Registrati gratuitamente e accedi a tutte le funzionalità del portale', 'caniincasa' ); ?></p>
 				<div class="cta-buttons">
-					<a href="<?php echo esc_url( wp_registration_url() ); ?>" class="btn btn-primary btn-large">
+					<button type="button" class="btn btn-primary btn-large js-open-annuncio-modal">
 						<?php esc_html_e( 'Registrati Gratis', 'caniincasa' ); ?>
-					</a>
-					<a href="<?php echo esc_url( wp_login_url() ); ?>" class="btn btn-secondary btn-large">
+					</button>
+					<a href="<?php echo esc_url( wp_login_url( home_url() ) ); ?>" class="btn btn-secondary btn-large">
 						<?php esc_html_e( 'Accedi', 'caniincasa' ); ?>
 					</a>
 					<button type="button" class="btn btn-accent btn-large" id="open-newsletter-modal">
@@ -498,6 +499,7 @@ get_header();
 			</div>
 		</div>
 	</section>
+	<?php endif; ?>
 
 	<!-- Newsletter Modal -->
 	<div id="newsletter-modal" class="modal newsletter-modal" style="display: none;">

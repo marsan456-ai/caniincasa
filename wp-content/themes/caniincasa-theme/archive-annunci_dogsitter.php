@@ -362,9 +362,9 @@ get_header();
 				<div class="cta-content">
 					<h2><?php esc_html_e( 'Vuoi pubblicare un annuncio?', 'caniincasa' ); ?></h2>
 					<p><?php esc_html_e( 'Registrati gratuitamente per pubblicare i tuoi annunci!', 'caniincasa' ); ?></p>
-					<a href="<?php echo esc_url( wp_registration_url() ); ?>" class="btn btn-large btn-success">
+					<button type="button" class="btn btn-large btn-success js-open-annuncio-modal">
 						<?php esc_html_e( 'Registrati Ora', 'caniincasa' ); ?>
-					</a>
+					</button>
 				</div>
 			</div>
 		</div>
