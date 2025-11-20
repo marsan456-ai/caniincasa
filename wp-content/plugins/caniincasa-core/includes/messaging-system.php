@@ -97,6 +97,9 @@ function caniincasa_can_send_message( $sender_id, $recipient_id ) {
  * Get unread message count for user
  */
 function caniincasa_get_unread_count( $user_id ) {
+    // FORCE schema update before counting
+    caniincasa_ensure_messaging_tables();
+
     global $wpdb;
     $table = $wpdb->prefix . 'caniincasa_messages';
 
@@ -120,6 +123,9 @@ function caniincasa_get_unread_count( $user_id ) {
  * @return array Messages
  */
 function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) {
+    // FORCE schema update before every query
+    caniincasa_ensure_messaging_tables();
+
     global $wpdb;
     $table = $wpdb->prefix . 'caniincasa_messages';
 
@@ -181,6 +187,12 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
  * Ensure messaging tables exist and have correct schema
  */
 function caniincasa_ensure_messaging_tables() {
+    // Cache check - only run once per request
+    static $already_checked = false;
+    if ( $already_checked ) {
+        return;
+    }
+
     global $wpdb;
 
     $messages_table = $wpdb->prefix . 'caniincasa_messages';
@@ -192,6 +204,7 @@ function caniincasa_ensure_messaging_tables() {
 
     if ( ! $messages_exists || ! $blocked_exists ) {
         caniincasa_create_messaging_tables();
+        $already_checked = true;
         return;
     }
 
@@ -215,6 +228,8 @@ function caniincasa_ensure_messaging_tables() {
         $wpdb->query( "UPDATE $messages_table SET sender_deleted = 0 WHERE sender_deleted IS NULL" );
         $wpdb->query( "UPDATE $messages_table SET recipient_deleted = 0 WHERE recipient_deleted IS NULL" );
     }
+
+    $already_checked = true;
 }
 
 /**
