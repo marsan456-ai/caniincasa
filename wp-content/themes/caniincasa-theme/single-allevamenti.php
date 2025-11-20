@@ -189,7 +189,7 @@ while ( have_posts() ) :
                                     Inserisci Annuncio
                                 </a>
                             <?php else : ?>
-                                <button type="button" class="btn btn-cta-primary" id="open-annuncio-modal">
+                                <button type="button" class="btn btn-cta-primary js-open-annuncio-modal">
                                     Inserisci Annuncio
                                 </button>
                             <?php endif; ?>

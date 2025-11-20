@@ -28,6 +28,21 @@
         <div class="container">
             <div class="top-bar-content">
                 <nav class="top-bar-nav">
+                    <?php if ( is_user_logged_in() ) : ?>
+                        <a href="<?php echo esc_url( home_url( '/inserisci-annuncio/' ) ); ?>" class="top-bar-cta">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 4px;">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+                        </a>
+                    <?php else : ?>
+                        <button type="button" class="top-bar-cta js-open-annuncio-modal">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 4px;">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+                        </button>
+                    <?php endif; ?>
                     <?php
                     if ( is_user_logged_in() ) {
                         $current_user = wp_get_current_user();
@@ -165,6 +180,12 @@
             <!-- Mobile User Menu -->
             <div class="mobile-user-menu">
                 <?php if ( is_user_logged_in() ) : ?>
+                    <a href="<?php echo esc_url( home_url( '/inserisci-annuncio/' ) ); ?>" class="mobile-user-link mobile-cta-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+                    </a>
                     <a href="<?php echo esc_url( home_url( '/dashboard' ) ); ?>" class="mobile-user-link" style="position: relative;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                             <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -184,6 +205,12 @@
                         <?php esc_html_e( 'Logout', 'caniincasa' ); ?>
                     </a>
                 <?php else : ?>
+                    <button type="button" class="mobile-user-link mobile-cta-link js-open-annuncio-modal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <?php esc_html_e( 'Inserisci Annuncio', 'caniincasa' ); ?>
+                    </button>
                     <a href="<?php echo esc_url( home_url( '/login' ) ); ?>" class="mobile-user-link">
                         <?php esc_html_e( 'Login', 'caniincasa' ); ?>
                     </a>

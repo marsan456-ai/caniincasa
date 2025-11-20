@@ -10,14 +10,13 @@
 
     $(document).ready(function() {
         const modal = $('#annuncio-registration-modal');
-        const openBtn = $('#open-annuncio-modal');
         const closeBtn = $('#close-annuncio-modal');
         const overlay = modal.find('.auth-modal-overlay');
 
         /**
-         * Open Modal
+         * Open Modal - usando classe per supportare multipli pulsanti
          */
-        openBtn.on('click', function(e) {
+        $(document).on('click', '.js-open-annuncio-modal', function(e) {
             e.preventDefault();
             modal.fadeIn(300);
             $('body').css('overflow', 'hidden'); // Prevent background scroll
@@ -48,7 +47,7 @@
         });
 
         /**
-         * Tab Switching
+         * Tab Switching - main tabs
          */
         $('.auth-tab').on('click', function() {
             const tabName = $(this).data('tab');
@@ -56,6 +55,22 @@
             // Update active tab button
             $('.auth-tab').removeClass('active');
             $(this).addClass('active');
+
+            // Update active tab content
+            $('.auth-tab-content').removeClass('active');
+            $('#tab-' + tabName).addClass('active');
+        });
+
+        /**
+         * Tab Switching - inline links
+         */
+        $('.auth-switch-tab').on('click', function(e) {
+            e.preventDefault();
+            const tabName = $(this).data('tab');
+
+            // Update active tab button
+            $('.auth-tab').removeClass('active');
+            $('.auth-tab[data-tab="' + tabName + '"]').addClass('active');
 
             // Update active tab content
             $('.auth-tab-content').removeClass('active');

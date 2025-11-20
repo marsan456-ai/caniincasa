@@ -176,8 +176,8 @@ function caniincasa_scripts() {
         wp_enqueue_style( 'caniincasa-strutture', CANIINCASA_THEME_URI . '/assets/css/strutture.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
     }
 
-    // Annunci CTA & Auth Modal (conditional - single allevamenti only)
-    if ( is_singular( 'allevamenti' ) ) {
+    // Annunci CTA & Auth Modal (load on all pages except dashboard for topbar button)
+    if ( ! is_page_template( 'template-dashboard.php' ) ) {
         wp_enqueue_style( 'caniincasa-annunci-cta', CANIINCASA_THEME_URI . '/assets/css/annunci-cta.css', array( 'caniincasa-main' ), CANIINCASA_VERSION );
         wp_enqueue_script( 'caniincasa-annunci-cta', CANIINCASA_THEME_URI . '/assets/js/annunci-cta.js', array( 'jquery' ), CANIINCASA_VERSION, true );
     }
