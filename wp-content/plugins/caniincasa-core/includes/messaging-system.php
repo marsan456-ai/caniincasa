@@ -94,9 +94,17 @@ function caniincasa_can_send_message( $sender_id, $recipient_id ) {
 }
 
 /**
- * Get unread message count for user
+ * Get unread message count for user (with caching)
  */
 function caniincasa_get_unread_count( $user_id ) {
+    // Try to get from cache first
+    $cache_key = 'caniincasa_unread_count_' . $user_id;
+    $cached_count = get_transient( $cache_key );
+
+    if ( false !== $cached_count ) {
+        return (int) $cached_count;
+    }
+
     // FORCE schema update before counting
     caniincasa_ensure_messaging_tables();
 
@@ -111,7 +119,18 @@ function caniincasa_get_unread_count( $user_id ) {
         $user_id
     ) );
 
+    // Cache for 5 minutes
+    set_transient( $cache_key, $count, 5 * MINUTE_IN_SECONDS );
+
     return (int) $count;
+}
+
+/**
+ * Clear unread count cache for user
+ */
+function caniincasa_clear_unread_cache( $user_id ) {
+    $cache_key = 'caniincasa_unread_count_' . $user_id;
+    delete_transient( $cache_key );
 }
 
 /**
@@ -236,6 +255,25 @@ function caniincasa_ensure_messaging_tables() {
         $wpdb->query( "UPDATE $messages_table SET recipient_deleted = 0 WHERE recipient_deleted IS NULL" );
     }
 
+    // Add composite indexes for performance (check if exist first)
+    $indexes = $wpdb->get_results( "SHOW INDEX FROM $messages_table", ARRAY_A );
+    $index_names = array_column( $indexes, 'Key_name' );
+
+    // Index for inbox query (recipient + not deleted + not read)
+    if ( ! in_array( 'idx_recipient_inbox', $index_names ) ) {
+        $wpdb->query( "CREATE INDEX idx_recipient_inbox ON $messages_table (recipient_id, recipient_deleted, is_read, created_at)" );
+    }
+
+    // Index for sent messages query (sender + not deleted)
+    if ( ! in_array( 'idx_sender_sent', $index_names ) ) {
+        $wpdb->query( "CREATE INDEX idx_sender_sent ON $messages_table (sender_id, sender_deleted, created_at)" );
+    }
+
+    // Index for replies query (parent + users)
+    if ( ! in_array( 'idx_parent_replies', $index_names ) ) {
+        $wpdb->query( "CREATE INDEX idx_parent_replies ON $messages_table (parent_id, sender_id, recipient_id)" );
+    }
+
     $already_checked = true;
 }
 
@@ -343,6 +381,9 @@ function caniincasa_ajax_send_message() {
 
     $message_id = $wpdb->insert_id;
 
+    // Clear unread count cache for recipient
+    caniincasa_clear_unread_cache( $recipient_id );
+
     // Send email notification to recipient
     caniincasa_send_message_notification( $message_id );
 
@@ -446,6 +487,9 @@ function caniincasa_ajax_mark_message_read() {
         wp_send_json_error( array( 'message' => 'Errore durante l\'aggiornamento.' ) );
     }
 
+    // Clear unread count cache for user
+    caniincasa_clear_unread_cache( $user_id );
+
     wp_send_json_success( array( 'message' => 'Messaggio segnato come letto.' ) );
 }
 add_action( 'wp_ajax_mark_message_read', 'caniincasa_ajax_mark_message_read' );
@@ -506,6 +550,9 @@ function caniincasa_ajax_delete_message() {
     if ( $result === false ) {
         wp_send_json_error( array( 'message' => 'Errore durante l\'eliminazione.' ) );
     }
+
+    // Clear unread count cache for user (in case they deleted an unread message)
+    caniincasa_clear_unread_cache( $user_id );
 
     wp_send_json_success( array( 'message' => 'Messaggio eliminato.' ) );
 }
@@ -681,15 +728,31 @@ function caniincasa_ajax_get_message_replies() {
         wp_send_json_error( array( 'message' => 'Non hai i permessi per visualizzare questo messaggio.' ) );
     }
 
-    // Get all replies to this message
+    // Get count of all replies first
+    $total_replies = $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM $table
+        WHERE parent_id = %d
+        AND ((sender_id = %d AND COALESCE(sender_deleted, 0) = 0) OR (recipient_id = %d AND COALESCE(recipient_deleted, 0) = 0))",
+        $parent_id,
+        $user_id,
+        $user_id
+    ) );
+
+    // Limit replies to prevent performance issues (max 50)
+    $limit = 50;
+    $has_more = $total_replies > $limit;
+
+    // Get replies with limit
     $replies = $wpdb->get_results( $wpdb->prepare(
         "SELECT * FROM $table
         WHERE parent_id = %d
         AND ((sender_id = %d AND COALESCE(sender_deleted, 0) = 0) OR (recipient_id = %d AND COALESCE(recipient_deleted, 0) = 0))
-        ORDER BY created_at ASC",
+        ORDER BY created_at ASC
+        LIMIT %d",
         $parent_id,
         $user_id,
-        $user_id
+        $user_id,
+        $limit
     ), ARRAY_A );
 
     // Enrich with user data
@@ -703,8 +766,11 @@ function caniincasa_ajax_get_message_replies() {
     }
 
     wp_send_json_success( array(
-        'replies' => $replies,
-        'count'   => count( $replies )
+        'replies'      => $replies,
+        'count'        => count( $replies ),
+        'total'        => (int) $total_replies,
+        'has_more'     => $has_more,
+        'showing'      => count( $replies )
     ) );
 }
 add_action( 'wp_ajax_get_message_replies', 'caniincasa_ajax_get_message_replies' );

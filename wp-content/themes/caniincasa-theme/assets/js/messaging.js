@@ -256,7 +256,7 @@
                             $repliesLoading.hide();
 
                             if (response.success && response.data.replies.length > 0) {
-                                this.renderReplies($repliesContainer, response.data.replies);
+                                this.renderReplies($repliesContainer, response.data);
                             }
                         },
                         error: () => {
@@ -276,9 +276,20 @@
             }
         },
 
-        renderReplies: function($container, replies) {
+        renderReplies: function($container, data) {
+            const replies = data.replies;
+            const hasMore = data.has_more || false;
+            const total = data.total || replies.length;
+
             let html = '<div class="message-thread-header">';
-            html += '<strong>' + replies.length + ' ' + (replies.length === 1 ? 'Risposta' : 'Risposte') + ':</strong>';
+
+            if (hasMore) {
+                html += '<strong>Mostrando ' + replies.length + ' di ' + total + ' risposte (ultime risposte):</strong>';
+                html += '<p class="replies-limit-notice">Per performance, vengono mostrate le prime 50 risposte.</p>';
+            } else {
+                html += '<strong>' + replies.length + ' ' + (replies.length === 1 ? 'Risposta' : 'Risposte') + ':</strong>';
+            }
+
             html += '</div>';
 
             replies.forEach((reply) => {
