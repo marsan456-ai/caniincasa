@@ -1,0 +1,323 @@
+/**
+ * Chi Siamo Page Styles
+ *
+ * @package Caniincasa
+ */
+
+/* ==========================================================================
+   Hero Section - Now using global styles from main.css
+   ========================================================================== */
+
+/* ==========================================================================
+   Section Padding
+   ========================================================================== */
+
+.section-padding {
+    padding: 60px 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--color-secondary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ==========================================================================
+   Intro Section
+   ========================================================================== */
+
+.chi-siamo-intro {
+    background-color: var(--color-bg);
+}
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.intro-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-secondary);
+}
+
+.intro-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.intro-description p:last-child {
+    margin-bottom: 0;
+}
+
+.intro-image {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.intro-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   Mission Section
+   ========================================================================== */
+
+.chi-siamo-mission {
+    background-color: var(--color-bg-light);
+}
+
+.mission-box {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.mission-box h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+}
+
+.mission-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+/* ==========================================================================
+   Values Section
+   ========================================================================== */
+
+.chi-siamo-values {
+    background-color: var(--color-bg);
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.value-box {
+    background: white;
+    padding: 40px 30px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.value-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.value-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+}
+
+.value-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-secondary);
+}
+
+.value-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* ==========================================================================
+   Team Section
+   ========================================================================== */
+
+.chi-siamo-team {
+    background-color: var(--color-bg-light);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.team-member {
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.member-photo {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background-color: var(--color-bg-light);
+}
+
+.member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 20px 20px 10px;
+    color: var(--color-secondary);
+}
+
+.member-role {
+    font-size: 0.95rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin: 0 20px 15px;
+}
+
+.member-bio {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-light);
+    margin: 0 20px 20px;
+}
+
+/* ==========================================================================
+   CTA Section
+   ========================================================================== */
+
+.chi-siamo-cta {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+}
+
+.cta-box {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-box h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.cta-box p {
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.cta-box .btn {
+    background-color: white;
+    color: var(--color-secondary);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    display: inline-block;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cta-box .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .intro-grid {
+        gap: 40px;
+    }
+
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .section-padding {
+        padding: 40px 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .intro-text h2 {
+        font-size: 2rem;
+    }
+
+    .mission-box {
+        padding: 30px 20px;
+    }
+
+    .mission-box h2 {
+        font-size: 2rem;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .value-box {
+        padding: 30px 20px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .cta-box h2 {
+        font-size: 2rem;
+    }
+}

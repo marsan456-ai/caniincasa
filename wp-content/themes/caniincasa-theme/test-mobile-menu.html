@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mobile Menu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .mobile-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu li {
+            margin-bottom: 0;
+        }
+
+        .mobile-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mobile-menu .menu-item-has-children > a {
+            position: relative;
+            padding-right: 45px;
+        }
+
+        .mobile-menu .menu-item-has-children > a::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #333;
+            transition: transform 0.3s;
+        }
+
+        .mobile-menu .menu-item-has-children.open > a::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .mobile-menu .sub-menu {
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            padding-left: 20px !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            background: #f5f5f5;
+        }
+
+        .mobile-menu .menu-item-has-children.open > .sub-menu {
+            max-height: 3000px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .mobile-menu .sub-menu li a {
+            padding-left: 30px;
+            font-size: 0.95em;
+        }
+
+        .debug-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Mobile Menu Dropdown</h1>
+    <p>Clicca su "Menu con Sottomenu" per testare il dropdown</p>
+
+    <ul class="mobile-menu">
+        <li class="menu-item">
+            <a href="#">Menu Semplice 1</a>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Menu con Sottomenu</a>
+            <ul class="sub-menu">
+                <li><a href="#">Sottomenu 1</a></li>
+                <li><a href="#">Sottomenu 2</a></li>
+                <li><a href="#">Sottomenu 3</a></li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">Menu Semplice 2</a>
+        </li>
+        <li class="menu-item menu-item-has-children">
+            <a href="#">Altro Menu con Sottomenu</a>
+            <ul class="sub-menu">
+                <li><a href="#">Sottomenu A</a></li>
+                <li class="menu-item-has-children">
+                    <a href="#">Sottomenu B (con nested)</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Nested 1</a></li>
+                        <li><a href="#">Nested 2</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Sottomenu C</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="debug-info">
+        Click count: <span id="click-count">0</span><br>
+        Open items: <span id="open-count">0</span>
+    </div>
+
+    <script>
+        let clickCount = 0;
+
+        function attachMobileMenuListeners(items) {
+            items.forEach(function(item) {
+                const link = item.querySelector(':scope > a');
+                const submenu = item.querySelector(':scope > .sub-menu');
+
+                if (link && submenu) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        clickCount++;
+                        document.getElementById('click-count').textContent = clickCount;
+
+                        console.log('Clicked:', link.textContent.trim());
+
+                        const isOpen = item.classList.contains('open');
+
+                        // Close siblings
+                        const parent = item.parentElement;
+                        const siblings = Array.from(parent.children).filter(child =>
+                            child !== item && child.classList.contains('menu-item-has-children')
+                        );
+                        siblings.forEach(sibling => {
+                            sibling.classList.remove('open');
+                        });
+
+                        // Toggle current
+                        if (isOpen) {
+                            item.classList.remove('open');
+                            console.log('Closed');
+                        } else {
+                            item.classList.add('open');
+                            console.log('Opened');
+                        }
+
+                        // Update counter
+                        const openItems = document.querySelectorAll('.menu-item-has-children.open').length;
+                        document.getElementById('open-count').textContent = openItems;
+                    });
+
+                    console.log('Attached listener to:', link.textContent.trim());
+                }
+            });
+        }
+
+        // Initialize
+        const mobileMenuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children');
+        console.log('Found items with children:', mobileMenuItemsWithChildren.length);
+        attachMobileMenuListeners(mobileMenuItemsWithChildren);
+    </script>
+</body>
+</html>

@@ -1,0 +1,2900 @@
+[
+  {
+    "nome_razza": "Airedale terrier",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Akita",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Akita americano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Alano",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Alaskan malamute",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Alpenlaendische dachsbracke",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "American water spaniel",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Amstaff – american staffordshire terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Anglo francais de petite venerie",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Ariegeois",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Australian cattledog",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Australian shepherd",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Australian silky terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Australian stumpy tail cattle dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Australian terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Azawakh",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Barbet",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Barboni",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Barzoi",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Basenji",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Basset artesien normand",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Basset blue de gascogne",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bassethound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bassett fauve de bretagne",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bassotti tedeschi",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bayerischer gebirgsschweisshund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Beagle",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Beagle harrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Bearded collie",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bedlington terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Bichon a poil frise",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Bichon havanais",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Billy",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Black and tan coonhound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bloodhound chien de saint-ubert",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bobtail",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bolognese",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Border collie",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Border terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Boston terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Bouledogue francese",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Bovaro del bernese",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Bovaro delle ardenne",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bovaro delle fiandre",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bovaro dell’appenzell",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bovaro dell’entlebuch",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Boxer",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco del bourbonnais",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco di burgos",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco d’ariege",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco d’auvergne",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco francese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco italiano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco portoghese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco saint germain",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco slovacco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Bracco ungherese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Briquet griffon vendeen",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Broholmer",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Bull terrier inglese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Bulldog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bulldog Francese",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Bullmastiff",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cairn terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Canaan dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane corso",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da ferma boemo",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane da ferma tedesco",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane da lupo cecoslovacco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da lupo saarloos",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da montagna dei pirenei",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da orso della carelia",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane da pastore australiano kelpie",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore belga",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore bergamasco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore catalano",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane da pastore croato",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore dei pirenei",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da pastore dei tatra",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da pastore del caucaso",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da pastore dell'Anatolia",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane da pastore della russia meridionale",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore dell’asia centrale",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di Islanda",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di beauce",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di brie",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di ciarplanina",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di karst",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore di picardia",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore mallorquin",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore maremmano abruzzese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore olandese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore polacco di vallee",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da pastore scozzese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Cane da sierra di estrela",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane de castro laboreiro",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane dell’atlas",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cane di san bernardo",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cane fonnese",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cao da sierra de aires",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cao de agua",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cao fila de sao miguel",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Carlino",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Cavalier king charles spaniel",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Chesapeake bay retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Chien d’artois",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Chihuahua",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Chin",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Chinese crested dog",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Chow-chow",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Cimarron uruguayo",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Ciobanesc romanesc de bucovina",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Cirneco dell’etna",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Clumber spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Cocker americano",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Cocker spaniel inglese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Coton de tulear",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Curly-coated retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Dalmata",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Dandie dinmont terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Dansk-svensk gardshund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Deerhound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Deutscher jagdterrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Dobermann",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Dogo argentino",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Dogo canario",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Dogue de bordeaux",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Drever",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Dunker",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "English toy terrier black and tan",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Epagneul blue de picardie",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul breton",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul de pont au de mer",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul francais",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul nano",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul olandese di drent",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Epagneul picard",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Eurasier",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Field spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Fila brasileiro",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Flat coated retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Fox terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Foxhound americano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Galgo espanol",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Gammel dansk honsenhund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Gascogne saintongeois",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Golden retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Gonczy polski",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Grand anglo francais",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Grand basset griffon vendeen",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Grand bleu de gascogne",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Grand griffon vendeen",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Grande bovaro svizzero",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Grande muensterlander",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Greyhound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Griffon bleu de gascogne",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Griffon fauve de bretagne",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Griffon nivernais",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Griffone a pelo duro (Korthals)",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Griffone belga",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Griffone di bruxelles",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Groenlandese",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Haldenstovare",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Hamilton stovare",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Hannoverischer schweisshund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Harrier",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Hokkaido",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Hovawart",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Hyghenhund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Irish glen of imaal terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Irish soft-coated wheaten terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Irish terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Irish water spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Irish wolfhound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Jack russell terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Jamthund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Kai",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Kerry blue terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "King charles spaniel",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Kishu",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Komondor",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Kooikerhondje",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Korea Jindo Dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Kromfohrländer",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Kuvasz",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Labrador Retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Lagotto Romagnolo",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Laika Russo-Europeo",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Laika della Siberia Occidentale",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Lakeland Terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Landseer (Tipo Continentale Europeo)",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Lapinkoira",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Leonberger",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Levriero afgano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Levriero polacco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Lhasa apso",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Magyar agar",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Maltese",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Manchester terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Mastiff",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Mastino dei pirenei",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Mastino napoletano",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Mastino spagnolo",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Mudi",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Norbottenspets",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Norfolk terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Norsk buhund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Norsk elghund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Norsk lundehund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Norwich terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Nova scotia duck tolling retriever",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Parson russell terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Pastore svizzero bianco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Pastore tedesco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Pechinese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Perro de agua espanol",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Perro dogo mallorquin",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Perro sin pelo del peru’",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Petit basset griffon vendeen",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Petit bleu de gascogne",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Pharaon hound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Piccolo brabantino",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Piccolo cane leone",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Piccolo levriero italiano",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Piccolo muensterlander",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Piccolo segugio della svizzera",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Podenco canario",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Podenco ibicenco",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Podengo portugues",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Pointer inglese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Poitevin",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Porcelaine",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Pudel pointer",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Puli",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Pumi",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Rafeiro do alentejo",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Rhodesian ridgeback",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Riesenschnauzer",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Romanian carpathian sheperd dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Romanian mioritic sheperd dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Rottweiler",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Russian toy",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Sabueso espagnol",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Saluki",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Samoiedo",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Schapendoes",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Schiller stovare",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Schipperkee",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Schnauzer",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Scottish terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Sealyham terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Segugi svizzeri",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Segugio austriaco nero focato",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio dei balcani",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio della bosnia a pelo duro",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio della stiria a pelo ruvido",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio della transilvania",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio della westfalia",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio dell’appennino",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio dell’istria",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio ellenico",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio finlandese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio italiano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio maremmano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio polacco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio posavatz",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio tedesco",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio tirolese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio tricolore jugoslavo",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Segugio yugoslavo da montagna",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Setter gordon",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Setter inglese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Setter irlandese",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Shar pei",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Shiba",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Shiba Inu",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Shih tzu",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Shikoku",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Siberian husky",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Skye terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Sloughi",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Slovensky cuvac",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Slovensky kopov",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Smaalandsstovare",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Smoushond olandese",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Spaniel olandese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Spaniel tedesco",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Spinone italiano",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Spitz finnico",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Spitz giapponese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Spitz tedeschi",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Springer spaniel inglese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Stabyhound",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Staffordshire bull terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Sussex spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Svensk lapphund",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Taiwan dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Terranova",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Terrier boemo",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Terrier brazileiro",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Terrier giapponese",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Terrier nero russo",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Thai bangkaew dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Thai ridgeback dog",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Tibetan mastiff",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Tibetan spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Tibetan terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Tornjak",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Tosa",
+    "taglia_standard": "gigante",
+    "aspettativa_vita_min": 7,
+    "aspettativa_vita_max": 10,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 7,
+    "coefficiente_senior": 9
+  },
+  {
+    "nome_razza": "Vastgotsaspets",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Volpino italiano",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Weimaraner",
+    "taglia_standard": "grande",
+    "aspettativa_vita_min": 8,
+    "aspettativa_vita_max": 13,
+    "coefficiente_cucciolo": 14.5,
+    "coefficiente_adulto": 6,
+    "coefficiente_senior": 7
+  },
+  {
+    "nome_razza": "Welsh corgi pembroke",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Welsh corgie cardigan",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Welsh springer spaniel",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Welsh terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "West highland white terrier",
+    "taglia_standard": "piccola",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 15,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4.5,
+    "coefficiente_senior": 4.5
+  },
+  {
+    "nome_razza": "Whippet",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Xoloitzcuintle",
+    "taglia_standard": "media",
+    "aspettativa_vita_min": 10,
+    "aspettativa_vita_max": 14,
+    "coefficiente_cucciolo": 15,
+    "coefficiente_adulto": 5,
+    "coefficiente_senior": 5.5
+  },
+  {
+    "nome_razza": "Yorkshire terrier",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Zwergpinscher",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  },
+  {
+    "nome_razza": "Zwergschnauzer",
+    "taglia_standard": "toy",
+    "aspettativa_vita_min": 12,
+    "aspettativa_vita_max": 18,
+    "coefficiente_cucciolo": 15.5,
+    "coefficiente_adulto": 4,
+    "coefficiente_senior": 4
+  }
+]
