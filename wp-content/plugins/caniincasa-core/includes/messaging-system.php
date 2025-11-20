@@ -178,6 +178,36 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
 }
 
 /**
+ * Ensure messaging tables exist and have correct schema
+ */
+function caniincasa_ensure_messaging_tables() {
+    global $wpdb;
+
+    $messages_table = $wpdb->prefix . 'caniincasa_messages';
+    $blocked_table = $wpdb->prefix . 'caniincasa_blocked_users';
+
+    // Check if tables exist
+    $messages_exists = $wpdb->get_var( "SHOW TABLES LIKE '$messages_table'" ) === $messages_table;
+    $blocked_exists = $wpdb->get_var( "SHOW TABLES LIKE '$blocked_table'" ) === $blocked_table;
+
+    if ( ! $messages_exists || ! $blocked_exists ) {
+        caniincasa_create_messaging_tables();
+        return;
+    }
+
+    // Check if messages table has sender_deleted and recipient_deleted columns
+    $columns = $wpdb->get_col( "DESCRIBE $messages_table" );
+
+    if ( ! in_array( 'sender_deleted', $columns ) ) {
+        $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN sender_deleted tinyint(1) DEFAULT 0 AFTER is_read" );
+    }
+
+    if ( ! in_array( 'recipient_deleted', $columns ) ) {
+        $wpdb->query( "ALTER TABLE $messages_table ADD COLUMN recipient_deleted tinyint(1) DEFAULT 0 AFTER sender_deleted" );
+    }
+}
+
+/**
  * AJAX: Send Message
  */
 function caniincasa_ajax_send_message() {
@@ -186,6 +216,9 @@ function caniincasa_ajax_send_message() {
     if ( ! is_user_logged_in() ) {
         wp_send_json_error( array( 'message' => 'Devi essere loggato per inviare messaggi.' ) );
     }
+
+    // Ensure tables exist
+    caniincasa_ensure_messaging_tables();
 
     $sender_id = get_current_user_id();
     $recipient_id = isset( $_POST['recipient_id'] ) ? absint( $_POST['recipient_id'] ) : 0;
@@ -238,24 +271,42 @@ function caniincasa_ajax_send_message() {
     global $wpdb;
     $table = $wpdb->prefix . 'caniincasa_messages';
 
-    $result = $wpdb->insert(
-        $table,
-        array(
-            'sender_id'         => $sender_id,
-            'recipient_id'      => $recipient_id,
-            'parent_id'         => $parent_id,
-            'subject'           => $subject,
-            'message'           => $message,
-            'related_post_id'   => $related_post_id,
-            'related_post_type' => $related_post_type,
-            'is_read'           => 0,
-            'created_at'        => current_time( 'mysql' ),
-        ),
-        array( '%d', '%d', '%d', '%s', '%s', '%d', '%s', '%d', '%s' )
+    // Build insert data dynamically to handle NULL values
+    $insert_data = array(
+        'sender_id'         => $sender_id,
+        'recipient_id'      => $recipient_id,
+        'subject'           => $subject,
+        'message'           => $message,
+        'is_read'           => 0,
+        'created_at'        => current_time( 'mysql' ),
     );
 
+    $insert_format = array( '%d', '%d', '%s', '%s', '%d', '%s' );
+
+    if ( $parent_id ) {
+        $insert_data['parent_id'] = $parent_id;
+        $insert_format[] = '%d';
+    }
+
+    if ( $related_post_id ) {
+        $insert_data['related_post_id'] = $related_post_id;
+        $insert_format[] = '%d';
+    }
+
+    if ( $related_post_type ) {
+        $insert_data['related_post_type'] = $related_post_type;
+        $insert_format[] = '%s';
+    }
+
+    $result = $wpdb->insert( $table, $insert_data, $insert_format );
+
     if ( $result === false ) {
-        wp_send_json_error( array( 'message' => 'Errore durante l\'invio del messaggio.' ) );
+        $error_msg = 'Errore durante l\'invio del messaggio.';
+        if ( $wpdb->last_error ) {
+            error_log( 'Messaging DB Error: ' . $wpdb->last_error );
+            $error_msg .= ' (Dettagli: ' . $wpdb->last_error . ')';
+        }
+        wp_send_json_error( array( 'message' => $error_msg ) );
     }
 
     $message_id = $wpdb->insert_id;
