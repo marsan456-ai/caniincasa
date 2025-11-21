@@ -1716,8 +1716,156 @@ Il PDF già funzionava correttamente - usa `JSON.stringify()` nel form submit. I
 
 ---
 
+## 25. FUNZIONALITÀ AVANZATE GIÀ IMPLEMENTATE (Verifica 21 Novembre 2025)
+
+Verifica delle funzionalità avanzate richieste nel brief (sezione 12) già implementate.
+
+### 25.1 Comparatore Razze (Brief 12.1) ✅
+
+**Stato**: Completato
+
+**Descrizione**: Confronto visivo fino a 3 razze simultaneamente.
+
+**File implementati**:
+- `wp-content/themes/caniincasa-theme/page-comparatore-razze.php` - Template pagina
+- `wp-content/themes/caniincasa-theme/inc/comparatore-ajax.php` - Backend AJAX
+- `wp-content/themes/caniincasa-theme/assets/js/comparatore-razze.js` - Frontend JS
+- `wp-content/themes/caniincasa-theme/assets/css/comparatore-razze.css` - Stili
+
+**URL**: `/comparatore-razze/`
+
+**Funzionalità**:
+- Selezione fino a 3 razze con autocomplete
+- Confronto side-by-side parametri fisici e caratteriali
+- Layout responsive
+
+---
+
+### 25.2 Mega Menu Categorizzato (Brief 12.2) ✅
+
+**Stato**: Completato
+
+**Descrizione**: Sistema menu avanzato con dropdown multi-colonna.
+
+**File implementati**:
+- `wp-content/themes/caniincasa-theme/inc/mega-menu.php` - Sistema backend
+- `wp-content/themes/caniincasa-theme/assets/js/mega-menu.js` - Frontend JS
+- `wp-content/themes/caniincasa-theme/assets/css/mega-menu.css` - Stili
+
+**Funzionalità**:
+- Mega menu con colonne automatiche o HTML personalizzato
+- Campi custom per menu items in admin
+- Mobile accordion
+
+---
+
+### 25.3 Calcolatore Età Umana (Brief 12.3.1) ✅
+
+**Stato**: Completato
+
+**Shortcode**: `[dog_age_calculator]`
+
+**File implementati**:
+- `wp-content/themes/caniincasa-theme/inc/calculator-age.php`
+- `wp-content/themes/caniincasa-theme/assets/js/calculator-age.js`
+- `wp-content/themes/caniincasa-theme/assets/css/calculator-age.css`
+
+**Metodi di calcolo**:
+- Tradizionale (×7)
+- Scientifico UCSD 2020 (16 × ln(age) + 31)
+- Specifico per razza (coefficienti personalizzati per cucciolo/adulto/senior)
+
+---
+
+### 25.4 Calcolatore Peso Ideale (Brief 12.3.2) ✅
+
+**Stato**: Completato
+
+**Shortcode**: `[dog_weight_calculator]`
+
+**File implementati**:
+- `wp-content/themes/caniincasa-theme/inc/calculator-weight.php`
+- `wp-content/themes/caniincasa-theme/assets/js/calculator-weight.js`
+- `wp-content/themes/caniincasa-theme/assets/css/calculator-weight.css`
+
+**Funzionalità**:
+- Body Condition Score (BCS 1-9)
+- Peso ideale basato su razza e sesso
+- Livello di attività
+
+---
+
+### 25.5 Calcolatore Costo Mantenimento (Brief 12.3.3) ✅
+
+**Stato**: Completato
+
+**Shortcode**: `[dog_cost_calculator]`
+
+**File implementati**:
+- `wp-content/themes/caniincasa-theme/inc/calculator-cost.php`
+- `wp-content/themes/caniincasa-theme/assets/js/calculator-cost.js`
+- `wp-content/themes/caniincasa-theme/assets/css/calculator-cost.css`
+
+**Breakdown costi**:
+- Costi iniziali (adozione, attrezzatura)
+- Costi mensili (cibo, toelettatura)
+- Costi annuali (veterinario, vaccini)
+- Costi lifetime (aspettativa vita completa)
+
+---
+
+### 25.6 Campi ACF Aggiuntivi per Calcolatori
+
+**File**: `wp-content/themes/caniincasa-theme/inc/acf-razze-calculator-fields.php`
+
+Campi ACF per supportare i calcolatori:
+- `aspettativa_vita_min`, `aspettativa_vita_max`
+- `coefficiente_cucciolo`, `coefficiente_adulto`, `coefficiente_senior`
+- `peso_ideale_min_maschio`, `peso_ideale_max_maschio`
+- `peso_ideale_min_femmina`, `peso_ideale_max_femmina`
+- `costo_alimentazione_mensile`, `costo_veterinario_annuale`
+- `livello_attivita`, `taglia_standard`
+
+---
+
+## RIEPILOGO STATO PROGETTO
+
+### Funzionalità Fase 1 Core - COMPLETATE ✅
+
+| Funzionalità | Stato |
+|-------------|-------|
+| CPT Directory Strutture (5 tipi) | ✅ |
+| CPT Razze di Cani | ✅ |
+| CPT Annunci 4 Zampe | ✅ |
+| CPT Annunci Dogsitter | ✅ |
+| Quiz Selezione Razza | ✅ |
+| Dashboard Utente Frontend | ✅ |
+| Sistema Messaggistica | ✅ |
+| Importazione CSV | ✅ |
+| Template Tassonomie | ✅ |
+| Responsive + Hamburger Menu | ✅ |
+| Comparatore Razze | ✅ |
+| Mega Menu | ✅ |
+| Calcolatore Età Umana | ✅ |
+| Calcolatore Peso Ideale | ✅ |
+| Calcolatore Costo Mantenimento | ✅ |
+
+### Funzionalità Ancora Mancanti
+
+| Funzionalità | Brief | Priorità |
+|-------------|-------|----------|
+| Calcolatore Quantità Cibo | 12.3.4 | Alta |
+| CPT Guida (`guida_cani`) | 12.4 | Media |
+| CPT Magazine | 12.4 | Media |
+| Social login (Google/Facebook) | 6 | Media |
+| Dark mode toggle | 5 | Bassa |
+| Sistema recensioni strutture | 9 | Fase 2 |
+| PWA / Push notifications | 10 | Fase 2 |
+
+---
+
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
-**Stato Progetto**: **Fase 1 Core ~94% Completo** ✅
+**Stato Progetto**: **Fase 1 Core ~98% Completo** ✅
 
-**Ultime Correzioni**: Quiz Email Fix + Ordinamento Alfabetico Razze
+**Ultime Verifiche**: Comparatore Razze, Mega Menu, 3 Calcolatori Interattivi
