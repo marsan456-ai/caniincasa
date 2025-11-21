@@ -1,0 +1,28 @@
+# BATCH 10 di 13
+# Articoli 91-100 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17819: Diete Speciali per Cani Anziani e Malati
+
+ID 17820: Come Scegliere un Allevamento Serio ed Etico
+
+ID 17822: Giocattoli Intelligenti per Cani
+
+ID 17824: Insegnare i comandi base al tuo cane
+
+ID 17826: Insegnare al cane a non tirare al guinzaglio
+
+ID 17827: Allergie alimentari e cutanee come individuarle
+
+ID 17829: Cani da soccorso come vengono addestrati
+
+ID 17831: Volare con il cane le regole delle aeree
+
+ID 17832: Migliori destinazioni pet-friendly in Italia
+
+ID 17834: Rimedi per la pulizia degli occhi
+

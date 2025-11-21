@@ -1,0 +1,28 @@
+# BATCH 7 di 13
+# Articoli 61-70 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17760: Salute Canina: Le Vaccinazioni Essenziali per il Tuo Cane
+
+ID 17762: La salute intestinale: Il fulcro del benessere del cane
+
+ID 17764: Lesioni ai legamenti del ginocchio nei cani e tutori ortopedici
+
+ID 17766: Tecnologia e Innovazione: Come la Tecnologia Supporta i Cani Domestici
+
+ID 17768: Quello che nessuno ti dice per la cura del tuo amico a 4 zampe
+
+ID 17771: Preparazione Invernale: Come Prendersi Cura del Tuo Cane Durante i Mesi Freddi
+
+ID 17773: Cani in Casa: Consigli e Suggerimenti per una Convivenza Armoniosa
+
+ID 17775: Allergie primaverili nei cani: sintomi, cause e rimedi
+
+ID 17776: Guida Essenziale al Benessere del Tuo Cane
+
+ID 17778: Cura e Felicità per il Tuo Cane
+

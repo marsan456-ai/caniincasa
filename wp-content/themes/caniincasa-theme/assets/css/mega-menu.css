@@ -1,0 +1,527 @@
+/**
+ * Mega Menu System
+ *
+ * Sistema flessibile per mega menu con due modalità:
+ * 1. Automatico: sottomenu disposti in colonne
+ * 2. Custom: HTML personalizzato
+ *
+ * @package Caniincasa
+ */
+
+/* ============================================
+   CONFIGURAZIONE
+   ============================================ */
+
+/*
+MODALITÀ 1 - COLONNE AUTOMATICHE
+Aggiungi una delle seguenti classi CSS alla voce di menu principale:
+- mega-menu-2-cols  (2 colonne)
+- mega-menu-3-cols  (3 colonne)
+- mega-menu-4-cols  (4 colonne)
+
+MODALITÀ 2 - HTML CUSTOM
+1. Aggiungi classe CSS: mega-menu-custom
+2. Nella descrizione della voce menu, inserisci l'HTML del mega menu
+   (la descrizione supporta HTML)
+
+ESEMPIO HTML PER RAZZE:
+<div class="mega-menu-content">
+    <div class="mega-menu-section">
+        <h3><i class="icon">📏</i> Per Taglia</h3>
+        <ul>
+            <li><a href="/razze/taglia/toy/">Razze Toy <span class="count">12</span></a></li>
+            <li><a href="/razze/taglia/piccola/">Razze Piccole <span class="count">45</span></a></li>
+            <li><a href="/razze/taglia/media/">Razze Medie <span class="count">78</span></a></li>
+            <li><a href="/razze/taglia/grande/">Razze Grandi <span class="count">56</span></a></li>
+            <li><a href="/razze/taglia/gigante/">Razze Giganti <span class="count">23</span></a></li>
+        </ul>
+    </div>
+
+    <div class="mega-menu-section">
+        <h3><i class="icon">❤️</i> Per Carattere</h3>
+        <ul>
+            <li><a href="/razze/carattere/famiglia/">Cani da Famiglia</a></li>
+            <li><a href="/razze/carattere/sportivi/">Cani Attivi/Sportivi</a></li>
+            <li><a href="/razze/carattere/guardia/">Cani da Guardia</a></li>
+            <li><a href="/razze/carattere/compagnia/">Cani da Compagnia</a></li>
+        </ul>
+    </div>
+
+    <div class="mega-menu-section">
+        <h3><i class="icon">🇮🇹</i> Razze Italiane</h3>
+        <ul>
+            <li><a href="/razze/spinone-italiano/">Spinone Italiano</a></li>
+            <li><a href="/razze/cane-corso/">Cane Corso</a></li>
+            <li><a href="/razze/lagotto-romagnolo/">Lagotto Romagnolo</a></li>
+        </ul>
+    </div>
+
+    <div class="mega-menu-featured">
+        <h4>In Evidenza</h4>
+        <div class="featured-breed">
+            <img src="URL_IMMAGINE" alt="Razza">
+            <h5>Nome Razza</h5>
+            <p>Breve descrizione...</p>
+            <a href="/razza/slug/" class="btn">Scopri di più</a>
+        </div>
+    </div>
+</div>
+*/
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+/* Nascondi mega menu di default */
+.menu-item.mega-menu-2-cols > .sub-menu,
+.menu-item.mega-menu-3-cols > .sub-menu,
+.menu-item.mega-menu-4-cols > .sub-menu,
+.menu-item.mega-menu-custom > .sub-menu {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    background: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #3b82f6;
+    z-index: 9999;
+    padding: 0;
+    min-width: 600px;
+    max-width: 1200px;
+    width: auto;
+}
+
+/* Mostra mega menu on hover */
+.menu-item.mega-menu-2-cols:hover > .sub-menu,
+.menu-item.mega-menu-3-cols:hover > .sub-menu,
+.menu-item.mega-menu-4-cols:hover > .sub-menu,
+.menu-item.mega-menu-custom:hover > .sub-menu {
+    display: block;
+}
+
+/* Larghezze personalizzabili tramite classi */
+.menu-item.mega-menu-width-small > .sub-menu {
+    max-width: 600px;
+    min-width: 500px;
+}
+
+.menu-item.mega-menu-width-medium > .sub-menu {
+    max-width: 900px;
+    min-width: 600px;
+}
+
+.menu-item.mega-menu-width-large > .sub-menu {
+    max-width: 1200px;
+    min-width: 600px;
+}
+
+.menu-item.mega-menu-width-full > .sub-menu {
+    left: 0 !important;
+    right: 0;
+    transform: none !important;
+    max-width: none;
+    min-width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+
+/* ============================================
+   MODALITÀ AUTOMATICA - COLONNE
+   ============================================ */
+
+/* 2 Colonne */
+.mega-menu-2-cols > .sub-menu {
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.mega-menu-2-cols > .sub-menu > .menu-item {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 250px;
+    padding: 0;
+    background: transparent;
+    margin: 0;
+}
+
+/* 3 Colonne */
+.mega-menu-3-cols > .sub-menu {
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.mega-menu-3-cols > .sub-menu > .menu-item {
+    flex: 1 1 calc(33.333% - 14px);
+    min-width: 200px;
+    padding: 0;
+    background: transparent;
+    margin: 0;
+}
+
+/* 4 Colonne */
+.mega-menu-4-cols > .sub-menu {
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.mega-menu-4-cols > .sub-menu > .menu-item {
+    flex: 1 1 calc(25% - 15px);
+    min-width: 180px;
+    padding: 0;
+    background: transparent;
+    margin: 0;
+}
+
+/* Styling voci in modalità colonne */
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > a {
+    display: block;
+    padding: 12px 20px;
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > a:hover {
+    background: #f3f4f6;
+    border-left-color: #3b82f6;
+    padding-left: 24px;
+}
+
+/* Sub-submenu in colonne */
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > .sub-menu {
+    display: block !important;
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    margin: 8px 0 0 20px;
+    padding: 0;
+    min-width: auto;
+}
+
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > .sub-menu > .menu-item {
+    width: 100%;
+    margin: 0;
+}
+
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > .sub-menu > .menu-item > a {
+    font-weight: 400;
+    font-size: 14px;
+    color: #6b7280;
+    padding: 8px 16px;
+    border-left: none;
+}
+
+.menu-item[class*="mega-menu-"][class*="-cols"] > .sub-menu > .menu-item > .sub-menu > .menu-item > a:hover {
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+/* ============================================
+   MODALITÀ CUSTOM - HTML PERSONALIZZATO
+   ============================================ */
+
+.mega-menu-custom > .sub-menu {
+    padding: 0;
+}
+
+/* Wrapper per HTML custom */
+.mega-menu-custom-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Grid per sezioni custom */
+.mega-menu-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mega-menu-section {
+    padding: 0;
+}
+
+.mega-menu-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mega-menu-section h3 .icon {
+    font-size: 20px;
+}
+
+.mega-menu-section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mega-menu-section ul li {
+    margin: 0 0 8px;
+}
+
+.mega-menu-section ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    color: #4b5563;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.mega-menu-section ul li a:hover {
+    background: #f3f4f6;
+    color: #3b82f6;
+    padding-left: 16px;
+}
+
+.mega-menu-section ul li a .count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    background: #e5e7eb;
+    color: #6b7280;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.mega-menu-section ul li a:hover .count {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* Featured Box */
+.mega-menu-featured {
+    grid-column: span 1;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 12px;
+    padding: 24px;
+    color: #fff;
+}
+
+.mega-menu-featured h4 {
+    margin: 0 0 16px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+.featured-breed {
+    text-align: center;
+}
+
+.featured-breed img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.featured-breed h5 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.featured-breed p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.featured-breed .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #fff;
+    color: #3b82f6;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.featured-breed .btn:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   INDICATORE MEGA MENU
+   ============================================ */
+
+/* Freccia giù per indicare mega menu */
+.menu-item[class*="mega-menu"] > a::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    margin-left: 6px;
+    vertical-align: middle;
+    transition: transform 0.2s;
+}
+
+.menu-item[class*="mega-menu"]:hover > a::after {
+    transform: rotate(180deg);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+    /* Rimuovi posizionamento assoluto */
+    .menu-item[class*="mega-menu"] > .sub-menu {
+        position: static !important;
+        min-width: auto !important;
+        margin-left: 0 !important;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+    }
+
+    /* Accordion style per mobile */
+    .menu-item[class*="mega-menu"] > .sub-menu {
+        display: none;
+    }
+
+    .menu-item[class*="mega-menu"].active > .sub-menu {
+        display: block;
+    }
+
+    /* Una colonna su mobile */
+    .mega-menu-2-cols > .sub-menu > .menu-item,
+    .mega-menu-3-cols > .sub-menu > .menu-item,
+    .mega-menu-4-cols > .sub-menu > .menu-item {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Grid custom a 1 colonna */
+    .mega-menu-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .mega-menu-featured {
+        grid-column: span 1;
+    }
+
+    /* Rimuovi hover, usa click/touch */
+    .menu-item[class*="mega-menu"]:hover > .sub-menu {
+        display: none;
+    }
+
+    .menu-item[class*="mega-menu"].active > .sub-menu {
+        display: block;
+    }
+
+    /* Toggle icon per mobile */
+    .menu-item[class*="mega-menu"] > a::after {
+        float: right;
+        margin-top: 2px;
+    }
+
+    .menu-item[class*="mega-menu"].active > a::after {
+        transform: rotate(180deg);
+    }
+}
+
+/* ============================================
+   ANIMAZIONI
+   ============================================ */
+
+.menu-item[class*="mega-menu"] > .sub-menu {
+    animation: megaMenuFadeIn 0.3s ease;
+}
+
+@keyframes megaMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   UTILITÀ
+   ============================================ */
+
+/* Divider tra sezioni */
+.mega-menu-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 20px 0;
+}
+
+/* Highlight per voci speciali */
+.mega-menu-section ul li.highlight a {
+    background: #fef3c7;
+    color: #92400e;
+    font-weight: 600;
+}
+
+.mega-menu-section ul li.highlight a:hover {
+    background: #fde68a;
+}
+
+/* Badge "Nuovo" o "Popolare" */
+.mega-menu-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+
+.mega-menu-badge.new {
+    background: #10b981;
+}
+
+.mega-menu-badge.popular {
+    background: #f59e0b;
+}

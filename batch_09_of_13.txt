@@ -1,0 +1,28 @@
+# BATCH 9 di 13
+# Articoli 81-90 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17800: Tecniche di massaggio rilassante per cani
+
+ID 17802: Pet Therapy per Gestire Stress e Ansia in Casa
+
+ID 17804: Guida alla scelta del trasportino per cani
+
+ID 17805: Come Sostenere un Canile Senza Adottare
+
+ID 17807: Gestire il cane in spiaggia con successo
+
+ID 17809: Agility Dog Benefici e Come Iniziare
+
+ID 17811: Le 10 razze canine perfette per famiglie
+
+ID 17813: Malattie ereditarie comuni nelle razze canine
+
+ID 17815: Kit di Emergenza per Viaggiare con Fido
+
+ID 17817: Socializzazione del Cucciolo Errori da Evitare
+

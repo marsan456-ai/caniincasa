@@ -1,0 +1,28 @@
+# BATCH 11 di 13
+# Articoli 101-110 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17836: Il cane nelle fiabe tradizionali europee
+
+ID 17838: Come proteggere il tuo cane dal traffico illegale
+
+ID 17840: Scodinzolio lento o veloce? Il vero linguaggio del cane
+
+ID 17842: Gruppi Facebook Adozioni Cani: Verità Nascoste
+
+ID 17844: Cuccia perfetta: luce naturale e benessere del cane
+
+ID 17846: Understanding Your Dog's Backturn: Trust or Discomfort?
+
+ID 17848: Cani e suoni digitali: come reagiscono in modo diverso
+
+ID 17850: 10 Romanzi da Leggere per Amanti dei Cani
+
+ID 17852: Migliora il Comfort per il Tuo Cane Anziano
+
+ID 17854: Adattare la Smart Home per Cani Ansiosi
+
