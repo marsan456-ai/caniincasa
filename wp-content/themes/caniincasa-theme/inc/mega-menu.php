@@ -38,6 +38,7 @@ function caniincasa_menu_description( $item_output, $item, $depth, $args ) {
 function caniincasa_add_menu_item_custom_fields( $item_id, $item ) {
     $mega_menu_type = get_post_meta( $item_id, '_mega_menu_type', true );
     $mega_menu_columns = get_post_meta( $item_id, '_mega_menu_columns', true );
+    $mega_menu_width = get_post_meta( $item_id, '_mega_menu_width', true );
     ?>
     <p class="field-mega-menu description description-wide">
         <label for="edit-menu-item-mega-menu-type-<?php echo $item_id; ?>">
@@ -46,6 +47,18 @@ function caniincasa_add_menu_item_custom_fields( $item_id, $item ) {
                 <option value=""><?php _e( 'Nessuno (menu normale)', 'caniincasa' ); ?></option>
                 <option value="columns" <?php selected( $mega_menu_type, 'columns' ); ?>><?php _e( 'Colonne automatiche', 'caniincasa' ); ?></option>
                 <option value="custom" <?php selected( $mega_menu_type, 'custom' ); ?>><?php _e( 'HTML personalizzato', 'caniincasa' ); ?></option>
+            </select>
+        </label>
+    </p>
+
+    <p class="field-mega-menu-width description description-wide" style="<?php echo empty( $mega_menu_type ) ? 'display:none;' : ''; ?>">
+        <label for="edit-menu-item-mega-menu-width-<?php echo $item_id; ?>">
+            <?php _e( 'Larghezza Mega Menu', 'caniincasa' ); ?><br>
+            <select name="menu-item-mega-menu-width[<?php echo $item_id; ?>]" id="edit-menu-item-mega-menu-width-<?php echo $item_id; ?>" class="widefat">
+                <option value="small" <?php selected( $mega_menu_width, 'small' ); ?>>Piccola (600px)</option>
+                <option value="medium" <?php selected( $mega_menu_width, 'medium' ); ?>>Media (900px)</option>
+                <option value="large" <?php selected( $mega_menu_width, 'large' ); ?>>Grande (1200px)</option>
+                <option value="full" <?php selected( $mega_menu_width, 'full' ); ?>>Full Width (100%)</option>
             </select>
         </label>
     </p>
@@ -61,31 +74,33 @@ function caniincasa_add_menu_item_custom_fields( $item_id, $item ) {
         </label>
     </p>
 
-    <?php if ( $mega_menu_type === 'custom' ) : ?>
-        <p class="field-mega-menu-custom description description-wide">
-            <label for="edit-menu-item-description-<?php echo $item_id; ?>">
-                <?php _e( 'HTML Mega Menu', 'caniincasa' ); ?><br>
-                <textarea name="menu-item-description[<?php echo $item_id; ?>]" id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="8" cols="20"><?php echo esc_textarea( $item->description ); ?></textarea>
-                <span class="description"><?php _e( 'Inserisci l\'HTML del mega menu. Vedi documentazione per esempi.', 'caniincasa' ); ?></span>
-            </label>
-        </p>
-    <?php endif; ?>
+    <p class="field-mega-menu-custom description description-wide" style="<?php echo $mega_menu_type !== 'custom' ? 'display:none;' : ''; ?>">
+        <label for="edit-menu-item-description-<?php echo $item_id; ?>">
+            <?php _e( 'HTML Mega Menu', 'caniincasa' ); ?><br>
+            <textarea name="menu-item-description[<?php echo $item_id; ?>]" id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="12" cols="50" style="font-family: monospace; font-size: 13px;"><?php echo esc_textarea( $item->description ); ?></textarea>
+            <span class="description"><?php _e( 'Inserisci l\'HTML del mega menu. Vedi documentazione per esempi.', 'caniincasa' ); ?></span>
+        </label>
+    </p>
 
     <script>
     jQuery(document).ready(function($) {
         $('#edit-menu-item-mega-menu-type-<?php echo $item_id; ?>').on('change', function() {
             var $columns = $(this).closest('.menu-item-settings').find('.field-mega-menu-columns');
             var $custom = $(this).closest('.menu-item-settings').find('.field-mega-menu-custom');
+            var $width = $(this).closest('.menu-item-settings').find('.field-mega-menu-width');
 
             if ($(this).val() === 'columns') {
                 $columns.show();
                 $custom.hide();
+                $width.show();
             } else if ($(this).val() === 'custom') {
                 $columns.hide();
                 $custom.show();
+                $width.show();
             } else {
                 $columns.hide();
                 $custom.hide();
+                $width.hide();
             }
         });
     });
@@ -102,6 +117,12 @@ function caniincasa_save_menu_item_custom_fields( $menu_id, $menu_item_db_id ) {
     if ( isset( $_POST['menu-item-mega-menu-type'][ $menu_item_db_id ] ) ) {
         $mega_menu_type = sanitize_text_field( $_POST['menu-item-mega-menu-type'][ $menu_item_db_id ] );
         update_post_meta( $menu_item_db_id, '_mega_menu_type', $mega_menu_type );
+    }
+
+    // Save width
+    if ( isset( $_POST['menu-item-mega-menu-width'][ $menu_item_db_id ] ) ) {
+        $width = sanitize_text_field( $_POST['menu-item-mega-menu-width'][ $menu_item_db_id ] );
+        update_post_meta( $menu_item_db_id, '_mega_menu_width', $width );
     }
 
     // Save columns
@@ -127,8 +148,18 @@ function caniincasa_add_mega_menu_classes( $classes, $item, $args, $depth ) {
         $columns = get_post_meta( $item->ID, '_mega_menu_columns', true );
         $columns = $columns ? $columns : '3'; // Default 3 columns
         $classes[] = 'mega-menu-' . $columns . '-cols';
+
+        // Add width class
+        $mega_menu_width = get_post_meta( $item->ID, '_mega_menu_width', true );
+        $width = $mega_menu_width ? $mega_menu_width : 'large'; // Default large
+        $classes[] = 'mega-menu-width-' . $width;
     } elseif ( $mega_menu_type === 'custom' ) {
         $classes[] = 'mega-menu-custom';
+
+        // Add width class
+        $mega_menu_width = get_post_meta( $item->ID, '_mega_menu_width', true );
+        $width = $mega_menu_width ? $mega_menu_width : 'large'; // Default large
+        $classes[] = 'mega-menu-width-' . $width;
     }
 
     return $classes;

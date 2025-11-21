@@ -79,16 +79,17 @@ ESEMPIO HTML PER RAZZE:
 .menu-item.mega-menu-custom > .sub-menu {
     display: none;
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     top: 100%;
     background: #fff;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     border-top: 3px solid #3b82f6;
     z-index: 9999;
     padding: 0;
-    min-width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    min-width: 600px;
+    max-width: 1200px;
+    width: auto;
 }
 
 /* Mostra mega menu on hover */
@@ -99,13 +100,30 @@ ESEMPIO HTML PER RAZZE:
     display: block;
 }
 
-/* Container per centrare contenuto */
-.menu-item[class*="mega-menu"] > .sub-menu::before {
-    content: '';
-    display: block;
+/* Larghezze personalizzabili tramite classi */
+.menu-item.mega-menu-width-small > .sub-menu {
+    max-width: 600px;
+    min-width: 500px;
+}
+
+.menu-item.mega-menu-width-medium > .sub-menu {
+    max-width: 900px;
+    min-width: 600px;
+}
+
+.menu-item.mega-menu-width-large > .sub-menu {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    min-width: 600px;
+}
+
+.menu-item.mega-menu-width-full > .sub-menu {
+    left: 0 !important;
+    right: 0;
+    transform: none !important;
+    max-width: none;
+    min-width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
 }
 
 /* ============================================
@@ -114,44 +132,50 @@ ESEMPIO HTML PER RAZZE:
 
 /* 2 Colonne */
 .mega-menu-2-cols > .sub-menu {
-    padding: 40px 20px;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .mega-menu-2-cols > .sub-menu > .menu-item {
-    display: inline-block;
-    width: calc(50% - 20px);
-    vertical-align: top;
-    margin: 0 10px 20px;
+    flex: 1 1 calc(50% - 10px);
+    min-width: 250px;
     padding: 0;
     background: transparent;
+    margin: 0;
 }
 
 /* 3 Colonne */
 .mega-menu-3-cols > .sub-menu {
-    padding: 40px 20px;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .mega-menu-3-cols > .sub-menu > .menu-item {
-    display: inline-block;
-    width: calc(33.333% - 20px);
-    vertical-align: top;
-    margin: 0 10px 20px;
+    flex: 1 1 calc(33.333% - 14px);
+    min-width: 200px;
     padding: 0;
     background: transparent;
+    margin: 0;
 }
 
 /* 4 Colonne */
 .mega-menu-4-cols > .sub-menu {
-    padding: 40px 20px;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .mega-menu-4-cols > .sub-menu > .menu-item {
-    display: inline-block;
-    width: calc(25% - 20px);
-    vertical-align: top;
-    margin: 0 10px 20px;
+    flex: 1 1 calc(25% - 15px);
+    min-width: 180px;
     padding: 0;
     background: transparent;
+    margin: 0;
 }
 
 /* Styling voci in modalità colonne */
