@@ -1,0 +1,28 @@
+# BATCH 1 di 13
+# Articoli 1-10 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17643: L'Importanza delle Vaccinazioni nei Cani: Proteggere la Salute del Tuo Fedele Compagno
+
+ID 17645: Dimensione dei cani: un fattore determinante quando si tratta di scegliere un cane come compagno
+
+ID 17647: Esplorando il Temperamento: Confronto tra le Diverse Razze Canine
+
+ID 17649: Confronto dei livelli di energia: Scopri quale razza di cane si adatta meglio al tuo stile di vita attivo!
+
+ID 17651: Pelliccia e Cura del Mantello: Una Comparazione tra Diverse Razze Canine
+
+ID 17653: La tendenza a spargere pelo: una comparazione tra varie razze di cani
+
+ID 17655: Alcuni Trattamenti Naturali per il Cancro nei Cani
+
+ID 17657: Quando il tuo cane ingerisce l'edera velenosa
+
+ID 17659: Come far sentire a proprio agio il nuovo cane a casa tua
+
+ID 17661: Cane e Gatti: Strategie per una Convivenza Armoniosa
+

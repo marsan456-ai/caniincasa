@@ -1,0 +1,28 @@
+# BATCH 5 di 13
+# Articoli 41-50 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17722: Lasciare il Cane Solo in Giardino: Pro e Contro
+
+ID 17724: Cani in Macchina: Sicurezza e Consigli per Viaggiare Sereni
+
+ID 17726: Cani Legati a Catena: Gli Effetti Psicologici e Fisici
+
+ID 17728: Avvelenamento nei Cani: Sintomi, Primo Soccorso e Prevenzione
+
+ID 17730: Cani Smarriti: Come Prevenire e Cosa Fare in Caso di Smarrimento
+
+ID 17732: Fuochi d'Artificio e Cani: Come Gestire l'Ansia e il Terrore
+
+ID 17734: Cani Bagnini: Eroi a Quattro Zampe che Salvano Vite
+
+ID 17735: Dog Flipping: Un Fenomeno Preoccupante nel Mondo dei Cani
+
+ID 17737: Alcuni fatti storici riguardanti i cani
+
+ID 17739: L'interpretazione artistica dei cani dalle origini ad oggi: Un'esplorazione storica e culturale
+

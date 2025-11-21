@@ -1,0 +1,28 @@
+# BATCH 4 di 13
+# Articoli 31-40 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17702: Avvicinarsi al Cane: Come Fare in Modo Sicuro e Amichevole
+
+ID 17704: Adaptil: La Soluzione per Tranquillizzare il Tuo Cane Ansioso
+
+ID 17706: Il Cane si Gratta Continuamente: Cause e Rimedi
+
+ID 17708: Il Cane Vomita: Cause Comuni e Quando Preoccuparsi
+
+ID 17710: Ernia del Disco nel Cane: Sintomi, Diagnosi e Trattamenti
+
+ID 17712: I Cani Fiutano il Diabete: Scopri Come Aiutano i Pazienti
+
+ID 17715: Origini dei Cani: Un Viaggio nella Storia del Miglior Amico dell'Uomo
+
+ID 17716: Cane e Natale: Consigli per una Festa Sicura e Felice
+
+ID 17718: Cani all'Estero: Guida per Viaggiare con il Tuo Amico Peloso
+
+ID 17720: Naso Asciutto nel Cane: Quando Preoccuparsi?
+

@@ -1,0 +1,28 @@
+# BATCH 12 di 13
+# Articoli 111-120 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17856: Comportamenti alimentari e HR: Lezioni per Recruiter
+
+ID 17858: Come i cani vedono il mondo domestico
+
+ID 17860: Elimina Gli Odori Del Cane Con Metodi Naturali
+
+ID 17862: Guida alla Scelta e Adattamento del Cane
+
+ID 17864: Vomito Mattutino nei Cani: Cause e Rimedi Utili
+
+ID 17866: Come asciugare il cane dopo la pioggia senza errori
+
+ID 17868: Monitoraggio Automatico della Postura del Cane per la Prevenzione Ortopedica
+
+ID 17870: Come rendere più attivo un cane pigro: strategie efficaci per stimolare energia e benessere
+
+ID 17872: Sonno polifasico nei cani e strategie per recruitment efficiente
+
+ID 17874: Capire il sonno polifasico del cane per il benessere quotidiano
+

@@ -1,0 +1,28 @@
+# BATCH 8 di 13
+# Articoli 71-80 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17780: Cani e Freddo Invernale: Guida Completa
+
+ID 17782: L'importanza della corretta alimentazione per il tuo cane
+
+ID 17784: Gestire le Allergie Alimentari nei Cani
+
+ID 17786: Come Educare un Cucciolo Timido
+
+ID 17788: Cani e freddo: consigli per il benessere
+
+ID 17790: Il Potere delle Piante Aromatiche
+
+ID 17792: Educare al Contatto attraverso il Tocco Consapevole
+
+ID 17794: Tecniche di rilassamento per il tuo cane
+
+ID 17796: Stimola il Tuo Cane con Attività Educative
+
+ID 17798: Riscoprire il Comfort per il Tuo Cane
+

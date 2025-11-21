@@ -1,0 +1,22 @@
+# BATCH 13 di 13
+# Articoli 121-127 di 127
+
+Categorizza questi articoli usando il formato:
+[ID] | Categoria: [Nome] | Sottocategoria: [Nome]
+
+---
+
+ID 17876: Sogni canini e benessere come riconoscere i segnali nel sonno
+
+ID 17878: Tecniche efficaci per il telelavoro con il cane e gestire le interruzioni
+
+ID 17880: La cucina casalinga per cani pigri: ricette veloci, nutrienti e a prova di zampe impazienti
+
+ID 17882: Il profumo del cane come indicatore della sua salute
+
+ID 17884: Bulldog Francese vita indoor consigli per convivere al meglio
+
+ID 17886: Addestrare il Cane al Richiamo per un Comando Sicuro e Affidabile
+
+ID 17888: Perché è importante asciugare bene il cane dopo una passeggiata sotto la pioggia
+
