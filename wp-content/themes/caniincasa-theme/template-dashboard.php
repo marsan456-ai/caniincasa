@@ -67,6 +67,92 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['caniincasa_dashboar
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
+    <style>
+    /* Dashboard Responsive - Inline Critical CSS */
+    .dashboard-nav-toggle {
+        display: none !important;
+        width: 100%;
+        padding: 1rem 1.25rem;
+        background: #FFFFFF;
+        border: 2px solid #E0E0E0;
+        border-radius: 12px;
+        cursor: pointer;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2C3E50;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+    .toggle-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 22px;
+        height: 22px;
+    }
+    .hamburger-line {
+        display: block;
+        width: 100%;
+        height: 2.5px;
+        background: #2C3E50;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    .dashboard-nav-toggle.is-active .hamburger-line:nth-child(1) {
+        transform: translateY(7.5px) rotate(45deg);
+    }
+    .dashboard-nav-toggle.is-active .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+    .dashboard-nav-toggle.is-active .hamburger-line:nth-child(3) {
+        transform: translateY(-7.5px) rotate(-45deg);
+    }
+    .toggle-text { display: none; }
+    .toggle-current-tab { flex: 1; text-align: left; }
+    .toggle-arrow { transition: transform 0.3s ease; }
+    .dashboard-nav-toggle.is-active .toggle-arrow { transform: rotate(180deg); }
+
+    /* Mobile: show hamburger, hide nav */
+    @media (max-width: 768px) {
+        .dashboard-nav-toggle {
+            display: flex !important;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-nav {
+            display: none !important;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .dashboard-nav.is-open {
+            display: flex !important;
+        }
+        .dashboard-sidebar {
+            position: relative;
+        }
+        .dashboard-content {
+            grid-template-columns: 1fr;
+        }
+        .dashboard-user-card {
+            display: none;
+        }
+        .dashboard-nav-item {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+        }
+    }
+    </style>
 </head>
 <body <?php body_class( 'dashboard-page' ); ?>>
 <?php wp_body_open(); ?>

@@ -779,7 +779,9 @@
 /* ============================================
    Responsive Design
    ============================================ */
-@media (max-width: 1024px) {
+
+/* Tablet: 768px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
     .dashboard-content {
         grid-template-columns: 1fr;
     }
@@ -801,6 +803,7 @@
 
     .dashboard-nav {
         display: flex;
+        flex-direction: row;
         overflow-x: auto;
         gap: 0.5rem;
         padding: 1rem;
@@ -817,18 +820,31 @@
         flex-shrink: 0;
         margin-bottom: 0;
     }
+
+    /* Hide hamburger toggle on tablet */
+    .dashboard-nav-toggle {
+        display: none !important;
+    }
 }
 
+/* Desktop: > 1024px */
+@media (min-width: 1025px) {
+    .dashboard-nav-toggle {
+        display: none !important;
+    }
+}
+
+/* Mobile: < 768px */
 @media (max-width: 768px) {
     /* Show hamburger toggle on mobile */
     .dashboard-nav-toggle {
-        display: flex;
+        display: flex !important;
         margin-bottom: 0.5rem;
     }
 
     /* Hide nav by default on mobile */
     .dashboard-nav {
-        display: none;
+        display: none !important;
         flex-direction: column;
         position: absolute;
         top: 100%;
@@ -842,7 +858,6 @@
         margin-top: 0.5rem;
         max-height: 70vh;
         overflow-y: auto;
-        animation: slideDown 0.3s ease;
     }
 
     @keyframes slideDown {
@@ -857,7 +872,8 @@
     }
 
     .dashboard-nav.is-open {
-        display: flex;
+        display: flex !important;
+        animation: slideDown 0.3s ease;
     }
 
     .dashboard-nav-item {
@@ -880,6 +896,10 @@
     /* Sidebar positioning for dropdown */
     .dashboard-sidebar {
         position: relative;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr;
     }
 
     /* User card compact on mobile */
