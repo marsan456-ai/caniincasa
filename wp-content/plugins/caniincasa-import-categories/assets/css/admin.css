@@ -1,0 +1,480 @@
+/**
+ * CaniInCasa Import Categories - Admin Styles
+ */
+
+/* Main Container */
+.caniincasa-import-wrap {
+    max-width: 900px;
+    margin: 20px 20px 20px 0;
+}
+
+.caniincasa-import-wrap h1 {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.caniincasa-import-wrap h1 .dashicons {
+    color: #2271b1;
+}
+
+/* Intro Section */
+.import-intro {
+    background: #fff;
+    border-left: 4px solid #2271b1;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.import-intro p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Import Container */
+.import-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+/* Upload Section */
+.upload-section {
+    text-align: center;
+}
+
+.upload-box {
+    border: 3px dashed #c3c4c7;
+    border-radius: 12px;
+    padding: 50px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+    margin-bottom: 25px;
+}
+
+.upload-box:hover,
+.upload-box.dragover {
+    border-color: #2271b1;
+    background: #f0f6fc;
+}
+
+.upload-box.has-file {
+    border-color: #00a32a;
+    background: #f0fdf4;
+}
+
+.upload-icon {
+    margin-bottom: 15px;
+}
+
+.upload-icon .dashicons {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #c3c4c7;
+    transition: color 0.3s;
+}
+
+.upload-box:hover .upload-icon .dashicons,
+.upload-box.dragover .upload-icon .dashicons {
+    color: #2271b1;
+}
+
+.upload-box.has-file .upload-icon .dashicons {
+    color: #00a32a;
+}
+
+.upload-box h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.upload-box p {
+    margin: 0;
+    color: #646970;
+}
+
+.upload-box p a {
+    color: #2271b1;
+    text-decoration: none;
+}
+
+.upload-box p a:hover {
+    text-decoration: underline;
+}
+
+.file-info {
+    margin-top: 15px !important;
+    font-weight: 600;
+    color: #00a32a !important;
+}
+
+/* Options Box */
+.options-box {
+    background: #f6f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    padding-left: 35px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-label .checkmark {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    height: 22px;
+    width: 22px;
+    background-color: #fff;
+    border: 2px solid #c3c4c7;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.checkbox-label:hover input ~ .checkmark {
+    border-color: #2271b1;
+}
+
+.checkbox-label input:checked ~ .checkmark {
+    background-color: #2271b1;
+    border-color: #2271b1;
+}
+
+.checkbox-label .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-label small {
+    color: #646970;
+    font-weight: normal;
+}
+
+/* Button */
+#start-import {
+    font-size: 16px;
+    padding: 12px 30px;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#start-import:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#start-import .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Progress Section */
+.progress-section {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.progress-header .dashicons {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: #2271b1;
+}
+
+.progress-header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.progress-bar-container {
+    background: #e5e5e5;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #2271b1, #135e96);
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    color: #646970;
+    font-size: 14px;
+}
+
+/* Results Section */
+.results-section {
+    padding: 20px 0;
+}
+
+.results-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.results-header .dashicons {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #00a32a;
+}
+
+.results-header.error .dashicons {
+    color: #d63638;
+}
+
+.results-header h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #f6f7f7;
+    border-radius: 8px;
+    padding: 20px 15px;
+    text-align: center;
+}
+
+.stat-card.success {
+    background: #f0fdf4;
+    border: 1px solid #00a32a;
+}
+
+.stat-card.warning {
+    background: #fcf9e8;
+    border: 1px solid #dba617;
+}
+
+.stat-card.error {
+    background: #fcf0f1;
+    border: 1px solid #d63638;
+}
+
+.stat-card.info {
+    background: #f0f6fc;
+    border: 1px solid #2271b1;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.stat-card.success .stat-value {
+    color: #00a32a;
+}
+
+.stat-card.warning .stat-value {
+    color: #996800;
+}
+
+.stat-card.error .stat-value {
+    color: #d63638;
+}
+
+.stat-card.info .stat-value {
+    color: #2271b1;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #646970;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Log Container */
+.log-container {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.log-container h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.log-box {
+    background: #1d2327;
+    border-radius: 8px;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.log-entry {
+    padding: 4px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+}
+
+.log-entry.success {
+    color: #46b450;
+}
+
+.log-entry.error {
+    color: #dc3232;
+    background: rgba(220, 50, 50, 0.1);
+}
+
+.log-entry.warning {
+    color: #ffb900;
+}
+
+.log-entry.info {
+    color: #72aee6;
+}
+
+.log-entry.create {
+    color: #00e676;
+}
+
+/* New Import Button */
+#new-import {
+    margin-top: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Help Section */
+.help-section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 25px 30px;
+}
+
+.help-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.help-section h3 .dashicons {
+    color: #2271b1;
+}
+
+.help-section ol {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.help-section li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.help-section h4 {
+    margin: 25px 0 10px;
+    font-size: 14px;
+}
+
+.help-section pre {
+    background: #f6f7f7;
+    border-radius: 6px;
+    padding: 15px;
+    overflow-x: auto;
+    font-size: 12px;
+    border: 1px solid #e5e5e5;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .caniincasa-import-wrap {
+        margin: 10px;
+    }
+
+    .import-container {
+        padding: 20px;
+    }
+
+    .upload-box {
+        padding: 30px 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
