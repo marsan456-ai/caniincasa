@@ -902,6 +902,48 @@ Nuova sezione "Strumenti" con 4 calcolatori dedicati.
 
 ## 13. Sviluppi Realizzati
 
+### 2025-11-21: Sistema Importazione CSV Classificazioni Razze
+
+**Implementato**:
+- Pagina amministrativa per importazione CSV classificazioni razze
+- Upload manuale file CSV con formato: ID,Title,Taglia,Gruppo FCI
+- Sistema di importazione NON distruttivo (aggiorna solo tassonomie, preserva altri dati)
+- Modalità Test (Dry Run) per simulazione pre-import senza salvare dati
+- Log dettagliato con statistiche: razze aggiornate, non trovate, errori
+- Supporto taglie multiple per singola razza (es. "Toy,Piccola")
+- Validazione formato CSV e dati (ID, taglia valida, gruppo FCI 1-10)
+- Dashboard stato tassonomie con contatori razze per categoria
+- Tool admin per forzare aggiornamento termini tassonomie
+
+**Tassonomie aggiornate**:
+- **Taglie**: Toy (< 4 kg), Piccola (4-10 kg), Media (10-25 kg), Grande (25-45 kg), Gigante (> 45 kg)
+- **Gruppi FCI**: 1-10 (completi)
+
+**Accesso**: Menu Admin → Razze → Importa CSV
+
+**File modificati**:
+- `wp-content/plugins/caniincasa-core/includes/razze-csv-importer.php` (nuovo)
+- `wp-content/plugins/caniincasa-core/includes/cpt-razze.php` (aggiunti: taglia Toy, force update terms)
+- `wp-content/plugins/caniincasa-core/caniincasa-core.php` (include importer)
+
+**Formato CSV**:
+```csv
+ID,Title,Taglia,Gruppo FCI
+14790,Chihuahua,Toy,9
+14722,Thai bangkaew dog,Media,5
+```
+
+**Utilizzo**:
+1. Accedere a Razze → Importa CSV
+2. Selezionare file CSV con classificazioni
+3. (Opzionale) Attivare "Modalità Test" per simulazione
+4. Click "Importa CSV"
+5. Visualizzare log dettagliato e statistiche
+
+**Commit**: Branch `claude/review-project-brief-01HAw2pN3fajanEyQ7zUSDdV` (commit 93426bf)
+
+---
+
 ### 2025-11-21: Sistema Messaggistica con Threading
 
 **Implementato**:
