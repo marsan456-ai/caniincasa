@@ -1638,8 +1638,53 @@ La dashboard utente non era completamente responsiva su dispositivi mobile:
 
 ---
 
+## 23. CORREZIONE ALGORITMO QUIZ SELEZIONE RAZZA (21 Novembre 2025)
+
+### 23.1 Problema Identificato
+
+Il quiz dava sempre gli stessi risultati indipendentemente dalle risposte dell'utente.
+
+**Causa**: L'algoritmo di compatibilità cercava campi ACF con nomi errati. Poiché i campi non esistevano, tutti i valori risultavano nulli e tutte le razze ricevevano lo stesso punteggio "neutro".
+
+### 23.2 Mapping Campi Corretto
+
+| Campo usato (errato) | Campo ACF reale |
+|---------------------|-----------------|
+| `livello_energia` | `energia_e_livelli_di_attivita` |
+| `bisogno_esercizio` | `esigenze_di_esercizio` |
+| `tolleranza_bambini` | `compatibilita_con_i_bambini` |
+| `socievolezza_altri_animali` | `compatibilita_con_altri_animali_domestici` |
+| `tolleranza_freddo` | `adattabilita_clima_freddo` |
+| `tolleranza_caldo` | `adattabilita_clima_caldo` |
+| `necessita_toelettatura` | `facilita_toelettatura` |
+| `tendenza_abbaio` | `vocalita_e_predisposizione_ad_abbaiare` |
+| `addestrabilita` | `facilita_di_addestramento` |
+
+### 23.3 Miglioramenti Algoritmo
+
+1. **Esperienza**: Ora usa correttamente i valori numerici 1-5 del campo ACF
+2. **Fallback migliorati**: Gestisce meglio i casi con dati parziali
+3. **Top 10 razze**: Cambiato da 5 a 10 come da brief originale
+4. **Email/PDF aggiornati**: Mostrano "Top 10 Razze per Te"
+
+### 23.4 File Modificato
+
+- `wp-content/themes/caniincasa-theme/inc/dashboard.php`
+  - Funzione `caniincasa_calculate_breed_compatibility()`: ~110 righe modificate
+  - `caniincasa_ajax_submit_quiz()`: top 5 → top 10
+  - `caniincasa_ajax_email_quiz_results()`: label aggiornata
+  - `caniincasa_ajax_download_quiz_pdf()`: label aggiornata
+
+### 23.5 Commit
+
+```
+6184cc5 - Fix: Correzione algoritmo quiz - mapping campi ACF corretto
+```
+
+---
+
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
-**Stato Progetto**: **Fase 1 Core ~92% Completo** ✅
+**Stato Progetto**: **Fase 1 Core ~93% Completo** ✅
 
-**Nuova Funzionalità**: Dashboard Responsiva con Hamburger Menu per Tab Mobile
+**Ultima Correzione**: Quiz Selezione Razza - Algoritmo Compatibilità Funzionante
