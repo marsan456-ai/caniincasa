@@ -372,6 +372,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/mega-menu.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/mega-menu.php';
 }
 
+// Include Stories System (Storie di Cani)
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/stories-system.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/stories-system.php';
+}
+
 /**
  * Enqueue Comparatore Razze assets
  */

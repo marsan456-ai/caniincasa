@@ -1944,8 +1944,113 @@ I calcolatori con shortcode creavano una "doppia testata" (titolo pagina + titol
 
 ---
 
+## 28. SISTEMA STORIE DI CANI (21 Novembre 2025)
+
+### 28.1 Panoramica
+
+Implementato un sistema completo per la raccolta e pubblicazione di storie dalla community. Caratteristiche principali:
+
+- **Toggle Admin**: Attivabile/disattivabile da Impostazioni → Storie di Cani
+- **Moderazione completa**: Workflow pending → approved/rejected
+- **Notifiche email**: Admin riceve nuove submission, utenti ricevono aggiornamenti stato
+- **Invio frontend**: Utenti inviano storie dalla dashboard senza accedere al backend
+
+### 28.2 File Creati
+
+| File | Descrizione |
+|------|-------------|
+| `inc/stories-system.php` | Classe principale con CPT, tassonomia, moderazione, AJAX |
+| `archive-storie_cani.php` | Template archivio con filtri e griglia |
+| `single-storie_cani.php` | Template singola storia con sidebar |
+| `assets/css/stories.css` | Stili completi per tutte le viste |
+
+### 28.3 Custom Post Type
+
+**Nome**: `storie_cani`
+**Tassonomia**: `categoria_storia`
+
+**Categorie predefinite**:
+- Storie di Adozione
+- Vita Insieme
+- Trasformazioni
+- In Memoria
+- Avventure
+
+### 28.4 Meta Fields
+
+| Campo | Descrizione |
+|-------|-------------|
+| `_storia_dog_name` | Nome del cane protagonista |
+| `_storia_dog_breed` | Razza del cane |
+| `_storia_dog_age` | Età del cane |
+| `_storia_author_display` | Visualizzazione autore (nome/anonimo) |
+| `_storia_gallery` | Gallery fotografica (array IDs) |
+| `_storia_views` | Contatore visualizzazioni |
+| `_storia_featured` | Storia in evidenza (checkbox) |
+| `_storia_moderation_notes` | Note moderazione |
+| `_storia_rejection_reason` | Motivo rifiuto |
+
+### 28.5 Workflow Moderazione
+
+```
+[Utente invia] → [Stato: pending] → [Admin notificato via email]
+                        ↓
+        [Admin revisiona in backend]
+                        ↓
+         [Approva]            [Rifiuta]
+            ↓                     ↓
+    [Stato: publish]      [Stato: rejected]
+    [Email utente]        [Email utente + motivo]
+```
+
+### 28.6 Funzioni Helper
+
+```php
+// Verifica se sistema attivo
+caniincasa_stories_enabled()
+
+// Ottieni form submission
+caniincasa_get_story_submission_form()
+
+// Ottieni storie utente
+caniincasa_get_user_stories( $user_id )
+```
+
+### 28.7 Integrazione Dashboard
+
+Il tab "Storie" nella dashboard utente mostra:
+- Form per nuova storia
+- Lista storie inviate con stato (pending/pubblicata/rifiutata)
+- Contatore visualizzazioni per storie pubblicate
+
+### 28.8 Pagina Admin
+
+**Posizione**: Impostazioni → Storie di Cani
+
+**Opzioni**:
+- Toggle attivazione/disattivazione sistema
+- Email notifica admin
+- Impostazioni approvazione automatica (futura)
+
+### 28.9 Templates
+
+**Archive** (`/storie-di-cani/`):
+- Header con CTA "Condividi la Tua Storia"
+- Filtri per categoria e ordinamento
+- Storia in evidenza (se presente)
+- Griglia responsive con paginazione
+
+**Single**:
+- Card info cane protagonista
+- Contenuto storia
+- Gallery fotografica
+- Social share buttons
+- Sidebar con storie correlate e categorie
+
+---
+
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
 **Stato Progetto**: **Fase 1 Core 100% Completo** ✅
 
-**Ultima Modifica**: Calcolatori migrati a Page Templates
+**Ultima Modifica**: Sistema Storie di Cani con moderazione e toggle admin

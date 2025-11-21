@@ -1,0 +1,1033 @@
+/**
+ * Stories Section Styles
+ * Storie di Cani CPT
+ *
+ * @package Caniincasa
+ */
+
+/* ==========================================================================
+   Archive Page - Stories Header
+   ========================================================================== */
+
+.archive-storie .stories-header {
+    background: linear-gradient(135deg, var(--primary-color, #8B4513) 0%, var(--primary-dark, #654321) 100%);
+    color: #fff;
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.archive-storie .stories-header .archive-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.archive-storie .stories-header .archive-description {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.archive-storie .stories-header .btn {
+    background: #fff;
+    color: var(--primary-color, #8B4513);
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.archive-storie .stories-header .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   Stories Filters
+   ========================================================================== */
+
+.stories-filters {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.stories-filters .filter-form {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.stories-filters .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stories-filters .filter-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.stories-filters .filter-group select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    min-width: 180px;
+    cursor: pointer;
+}
+
+.stories-filters .filter-group select:focus {
+    outline: none;
+    border-color: var(--primary-color, #8B4513);
+}
+
+/* ==========================================================================
+   Featured Story
+   ========================================================================== */
+
+.featured-story {
+    margin-bottom: 40px;
+}
+
+.featured-story-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.featured-story .featured-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-story .featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 350px;
+}
+
+.featured-story .featured-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.featured-story .featured-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.featured-story .featured-meta {
+    margin-bottom: 15px;
+}
+
+.featured-story .story-category {
+    background: rgba(139, 69, 19, 0.1);
+    color: var(--primary-color, #8B4513);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.featured-story .featured-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.featured-story .featured-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.featured-story .featured-title a:hover {
+    color: var(--primary-color, #8B4513);
+}
+
+.featured-story .featured-excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.featured-story .featured-dog-info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.featured-story .dog-name,
+.featured-story .dog-breed {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.featured-story .btn-outline {
+    display: inline-block;
+    padding: 12px 25px;
+    border: 2px solid var(--primary-color, #8B4513);
+    color: var(--primary-color, #8B4513);
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    align-self: flex-start;
+}
+
+.featured-story .btn-outline:hover {
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+}
+
+/* ==========================================================================
+   Stories Grid
+   ========================================================================== */
+
+.stories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.story-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.story-card .story-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+}
+
+.story-card .story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.story-card:hover .story-image img {
+    transform: scale(1.05);
+}
+
+.story-card .story-category-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+}
+
+.story-card .story-content {
+    padding: 20px;
+}
+
+.story-card .story-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.story-card .story-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.story-card .story-title a:hover {
+    color: var(--primary-color, #8B4513);
+}
+
+.story-card .story-excerpt {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.story-card .story-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.story-card .story-dog {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.story-card .story-dog svg {
+    color: var(--primary-color, #8B4513);
+}
+
+.story-card .story-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.story-card .story-author img {
+    border-radius: 50%;
+}
+
+.story-card .story-author span {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ==========================================================================
+   Stories Pagination
+   ========================================================================== */
+
+.stories-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 40px 0;
+}
+
+.stories-pagination a,
+.stories-pagination span {
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.stories-pagination a {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.stories-pagination a:hover {
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+}
+
+.stories-pagination .current {
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+}
+
+/* ==========================================================================
+   No Stories
+   ========================================================================== */
+
+.no-stories {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.no-stories-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.no-stories h3 {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.no-stories p {
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Single Story Page
+   ========================================================================== */
+
+.single-storia .storia-header {
+    padding: 40px 0;
+    background: #f8f9fa;
+    margin-bottom: 40px;
+}
+
+.single-storia .storia-categories {
+    margin-bottom: 15px;
+}
+
+.single-storia .storia-category-tag {
+    display: inline-block;
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.single-storia .storia-category-tag:hover {
+    opacity: 0.9;
+}
+
+.single-storia .storia-title {
+    font-size: 2.2rem;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.single-storia .storia-meta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.single-storia .storia-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.single-storia .storia-author img {
+    border-radius: 50%;
+}
+
+.single-storia .author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.single-storia .author-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.single-storia .publish-date {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.single-storia .storia-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.single-storia .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Story Content Wrapper
+   ========================================================================== */
+
+.storia-content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    padding-bottom: 60px;
+}
+
+.storia-content {
+    background: #fff;
+}
+
+.storia-featured-image {
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.storia-featured-image img {
+    width: 100%;
+    height: auto;
+}
+
+/* ==========================================================================
+   Dog Info Card
+   ========================================================================== */
+
+.dog-info-card {
+    background: linear-gradient(135deg, #f8f4f0 0%, #fff5eb 100%);
+    border: 1px solid #e8ddd3;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.dog-info-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--primary-color, #8B4513);
+}
+
+.dog-info-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.dog-info-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.dog-detail {
+    text-align: center;
+}
+
+.dog-detail .detail-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dog-detail .detail-value {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.05rem;
+}
+
+/* ==========================================================================
+   Story Text
+   ========================================================================== */
+
+.storia-text {
+    line-height: 1.8;
+    color: #444;
+    font-size: 1.05rem;
+}
+
+.storia-text p {
+    margin-bottom: 1.5em;
+}
+
+.storia-text h2,
+.storia-text h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+/* ==========================================================================
+   Story Gallery
+   ========================================================================== */
+
+.storia-gallery {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.storia-gallery h3 {
+    margin-bottom: 20px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   Share Section
+   ========================================================================== */
+
+.storia-share {
+    margin-top: 40px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.storia-share h4 {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.share-facebook {
+    background: #1877f2;
+    color: #fff;
+}
+
+.share-twitter {
+    background: #1da1f2;
+    color: #fff;
+}
+
+.share-whatsapp {
+    background: #25d366;
+    color: #fff;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.storia-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.sidebar-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-box h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* CTA Box */
+.cta-box {
+    background: linear-gradient(135deg, var(--primary-color, #8B4513) 0%, var(--primary-dark, #654321) 100%);
+    color: #fff;
+    text-align: center;
+}
+
+.cta-box h3 {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.cta-box p {
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.cta-box .btn {
+    background: #fff;
+    color: var(--primary-color, #8B4513);
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.cta-box .btn:hover {
+    opacity: 0.95;
+}
+
+/* Related Stories */
+.related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.related-item {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.related-item:hover {
+    background: #f8f9fa;
+}
+
+.related-thumb {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.related-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.related-info h4 {
+    font-size: 0.95rem;
+    margin: 0 0 5px 0;
+    line-height: 1.3;
+}
+
+.related-date {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Categories */
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    margin-bottom: 8px;
+}
+
+.category-list a {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.category-list a:hover {
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+}
+
+.category-list .count {
+    color: #888;
+}
+
+.category-list a:hover .count {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================================================================
+   Dashboard Stories Tab
+   ========================================================================== */
+
+.stories-submission-section {
+    padding: 30px;
+}
+
+.story-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.story-form-container h3 {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.story-submission-form .form-group {
+    margin-bottom: 20px;
+}
+
+.story-submission-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.story-submission-form input[type="text"],
+.story-submission-form input[type="number"],
+.story-submission-form select,
+.story-submission-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.story-submission-form input:focus,
+.story-submission-form select:focus,
+.story-submission-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color, #8B4513);
+}
+
+.story-submission-form textarea {
+    min-height: 200px;
+    resize: vertical;
+}
+
+.story-submission-form .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.story-submission-form .form-hint {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.story-submission-form .btn-submit {
+    background: var(--primary-color, #8B4513);
+    color: #fff;
+    padding: 14px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.story-submission-form .btn-submit:hover {
+    background: var(--primary-dark, #654321);
+}
+
+/* User Stories List */
+.user-stories-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.user-stories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-story-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.user-story-item:hover {
+    background: #f0f0f0;
+}
+
+.user-story-info h4 {
+    margin: 0 0 5px 0;
+}
+
+.user-story-info h4 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.user-story-meta {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.story-status {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.story-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.story-status.publish {
+    background: #d4edda;
+    color: #155724;
+}
+
+.story-status.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .storia-content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .storia-sidebar {
+        order: -1;
+    }
+
+    .stories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featured-story-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-story .featured-content {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .archive-storie .stories-header {
+        padding: 40px 20px;
+    }
+
+    .archive-storie .stories-header .archive-title {
+        font-size: 1.8rem;
+    }
+
+    .stories-filters .filter-form {
+        flex-direction: column;
+    }
+
+    .stories-filters .filter-group select {
+        width: 100%;
+    }
+
+    .stories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .single-storia .storia-title {
+        font-size: 1.6rem;
+    }
+
+    .single-storia .storia-meta-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dog-info-details {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .share-buttons {
+        flex-direction: column;
+    }
+
+    .share-btn {
+        justify-content: center;
+    }
+
+    .story-submission-form .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .featured-story .featured-content {
+        padding: 20px;
+    }
+
+    .featured-story .featured-title {
+        font-size: 1.4rem;
+    }
+
+    .story-card .story-content {
+        padding: 15px;
+    }
+
+    .sidebar-box {
+        padding: 20px;
+    }
+}
