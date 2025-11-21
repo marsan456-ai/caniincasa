@@ -6,29 +6,50 @@
  *
  * UTILIZZO:
  * 1. Carica questo file nella root di WordPress
- * 2. Carica il CSV nella root di WordPress
- * 3. Apri browser: http://tuosito.it/import_categories.php
- * 4. Oppure da CLI: php import_categories.php
+ * 2. Apri browser: http://tuosito.it/import_categories.php
+ * 3. Carica il CSV tramite form di upload
+ * 4. Oppure da CLI: php import_categories.php percorso/al/file.csv
  *
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 // Carica WordPress
 require_once('wp-load.php');
 
 // Configurazione
-$csv_file = 'Articoli-Export-2025-November-21-0711-categorizzati.csv';
-$dry_run = isset($_GET['dry_run']) ? true : false; // Modalità test (non modifica il DB)
+$csv_file = null;
+$dry_run = isset($_GET['dry_run']) ? true : false;
+$is_cli = php_sapi_name() === 'cli';
 
-// Check permessi admin
-if (!is_admin() && !defined('WP_CLI')) {
+// Gestione upload file
+if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK) {
+    $upload_dir = wp_upload_dir();
+    $upload_path = $upload_dir['basedir'] . '/import_categories_temp.csv';
+
+    if (move_uploaded_file($_FILES['csv_file']['tmp_name'], $upload_path)) {
+        $csv_file = $upload_path;
+        $dry_run = isset($_POST['dry_run']) ? true : false;
+    }
+}
+
+// CLI: prendi file da argomento
+if ($is_cli && isset($argv[1])) {
+    $csv_file = $argv[1];
+}
+
+// Check se esiste già un file nella root
+if (!$csv_file && file_exists('Articoli-Export-2025-November-21-0711-categorizzati.csv')) {
+    $csv_file = 'Articoli-Export-2025-November-21-0711-categorizzati.csv';
+}
+
+// Check permessi admin (solo per web)
+if (!$is_cli && !defined('WP_CLI')) {
     if (!current_user_can('manage_options')) {
         die('❌ Accesso negato. Devi essere amministratore.');
     }
 }
 
-// Stile per output HTML
-$is_cli = php_sapi_name() === 'cli';
+// HTML Header
 if (!$is_cli) {
     ?>
     <!DOCTYPE html>
@@ -55,6 +76,70 @@ if (!$is_cli) {
                 color: #1d2327;
                 border-bottom: 3px solid #2271b1;
                 padding-bottom: 15px;
+            }
+            .upload-form {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px;
+                border-radius: 12px;
+                margin: 30px 0;
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            }
+            .upload-form h2 {
+                margin-top: 0;
+                color: white;
+            }
+            .file-input-wrapper {
+                position: relative;
+                background: white;
+                border: 3px dashed #667eea;
+                border-radius: 8px;
+                padding: 40px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s;
+                margin: 20px 0;
+            }
+            .file-input-wrapper:hover {
+                background: #f8f9fa;
+                border-color: #764ba2;
+            }
+            .file-input-wrapper input[type="file"] {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+            }
+            .file-input-label {
+                color: #667eea;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .file-name {
+                margin-top: 15px;
+                padding: 10px;
+                background: rgba(255,255,255,0.2);
+                border-radius: 4px;
+                color: white;
+                font-family: monospace;
+            }
+            .checkbox-wrapper {
+                margin: 20px 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .checkbox-wrapper input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+            .checkbox-wrapper label {
+                cursor: pointer;
+                font-size: 16px;
             }
             .status {
                 padding: 15px;
@@ -124,24 +209,49 @@ if (!$is_cli) {
             }
             .button {
                 display: inline-block;
-                padding: 12px 24px;
-                background: #2271b1;
-                color: white;
+                padding: 15px 30px;
+                background: white;
+                color: #667eea;
                 text-decoration: none;
-                border-radius: 4px;
+                border-radius: 8px;
                 margin: 10px 5px;
                 border: none;
                 cursor: pointer;
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: bold;
+                transition: all 0.3s;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }
             .button:hover {
-                background: #135e96;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             }
             .button.secondary {
                 background: #6c757d;
+                color: white;
             }
             .button.danger {
                 background: #dc3545;
+                color: white;
+            }
+            .instructions {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                border-left: 4px solid #667eea;
+                margin: 20px 0;
+            }
+            .instructions h3 {
+                margin-top: 0;
+                color: #667eea;
+            }
+            .instructions ol {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+            .instructions li {
+                margin: 8px 0;
+                line-height: 1.6;
             }
         </style>
     </head>
@@ -149,6 +259,98 @@ if (!$is_cli) {
         <div class="container">
             <h1>🔄 Importazione Categorie Articoli</h1>
     <?php
+}
+
+// Se non c'è file, mostra form di upload
+if (!$csv_file && !$is_cli) {
+    ?>
+    <div class="instructions">
+        <h3>📋 Come funziona</h3>
+        <ol>
+            <li><strong>Carica il CSV</strong> con le categorie degli articoli</li>
+            <li><strong>Scegli modalità</strong>: Test (dry-run) o Importazione reale</li>
+            <li><strong>Avvia importazione</strong> e attendi il completamento</li>
+            <li>Lo script creerà automaticamente categorie e sottocategorie</li>
+        </ol>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="upload-form">
+        <h2>📁 Carica File CSV</h2>
+        <p style="opacity: 0.9;">Seleziona il file CSV con le categorie categorizzate (formato: ID, Title, Categoria, Sottocategoria)</p>
+
+        <div class="file-input-wrapper">
+            <input type="file" name="csv_file" id="csv_file" accept=".csv" required onchange="showFileName(this)">
+            <div class="file-input-label">
+                <div style="font-size: 48px; margin-bottom: 10px;">📄</div>
+                Clicca per selezionare il file CSV<br>
+                <small style="opacity: 0.7;">oppure trascina il file qui</small>
+            </div>
+        </div>
+
+        <div id="file-name-display" class="file-name" style="display:none;"></div>
+
+        <div class="checkbox-wrapper">
+            <input type="checkbox" name="dry_run" id="dry_run" value="1">
+            <label for="dry_run">
+                <strong>🔬 Modalità Test (Dry Run)</strong> - Simula l'importazione senza modificare il database
+            </label>
+        </div>
+
+        <button type="submit" class="button">
+            🚀 Avvia Importazione
+        </button>
+    </form>
+
+    <script>
+    function showFileName(input) {
+        const display = document.getElementById('file-name-display');
+        if (input.files && input.files[0]) {
+            display.textContent = '📎 File selezionato: ' + input.files[0].name;
+            display.style.display = 'block';
+        }
+    }
+
+    // Drag & drop
+    const wrapper = document.querySelector('.file-input-wrapper');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        wrapper.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        wrapper.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        wrapper.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        wrapper.style.background = '#f0f0ff';
+    }
+
+    function unhighlight(e) {
+        wrapper.style.background = 'white';
+    }
+
+    wrapper.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        document.getElementById('csv_file').files = files;
+        showFileName(document.getElementById('csv_file'));
+    }
+    </script>
+
+    <?php
+    echo "</div></body></html>";
+    exit;
 }
 
 // Funzione di log
@@ -186,7 +388,7 @@ if (!file_exists($csv_file)) {
 }
 
 log_message("Avvio importazione categorie...", 'info');
-log_message("File CSV: $csv_file", 'info');
+log_message("File CSV: " . basename($csv_file), 'info');
 
 if ($dry_run) {
     log_message("MODALITÀ DRY RUN - Nessuna modifica verrà effettuata", 'warning');
@@ -208,7 +410,7 @@ $stats = [
 
 $created_categories = [];
 $created_subcategories = [];
-$category_map = []; // Cache delle categorie
+$category_map = [];
 
 // Leggi CSV
 $handle = fopen($csv_file, 'r');
@@ -229,13 +431,11 @@ while (($row = fgetcsv($handle)) !== false) {
     $row_number++;
     $stats['total']++;
 
-    // Parsing dati
     $post_id = isset($row[0]) ? intval($row[0]) : 0;
     $title = isset($row[1]) ? $row[1] : '';
     $categoria = isset($row[2]) ? trim($row[2]) : '';
     $sottocategoria = isset($row[3]) ? trim($row[3]) : '';
 
-    // Validazione
     if ($post_id <= 0) {
         log_message("Riga $row_number: ID post invalido", 'error');
         $stats['errors']++;
@@ -248,7 +448,6 @@ while (($row = fgetcsv($handle)) !== false) {
         continue;
     }
 
-    // Verifica post esiste
     $post = get_post($post_id);
     if (!$post) {
         log_message("Post $post_id non trovato", 'error');
@@ -294,7 +493,6 @@ while (($row = fgetcsv($handle)) !== false) {
     } else {
         $subcat_term = get_term_by('name', $sottocategoria, 'category');
 
-        // Check se la sottocategoria esiste ma con parent diverso
         if ($subcat_term && $subcat_term->parent != $cat_id && !$dry_run) {
             wp_update_term($subcat_term->term_id, 'category', array(
                 'parent' => $cat_id
@@ -325,15 +523,8 @@ while (($row = fgetcsv($handle)) !== false) {
         }
     }
 
-    // Assegna categorie al post
     if (!$dry_run) {
-        // Rimuovi categorie esistenti (tranne Uncategorized che è ID 1)
-        $existing_cats = wp_get_post_categories($post_id);
-        $uncategorized_id = get_option('default_category');
-
-        // Assegna nuove categorie
         $categories_to_set = array_filter([$cat_id, $subcat_id]);
-
         $result = wp_set_post_categories($post_id, $categories_to_set, false);
 
         if (is_wp_error($result)) {
@@ -345,7 +536,6 @@ while (($row = fgetcsv($handle)) !== false) {
             log_message("Post $post_id aggiornato: $categoria → $sottocategoria | $short_title...", 'success');
         }
     } else {
-        // Dry run
         $stats['updated']++;
         $short_title = mb_substr($title, 0, 50);
         log_message("[DRY RUN] Post $post_id: $categoria → $sottocategoria | $short_title...", 'info');
@@ -354,11 +544,16 @@ while (($row = fgetcsv($handle)) !== false) {
 
 fclose($handle);
 
-if (!$is_cli) {
-    echo "</div>"; // Close log div
+// Cleanup uploaded file
+if (isset($upload_path) && file_exists($upload_path)) {
+    @unlink($upload_path);
 }
 
-// Output statistiche finali
+if (!$is_cli) {
+    echo "</div>";
+}
+
+// Output statistiche
 if (!$is_cli) {
     echo "<h2>📊 Risultati Importazione</h2>";
     echo "<div class='stats'>";
@@ -370,11 +565,9 @@ if (!$is_cli) {
     echo "<div class='stat-box'><h3>Sottocategorie Create</h3><div class='number'>{$stats['subcategories_created']}</div></div>";
     echo "</div>";
 
-    // Progress bar
     $success_rate = $stats['total'] > 0 ? round(($stats['updated'] / $stats['total']) * 100) : 0;
     echo "<div class='progress-bar'><div class='progress-fill' style='width: {$success_rate}%'>{$success_rate}%</div></div>";
 
-    // Summary
     if ($stats['errors'] === 0 && $stats['updated'] > 0) {
         echo "<div class='status success'><strong>✅ Importazione completata con successo!</strong><br>";
         echo "Tutti i {$stats['updated']} articoli sono stati aggiornati correttamente.</div>";
@@ -385,16 +578,16 @@ if (!$is_cli) {
 
     if ($dry_run) {
         echo "<div class='status info'><strong>ℹ️ Modalità Dry Run</strong><br>";
-        echo "Nessuna modifica è stata effettuata al database. Rimuovi ?dry_run dall'URL per eseguire l'importazione reale.</div>";
-        echo "<a href='import_categories.php' class='button'>Esegui Importazione Reale</a>";
+        echo "Nessuna modifica è stata effettuata al database. Carica di nuovo il file senza il flag dry-run per eseguire l'importazione reale.</div>";
+        echo "<a href='import_categories.php' class='button'>Nuova Importazione</a>";
     } else {
         echo "<a href='" . admin_url('edit.php') . "' class='button'>Vedi Articoli</a>";
         echo "<a href='" . admin_url('edit-tags.php?taxonomy=category') . "' class='button secondary'>Vedi Categorie</a>";
+        echo "<a href='import_categories.php' class='button secondary'>Nuova Importazione</a>";
     }
 
     echo "</div></body></html>";
 } else {
-    // CLI output
     echo "\n" . str_repeat("=", 60) . "\n";
     echo "📊 RISULTATI IMPORTAZIONE\n";
     echo str_repeat("=", 60) . "\n\n";
@@ -413,6 +606,5 @@ if (!$is_cli) {
 
     if ($dry_run) {
         echo "\nℹ️  Modalità DRY RUN - Nessuna modifica effettuata\n";
-        echo "Esegui senza --dry-run per applicare le modifiche\n";
     }
 }
