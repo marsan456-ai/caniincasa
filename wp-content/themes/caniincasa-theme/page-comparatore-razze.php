@@ -126,16 +126,12 @@ get_header();
                         <div class="row-label">Peso</div>
                         <div class="row-values"></div>
                     </div>
-                    <div class="comparison-row" data-field="altezza">
-                        <div class="row-label">Altezza</div>
-                        <div class="row-values"></div>
-                    </div>
                     <div class="comparison-row" data-field="aspettativa_vita">
                         <div class="row-label">Aspettativa di vita</div>
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="tipo_pelo">
-                        <div class="row-label">Tipo di pelo</div>
+                        <div class="row-label">Colorazioni</div>
                         <div class="row-values"></div>
                     </div>
                 </div>
@@ -168,7 +164,7 @@ get_header();
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="territorialita">
-                        <div class="row-label">Territorialità</div>
+                        <div class="row-label">Intelligenza</div>
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="tendenza_abbaiare">
@@ -186,15 +182,15 @@ get_header();
                         Cure e Mantenimento
                     </h3>
                     <div class="comparison-row" data-field="toelettatura">
-                        <div class="row-label">Necessità toelettatura</div>
+                        <div class="row-label">Facilità toelettatura</div>
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="perdita_pelo">
-                        <div class="row-label">Perdita pelo</div>
+                        <div class="row-label">Cura e perdita pelo</div>
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="esercizio_fisico">
-                        <div class="row-label">Esercizio necessario</div>
+                        <div class="row-label">Esigenze di esercizio</div>
                         <div class="row-values"></div>
                     </div>
                 </div>
@@ -246,11 +242,11 @@ get_header();
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="compatibilita_gatti">
-                        <div class="row-label">Con gatti</div>
+                        <div class="row-label">Con altri animali</div>
                         <div class="row-values"></div>
                     </div>
                     <div class="comparison-row" data-field="adatto_principianti">
-                        <div class="row-label">Adatto ai principianti</div>
+                        <div class="row-label">Livello esperienza richiesto</div>
                         <div class="row-values"></div>
                     </div>
                 </div>

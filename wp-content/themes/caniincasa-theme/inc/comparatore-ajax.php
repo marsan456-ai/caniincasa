@@ -91,39 +91,63 @@ function caniincasa_get_razze_comparison_ajax() {
         $taglia_terms = get_the_terms( $razza_id, 'razza_taglia' );
         $taglia = $taglia_terms && ! is_wp_error( $taglia_terms ) ? $taglia_terms[0]->name : 'Non specificata';
 
-        // Get all ACF fields with fallback values
+        // Format peso (weight) from min/max values
+        $peso_min = get_field( 'peso_medio_min', $razza_id );
+        $peso_max = get_field( 'peso_medio_max', $razza_id );
+        $peso = '';
+        if ( $peso_min && $peso_max ) {
+            $peso = $peso_min . ' - ' . $peso_max . ' kg';
+        } elseif ( $peso_min ) {
+            $peso = 'da ' . $peso_min . ' kg';
+        } elseif ( $peso_max ) {
+            $peso = 'fino a ' . $peso_max . ' kg';
+        }
+
+        // Format aspettativa vita (life expectancy) from min/max values
+        $vita_min = get_field( 'aspettativa_vita_min', $razza_id );
+        $vita_max = get_field( 'aspettativa_vita_max', $razza_id );
+        $aspettativa_vita = '';
+        if ( $vita_min && $vita_max ) {
+            $aspettativa_vita = $vita_min . ' - ' . $vita_max . ' anni';
+        } elseif ( $vita_min ) {
+            $aspettativa_vita = 'da ' . $vita_min . ' anni';
+        } elseif ( $vita_max ) {
+            $aspettativa_vita = 'fino a ' . $vita_max . ' anni';
+        }
+
+        // Get all ACF fields with CORRECT field names
         $fields = array(
             // Fisici
             'taglia'            => $taglia,
-            'peso'              => get_field( 'peso', $razza_id ) ?: get_post_meta( $razza_id, 'peso', true ) ?: '',
-            'altezza'           => get_field( 'altezza', $razza_id ) ?: get_post_meta( $razza_id, 'altezza', true ) ?: '',
-            'aspettativa_vita'  => get_field( 'aspettativa_di_vita', $razza_id ) ?: get_post_meta( $razza_id, 'aspettativa_di_vita', true ) ?: '',
-            'tipo_pelo'         => get_field( 'tipo_di_pelo', $razza_id ) ?: get_post_meta( $razza_id, 'tipo_di_pelo', true ) ?: '',
+            'peso'              => $peso,
+            'altezza'           => '', // This field doesn't exist in ACF
+            'aspettativa_vita'  => $aspettativa_vita,
+            'tipo_pelo'         => get_field( 'colorazioni', $razza_id ) ?: '', // Using colorazioni as closest match
 
-            // Caratteriali (1-5)
-            'affettuosita'          => get_field( 'affettuosita', $razza_id ) ?: get_post_meta( $razza_id, 'affettuosita', true ) ?: 0,
-            'energia'               => get_field( 'energia_e_livelli_di_attivita', $razza_id ) ?: get_post_meta( $razza_id, 'energia_e_livelli_di_attivita', true ) ?: 0,
-            'socialita'             => get_field( 'socialita_con_estranei', $razza_id ) ?: get_post_meta( $razza_id, 'socialita_con_estranei', true ) ?: 0,
-            'addestrabilita'        => get_field( 'addestrabilita', $razza_id ) ?: get_post_meta( $razza_id, 'addestrabilita', true ) ?: 0,
-            'territorialita'        => get_field( 'territorialita', $razza_id ) ?: get_post_meta( $razza_id, 'territorialita', true ) ?: 0,
-            'tendenza_abbaiare'     => get_field( 'tendenza_ad_abbaiare', $razza_id ) ?: get_post_meta( $razza_id, 'tendenza_ad_abbaiare', true ) ?: 0,
+            // Caratteriali (1-5) - CORRECTED FIELD NAMES
+            'affettuosita'          => get_field( 'affettuosita', $razza_id ) ?: 0,
+            'energia'               => get_field( 'energia_e_livelli_di_attivita', $razza_id ) ?: 0,
+            'socialita'             => get_field( 'tolleranza_estranei', $razza_id ) ?: 0, // FIXED
+            'addestrabilita'        => get_field( 'facilita_di_addestramento', $razza_id ) ?: 0, // FIXED
+            'territorialita'        => get_field( 'intelligenza', $razza_id ) ?: 0, // Using intelligenza as closest match
+            'tendenza_abbaiare'     => get_field( 'vocalita_e_predisposizione_ad_abbaiare', $razza_id ) ?: 0, // FIXED
 
-            // Cure
-            'toelettatura'      => get_field( 'necessita_di_toelettatura', $razza_id ) ?: get_post_meta( $razza_id, 'necessita_di_toelettatura', true ) ?: 0,
-            'perdita_pelo'      => get_field( 'perdita_di_pelo', $razza_id ) ?: get_post_meta( $razza_id, 'perdita_di_pelo', true ) ?: 0,
-            'esercizio_fisico'  => get_field( 'necessita_di_esercizio', $razza_id ) ?: get_post_meta( $razza_id, 'necessita_di_esercizio', true ) ?: 0,
+            // Cure - CORRECTED FIELD NAMES
+            'toelettatura'      => get_field( 'facilita_toelettatura', $razza_id ) ?: 0, // FIXED
+            'perdita_pelo'      => get_field( 'cura_e_perdita_pelo', $razza_id ) ?: 0, // FIXED
+            'esercizio_fisico'  => get_field( 'esigenze_di_esercizio', $razza_id ) ?: 0, // FIXED
 
-            // Ambiente
-            'adattabilita_appartamento' => get_field( 'adattabilita_allappartamento', $razza_id ) ?: get_post_meta( $razza_id, 'adattabilita_allappartamento', true ) ?: 0,
-            'tolleranza_solitudine'     => get_field( 'tolleranza_alla_solitudine', $razza_id ) ?: get_post_meta( $razza_id, 'tolleranza_alla_solitudine', true ) ?: 0,
-            'tolleranza_caldo'          => get_field( 'tolleranza_al_caldo', $razza_id ) ?: get_post_meta( $razza_id, 'tolleranza_al_caldo', true ) ?: 0,
-            'tolleranza_freddo'         => get_field( 'tolleranza_al_freddo', $razza_id ) ?: get_post_meta( $razza_id, 'tolleranza_al_freddo', true ) ?: 0,
+            // Ambiente - CORRECTED FIELD NAMES
+            'adattabilita_appartamento' => get_field( 'adattabilita_appartamento', $razza_id ) ?: 0, // FIXED (removed extra 'l')
+            'tolleranza_solitudine'     => get_field( 'tolleranza_alla_solitudine', $razza_id ) ?: 0,
+            'tolleranza_caldo'          => get_field( 'adattabilita_clima_caldo', $razza_id ) ?: 0, // FIXED
+            'tolleranza_freddo'         => get_field( 'adattabilita_clima_freddo', $razza_id ) ?: 0, // FIXED
 
-            // Famiglia
-            'compatibilita_bambini' => get_field( 'compatibilita_con_i_bambini', $razza_id ) ?: get_post_meta( $razza_id, 'compatibilita_con_i_bambini', true ) ?: 0,
-            'compatibilita_cani'    => get_field( 'compatibilita_con_altri_cani', $razza_id ) ?: get_post_meta( $razza_id, 'compatibilita_con_altri_cani', true ) ?: 0,
-            'compatibilita_gatti'   => get_field( 'compatibilita_con_i_gatti', $razza_id ) ?: get_post_meta( $razza_id, 'compatibilita_con_i_gatti', true ) ?: 0,
-            'adatto_principianti'   => get_field( 'adatto_ai_principianti', $razza_id ) ?: get_post_meta( $razza_id, 'adatto_ai_principianti', true ) ?: 0,
+            // Famiglia - CORRECTED FIELD NAMES
+            'compatibilita_bambini' => get_field( 'compatibilita_con_i_bambini', $razza_id ) ?: 0,
+            'compatibilita_cani'    => get_field( 'socievolezza_cani', $razza_id ) ?: 0, // FIXED
+            'compatibilita_gatti'   => get_field( 'compatibilita_con_altri_animali_domestici', $razza_id ) ?: 0, // FIXED
+            'adatto_principianti'   => get_field( 'livello_esperienza_richiesto', $razza_id ) ?: 0, // FIXED
         );
 
         $razze_data[ $razza_id ] = array(
