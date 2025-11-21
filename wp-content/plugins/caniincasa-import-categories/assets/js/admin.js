@@ -150,6 +150,13 @@
         // Simulate progress
         var progressInterval = simulateProgress();
 
+        // Debug info
+        console.log('=== Import Debug ===');
+        console.log('AJAX URL:', caniincasaImport.ajaxurl);
+        console.log('Nonce:', caniincasaImport.nonce);
+        console.log('File:', selectedFile);
+        console.log('Dry Run:', dryRun);
+
         // Send AJAX request
         $.ajax({
             url: caniincasaImport.ajaxurl,
@@ -188,7 +195,13 @@
                     errorMsg = 'Errore: ' + error + ' (Status: ' + xhr.status + ')';
                 }
 
-                console.error('AJAX Error:', {status: status, error: error, xhr: xhr});
+                console.error('=== AJAX Error Details ===');
+                console.error('Status:', status);
+                console.error('Error:', error);
+                console.error('XHR Status:', xhr.status);
+                console.error('XHR StatusText:', xhr.statusText);
+                console.error('XHR Response:', xhr.responseText);
+                console.error('XHR ResponseJSON:', xhr.responseJSON);
                 showError(errorMsg);
             }
         });
