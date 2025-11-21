@@ -480,3 +480,448 @@ Opzioni configurabili:
 - NB: Importa tutti i dati ma poi mostra solo quelli strettamente necessari indicati negli screenshot
 - NB ogni volta che fai aggiornamenti al sito inserisci in coda a questo file gli sviluppi realizzati
 
+---
+
+## 12. Espansione Contenuti e Funzionalità (PRIORITÀ)
+
+### 12.1. Comparatore Razze (PRIORITÀ MASSIMA)
+
+**Obiettivo**: Permettere confronto visivo fino a 3 razze simultaneamente.
+
+**Funzionalità chiave**:
+- Interfaccia side-by-side con colonne per ogni razza selezionata
+- Confronto parametri: fisici, caratteriali, cure necessarie, ambiente ideale, famiglia
+- Sistema salvataggio comparazioni (utenti loggati)
+- Condivisione social della comparazione
+- Scoring compatibilità basato su profilo utente (se disponibile dal quiz)
+
+**Caratteristiche da confrontare**:
+
+| Categoria | Dettagli |
+|-----------|----------|
+| **Fisici** | Taglia, peso, altezza, tipo pelo, colori |
+| **Caratteriali** | Energia, socialità, territorialità, addestrabilità |
+| **Cure** | Toelettatura, esercizio necessario, costi medi |
+| **Ambiente** | Adatto appartamento, necessità giardino, clima ideale |
+| **Famiglia** | Con bambini, con altri cani, con gatti, per primo cane |
+
+**Posizionamento**:
+- Pagina dedicata `/comparatore-razze/`
+- Widget/shortcode in archivio razze
+- Link rapido in ogni scheda razza
+
+---
+
+### 12.2. Mega Menu con Categorizzazione Taglia (PRIORITÀ MASSIMA)
+
+**Obiettivo**: Riorganizzare navigazione principale per facilitare scoperta contenuti.
+
+**Struttura Menu Proposta**:
+
+```
+RAZZE
+├─ Per Taglia
+│  ├─ Razze Piccole (< 10 kg)
+│  ├─ Razze Medie (10-25 kg)
+│  ├─ Razze Grandi (25-45 kg)
+│  └─ Razze Giganti (> 45 kg)
+├─ Per Carattere
+│  ├─ Cani da Famiglia
+│  ├─ Cani Attivi/Sportivi
+│  ├─ Cani da Guardia
+│  ├─ Cani da Compagnia
+│  └─ Cani da Caccia
+├─ Razze Italiane
+│  └─ [Lista dinamica top razze italiane]
+└─ Tutte le Razze A-Z
+
+GUIDA CANI (nuova sezione)
+├─ Primo Cane
+│  ├─ Come Scegliere
+│  ├─ Preparare la Casa
+│  ├─ Primi Giorni
+│  └─ Attrezzatura Necessaria
+├─ Salute & Benessere
+│  ├─ Vaccinazioni
+│  ├─ Parassiti
+│  ├─ Malattie Comuni
+│  └─ Quando Andare dal Veterinario
+├─ Educazione
+│  ├─ Comandi Base
+│  ├─ Socializzazione
+│  ├─ Problemi Comportamentali
+│  └─ Addestramento Avanzato
+└─ Vita Quotidiana
+   ├─ Alimentazione
+   ├─ Toelettatura
+   ├─ Esercizio Fisico
+   └─ Viaggiare col Cane
+
+STRUMENTI (nuova sezione)
+├─ Calcolatori
+│  ├─ Età Umana
+│  ├─ Peso Ideale
+│  ├─ Costo Mantenimento
+│  └─ Quantità Cibo
+├─ Comparatore Razze
+├─ Quiz Compatibilità (già esistente)
+└─ Directory (link a sezioni esistenti)
+
+MAGAZINE (nuova sezione)
+├─ Ultimi Articoli
+├─ Guide Approfondite
+├─ News & Aggiornamenti
+└─ Storie di Cani
+
+ANNUNCI (già esistente)
+SERVIZI (directory esistenti)
+```
+
+**Caratteristiche Mega Menu**:
+- Dropdown espanso con colonne multiple (desktop)
+- Icone per ogni categoria
+- Contatori dinamici (es. "23 razze piccole")
+- Preview immagine razza in evidenza
+- Mobile: accordion collassabile con stessa gerarchia
+
+---
+
+### 12.3. Calcolatori Interattivi (4 tool)
+
+Nuova sezione "Strumenti" con 4 calcolatori dedicati.
+
+#### 12.3.1. Calcolatore Età Umana
+
+**Input**:
+- Età del cane (anni)
+- Taglia/razza
+
+**Output**:
+- 3 metodi di calcolo: tradizionale (×7), scientifico (formula logaritmica), specifico per taglia
+- Grafico invecchiamento progressivo
+- Fase della vita (cucciolo/adulto/maturo/senior)
+- Consigli salute per età/taglia
+
+**Funzionalità extra**:
+- Salvare calcolo nel profilo
+- Condivisione risultato social
+- Link a guide correlate per fase vita
+
+#### 12.3.2. Calcolatore Peso Ideale
+
+**Input**:
+- Peso attuale
+- Razza (se conosciuta)
+- Quiz valutazione visiva (Body Condition Score 1-9)
+
+**Quiz BCS interattivo**:
+- Domande con immagini (vista dall'alto, laterale)
+- Valutazione palpazione costole
+- Presenza vita/addome
+
+**Output**:
+- Score BCS (1-9) con interpretazione
+- Peso ideale stimato per razza
+- Kg da perdere/guadagnare
+- Piano settimanale con obiettivi sicuri
+- Timeline raggiungimento peso forma
+
+**Funzionalità extra**:
+- Tracker peso nel tempo (utenti loggati)
+- Promemoria controlli settimanali
+- Link a calcolatore cibo per dieta
+
+#### 12.3.3. Calcolatore Costo Mantenimento
+
+**Input**:
+- Peso/taglia cane
+- Età
+- Tipo cibo (economy/premium/super premium/BARF)
+- Tipo pelo (toelettatura)
+- Metodo toelettatura (fai-da-te/professionale)
+- Regione Italia (prezzi variano)
+- Giorni pensione/anno
+- Assicurazione (sì/no)
+
+**Output**:
+- Costo totale annuale
+- Breakdown per categoria: cibo, salute, toelettatura, accessori, assicurazione, altro
+- Costo mensile e giornaliero
+- Grafico percentuali spesa
+
+**Categorie costo**:
+- Alimentazione (base su peso e tipo)
+- Salute (visite, vaccini, antiparassitari, emergenze)
+- Toelettatura
+- Accessori e giochi
+- Assicurazione (opzionale)
+- Addestramento (primo anno)
+- Pensione/dog sitter
+
+**Funzionalità extra**:
+- Confronto risparmio con scelte diverse
+- Consigli personalizzati per ridurre costi
+- Esportazione budget PDF
+
+#### 12.3.4. Calcolatore Quantità Cibo
+
+**3 modalità di calcolo**:
+
+**A) Crocchette**
+- Input: peso, età, livello attività, kcal/kg del prodotto
+- Output: grammi/giorno, porzioni per pasto, kg/mese
+- Programma alimentazione consigliato (orari pasti)
+
+**B) Dieta BARF**
+- Input: peso cane
+- Output: quantità totale (2-3% peso corporeo)
+- Breakdown composizione: 70% carne/ossa, 10% frattaglie, 15% verdure, 5% integratori
+- Grammi per categoria
+- Kg/mese necessari
+
+**C) Alimentazione Casalinga**
+- Input: peso, età, livello attività
+- Output: grammi totali/giorno
+- Composizione bilanciata: 40% proteine, 30% carboidrati, 25% verdure, 5% grassi
+- Ricetta esempio giornaliera
+- Lista spesa settimanale
+
+**Funzionalità extra**:
+- Salva ricetta preferita
+- Alert importanti (ingredienti tossici, consultare veterinario)
+- Collegamento a calcolatore costi
+- Video tutorial preparazione pasti
+
+---
+
+### 12.4. Nuova Architettura Contenuti
+
+#### CPT "Guida" (`guida_cani`)
+
+**Obiettivo**: Creare sezione educativa completa per proprietari.
+
+**Categorie principali**:
+
+1. **Primo Cane**
+   - Scegliere razza giusta
+   - Preparare casa per arrivo cucciolo
+   - Checklist primi giorni
+   - Attrezzatura indispensabile
+   - Budget primo anno
+
+2. **Salute & Benessere**
+   - Calendario vaccinazioni
+   - Guida antiparassitari completa
+   - Sintomi malattie comuni
+   - Quando preoccuparsi e chiamare veterinario
+   - Pronto soccorso base
+
+3. **Educazione**
+   - Comandi base step-by-step
+   - Socializzazione cucciolo (finestre temporali)
+   - Risolvere problemi comportamentali comuni
+   - Tecniche addestramento avanzato
+   - Capire linguaggio del cane
+
+4. **Vita Quotidiana**
+   - Alimentazione sana e bilanciata
+   - Toelettatura casalinga (per tipo pelo)
+   - Esercizio fisico per età e taglia
+   - Viaggiare col cane (documenti, consigli)
+   - Gestire cane in appartamento
+
+**Caratteristiche template guida**:
+- Table of Contents auto-generato (da H2)
+- Tempo lettura stimato
+- Livello difficoltà (principiante/intermedio/esperto)
+- Guide correlate sidebar
+- Download PDF guida
+- Checklist stampabili
+- Video embedded (quando disponibili)
+
+#### CPT "Magazine" (`magazine`)
+
+**Obiettivo**: Contenuti editoriali, news, storie.
+
+**Categorie**:
+- News & Attualità cinofila
+- Storie di Cani (user-generated benvenuto)
+- Interviste Esperti (veterinari, educatori, allevatori)
+- Prodotti & Recensioni
+- Viaggi & Destinazioni Dog-Friendly
+- Nutrizione & Ricette
+- Sport & Attività (agility, disc dog, etc.)
+
+**Differenza Blog vs Magazine**:
+- **Blog**: articoli brevi, consigli rapidi, contenuti evergreen
+- **Magazine**: articoli approfonditi, reportage, contenuti stagionali/temporali
+
+---
+
+### 12.5. Roadmap Implementazione
+
+#### Fase 1: Foundation (Settimane 1-3)
+- [ ] Implementazione mega menu con nuova struttura
+- [ ] Template archivi per taglia (piccola/media/grande/gigante)
+- [ ] Template archivi per carattere
+- [ ] Pagina "Razze Italiane" dedicata
+- [ ] Setup ACF per tutti i nuovi campi necessari
+
+#### Fase 2: Comparatore (Settimane 4-5)
+- [ ] UI comparatore frontend
+- [ ] Sistema selezione e confronto razze
+- [ ] Salvataggio comparazioni (utenti loggati)
+- [ ] Condivisione social
+
+#### Fase 3: Calcolatori (Settimane 6-9)
+- [ ] Calcolatore Età Umana + grafici
+- [ ] Calcolatore Peso Ideale + BCS quiz
+- [ ] Calcolatore Costi + breakdown dettagliato
+- [ ] Calcolatore Cibo (3 modalità) + ricette
+- [ ] Pagina principale "Strumenti" che raccoglie tutto
+
+#### Fase 4: Sistema Contenuti (Settimane 10-12)
+- [ ] CPT Guida con categorie gerarchiche
+- [ ] Template singola guida (TOC, sidebar, related)
+- [ ] CPT Magazine con categorie
+- [ ] Template magazine con focus visual
+- [ ] Sistema autori/contributor
+- [ ] Widget "Articoli correlati" intelligente
+
+#### Fase 5: Ottimizzazione & Launch (Settimane 13-14)
+- [ ] Ottimizzazione mobile tutti i nuovi elementi
+- [ ] SEO: schema markup per guide/calcolatori
+- [ ] Performance: lazy loading, caching
+- [ ] Test utente su calcolatori
+- [ ] Scrittura prime 10 guide prioritarie
+- [ ] Soft launch nuove sezioni
+
+---
+
+### 12.6. Contenuti Prioritari da Creare
+
+**Guide da scrivere subito (top 10)**:
+
+1. Come scegliere la razza giusta per te (Primo Cane)
+2. Preparare casa per arrivo cucciolo (Primo Cane)
+3. Calendario vaccinazioni completo (Salute)
+4. Comandi base: seduto, terra, resta, vieni (Educazione)
+5. Socializzazione cucciolo: guida settimana per settimana (Educazione)
+6. Alimentazione sana: guida completa (Vita Quotidiana)
+7. Toelettatura casalinga per tipo pelo (Vita Quotidiana)
+8. Quanto esercizio serve al tuo cane (Vita Quotidiana)
+9. Viaggiare col cane: documenti e consigli (Vita Quotidiana)
+10. Cane in appartamento: guida completa (Vita Quotidiana)
+
+**Magazine da lanciare subito**:
+
+1. Top 10 destinazioni dog-friendly Italia
+2. Intervista veterinario: errori comuni proprietari
+3. Razze emergenti 2025: tendenze adozioni
+4. Storia commovente: cane adottato cambia vita famiglia
+5. Recensione: migliori crocchette rapporto qualità/prezzo
+
+---
+
+### 12.7. Metriche di Successo
+
+**KPI da monitorare**:
+
+**Engagement**:
+- % visitatori che usano comparatore (target: >30%)
+- Calcoli completati/mese per tool (target: >500 ciascuno)
+- Tempo medio su guide (target: >3 min)
+- Bounce rate sezioni nuove (target: <40%)
+
+**Conversione**:
+- % utenti che si registrano dopo aver usato calcolatori (target: >15%)
+- Quiz → Annunci visualizzati (target: >25%)
+- Guide → Directory cliccate (target: >20%)
+
+**Contenuti**:
+- Guide visualizzate/mese (target: >5000)
+- Download PDF guide (target: >200/mese)
+- Condivisioni social calcolatori (target: >100/mese)
+
+**SEO**:
+- Posizionamento "comparatore razze cani" (target: top 5)
+- Posizionamento "calcolatore età cane" (target: top 3)
+- Traffico organico sezione guide (target: +40% in 6 mesi)
+
+---
+
+### 12.8. Note Implementative
+
+**Integrazione con esistente**:
+- Calcolatori utilizzano dati CPT `razze_di_cani` esistente
+- Comparatore si basa su campi ACF già definiti (sezione 3.2)
+- Guide linkano a razze, directory, annunci pertinenti
+- Magazine può incorporare widget quiz/calcolatori
+
+**Mobile-first**:
+- Calcolatori con form step-by-step su mobile
+- Risultati calcolatori: card scrollabili verticalmente
+- Comparatore: swipe tra razze su mobile (non side-by-side)
+- Mega menu: accordion con ricerca rapida
+
+**SEO specifico**:
+- Schema markup `HowTo` per guide procedurali
+- Schema `SoftwareApplication` per calcolatori
+- Breadcrumb completi su tutte le nuove sezioni
+- Meta description dinamiche con risultati calcolatori
+
+**Performance**:
+- Calcolatori: calcolo client-side (no server load)
+- Cache risultati comuni (es. peso ideale razze note)
+- Lazy load grafici Chart.js
+- Preload font/CSS critici per mega menu
+
+---
+
+### 12.9. Budget Aggiuntivo Stimato
+
+**Sviluppo nuove funzionalità**:
+- Comparatore razze: 20 ore
+- 4 Calcolatori interattivi: 40 ore
+- Mega menu responsive: 12 ore
+- CPT Guida + template: 15 ore
+- CPT Magazine + template: 12 ore
+- Testing & ottimizzazione: 15 ore
+- **Totale sviluppo**: ~114 ore
+
+**Contenuti**:
+- Scrittura 10 guide (€150 cad): €1.500
+- Scrittura 5 articoli magazine (€200 cad): €1.000
+- Immagini/illustrazioni calcolatori: €500
+- Video tutorial (opzionale): €1.500
+- **Totale contenuti**: €3.000 (€4.500 con video)
+
+**Totale espansione**: €3.000-4.500 contenuti + sviluppo
+
+---
+
+## 13. Sviluppi Realizzati
+
+### 2025-11-21: Sistema Messaggistica con Threading
+
+**Implementato**:
+- Sistema completo messaggi privati tra utenti
+- Funzionalità risposta con threading (campo `parent_id`)
+- Visualizzazione thread conversazioni
+- Caricamento lazy risposte via AJAX
+- Differenziazione visiva messaggi inviati/ricevuti
+- Migrazione automatica database per `parent_id`
+- Nonce security su tutti endpoint
+- Fix modal caricamento (get_footer vs wp_footer)
+
+**File modificati**:
+- `wp-content/plugins/caniincasa-core/includes/messaging-system.php`
+- `wp-content/themes/caniincasa-theme/template-dashboard.php`
+- `wp-content/themes/caniincasa-theme/assets/js/messaging.js`
+- `wp-content/themes/caniincasa-theme/assets/css/messaging.css`
+
+**Commit**: Branch `claude/review-project-brief-01HAw2pN3fajanEyQ7zUSDdV`
+- 15 commit totali
+- Status: ✅ Pronto per merge
+- Documentazione: `PR_DESCRIPTION.md`, `CREA_PR.md`
+
