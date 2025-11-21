@@ -253,7 +253,7 @@
             data: {
                 action: 'email_quiz_results',
                 nonce: $('#quiz_nonce').val(),
-                results: quizResults
+                results: JSON.stringify(quizResults)
             },
             success: function(response) {
                 if (response.success) {

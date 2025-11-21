@@ -1683,8 +1683,41 @@ Il quiz dava sempre gli stessi risultati indipendentemente dalle risposte dell'u
 
 ---
 
+## 24. FIX QUIZ EMAIL/PDF E ORDINAMENTO RAZZE (21 Novembre 2025)
+
+### 24.1 Quiz Email - Bug Fix
+
+**Problema**: L'invio email dei risultati quiz dava errore.
+
+**Causa**: Nel JavaScript, `quizResults` veniva inviato come oggetto invece che come stringa JSON. Il PHP si aspetta `json_decode(stripslashes($_POST['results']))`.
+
+**Soluzione**: Aggiunto `JSON.stringify(quizResults)` nella chiamata AJAX per l'email.
+
+**File**: `wp-content/themes/caniincasa-theme/assets/js/quiz.js` (riga 256)
+
+### 24.2 Archivio Razze - Ordinamento Alfabetico
+
+**Problema**: Le razze nella pagina `/razze-di-cani/` non erano ordinate alfabeticamente al caricamento iniziale.
+
+**Causa**: Mancava l'impostazione `orderby` e `order` nel hook `pre_get_posts`.
+
+**Soluzione**: Aggiunto ordinamento alfabetico per titolo (A-Z) nel caricamento archivio.
+
+**File**: `wp-content/themes/caniincasa-theme/functions.php` (righe 455-456)
+
+```php
+$query->set( 'orderby', 'title' );
+$query->set( 'order', 'ASC' );
+```
+
+### 24.3 Note PDF
+
+Il PDF già funzionava correttamente - usa `JSON.stringify()` nel form submit. Il problema era solo l'email.
+
+---
+
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
-**Stato Progetto**: **Fase 1 Core ~93% Completo** ✅
+**Stato Progetto**: **Fase 1 Core ~94% Completo** ✅
 
-**Ultima Correzione**: Quiz Selezione Razza - Algoritmo Compatibilità Funzionante
+**Ultime Correzioni**: Quiz Email Fix + Ordinamento Alfabetico Razze

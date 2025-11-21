@@ -449,9 +449,11 @@ function caniincasa_modify_archive_query( $query ) {
         $query->set( 'posts_per_page', 24 );
     }
 
-    // Razze archive: already set to 24 in razze archive template
+    // Razze archive: 24 posts per page, alphabetical order
     if ( is_post_type_archive( 'razze_di_cani' ) ) {
         $query->set( 'posts_per_page', 24 );
+        $query->set( 'orderby', 'title' );
+        $query->set( 'order', 'ASC' );
     }
 }
 add_action( 'pre_get_posts', 'caniincasa_modify_archive_query' );
