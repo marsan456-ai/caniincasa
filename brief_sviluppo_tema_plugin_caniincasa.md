@@ -944,6 +944,41 @@ ID,Title,Taglia,Gruppo FCI
 
 ---
 
+### 2025-11-21: Template Archivio Tassonomie Razze
+
+**Implementato**:
+- Template dedicato per archivio taglia (`taxonomy-razza_taglia.php`)
+- Template dedicato per archivio gruppo FCI (`taxonomy-razza_gruppo.php`)
+- Layout a griglia full-width senza sidebar
+- Header consistente con altri archivi (es. allevamenti)
+- Toggle vista griglia/lista con salvataggio preferenza localStorage
+- Descrizioni personalizzate per ogni categoria
+- Icone emoji per gruppi FCI (🐑 Pastore, 🦁 Molossoidi, 🦊 Terrier, etc.)
+
+**Taglie supportate**:
+- Toy (< 4 kg)
+- Piccola (4-10 kg)
+- Media (10-25 kg)
+- Grande (25-45 kg)
+- Gigante (> 45 kg)
+
+**Gruppi FCI con descrizioni**:
+- Gruppo 1-10 con descrizioni complete e icone tematiche
+- Contatore razze per categoria
+- Breadcrumbs e paginazione
+
+**File creati**:
+- `wp-content/themes/caniincasa-theme/taxonomy-razza_taglia.php`
+- `wp-content/themes/caniincasa-theme/taxonomy-razza_gruppo.php`
+
+**URL archivi**:
+- `/taglia/toy/`, `/taglia/piccola/`, `/taglia/media/`, etc.
+- `/gruppo-fci/gruppo-1/`, `/gruppo-fci/gruppo-2/`, etc.
+
+**Commit**: Branch `claude/review-project-brief-01HAw2pN3fajanEyQ7zUSDdV` (commit f31e924)
+
+---
+
 ### 2025-11-21: Sistema Messaggistica con Threading
 
 **Implementato**:
