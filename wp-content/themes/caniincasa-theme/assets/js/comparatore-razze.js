@@ -315,8 +315,10 @@
             return;
         }
 
+        console.log('Comparing razze:', razzeIds);
+
         // Show loading
-        $('#comparison-table').html('<div style="text-align:center;padding:60px;"><div class="spinner"></div><p>Caricamento confronto...</p></div>').show();
+        $('#comparison-table').html('<div style="text-align:center;padding:60px;"><p>Caricamento confronto...</p></div>').show();
 
         // Fetch razze data
         $.ajax({
@@ -328,16 +330,20 @@
                 nonce: caniincasaData.nonce
             },
             success: function(response) {
+                console.log('AJAX Response:', response);
                 if (response.success) {
                     razzeData = response.data;
+                    console.log('Razze Data:', razzeData);
                     displayComparison();
                 } else {
-                    alert('Errore nel caricamento dei dati');
+                    console.error('AJAX Error:', response);
+                    alert('Errore nel caricamento dei dati: ' + (response.data || 'Unknown error'));
                     $('#comparison-table').hide();
                 }
             },
-            error: function() {
-                alert('Errore di connessione');
+            error: function(xhr, status, error) {
+                console.error('AJAX Connection Error:', xhr, status, error);
+                alert('Errore di connessione: ' + error);
                 $('#comparison-table').hide();
             }
         });
