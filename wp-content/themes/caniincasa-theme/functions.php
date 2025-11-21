@@ -362,6 +362,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php';
 }
 
+// Include Mega Menu System
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/mega-menu.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/mega-menu.php';
+}
+
 /**
  * Enqueue Comparatore Razze assets
  */
