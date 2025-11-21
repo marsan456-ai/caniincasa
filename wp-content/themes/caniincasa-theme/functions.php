@@ -357,6 +357,46 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-cost.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/calculator-cost.php';
 }
 
+// Include Comparatore Razze AJAX
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php';
+}
+
+/**
+ * Enqueue Comparatore Razze assets
+ */
+function caniincasa_enqueue_comparatore_assets() {
+    if ( is_page_template( 'page-comparatore-razze.php' ) ) {
+        // CSS
+        wp_enqueue_style(
+            'comparatore-razze',
+            get_template_directory_uri() . '/assets/css/comparatore-razze.css',
+            array(),
+            '1.0.0'
+        );
+
+        // JavaScript
+        wp_enqueue_script(
+            'comparatore-razze',
+            get_template_directory_uri() . '/assets/js/comparatore-razze.js',
+            array( 'jquery' ),
+            '1.0.0',
+            true
+        );
+
+        // Localize script
+        wp_localize_script(
+            'comparatore-razze',
+            'caniincasaData',
+            array(
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                'nonce'   => wp_create_nonce( 'caniincasa_nonce' ),
+            )
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'caniincasa_enqueue_comparatore_assets' );
+
 /**
  * Security: Remove WordPress version from head
  */
