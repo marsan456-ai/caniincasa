@@ -98,6 +98,11 @@ class Caniincasa_Core {
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 
+        // Razze CSV Importer (Admin only)
+        if ( is_admin() ) {
+            require_once CANIINCASA_CORE_PATH . 'includes/razze-csv-importer.php';
+        }
+
         // WP-CLI Commands
         if ( defined( 'WP_CLI' ) && WP_CLI ) {
             require_once CANIINCASA_CORE_PATH . 'includes/wp-cli-commands.php';

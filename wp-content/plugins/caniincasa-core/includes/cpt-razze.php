@@ -137,10 +137,11 @@ function caniincasa_insert_default_razza_terms() {
 
     // Default sizes
     $taglie = array(
-        'piccola'  => 'Piccola',
-        'media'    => 'Media',
-        'grande'   => 'Grande',
-        'gigante'  => 'Gigante',
+        'toy'      => 'Toy (< 4 kg)',
+        'piccola'  => 'Piccola (4-10 kg)',
+        'media'    => 'Media (10-25 kg)',
+        'grande'   => 'Grande (25-45 kg)',
+        'gigante'  => 'Gigante (> 45 kg)',
     );
 
     foreach ( $taglie as $slug => $name ) {
@@ -234,3 +235,27 @@ function caniincasa_razze_sortable_columns( $columns ) {
     return $columns;
 }
 add_filter( 'manage_edit-razze_di_cani_sortable_columns', 'caniincasa_razze_sortable_columns' );
+
+/**
+ * Force update taxonomy terms (admin tool)
+ * Add ?caniincasa_update_razza_terms=1 to any admin page to force update
+ */
+function caniincasa_force_update_razza_terms() {
+    if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+
+    if ( isset( $_GET['caniincasa_update_razza_terms'] ) && $_GET['caniincasa_update_razza_terms'] === '1' ) {
+        // Delete the flag to allow re-insertion
+        delete_option( 'caniincasa_razza_terms_inserted' );
+
+        // Re-run the terms insertion
+        caniincasa_insert_default_razza_terms();
+
+        // Show admin notice
+        add_action( 'admin_notices', function() {
+            echo '<div class="notice notice-success is-dismissible"><p><strong>Tassonomie razze aggiornate con successo!</strong></p></div>';
+        } );
+    }
+}
+add_action( 'admin_init', 'caniincasa_force_update_razza_terms' );
