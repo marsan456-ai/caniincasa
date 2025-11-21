@@ -56,9 +56,32 @@
      * Initialize
      */
     $(document).ready(function() {
+        // Test AJAX connection on page load
+        testAjaxConnection();
+
         initAutocomplete();
         initEvents();
     });
+
+    /**
+     * Test AJAX connection
+     */
+    function testAjaxConnection() {
+        console.log('Testing AJAX connection...');
+        $.ajax({
+            url: caniincasaData.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'test_ajax'
+            },
+            success: function(response) {
+                console.log('AJAX Test Success:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Test Failed:', xhr, status, error);
+            }
+        });
+    }
 
     /**
      * Initialize autocomplete for all search inputs

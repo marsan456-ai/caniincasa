@@ -12,11 +12,18 @@ get_header();
 
 <main id="main-content" class="site-main comparatore-razze">
 
-    <!-- Page Header -->
-    <div class="page-header">
+    <!-- Archive Header -->
+    <div class="archive-header">
         <div class="container">
-            <h1 class="page-title">Comparatore Razze</h1>
-            <p class="page-description">Confronta fino a 3 razze di cani per trovare quella più adatta a te</p>
+            <h1 class="archive-title">Comparatore Razze</h1>
+            <p class="archive-description">Confronta fino a 3 razze di cani per trovare quella più adatta a te</p>
+        </div>
+    </div>
+
+    <!-- Breadcrumbs -->
+    <div class="container">
+        <div class="breadcrumbs-wrapper">
+            <?php caniincasa_breadcrumbs(); ?>
         </div>
     </div>
 
