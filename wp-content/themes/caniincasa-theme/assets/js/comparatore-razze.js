@@ -375,8 +375,16 @@
             nonce: caniincasaData.nonce
         });
 
-        // Show loading
-        $('#comparison-table').html('<div style="text-align:center;padding:60px;"><p>Caricamento confronto...</p></div>').show();
+        // Show loading - DON'T destroy the table structure!
+        const $table = $('#comparison-table');
+        $table.show();
+
+        // Add loading overlay instead of replacing content
+        if ($table.find('.loading-overlay').length === 0) {
+            $table.prepend('<div class="loading-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.95);display:flex;align-items:center;justify-content:center;z-index:100;"><div style="text-align:center;"><div style="font-size:18px;margin-bottom:10px;">Caricamento confronto...</div><div style="font-size:14px;color:#666;">Attendere prego</div></div></div>');
+        } else {
+            $table.find('.loading-overlay').show();
+        }
 
         console.log('Starting AJAX request...');
         const startTime = Date.now();
@@ -408,6 +416,7 @@
                     displayComparison();
                 } else {
                     console.error('AJAX Error:', response);
+                    $('.loading-overlay').remove();
                     alert('Errore nel caricamento dei dati: ' + (response.data || 'Unknown error'));
                     $('#comparison-table').hide();
                 }
@@ -421,6 +430,9 @@
                 console.error('XHR:', xhr);
                 console.error('XHR Status:', xhr.status);
                 console.error('XHR Response Text:', xhr.responseText);
+
+                // Remove loading overlay
+                $('.loading-overlay').remove();
 
                 let errorMsg = 'Errore di connessione: ' + error;
                 if (status === 'timeout') {
@@ -446,45 +458,112 @@
      * Display comparison table
      */
     function displayComparison() {
-        // Build header
-        let headerHTML = '';
-        const razzeArray = Object.values(razzeData);
+        console.log('=== displayComparison() CALLED ===');
+        console.log('razzeData:', razzeData);
 
-        razzeArray.forEach(function(razza) {
-            headerHTML += `
-                <div class="breed-header">
-                    ${razza.image ? `<img src="${razza.image}" alt="${razza.name}" class="breed-image">` : ''}
-                    <h3 class="breed-name">${razza.name}</h3>
-                    <a href="${razza.url}" class="breed-link">Vedi scheda completa →</a>
-                </div>
-            `;
-        });
+        try {
+            // Build header
+            let headerHTML = '';
+            const razzeArray = Object.values(razzeData);
+            console.log('razzeArray:', razzeArray);
+            console.log('Number of razze:', razzeArray.length);
 
-        $('#comparison-breeds-header').html(headerHTML);
+            // Check if comparison-breeds-header exists
+            const $header = $('#comparison-breeds-header');
+            console.log('Header element found:', $header.length > 0);
+            if ($header.length === 0) {
+                console.error('ERROR: #comparison-breeds-header element not found!');
+                alert('Errore: elemento #comparison-breeds-header non trovato nel DOM');
+                return;
+            }
 
-        // Build rows
-        $('.comparison-row').each(function() {
-            const $row = $(this);
-            const field = $row.data('field');
-            let valuesHTML = '';
-
-            razzeArray.forEach(function(razza) {
-                const value = razza.fields[field];
-                valuesHTML += `<div class="value-cell">${formatValue(field, value)}</div>`;
+            razzeArray.forEach(function(razza, index) {
+                console.log(`Building header for razza ${index}:`, razza.name);
+                headerHTML += `
+                    <div class="breed-header">
+                        ${razza.image ? `<img src="${razza.image}" alt="${razza.name}" class="breed-image">` : ''}
+                        <h3 class="breed-name">${razza.name}</h3>
+                        <a href="${razza.url}" class="breed-link">Vedi scheda completa →</a>
+                    </div>
+                `;
             });
 
-            $row.find('.row-values').html(valuesHTML);
-        });
+            console.log('Setting header HTML...');
+            $header.html(headerHTML);
+            console.log('Header HTML set successfully');
 
-        // Update mobile navigation
-        $('#total-breeds').text(razzeArray.length);
-        currentMobileBreed = 0;
-        updateMobileView();
+            // Build rows
+            const $rows = $('.comparison-row');
+            console.log('Comparison rows found:', $rows.length);
 
-        // Scroll to comparison
-        $('html, body').animate({
-            scrollTop: $('#comparison-table').offset().top - 100
-        }, 500);
+            if ($rows.length === 0) {
+                console.error('ERROR: No .comparison-row elements found!');
+                alert('Errore: nessun elemento .comparison-row trovato nel DOM');
+                return;
+            }
+
+            $rows.each(function(index) {
+                const $row = $(this);
+                const field = $row.data('field');
+                console.log(`Processing row ${index}, field: ${field}`);
+
+                if (!field) {
+                    console.warn(`Row ${index} has no data-field attribute`);
+                    return;
+                }
+
+                let valuesHTML = '';
+
+                razzeArray.forEach(function(razza) {
+                    const value = razza.fields[field];
+                    console.log(`  - Razza ${razza.name}, field ${field}:`, value);
+                    try {
+                        const formattedValue = formatValue(field, value);
+                        valuesHTML += `<div class="value-cell">${formattedValue}</div>`;
+                    } catch (e) {
+                        console.error(`Error formatting value for ${field}:`, e);
+                        valuesHTML += `<div class="value-cell">Errore</div>`;
+                    }
+                });
+
+                $row.find('.row-values').html(valuesHTML);
+            });
+
+            console.log('All rows processed successfully');
+
+            // Update mobile navigation
+            $('#total-breeds').text(razzeArray.length);
+            currentMobileBreed = 0;
+            updateMobileView();
+
+            console.log('Mobile view updated');
+
+            // Remove loading overlay
+            $('.loading-overlay').fadeOut(300, function() {
+                $(this).remove();
+            });
+
+            // Scroll to comparison
+            const $table = $('#comparison-table');
+            console.log('Comparison table element found:', $table.length > 0);
+
+            if ($table.length > 0) {
+                console.log('Scrolling to comparison table...');
+                $('html, body').animate({
+                    scrollTop: $table.offset().top - 100
+                }, 500);
+            } else {
+                console.error('ERROR: #comparison-table element not found!');
+            }
+
+            console.log('=== displayComparison() COMPLETED ===');
+        } catch (error) {
+            console.error('=== CRITICAL ERROR in displayComparison() ===');
+            console.error('Error:', error);
+            console.error('Stack:', error.stack);
+            $('.loading-overlay').remove();
+            alert('Errore critico nella visualizzazione: ' + error.message);
+        }
     }
 
     /**

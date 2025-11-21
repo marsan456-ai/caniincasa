@@ -223,6 +223,7 @@
 
 /* Comparison Wrapper */
 .comparison-wrapper {
+    position: relative;
     animation: fadeIn 0.5s ease;
 }
 
