@@ -227,14 +227,41 @@ function caniincasa_process_razze_csv_import() {
         return $result;
     }
 
-    // Read header
-    $header = fgetcsv( $file_handle );
+    // Read header (skip empty lines at the beginning)
+    $header = false;
+    while ( ( $line = fgetcsv( $file_handle ) ) !== false ) {
+        // Skip completely empty lines
+        if ( empty( array_filter( $line ) ) ) {
+            continue;
+        }
+        $header = $line;
+        break;
+    }
 
     // Validate header
-    $expected_columns = array( 'ID', 'Title', 'Taglia', 'Gruppo FCI' );
     if ( ! $header || count( $header ) < 4 ) {
         fclose( $file_handle );
         $result['message'] = __( 'Il file CSV non ha il formato corretto. Colonne richieste: ID, Title, Taglia, Gruppo FCI', 'caniincasa-core' );
+        return $result;
+    }
+
+    // Additional validation: check if header contains expected columns
+    $header_lower = array_map( 'strtolower', array_map( 'trim', $header ) );
+    $required = array( 'id', 'title', 'taglia', 'gruppo fci' );
+    $has_all = true;
+    foreach ( $required as $col ) {
+        if ( ! in_array( $col, $header_lower ) ) {
+            $has_all = false;
+            break;
+        }
+    }
+
+    if ( ! $has_all ) {
+        fclose( $file_handle );
+        $result['message'] = sprintf(
+            __( 'Header CSV non valido. Trovato: %s. Richiesto: ID, Title, Taglia, Gruppo FCI', 'caniincasa-core' ),
+            implode( ', ', $header )
+        );
         return $result;
     }
 
