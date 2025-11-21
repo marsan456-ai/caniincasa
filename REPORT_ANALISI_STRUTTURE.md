@@ -1912,8 +1912,40 @@ Campi ACF per supportare i calcolatori:
 
 ---
 
+## 27. CALCOLATORI: MIGRAZIONE A PAGE TEMPLATES (21 Novembre 2025)
+
+### 27.1 Motivazione
+
+I calcolatori con shortcode creavano una "doppia testata" (titolo pagina + titolo calcolatore). Migrati a page templates per:
+- Evitare conflitto titoli
+- Miglior controllo layout
+- Selezione diretta da Attributi Pagina nel metabox WP
+
+### 27.2 Nuovi Page Templates
+
+| Template | Nome nel Metabox | URL consigliato |
+|----------|------------------|-----------------|
+| `page-calcolatore-eta.php` | Calcolatore Età Cane | `/calcolatore-eta-cane/` |
+| `page-calcolatore-peso.php` | Calcolatore Peso Cane | `/calcolatore-peso-cane/` |
+| `page-calcolatore-costi.php` | Calcolatore Costi Cane | `/calcolatore-costi-cane/` |
+| `page-calcolatore-cibo.php` | Calcolatore Quantità Cibo | `/calcolatore-cibo-cane/` |
+
+### 27.3 Come Usare
+
+1. Creare nuova Pagina in WordPress
+2. Nel metabox "Attributi Pagina" selezionare il template desiderato
+3. Pubblicare - il calcolatore apparirà automaticamente
+
+### 27.4 Note
+
+- Gli shortcode rimangono funzionanti per retrocompatibilità
+- I page templates hanno header consistente con il resto del sito
+- Breadcrumbs inclusi automaticamente
+
+---
+
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
 **Stato Progetto**: **Fase 1 Core 100% Completo** ✅
 
-**Ultima Implementazione**: Calcolatore Quantità Cibo (4° e ultimo calcolatore)
+**Ultima Modifica**: Calcolatori migrati a Page Templates
