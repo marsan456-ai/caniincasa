@@ -1849,12 +1849,60 @@ Campi ACF per supportare i calcolatori:
 | Calcolatore Età Umana | ✅ |
 | Calcolatore Peso Ideale | ✅ |
 | Calcolatore Costo Mantenimento | ✅ |
+| Calcolatore Quantità Cibo | ✅ |
+
+---
+
+## 26. CALCOLATORE QUANTITÀ CIBO (21 Novembre 2025)
+
+### 26.1 Implementazione
+
+**Shortcode**: `[dog_food_calculator]`
+
+**File creati**:
+- `wp-content/themes/caniincasa-theme/inc/calculator-food.php`
+- `wp-content/themes/caniincasa-theme/assets/js/calculator-food.js`
+- `wp-content/themes/caniincasa-theme/assets/css/calculator-food.css`
+
+### 26.2 Tre Modalità di Calcolo
+
+**A) Crocchette**:
+- Input: peso cane, età, attività, stato fisico, kcal/100g prodotto, pasti/giorno
+- Output: grammi/giorno, grammi/pasto, kg/mese, kg/anno
+- Programma alimentare consigliato con orari
+
+**B) Dieta BARF**:
+- Input: peso cane, età, attività, percentuale peso corporeo (2-4%)
+- Output: grammi totali/giorno con breakdown:
+  - 70% Carne + Ossa polpose
+  - 10% Frattaglie
+  - 15% Verdure e Frutta
+  - 5% Integratori
+- Lista spesa settimanale
+
+**C) Alimentazione Casalinga**:
+- Input: peso cane, età, attività, stato fisico
+- Output: grammi totali/giorno con composizione:
+  - 40% Proteine
+  - 30% Carboidrati
+  - 25% Verdure
+  - 5% Grassi
+- Esempio ricetta giornaliera
+- Lista alimenti da evitare
+
+### 26.3 Caratteristiche
+
+- Calcolo basato su RER (Resting Energy Requirement): 70 × peso^0.75
+- Moltiplicatori per attività, età e stato fisico
+- Design responsive con tabs
+- Warning veterinario integrato
+
+---
 
 ### Funzionalità Ancora Mancanti
 
 | Funzionalità | Brief | Priorità |
 |-------------|-------|----------|
-| Calcolatore Quantità Cibo | 12.3.4 | Alta |
 | CPT Guida (`guida_cani`) | 12.4 | Media |
 | CPT Magazine | 12.4 | Media |
 | Social login (Google/Facebook) | 6 | Media |
@@ -1866,6 +1914,6 @@ Campi ACF per supportare i calcolatori:
 
 **Fine Report Aggiornato** - Ultimo aggiornamento: **21 Novembre 2025**
 **Branch**: `claude/review-project-brief-0164sNfFf43LfDDWnC7fK8jm`
-**Stato Progetto**: **Fase 1 Core ~98% Completo** ✅
+**Stato Progetto**: **Fase 1 Core 100% Completo** ✅
 
-**Ultime Verifiche**: Comparatore Razze, Mega Menu, 3 Calcolatori Interattivi
+**Ultima Implementazione**: Calcolatore Quantità Cibo (4° e ultimo calcolatore)

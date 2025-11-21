@@ -357,6 +357,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-cost.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/calculator-cost.php';
 }
 
+// Include Dog Food Calculator
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/calculator-food.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/calculator-food.php';
+}
+
 // Include Comparatore Razze AJAX
 if ( file_exists( CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/comparatore-ajax.php';
