@@ -157,6 +157,7 @@
             data: formData,
             processData: false,
             contentType: false,
+            timeout: 300000, // 5 minutes timeout
             success: function(response) {
                 clearInterval(progressInterval);
                 updateProgress(100, 'Completato!');
@@ -171,7 +172,24 @@
             },
             error: function(xhr, status, error) {
                 clearInterval(progressInterval);
-                showError('Errore di connessione: ' + error);
+                var errorMsg = 'Errore di connessione';
+
+                if (status === 'timeout') {
+                    errorMsg = 'Timeout: l\'operazione ha impiegato troppo tempo. Prova con un file CSV più piccolo.';
+                } else if (xhr.status === 0) {
+                    errorMsg = 'Impossibile connettersi al server. Verifica la connessione internet.';
+                } else if (xhr.status === 413) {
+                    errorMsg = 'File troppo grande. Aumenta upload_max_filesize in php.ini.';
+                } else if (xhr.status === 500) {
+                    errorMsg = 'Errore interno del server (500). Controlla i log PHP per dettagli.';
+                } else if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
+                    errorMsg = xhr.responseJSON.data.message;
+                } else if (error) {
+                    errorMsg = 'Errore: ' + error + ' (Status: ' + xhr.status + ')';
+                }
+
+                console.error('AJAX Error:', {status: status, error: error, xhr: xhr});
+                showError(errorMsg);
             }
         });
     }

@@ -183,41 +183,59 @@ class CaniInCasa_Import_Categories {
      * AJAX handler for CSV import
      */
     public function ajax_import_csv() {
-        // Verify nonce
-        if (!check_ajax_referer('caniincasa_import_nonce', 'nonce', false)) {
-            wp_send_json_error(array('message' => 'Errore di sicurezza. Ricarica la pagina.'));
-        }
+        // Increase limits for large files
+        @set_time_limit(300);
+        @ini_set('memory_limit', '256M');
 
-        // Check permissions
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => 'Permessi insufficienti.'));
-        }
+        // Error handling
+        try {
+            // Verify nonce
+            if (!check_ajax_referer('caniincasa_import_nonce', 'nonce', false)) {
+                wp_send_json_error(array('message' => 'Errore di sicurezza. Ricarica la pagina.'));
+                return;
+            }
 
-        // Check file upload
-        if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
-            $error_messages = array(
-                UPLOAD_ERR_INI_SIZE => 'Il file supera la dimensione massima consentita.',
-                UPLOAD_ERR_FORM_SIZE => 'Il file supera la dimensione massima del form.',
-                UPLOAD_ERR_PARTIAL => 'Il file è stato caricato solo parzialmente.',
-                UPLOAD_ERR_NO_FILE => 'Nessun file selezionato.',
-                UPLOAD_ERR_NO_TMP_DIR => 'Cartella temporanea mancante.',
-                UPLOAD_ERR_CANT_WRITE => 'Impossibile scrivere il file.',
-            );
-            $error_code = isset($_FILES['csv_file']) ? $_FILES['csv_file']['error'] : UPLOAD_ERR_NO_FILE;
-            $error_msg = isset($error_messages[$error_code]) ? $error_messages[$error_code] : 'Errore upload sconosciuto.';
-            wp_send_json_error(array('message' => $error_msg));
-        }
+            // Check permissions
+            if (!current_user_can('manage_options')) {
+                wp_send_json_error(array('message' => 'Permessi insufficienti.'));
+                return;
+            }
 
-        $dry_run = isset($_POST['dry_run']) && $_POST['dry_run'] === 'true';
-        $file_path = $_FILES['csv_file']['tmp_name'];
+            // Check file upload
+            if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+                $error_messages = array(
+                    UPLOAD_ERR_INI_SIZE => 'Il file supera la dimensione massima consentita (max: ' . ini_get('upload_max_filesize') . ').',
+                    UPLOAD_ERR_FORM_SIZE => 'Il file supera la dimensione massima del form.',
+                    UPLOAD_ERR_PARTIAL => 'Il file è stato caricato solo parzialmente.',
+                    UPLOAD_ERR_NO_FILE => 'Nessun file selezionato.',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Cartella temporanea mancante.',
+                    UPLOAD_ERR_CANT_WRITE => 'Impossibile scrivere il file.',
+                );
+                $error_code = isset($_FILES['csv_file']) ? $_FILES['csv_file']['error'] : UPLOAD_ERR_NO_FILE;
+                $error_msg = isset($error_messages[$error_code]) ? $error_messages[$error_code] : 'Errore upload sconosciuto (codice: ' . $error_code . ').';
+                wp_send_json_error(array('message' => $error_msg));
+                return;
+            }
 
-        // Process the CSV
-        $result = $this->process_csv($file_path, $dry_run);
+            $dry_run = isset($_POST['dry_run']) && $_POST['dry_run'] === 'true';
+            $file_path = $_FILES['csv_file']['tmp_name'];
 
-        if ($result['success']) {
-            wp_send_json_success($result);
-        } else {
-            wp_send_json_error($result);
+            // Check if file exists and is readable
+            if (!file_exists($file_path) || !is_readable($file_path)) {
+                wp_send_json_error(array('message' => 'File temporaneo non accessibile.'));
+                return;
+            }
+
+            // Process the CSV
+            $result = $this->process_csv($file_path, $dry_run);
+
+            if ($result['success']) {
+                wp_send_json_success($result);
+            } else {
+                wp_send_json_error($result);
+            }
+        } catch (Exception $e) {
+            wp_send_json_error(array('message' => 'Errore PHP: ' . $e->getMessage()));
         }
     }
 
