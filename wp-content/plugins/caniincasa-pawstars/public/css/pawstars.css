@@ -1,0 +1,1098 @@
+/**
+ * Paw Stars - Main Styles
+ *
+ * @package Pawstars
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   CSS Variables
+   ========================================================================== */
+
+:root {
+    --ps-primary: #e74c3c;
+    --ps-secondary: #3498db;
+    --ps-star: #f39c12;
+    --ps-success: #2ecc71;
+    --ps-dark: #2c3e50;
+    --ps-light: #ecf0f1;
+    --ps-gray: #95a5a6;
+    --ps-white: #ffffff;
+
+    --ps-font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ps-font-display: 'Poppins', sans-serif;
+
+    --ps-spacing-xs: 4px;
+    --ps-spacing-sm: 8px;
+    --ps-spacing-md: 16px;
+    --ps-spacing-lg: 24px;
+    --ps-spacing-xl: 32px;
+
+    --ps-radius-sm: 8px;
+    --ps-radius-md: 12px;
+    --ps-radius-lg: 20px;
+    --ps-radius-full: 9999px;
+
+    --ps-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --ps-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --ps-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+.pawstars-feed-wrapper,
+.pawstars-dashboard,
+.pawstars-leaderboard-wrapper,
+.pawstars-dog-profile,
+.pawstars-create-profile {
+    font-family: var(--ps-font-main);
+    color: var(--ps-dark);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--ps-spacing-lg);
+}
+
+/* Buttons */
+.pawstars-feed-wrapper .btn,
+.pawstars-dashboard .btn,
+.pawstars-leaderboard-wrapper .btn,
+.pawstars-dog-profile .btn,
+.pawstars-create-profile .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ps-spacing-sm);
+    padding: var(--ps-spacing-sm) var(--ps-spacing-md);
+    border-radius: var(--ps-radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--ps-primary);
+    color: var(--ps-white);
+}
+
+.btn-primary:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--ps-light);
+    color: var(--ps-dark);
+}
+
+.btn-secondary:hover {
+    background: #dfe6e9;
+}
+
+.btn-lg {
+    padding: var(--ps-spacing-md) var(--ps-spacing-xl);
+    font-size: 16px;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   Feed Header
+   ========================================================================== */
+
+.pawstars-feed-header {
+    text-align: center;
+    margin-bottom: var(--ps-spacing-xl);
+}
+
+.feed-title {
+    font-family: var(--ps-font-display);
+    font-size: 2.5rem;
+    margin-bottom: var(--ps-spacing-sm);
+}
+
+.feed-subtitle {
+    color: var(--ps-gray);
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+/* ==========================================================================
+   Filters
+   ========================================================================== */
+
+.pawstars-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ps-spacing-md);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--ps-spacing-lg);
+    padding: var(--ps-spacing-md);
+    background: var(--ps-light);
+    border-radius: var(--ps-radius-md);
+}
+
+.pawstars-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ps-spacing-sm);
+    flex: 1;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-select,
+.filter-input {
+    width: 100%;
+    padding: var(--ps-spacing-sm) var(--ps-spacing-md);
+    border: 1px solid #ddd;
+    border-radius: var(--ps-radius-sm);
+    font-size: 14px;
+    background: var(--ps-white);
+}
+
+.filter-select:focus,
+.filter-input:focus {
+    outline: none;
+    border-color: var(--ps-primary);
+}
+
+.btn-filter {
+    background: var(--ps-primary);
+    color: var(--ps-white);
+    white-space: nowrap;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--ps-white);
+    padding: 4px;
+    border-radius: var(--ps-radius-sm);
+}
+
+.view-btn {
+    padding: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--ps-gray);
+}
+
+.view-btn.active {
+    background: var(--ps-primary);
+    color: var(--ps-white);
+}
+
+/* ==========================================================================
+   Stats Bar
+   ========================================================================== */
+
+.pawstars-stats-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--ps-spacing-sm) 0;
+    margin-bottom: var(--ps-spacing-md);
+    color: var(--ps-gray);
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   Dog Cards Grid
+   ========================================================================== */
+
+.pawstars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--ps-spacing-lg);
+}
+
+.pawstars-dog-card {
+    background: var(--ps-white);
+    border-radius: var(--ps-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ps-shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pawstars-dog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ps-shadow-md);
+}
+
+.dog-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dog-card-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.dog-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.pawstars-dog-card:hover .dog-card-image img {
+    transform: scale(1.05);
+}
+
+.no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ps-light);
+    font-size: 3rem;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--ps-star);
+    color: var(--ps-white);
+    padding: 4px 10px;
+    border-radius: var(--ps-radius-full);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dog-card-content {
+    padding: var(--ps-spacing-md);
+}
+
+.dog-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 var(--ps-spacing-xs);
+}
+
+.dog-meta {
+    display: flex;
+    gap: var(--ps-spacing-md);
+    font-size: 13px;
+    color: var(--ps-gray);
+    margin-bottom: var(--ps-spacing-sm);
+}
+
+.dog-stats {
+    display: flex;
+    gap: var(--ps-spacing-md);
+    font-size: 14px;
+}
+
+.stat-points {
+    color: var(--ps-star);
+    font-weight: 600;
+}
+
+.stat-votes {
+    color: var(--ps-primary);
+}
+
+/* ==========================================================================
+   Reactions
+   ========================================================================== */
+
+.dog-card-actions {
+    padding: var(--ps-spacing-sm) var(--ps-spacing-md) var(--ps-spacing-md);
+    border-top: 1px solid var(--ps-light);
+}
+
+.pawstars-reactions {
+    display: flex;
+    gap: var(--ps-spacing-sm);
+    justify-content: center;
+}
+
+.reaction-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: var(--ps-spacing-xs) var(--ps-spacing-sm);
+    background: var(--ps-light);
+    border: none;
+    border-radius: var(--ps-radius-full);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.reaction-btn:hover:not(.voted):not(:disabled) {
+    background: var(--ps-primary);
+    color: var(--ps-white);
+    transform: scale(1.1);
+}
+
+.reaction-btn.voted {
+    background: var(--ps-primary);
+    color: var(--ps-white);
+}
+
+.reaction-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.reaction-emoji {
+    font-size: 16px;
+}
+
+.reaction-count {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pawstars-reactions.large .reaction-btn {
+    flex-direction: column;
+    padding: var(--ps-spacing-md);
+    min-width: 80px;
+}
+
+.pawstars-reactions.large .reaction-emoji {
+    font-size: 24px;
+}
+
+.reaction-label {
+    font-size: 11px;
+    color: var(--ps-gray);
+}
+
+/* ==========================================================================
+   Leaderboard
+   ========================================================================== */
+
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: var(--ps-spacing-xl);
+}
+
+.leaderboard-title {
+    font-family: var(--ps-font-display);
+    font-size: 2rem;
+    margin-bottom: var(--ps-spacing-xs);
+}
+
+.leaderboard-description {
+    color: var(--ps-gray);
+}
+
+/* Podium */
+.leaderboard-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--ps-spacing-md);
+    margin-bottom: var(--ps-spacing-xl);
+    padding: var(--ps-spacing-xl) 0;
+}
+
+.podium-item {
+    text-align: center;
+    position: relative;
+}
+
+.podium-first {
+    order: 2;
+}
+
+.podium-second {
+    order: 1;
+}
+
+.podium-third {
+    order: 3;
+}
+
+.podium-crown {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.podium-position {
+    font-size: 2rem;
+    margin-bottom: var(--ps-spacing-sm);
+}
+
+.podium-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto var(--ps-spacing-sm);
+    border: 4px solid var(--ps-light);
+}
+
+.podium-first .podium-image {
+    width: 120px;
+    height: 120px;
+    border-color: var(--ps-star);
+}
+
+.podium-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.podium-name {
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
+.podium-points {
+    color: var(--ps-star);
+    font-weight: 600;
+}
+
+/* Leaderboard List */
+.leaderboard-list {
+    background: var(--ps-white);
+    border-radius: var(--ps-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ps-shadow-sm);
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ps-spacing-md);
+    padding: var(--ps-spacing-md);
+    border-bottom: 1px solid var(--ps-light);
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-item.top-three {
+    background: linear-gradient(to right, rgba(243, 156, 18, 0.1), transparent);
+}
+
+.rank-position {
+    width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.rank-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.rank-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rank-info {
+    flex: 1;
+}
+
+.rank-name {
+    font-weight: 600;
+    color: var(--ps-dark);
+    text-decoration: none;
+}
+
+.rank-name:hover {
+    color: var(--ps-primary);
+}
+
+.rank-breed {
+    font-size: 13px;
+    color: var(--ps-gray);
+    display: block;
+}
+
+.rank-points {
+    text-align: right;
+}
+
+.points-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ps-star);
+}
+
+.points-label {
+    font-size: 12px;
+    color: var(--ps-gray);
+}
+
+/* ==========================================================================
+   User Dashboard
+   ========================================================================== */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--ps-spacing-lg);
+    background: var(--ps-white);
+    border-radius: var(--ps-radius-md);
+    box-shadow: var(--ps-shadow-sm);
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--ps-spacing-md);
+}
+
+.user-info img {
+    border-radius: 50%;
+}
+
+.user-details h2 {
+    margin: 0;
+}
+
+.user-details p {
+    margin: 0;
+    color: var(--ps-gray);
+}
+
+.user-stats {
+    display: flex;
+    gap: var(--ps-spacing-xl);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ps-primary);
+}
+
+.stat-item .stat-label {
+    font-size: 12px;
+    color: var(--ps-gray);
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    background: var(--ps-white);
+    border-radius: var(--ps-radius-md);
+    padding: var(--ps-spacing-lg);
+    box-shadow: var(--ps-shadow-sm);
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.dashboard-section h3 {
+    margin: 0 0 var(--ps-spacing-md);
+    padding-bottom: var(--ps-spacing-sm);
+    border-bottom: 2px solid var(--ps-light);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--ps-spacing-md);
+}
+
+/* My Dogs List */
+.my-dogs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ps-spacing-md);
+}
+
+.my-dog-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ps-spacing-md);
+    padding: var(--ps-spacing-md);
+    background: var(--ps-light);
+    border-radius: var(--ps-radius-sm);
+}
+
+.my-dog-item .dog-image {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--ps-radius-sm);
+    overflow: hidden;
+}
+
+.my-dog-item .dog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.my-dog-item .dog-info {
+    flex: 1;
+}
+
+.my-dog-item .dog-info h4 {
+    margin: 0 0 4px;
+}
+
+.my-dog-item .dog-breed {
+    font-size: 13px;
+    color: var(--ps-gray);
+}
+
+.dog-status .status {
+    padding: 4px 10px;
+    border-radius: var(--ps-radius-full);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.dog-actions {
+    display: flex;
+    gap: var(--ps-spacing-xs);
+}
+
+/* ==========================================================================
+   Dog Profile
+   ========================================================================== */
+
+.profile-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ps-spacing-xl);
+}
+
+.main-photo {
+    border-radius: var(--ps-radius-md);
+    overflow: hidden;
+}
+
+.main-photo img {
+    width: 100%;
+    height: auto;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--ps-spacing-sm);
+    margin-top: var(--ps-spacing-md);
+}
+
+.gallery-thumb {
+    aspect-ratio: 1;
+    border-radius: var(--ps-radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.gallery-thumb:hover img {
+    transform: scale(1.1);
+}
+
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: var(--ps-spacing-md);
+    margin-bottom: var(--ps-spacing-md);
+}
+
+.profile-name-row .dog-name {
+    font-family: var(--ps-font-display);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ps-spacing-md);
+    margin-bottom: var(--ps-spacing-lg);
+    color: var(--ps-gray);
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--ps-spacing-sm);
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.stat-box {
+    text-align: center;
+    padding: var(--ps-spacing-md);
+    background: var(--ps-light);
+    border-radius: var(--ps-radius-sm);
+}
+
+.stat-box .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ps-star);
+}
+
+.stat-box .stat-label {
+    font-size: 12px;
+    color: var(--ps-gray);
+}
+
+.profile-reactions {
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.profile-reactions h3 {
+    margin-bottom: var(--ps-spacing-md);
+}
+
+.profile-bio {
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.profile-badges .badges-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ps-spacing-sm);
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: var(--ps-spacing-xs) var(--ps-spacing-sm);
+    background: var(--ps-light);
+    border-radius: var(--ps-radius-full);
+    font-size: 13px;
+}
+
+.profile-share {
+    display: flex;
+    align-items: center;
+    gap: var(--ps-spacing-md);
+    margin-top: var(--ps-spacing-xl);
+    padding-top: var(--ps-spacing-lg);
+    border-top: 1px solid var(--ps-light);
+}
+
+.share-buttons {
+    display: flex;
+    gap: var(--ps-spacing-sm);
+}
+
+.share-btn {
+    padding: var(--ps-spacing-xs) var(--ps-spacing-md);
+    border-radius: var(--ps-radius-full);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--ps-white);
+}
+
+.share-facebook { background: #1877f2; }
+.share-twitter { background: #1da1f2; }
+.share-whatsapp { background: #25d366; }
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.pawstars-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ps-spacing-md);
+}
+
+.pawstars-form .form-group {
+    margin-bottom: var(--ps-spacing-md);
+}
+
+.pawstars-form label {
+    display: block;
+    margin-bottom: var(--ps-spacing-xs);
+    font-weight: 500;
+}
+
+.pawstars-form label .required {
+    color: var(--ps-primary);
+}
+
+.pawstars-form input[type="text"],
+.pawstars-form input[type="date"],
+.pawstars-form input[type="email"],
+.pawstars-form select,
+.pawstars-form textarea {
+    width: 100%;
+    padding: var(--ps-spacing-sm) var(--ps-spacing-md);
+    border: 1px solid #ddd;
+    border-radius: var(--ps-radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.pawstars-form input:focus,
+.pawstars-form select:focus,
+.pawstars-form textarea:focus {
+    outline: none;
+    border-color: var(--ps-primary);
+}
+
+.photo-upload-zone {
+    position: relative;
+    border: 2px dashed #ddd;
+    border-radius: var(--ps-radius-md);
+    padding: var(--ps-spacing-xl);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.photo-upload-zone:hover {
+    border-color: var(--ps-primary);
+}
+
+.photo-upload-zone .upload-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: var(--ps-spacing-sm);
+}
+
+.upload-text {
+    font-weight: 500;
+    margin-bottom: var(--ps-spacing-xs);
+}
+
+.upload-hint {
+    font-size: 13px;
+    color: var(--ps-gray);
+}
+
+.upload-preview {
+    display: none;
+}
+
+.upload-preview.active {
+    display: block;
+}
+
+.upload-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: var(--ps-radius-sm);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--ps-spacing-md);
+    justify-content: flex-end;
+    padding-top: var(--ps-spacing-md);
+}
+
+/* ==========================================================================
+   Empty States
+   ========================================================================== */
+
+.pawstars-empty,
+.leaderboard-empty,
+.no-dogs {
+    text-align: center;
+    padding: var(--ps-spacing-xl);
+    color: var(--ps-gray);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--ps-spacing-md);
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--ps-light);
+    border-top-color: var(--ps-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: var(--ps-spacing-lg) auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Toast Notifications */
+.pawstars-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: var(--ps-spacing-md) var(--ps-spacing-lg);
+    background: var(--ps-dark);
+    color: var(--ps-white);
+    border-radius: var(--ps-radius-sm);
+    box-shadow: var(--ps-shadow-lg);
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+}
+
+.pawstars-toast.success {
+    background: var(--ps-success);
+}
+
+.pawstars-toast.error {
+    background: var(--ps-primary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .profile-main {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .pawstars-feed-wrapper,
+    .pawstars-dashboard,
+    .pawstars-leaderboard-wrapper,
+    .pawstars-dog-profile {
+        padding: var(--ps-spacing-md);
+    }
+
+    .pawstars-filters {
+        flex-direction: column;
+    }
+
+    .pawstars-filter-form {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: var(--ps-spacing-md);
+        text-align: center;
+    }
+
+    .user-info {
+        flex-direction: column;
+    }
+
+    .pawstars-form .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .leaderboard-podium {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .podium-first,
+    .podium-second,
+    .podium-third {
+        order: unset;
+    }
+}
+
+@media (max-width: 480px) {
+    .feed-title {
+        font-size: 1.8rem;
+    }
+
+    .pawstars-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .my-dog-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dog-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
