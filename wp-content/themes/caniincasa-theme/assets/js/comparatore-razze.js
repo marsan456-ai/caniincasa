@@ -7,6 +7,25 @@
 (function($) {
     'use strict';
 
+    console.log('=== COMPARATORE RAZZE SCRIPT LOADED ===');
+    console.log('jQuery version:', $.fn.jquery);
+    console.log('caniincasaData:', typeof caniincasaData !== 'undefined' ? caniincasaData : 'NOT DEFINED');
+
+    // Check if required data is available
+    if (typeof caniincasaData === 'undefined') {
+        alert('ERRORE: caniincasaData non è definito! Gli script non sono stati caricati correttamente.');
+        console.error('CRITICAL: caniincasaData is not defined');
+        return;
+    }
+
+    if (!caniincasaData.ajaxurl) {
+        alert('ERRORE: ajaxurl non è definito in caniincasaData!');
+        console.error('CRITICAL: ajaxurl is not defined');
+        return;
+    }
+
+    console.log('AJAX URL:', caniincasaData.ajaxurl);
+
     // State
     let selectedRazze = {
         1: null,
@@ -246,7 +265,9 @@
      * Select a razza for comparison
      */
     function selectRazza(slot, razza) {
+        console.log('selectRazza called - Slot:', slot, 'Razza:', razza);
         selectedRazze[slot] = razza;
+        console.log('Updated selectedRazze:', selectedRazze);
 
         const $slot = $(`.selector-slot[data-slot="${slot}"]`);
         const $input = $slot.find('.razza-search');
@@ -256,6 +277,9 @@
         $input.val(razza.name).addClass('has-value');
         $hiddenInput.val(razza.id);
         $clearBtn.show();
+
+        console.log('Input value set to:', razza.name);
+        console.log('Hidden input value set to:', razza.id);
 
         updateCompareButton();
     }
@@ -329,9 +353,14 @@
      * Compare razze
      */
     function compareRazze() {
+        console.log('=== compareRazze() CALLED ===');
+
         const razzeIds = Object.values(selectedRazze)
             .filter(r => r !== null)
             .map(r => r.id);
+
+        console.log('Selected razze before filter:', selectedRazze);
+        console.log('Razze IDs after filter:', razzeIds);
 
         if (razzeIds.length < 2) {
             alert('Seleziona almeno 2 razze da confrontare');
@@ -339,9 +368,18 @@
         }
 
         console.log('Comparing razze:', razzeIds);
+        console.log('AJAX URL:', caniincasaData.ajaxurl);
+        console.log('AJAX Data:', {
+            action: 'get_razze_comparison',
+            razze_ids: razzeIds,
+            nonce: caniincasaData.nonce
+        });
 
         // Show loading
         $('#comparison-table').html('<div style="text-align:center;padding:60px;"><p>Caricamento confronto...</p></div>').show();
+
+        console.log('Starting AJAX request...');
+        const startTime = Date.now();
 
         // Fetch razze data
         $.ajax({
@@ -352,11 +390,21 @@
                 razze_ids: razzeIds,
                 nonce: caniincasaData.nonce
             },
+            timeout: 30000, // 30 second timeout
+            beforeSend: function(xhr) {
+                console.log('AJAX beforeSend - Request is being sent');
+            },
             success: function(response) {
+                const duration = Date.now() - startTime;
+                console.log('AJAX Response received in ' + duration + 'ms');
                 console.log('AJAX Response:', response);
+                console.log('Response type:', typeof response);
+                console.log('Response.success:', response.success);
+
                 if (response.success) {
                     razzeData = response.data;
                     console.log('Razze Data:', razzeData);
+                    console.log('Calling displayComparison()...');
                     displayComparison();
                 } else {
                     console.error('AJAX Error:', response);
@@ -365,9 +413,31 @@
                 }
             },
             error: function(xhr, status, error) {
-                console.error('AJAX Connection Error:', xhr, status, error);
-                alert('Errore di connessione: ' + error);
+                const duration = Date.now() - startTime;
+                console.error('=== AJAX ERROR ===');
+                console.error('Duration:', duration + 'ms');
+                console.error('Status:', status);
+                console.error('Error:', error);
+                console.error('XHR:', xhr);
+                console.error('XHR Status:', xhr.status);
+                console.error('XHR Response Text:', xhr.responseText);
+
+                let errorMsg = 'Errore di connessione: ' + error;
+                if (status === 'timeout') {
+                    errorMsg = 'Timeout: la richiesta ha impiegato troppo tempo (>30s)';
+                } else if (xhr.status === 0) {
+                    errorMsg = 'Nessuna connessione: verifica che il server sia raggiungibile';
+                } else if (xhr.status === 404) {
+                    errorMsg = 'Endpoint non trovato (404): ' + caniincasaData.ajaxurl;
+                } else if (xhr.status === 500) {
+                    errorMsg = 'Errore del server (500): controlla i log PHP';
+                }
+
+                alert(errorMsg);
                 $('#comparison-table').hide();
+            },
+            complete: function() {
+                console.log('AJAX request complete');
             }
         });
     }
