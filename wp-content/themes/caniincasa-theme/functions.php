@@ -377,6 +377,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/stories-system.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/stories-system.php';
 }
 
+// Include Razze Grid Shortcode
+if ( file_exists( CANIINCASA_THEME_DIR . '/inc/shortcode-razze-grid.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/shortcode-razze-grid.php';
+}
+
 /**
  * Enqueue Comparatore Razze assets
  */
