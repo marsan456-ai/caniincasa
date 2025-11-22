@@ -63,6 +63,7 @@ function caniincasa_render_ai_settings_page() {
         update_option( 'caniincasa_openai_api_key', sanitize_text_field( $_POST['caniincasa_openai_api_key'] ?? '' ) );
         update_option( 'caniincasa_openai_model', sanitize_text_field( $_POST['caniincasa_openai_model'] ?? 'gpt-4o-mini' ) );
         update_option( 'caniincasa_ai_default_prompt', wp_kses_post( $_POST['caniincasa_ai_default_prompt'] ?? '' ) );
+        update_option( 'caniincasa_image_model', sanitize_text_field( $_POST['caniincasa_image_model'] ?? 'dall-e-3' ) );
         echo '<div class="notice notice-success"><p>Impostazioni salvate.</p></div>';
     }
 
@@ -139,6 +140,26 @@ function caniincasa_render_ai_settings_page() {
                                   class="large-text"><?php echo esc_textarea( $prompt ); ?></textarea>
                         <p class="description">
                             Istruzioni di base per l'AI. Definisce il tono e lo stile dei contenuti generati.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="caniincasa_image_model">Modello Immagini</label>
+                    </th>
+                    <td>
+                        <?php $image_model = get_option( 'caniincasa_image_model', 'dall-e-3' ); ?>
+                        <select id="caniincasa_image_model" name="caniincasa_image_model">
+                            <optgroup label="DALL-E (OpenAI)">
+                                <option value="dall-e-3" <?php selected( $image_model, 'dall-e-3' ); ?>>DALL-E 3 - Alta qualita ($0.04-0.12/img)</option>
+                                <option value="dall-e-2" <?php selected( $image_model, 'dall-e-2' ); ?>>DALL-E 2 - Piu economico ($0.016-0.02/img)</option>
+                            </optgroup>
+                            <optgroup label="GPT Image (Nuovi)">
+                                <option value="gpt-image-1" <?php selected( $image_model, 'gpt-image-1' ); ?>>GPT Image 1 - Ultimo modello</option>
+                            </optgroup>
+                        </select>
+                        <p class="description">
+                            DALL-E 3 genera immagini di qualita superiore con migliore comprensione del prompt.
                         </p>
                     </td>
                 </tr>
@@ -372,6 +393,69 @@ function caniincasa_render_ai_meta_box( $post ) {
                 </button>
             </div>
         </div>
+
+        <!-- Image Generation Section -->
+        <div class="ai-image-section" style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #2271b1;">
+            <h4 style="margin-top: 0; color: #2271b1;">Genera Immagine in Evidenza</h4>
+
+            <div class="ai-field">
+                <label for="ai-image-prompt">Descrizione Immagine</label>
+                <textarea id="ai-image-prompt" rows="2" placeholder="Descrivi l'immagine da generare... Es: Un golden retriever che gioca in un prato verde, luce naturale, stile fotografico"></textarea>
+                <p class="description">Sii specifico: descrivi soggetto, ambiente, stile, colori e atmosfera.</p>
+            </div>
+
+            <div class="ai-field" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <label for="ai-image-style">Stile</label>
+                    <select id="ai-image-style">
+                        <option value="">Naturale</option>
+                        <option value="photographic">Fotografico</option>
+                        <option value="illustration">Illustrazione</option>
+                        <option value="digital-art">Digital Art</option>
+                        <option value="watercolor">Acquerello</option>
+                        <option value="cartoon">Cartoon</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="ai-image-size">Dimensione</label>
+                    <select id="ai-image-size">
+                        <option value="1024x1024">1024x1024 (Quadrato)</option>
+                        <option value="1792x1024" selected>1792x1024 (Landscape)</option>
+                        <option value="1024x1792">1024x1792 (Portrait)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ai-actions" style="margin-top: 15px;">
+                <button type="button" id="ai-generate-image-btn" class="button button-secondary button-large">
+                    Genera Immagine
+                </button>
+                <div class="ai-loading ai-image-loading">
+                    <div class="spinner-ai"></div>
+                    <span>Generazione immagine in corso (30-60 sec)...</span>
+                </div>
+                <span id="ai-image-error" style="color: #dc3545; display: none;"></span>
+            </div>
+
+            <div class="ai-image-output" id="ai-image-output" style="display: none; margin-top: 20px;">
+                <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+                    <div>
+                        <img id="ai-generated-image" src="" alt="Immagine generata" style="max-width: 400px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                    </div>
+                    <div class="ai-image-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                        <button type="button" class="button button-primary" id="ai-set-featured-image">
+                            Imposta come Immagine in Evidenza
+                        </button>
+                        <button type="button" class="button" id="ai-download-image">
+                            Scarica Immagine
+                        </button>
+                        <button type="button" class="button" id="ai-regenerate-image">
+                            Rigenera
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -481,6 +565,131 @@ function caniincasa_render_ai_meta_box( $post ) {
                     $btn.text(originalText);
                 }, 2000);
             });
+        });
+
+        // ============================================
+        // IMAGE GENERATION
+        // ============================================
+        var $imagePrompt = $('#ai-image-prompt');
+        var $generateImageBtn = $('#ai-generate-image-btn');
+        var $imageLoading = $('.ai-image-loading');
+        var $imageOutput = $('#ai-image-output');
+        var $imageError = $('#ai-image-error');
+        var $generatedImage = $('#ai-generated-image');
+        var currentImageUrl = '';
+
+        // Generate image
+        $generateImageBtn.on('click', generateImage);
+        $('#ai-regenerate-image').on('click', generateImage);
+
+        function generateImage() {
+            var prompt = $imagePrompt.val().trim();
+            var postTitle = $('#title').val() || '';
+
+            // If no prompt, use post title
+            if (!prompt && postTitle) {
+                prompt = 'Immagine per articolo: ' + postTitle;
+            }
+
+            if (!prompt) {
+                alert('Inserisci una descrizione per l\'immagine o un titolo per il post');
+                return;
+            }
+
+            // Add style to prompt if selected
+            var style = $('#ai-image-style').val();
+            if (style) {
+                prompt += ', stile ' + style;
+            }
+
+            var size = $('#ai-image-size').val();
+
+            $generateImageBtn.prop('disabled', true);
+            $imageLoading.css('display', 'flex');
+            $imageError.hide();
+            $imageOutput.hide();
+
+            $.ajax({
+                url: ajaxurl,
+                method: 'POST',
+                data: {
+                    action: 'caniincasa_generate_ai_image',
+                    nonce: $('#ai_generate_nonce').val(),
+                    prompt: prompt,
+                    size: size,
+                    post_id: <?php echo $post->ID; ?>
+                },
+                success: function(response) {
+                    if (response.success) {
+                        currentImageUrl = response.data.url;
+                        $generatedImage.attr('src', currentImageUrl);
+                        $imageOutput.show();
+                    } else {
+                        $imageError.text(response.data).show();
+                    }
+                },
+                error: function(xhr) {
+                    $imageError.text('Errore di connessione: ' + xhr.statusText).show();
+                },
+                complete: function() {
+                    $generateImageBtn.prop('disabled', false);
+                    $imageLoading.hide();
+                }
+            });
+        }
+
+        // Set as featured image
+        $('#ai-set-featured-image').on('click', function() {
+            if (!currentImageUrl) {
+                alert('Nessuna immagine generata');
+                return;
+            }
+
+            var $btn = $(this);
+            $btn.prop('disabled', true).text('Salvataggio...');
+
+            $.ajax({
+                url: ajaxurl,
+                method: 'POST',
+                data: {
+                    action: 'caniincasa_set_ai_featured_image',
+                    nonce: $('#ai_generate_nonce').val(),
+                    image_url: currentImageUrl,
+                    post_id: <?php echo $post->ID; ?>
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $btn.text('Impostata!').css('background', '#00a32a');
+                        // Refresh featured image metabox if exists
+                        if (typeof wp !== 'undefined' && wp.media && wp.media.featuredImage) {
+                            wp.media.featuredImage.set(response.data.attachment_id);
+                        }
+                        setTimeout(function() {
+                            $btn.text('Imposta come Immagine in Evidenza').css('background', '').prop('disabled', false);
+                        }, 3000);
+                    } else {
+                        alert('Errore: ' + response.data);
+                        $btn.text('Imposta come Immagine in Evidenza').prop('disabled', false);
+                    }
+                },
+                error: function() {
+                    alert('Errore di connessione');
+                    $btn.text('Imposta come Immagine in Evidenza').prop('disabled', false);
+                }
+            });
+        });
+
+        // Download image
+        $('#ai-download-image').on('click', function() {
+            if (currentImageUrl) {
+                var link = document.createElement('a');
+                link.href = currentImageUrl;
+                link.download = 'ai-generated-image.png';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         });
     });
     </script>
@@ -594,3 +803,159 @@ function caniincasa_ajax_generate_ai_content() {
     ) );
 }
 add_action( 'wp_ajax_caniincasa_generate_ai_content', 'caniincasa_ajax_generate_ai_content' );
+
+/**
+ * AJAX: Generate AI image with DALL-E
+ */
+function caniincasa_ajax_generate_ai_image() {
+    check_ajax_referer( 'caniincasa_ai_generate', 'nonce' );
+
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_send_json_error( 'Permesso negato' );
+    }
+
+    $api_key = get_option( 'caniincasa_openai_api_key', '' );
+
+    if ( empty( $api_key ) ) {
+        wp_send_json_error( 'API key non configurata' );
+    }
+
+    $prompt = isset( $_POST['prompt'] ) ? sanitize_textarea_field( $_POST['prompt'] ) : '';
+    $size   = isset( $_POST['size'] ) ? sanitize_text_field( $_POST['size'] ) : '1792x1024';
+
+    if ( empty( $prompt ) ) {
+        wp_send_json_error( 'Prompt vuoto' );
+    }
+
+    // Validate size
+    $valid_sizes = array( '1024x1024', '1792x1024', '1024x1792' );
+    if ( ! in_array( $size, $valid_sizes, true ) ) {
+        $size = '1792x1024';
+    }
+
+    $model = get_option( 'caniincasa_image_model', 'dall-e-3' );
+
+    // Build request based on model
+    $request_body = array(
+        'model'  => $model,
+        'prompt' => $prompt,
+        'n'      => 1,
+        'size'   => $size,
+    );
+
+    // DALL-E 3 specific options
+    if ( $model === 'dall-e-3' ) {
+        $request_body['quality'] = 'standard'; // or 'hd'
+        $request_body['style']   = 'vivid'; // or 'natural'
+    }
+
+    // DALL-E 2 only supports specific sizes
+    if ( $model === 'dall-e-2' ) {
+        $request_body['size'] = '1024x1024'; // DALL-E 2 max size
+    }
+
+    // Call OpenAI Images API
+    $response = wp_remote_post( 'https://api.openai.com/v1/images/generations', array(
+        'timeout' => 120,
+        'headers' => array(
+            'Authorization' => 'Bearer ' . $api_key,
+            'Content-Type'  => 'application/json',
+        ),
+        'body'    => wp_json_encode( $request_body ),
+    ) );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( 'Errore API: ' . $response->get_error_message() );
+    }
+
+    $code = wp_remote_retrieve_response_code( $response );
+    $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+    if ( $code !== 200 ) {
+        $error_msg = isset( $body['error']['message'] ) ? $body['error']['message'] : 'Errore sconosciuto';
+        wp_send_json_error( 'Errore OpenAI: ' . $error_msg );
+    }
+
+    if ( empty( $body['data'][0]['url'] ) ) {
+        wp_send_json_error( 'Nessuna immagine generata' );
+    }
+
+    wp_send_json_success( array(
+        'url'            => $body['data'][0]['url'],
+        'revised_prompt' => isset( $body['data'][0]['revised_prompt'] ) ? $body['data'][0]['revised_prompt'] : '',
+    ) );
+}
+add_action( 'wp_ajax_caniincasa_generate_ai_image', 'caniincasa_ajax_generate_ai_image' );
+
+/**
+ * AJAX: Set AI generated image as featured image
+ */
+function caniincasa_ajax_set_ai_featured_image() {
+    check_ajax_referer( 'caniincasa_ai_generate', 'nonce' );
+
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_send_json_error( 'Permesso negato' );
+    }
+
+    $image_url = isset( $_POST['image_url'] ) ? esc_url_raw( $_POST['image_url'] ) : '';
+    $post_id   = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
+
+    if ( empty( $image_url ) || empty( $post_id ) ) {
+        wp_send_json_error( 'Parametri mancanti' );
+    }
+
+    // Download image
+    $response = wp_remote_get( $image_url, array( 'timeout' => 60 ) );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( 'Errore download: ' . $response->get_error_message() );
+    }
+
+    $image_data = wp_remote_retrieve_body( $response );
+
+    if ( empty( $image_data ) ) {
+        wp_send_json_error( 'Immagine vuota' );
+    }
+
+    // Generate filename
+    $post_title = get_the_title( $post_id );
+    $filename   = sanitize_file_name( 'ai-' . sanitize_title( $post_title ) . '-' . time() . '.png' );
+
+    // Upload to WordPress media library
+    $upload = wp_upload_bits( $filename, null, $image_data );
+
+    if ( $upload['error'] ) {
+        wp_send_json_error( 'Errore upload: ' . $upload['error'] );
+    }
+
+    // Create attachment
+    $file_path = $upload['file'];
+    $file_type = wp_check_filetype( $filename, null );
+
+    $attachment = array(
+        'post_mime_type' => $file_type['type'],
+        'post_title'     => 'AI Generated - ' . $post_title,
+        'post_content'   => '',
+        'post_status'    => 'inherit',
+    );
+
+    $attach_id = wp_insert_attachment( $attachment, $file_path, $post_id );
+
+    if ( is_wp_error( $attach_id ) ) {
+        wp_send_json_error( 'Errore creazione attachment' );
+    }
+
+    // Generate metadata
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+    $attach_data = wp_generate_attachment_metadata( $attach_id, $file_path );
+    wp_update_attachment_metadata( $attach_id, $attach_data );
+
+    // Set as featured image
+    set_post_thumbnail( $post_id, $attach_id );
+
+    wp_send_json_success( array(
+        'attachment_id' => $attach_id,
+        'url'           => wp_get_attachment_url( $attach_id ),
+    ) );
+}
+add_action( 'wp_ajax_caniincasa_set_ai_featured_image', 'caniincasa_ajax_set_ai_featured_image' );
