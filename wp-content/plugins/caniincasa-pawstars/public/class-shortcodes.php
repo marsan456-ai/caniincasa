@@ -190,7 +190,8 @@ class Pawstars_Shortcodes {
 
         // Check dog limit
         $user_dogs = $this->plugin->database->count_user_dogs( get_current_user_id() );
-        $max_dogs = get_option( 'pawstars_max_dogs_per_user', 5 );
+        $settings = get_option( 'pawstars_settings', array() );
+        $max_dogs = isset( $settings['max_dogs_per_user'] ) ? (int) $settings['max_dogs_per_user'] : 5;
 
         if ( $user_dogs >= $max_dogs ) {
             return '<div class="pawstars-notice pawstars-notice-warning">

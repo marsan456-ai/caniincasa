@@ -105,17 +105,8 @@
                     $this.removeClass('dragover');
                 });
 
-                $this.on('drop', function(e) {
-                    const files = e.originalEvent.dataTransfer.files;
-                    if (files.length) {
-                        $input[0].files = files;
-                        $input.trigger('change');
-                    }
-                });
-
-                // File selected
-                $input.on('change', function() {
-                    const file = this.files[0];
+                // Handle file processing (shared between input change and drop)
+                function processFile(file, $zone) {
                     if (!file) return;
 
                     // Validate
@@ -133,9 +124,22 @@
                     // Upload to server
                     PawStars.uploadPhoto(file, function(response) {
                         if (response.success) {
-                            $this.find('input[name="featured_image_id"]').val(response.data.image_id);
+                            $zone.find('input[name="featured_image_id"]').val(response.data.image_id);
                         }
                     });
+                }
+
+                $this.on('drop', function(e) {
+                    const files = e.originalEvent.dataTransfer.files;
+                    if (files.length) {
+                        // Process file directly instead of assigning to input (files is read-only)
+                        processFile(files[0], $this);
+                    }
+                });
+
+                // File selected via input
+                $input.on('change', function() {
+                    processFile(this.files[0], $this);
                 });
 
                 // Remove preview
@@ -262,32 +266,122 @@
                 $('#showCreateForm').removeClass('hidden');
             });
 
-            // Delete dog
+            // Delete dog with modal confirmation
             $('.btn-delete').on('click', function() {
-                if (!confirm(pawstarsData.strings.confirmDelete)) return;
-
                 const dogId = $(this).data('dog-id');
+                const dogName = $(this).data('dog-name') || 'questo profilo';
                 const $item = $(this).closest('.my-dog-item');
 
-                $.ajax({
-                    url: pawstarsData.ajaxUrl,
-                    type: 'POST',
-                    data: {
-                        action: 'pawstars_delete_dog',
-                        nonce: pawstarsData.nonce,
-                        dog_id: dogId
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $item.fadeOut(function() {
-                                $(this).remove();
-                            });
-                            PawStars.toast(response.data.message, 'success');
-                        } else {
-                            PawStars.toast(response.data.message, 'error');
-                        }
+                PawStars.confirmModal({
+                    title: 'Conferma eliminazione',
+                    message: 'Sei sicuro di voler eliminare <strong>' + $('<div>').text(dogName).html() + '</strong>? Questa azione non può essere annullata.',
+                    confirmText: 'Elimina',
+                    cancelText: 'Annulla',
+                    confirmClass: 'btn-danger',
+                    onConfirm: function() {
+                        $.ajax({
+                            url: pawstarsData.ajaxUrl,
+                            type: 'POST',
+                            data: {
+                                action: 'pawstars_delete_dog',
+                                nonce: pawstarsData.nonce,
+                                dog_id: dogId
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    $item.fadeOut(function() {
+                                        $(this).remove();
+                                    });
+                                    PawStars.toast(response.data.message, 'success');
+                                } else {
+                                    PawStars.toast(response.data.message, 'error');
+                                }
+                            }
+                        });
                     }
                 });
+            });
+        },
+
+        /**
+         * Show confirmation modal
+         */
+        confirmModal: function(options) {
+            const defaults = {
+                title: 'Conferma',
+                message: 'Sei sicuro?',
+                confirmText: 'Conferma',
+                cancelText: 'Annulla',
+                confirmClass: 'btn-primary',
+                onConfirm: function() {},
+                onCancel: function() {}
+            };
+
+            const settings = $.extend({}, defaults, options);
+
+            // Remove existing modal
+            $('#pawstarsConfirmModal').remove();
+
+            // Create modal HTML
+            const modalHtml = `
+                <div class="pawstars-modal-overlay" id="pawstarsConfirmModal">
+                    <div class="pawstars-modal">
+                        <div class="pawstars-modal-header">
+                            <h3>${$('<div>').text(settings.title).html()}</h3>
+                            <button type="button" class="pawstars-modal-close">&times;</button>
+                        </div>
+                        <div class="pawstars-modal-body">
+                            <p>${settings.message}</p>
+                        </div>
+                        <div class="pawstars-modal-footer">
+                            <button type="button" class="btn btn-secondary pawstars-modal-cancel">${$('<div>').text(settings.cancelText).html()}</button>
+                            <button type="button" class="btn ${settings.confirmClass} pawstars-modal-confirm">${$('<div>').text(settings.confirmText).html()}</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('body').append(modalHtml);
+            const $modal = $('#pawstarsConfirmModal');
+
+            // Show with animation
+            setTimeout(function() {
+                $modal.addClass('active');
+            }, 10);
+
+            // Close handlers
+            function closeModal() {
+                $modal.removeClass('active');
+                setTimeout(function() {
+                    $modal.remove();
+                }, 300);
+            }
+
+            $modal.find('.pawstars-modal-close, .pawstars-modal-cancel').on('click', function() {
+                closeModal();
+                settings.onCancel();
+            });
+
+            $modal.find('.pawstars-modal-confirm').on('click', function() {
+                closeModal();
+                settings.onConfirm();
+            });
+
+            // Close on overlay click
+            $modal.on('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                    settings.onCancel();
+                }
+            });
+
+            // Close on escape
+            $(document).on('keydown.pawstarsModal', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    settings.onCancel();
+                    $(document).off('keydown.pawstarsModal');
+                }
             });
         },
 

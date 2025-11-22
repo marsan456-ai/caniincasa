@@ -128,6 +128,9 @@ class Pawstars_Database {
         // Trigger action
         do_action( 'pawstars_dog_created', $dog_id, $insert_data );
 
+        // Clear cache after creating new dog
+        $this->clear_dogs_cache();
+
         return $dog_id;
     }
 
@@ -202,6 +205,7 @@ class Pawstars_Database {
         wp_cache_delete( 'pawstars_dog_' . $dog_id );
         delete_transient( 'pawstars_leaderboard_hot' );
         delete_transient( 'pawstars_leaderboard_alltime' );
+        $this->clear_dogs_cache();
 
         // Trigger action
         do_action( 'pawstars_dog_updated', $dog_id, $update_data );
@@ -251,6 +255,7 @@ class Pawstars_Database {
         wp_cache_delete( 'pawstars_dog_' . $dog_id );
         delete_transient( 'pawstars_leaderboard_hot' );
         delete_transient( 'pawstars_leaderboard_alltime' );
+        $this->clear_dogs_cache();
 
         // Trigger action
         do_action( 'pawstars_dog_deleted', $dog_id );
@@ -321,9 +326,24 @@ class Pawstars_Database {
             'offset'     => 0,
             'exclude'    => array(),
             'featured'   => null,
+            'no_cache'   => false,
         );
 
         $args = wp_parse_args( $args, $defaults );
+
+        // Use transient cache for public queries (no user-specific data)
+        $use_cache = ! $args['no_cache'] &&
+                     $args['status'] === 'active' &&
+                     empty( $args['user_id'] ) &&
+                     empty( $args['search'] );
+
+        if ( $use_cache ) {
+            $cache_key = 'pawstars_dogs_' . md5( serialize( $args ) );
+            $cached = get_transient( $cache_key );
+            if ( false !== $cached ) {
+                return $cached;
+            }
+        }
 
         $where = array( '1=1' );
         $values = array();
@@ -452,7 +472,28 @@ class Pawstars_Database {
             $dog->breed_name = isset( $breed_names[ $dog->breed_id ] ) ? $breed_names[ $dog->breed_id ] : '';
         }
 
+        // Save to cache (5 minutes TTL)
+        if ( $use_cache && ! empty( $dogs ) ) {
+            set_transient( $cache_key, $dogs, 5 * MINUTE_IN_SECONDS );
+        }
+
         return $dogs;
+    }
+
+    /**
+     * Clear dogs cache
+     *
+     * @since 1.0.0
+     */
+    public function clear_dogs_cache() {
+        global $wpdb;
+
+        // Delete all pawstars_dogs_ transients
+        $wpdb->query(
+            "DELETE FROM {$wpdb->options}
+             WHERE option_name LIKE '_transient_pawstars_dogs_%'
+             OR option_name LIKE '_transient_timeout_pawstars_dogs_%'"
+        );
     }
 
     /**
