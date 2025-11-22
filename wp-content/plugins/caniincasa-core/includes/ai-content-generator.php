@@ -101,13 +101,30 @@ function caniincasa_render_ai_settings_page() {
                     </th>
                     <td>
                         <select id="caniincasa_openai_model" name="caniincasa_openai_model">
-                            <option value="gpt-4o-mini" <?php selected( $model, 'gpt-4o-mini' ); ?>>GPT-4o Mini (Veloce, economico)</option>
-                            <option value="gpt-4o" <?php selected( $model, 'gpt-4o' ); ?>>GPT-4o (Migliore qualita)</option>
-                            <option value="gpt-4-turbo" <?php selected( $model, 'gpt-4-turbo' ); ?>>GPT-4 Turbo</option>
-                            <option value="gpt-3.5-turbo" <?php selected( $model, 'gpt-3.5-turbo' ); ?>>GPT-3.5 Turbo (Piu economico)</option>
+                            <optgroup label="GPT-4o (Consigliati)">
+                                <option value="gpt-4o-mini" <?php selected( $model, 'gpt-4o-mini' ); ?>>GPT-4o Mini - Veloce ed economico ($0.15/1M input)</option>
+                                <option value="gpt-4o" <?php selected( $model, 'gpt-4o' ); ?>>GPT-4o - Flagship, ottima qualita ($2.50/1M input)</option>
+                            </optgroup>
+                            <optgroup label="GPT-4.1 (Nuovi - Context 1M)">
+                                <option value="gpt-4.1" <?php selected( $model, 'gpt-4.1' ); ?>>GPT-4.1 - Ultimo modello, context 1M token</option>
+                                <option value="gpt-4.1-mini" <?php selected( $model, 'gpt-4.1-mini' ); ?>>GPT-4.1 Mini - Versione leggera</option>
+                                <option value="gpt-4.1-nano" <?php selected( $model, 'gpt-4.1-nano' ); ?>>GPT-4.1 Nano - Ultra veloce</option>
+                            </optgroup>
+                            <optgroup label="O-Series (Reasoning avanzato)">
+                                <option value="o4-mini" <?php selected( $model, 'o4-mini' ); ?>>O4-Mini - Reasoning veloce, ottimo per coding</option>
+                                <option value="o3" <?php selected( $model, 'o3' ); ?>>O3 - Reasoning avanzato, meno errori</option>
+                                <option value="o3-mini" <?php selected( $model, 'o3-mini' ); ?>>O3-Mini - Reasoning bilanciato</option>
+                                <option value="o1" <?php selected( $model, 'o1' ); ?>>O1 - Reasoning complesso</option>
+                                <option value="o1-mini" <?php selected( $model, 'o1-mini' ); ?>>O1-Mini - Reasoning economico</option>
+                            </optgroup>
+                            <optgroup label="Legacy">
+                                <option value="gpt-4-turbo" <?php selected( $model, 'gpt-4-turbo' ); ?>>GPT-4 Turbo</option>
+                                <option value="gpt-3.5-turbo" <?php selected( $model, 'gpt-3.5-turbo' ); ?>>GPT-3.5 Turbo - Piu economico</option>
+                            </optgroup>
                         </select>
                         <p class="description">
-                            GPT-4o Mini offre il miglior rapporto qualita/prezzo per la maggior parte degli usi.
+                            <strong>Raccomandato:</strong> GPT-4o Mini per uso quotidiano (miglior rapporto qualita/prezzo).<br>
+                            I modelli O-series sono ottimizzati per ragionamento complesso ma piu lenti e costosi.
                         </p>
                     </td>
                 </tr>
@@ -522,19 +539,32 @@ function caniincasa_ajax_generate_ai_content() {
         ),
     );
 
+    // Check if this is an O-series reasoning model
+    $is_o_series = preg_match( '/^o[0-9]/', $model );
+
+    // Build request body based on model type
+    $request_body = array(
+        'model'    => $model,
+        'messages' => $messages,
+    );
+
+    if ( $is_o_series ) {
+        // O-series models use max_completion_tokens and don't support temperature
+        $request_body['max_completion_tokens'] = 4000;
+    } else {
+        // Standard GPT models
+        $request_body['max_tokens']  = 2000;
+        $request_body['temperature'] = 0.7;
+    }
+
     // Call OpenAI API
     $response = wp_remote_post( 'https://api.openai.com/v1/chat/completions', array(
-        'timeout' => 60,
+        'timeout' => 120, // O-series models can take longer
         'headers' => array(
             'Authorization' => 'Bearer ' . $api_key,
             'Content-Type'  => 'application/json',
         ),
-        'body'    => wp_json_encode( array(
-            'model'       => $model,
-            'messages'    => $messages,
-            'max_tokens'  => 2000,
-            'temperature' => 0.7,
-        ) ),
+        'body'    => wp_json_encode( $request_body ),
     ) );
 
     if ( is_wp_error( $response ) ) {
