@@ -325,7 +325,8 @@ final class Caniincasa_Pawstars {
             has_shortcode( $post->post_content, 'pawstars_feed' ) ||
             has_shortcode( $post->post_content, 'pawstars_leaderboard' ) ||
             has_shortcode( $post->post_content, 'pawstars_user_dashboard' ) ||
-            has_shortcode( $post->post_content, 'pawstars_dog_profile' )
+            has_shortcode( $post->post_content, 'pawstars_dog_profile' ) ||
+            has_shortcode( $post->post_content, 'pawstars_create' )
         ) ) {
             return true;
         }

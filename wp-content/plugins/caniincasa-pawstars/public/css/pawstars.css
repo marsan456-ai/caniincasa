@@ -54,6 +54,97 @@
     padding: var(--ps-spacing-lg);
 }
 
+/* Create Profile Form */
+.create-profile-header {
+    text-align: center;
+    margin-bottom: var(--ps-spacing-xl);
+}
+
+.create-profile-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--ps-spacing-sm);
+    color: var(--ps-dark);
+}
+
+.create-profile-header p {
+    color: var(--ps-gray);
+    font-size: 1.1rem;
+}
+
+.form-section {
+    background: var(--ps-white);
+    border-radius: var(--ps-radius-md);
+    padding: var(--ps-spacing-lg);
+    margin-bottom: var(--ps-spacing-lg);
+    box-shadow: var(--ps-shadow-sm);
+}
+
+.form-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: var(--ps-spacing-md);
+    padding-bottom: var(--ps-spacing-sm);
+    border-bottom: 2px solid var(--ps-light);
+    color: var(--ps-dark);
+}
+
+.form-notice {
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+    border: 1px solid #ffc107;
+    border-radius: var(--ps-radius-md);
+    padding: var(--ps-spacing-md);
+    margin-bottom: var(--ps-spacing-lg);
+}
+
+.form-notice p {
+    margin: 0;
+    color: #856404;
+    font-size: 0.95rem;
+}
+
+.char-counter {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--ps-gray);
+    margin-top: var(--ps-spacing-xs);
+}
+
+/* Notice Messages */
+.pawstars-notice {
+    padding: var(--ps-spacing-lg);
+    border-radius: var(--ps-radius-md);
+    text-align: center;
+    margin: var(--ps-spacing-lg) 0;
+}
+
+.pawstars-notice p {
+    margin: 0 0 var(--ps-spacing-md);
+}
+
+.pawstars-notice p:last-child {
+    margin-bottom: 0;
+}
+
+.pawstars-notice-warning {
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+    border: 1px solid #ffc107;
+    color: #856404;
+}
+
+.pawstars-notice-error {
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+    border: 1px solid #dc3545;
+    color: #721c24;
+}
+
+.pawstars-notice-success {
+    background: linear-gradient(135deg, #e6fff0 0%, #ccffdd 100%);
+    border: 1px solid #28a745;
+    color: #155724;
+}
+
 /* Buttons */
 .pawstars-feed-wrapper .btn,
 .pawstars-dashboard .btn,
