@@ -95,6 +95,12 @@ class Caniincasa_Core {
         // Statistics System
         require_once CANIINCASA_CORE_PATH . 'includes/statistics-system.php';
 
+        // Shortcode Generator
+        require_once CANIINCASA_CORE_PATH . 'includes/shortcode-generator.php';
+
+        // AI Content Generator
+        require_once CANIINCASA_CORE_PATH . 'includes/ai-content-generator.php';
+
         // CSV Importer
         require_once CANIINCASA_CORE_PATH . 'includes/csv-importer.php';
 
