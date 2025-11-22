@@ -382,6 +382,11 @@ if ( file_exists( CANIINCASA_THEME_DIR . '/inc/shortcode-razze-grid.php' ) ) {
     require_once CANIINCASA_THEME_DIR . '/inc/shortcode-razze-grid.php';
 }
 
+// Include Razze Grid Editor Button (TinyMCE)
+if ( is_admin() && file_exists( CANIINCASA_THEME_DIR . '/inc/editor-razze-grid-button.php' ) ) {
+    require_once CANIINCASA_THEME_DIR . '/inc/editor-razze-grid-button.php';
+}
+
 /**
  * Enqueue Comparatore Razze assets
  */
