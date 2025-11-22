@@ -45,14 +45,24 @@
             const $toggle = $('.view-toggle');
             if (!$toggle.length) return;
 
-            // Load saved preference
-            const savedView = localStorage.getItem('pawstars_view') || (this.isMobile() ? 'swipe' : 'grid');
+            // Load saved preference (with try-catch for incognito/private mode)
+            let savedView = this.isMobile() ? 'swipe' : 'grid';
+            try {
+                const stored = localStorage.getItem('pawstars_view');
+                if (stored) savedView = stored;
+            } catch (e) {
+                // localStorage not available (incognito mode)
+            }
             this.setView(savedView);
 
             $toggle.on('click', '.view-btn', function() {
                 const view = $(this).data('view');
                 PawStars.setView(view);
-                localStorage.setItem('pawstars_view', view);
+                try {
+                    localStorage.setItem('pawstars_view', view);
+                } catch (e) {
+                    // localStorage not available
+                }
             });
         },
 
@@ -121,12 +131,13 @@
                     };
                     reader.readAsDataURL(file);
 
-                    // Upload to server
+                    // Upload to server with progress indicator
                     PawStars.uploadPhoto(file, function(response) {
                         if (response.success) {
                             $zone.find('input[name="featured_image_id"]').val(response.data.image_id);
+                            PawStars.toast('Foto caricata!', 'success');
                         }
-                    });
+                    }, $zone);
                 }
 
                 $this.on('drop', function(e) {
@@ -174,13 +185,20 @@
         },
 
         /**
-         * Upload photo to server
+         * Upload photo to server with progress
          */
-        uploadPhoto: function(file, callback) {
+        uploadPhoto: function(file, callback, $progressContainer) {
             const formData = new FormData();
             formData.append('action', 'pawstars_upload_photo');
             formData.append('nonce', pawstarsData.nonce);
             formData.append('photo', file);
+
+            // Show progress bar if container provided
+            let $progressBar = null;
+            if ($progressContainer && $progressContainer.length) {
+                $progressBar = $('<div class="upload-progress"><div class="upload-progress-bar"></div></div>');
+                $progressContainer.append($progressBar);
+            }
 
             $.ajax({
                 url: pawstarsData.ajaxUrl,
@@ -188,7 +206,18 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                xhr: function() {
+                    const xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable && $progressBar) {
+                            const percent = Math.round((e.loaded / e.total) * 100);
+                            $progressBar.find('.upload-progress-bar').css('width', percent + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
                 success: function(response) {
+                    if ($progressBar) $progressBar.remove();
                     if (response.success) {
                         callback(response);
                     } else {
@@ -196,6 +225,7 @@
                     }
                 },
                 error: function() {
+                    if ($progressBar) $progressBar.remove();
                     PawStars.toast(pawstarsData.strings.uploadError, 'error');
                 }
             });

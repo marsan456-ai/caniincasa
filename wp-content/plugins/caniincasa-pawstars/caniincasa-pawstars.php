@@ -400,5 +400,12 @@ function pawstars_is_active() {
     return pawstars()->is_enabled();
 }
 
-// Initialize plugin
-pawstars();
+/**
+ * Initialize plugin on plugins_loaded hook
+ *
+ * @since 1.0.0
+ */
+function pawstars_init() {
+    pawstars();
+}
+add_action( 'plugins_loaded', 'pawstars_init' );

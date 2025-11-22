@@ -56,6 +56,41 @@ class Pawstars_Database {
         return isset( $this->tables[ $table ] ) ? $this->tables[ $table ] : '';
     }
 
+    /**
+     * Process dog fields (add computed fields)
+     *
+     * Reusable helper to parse gallery_ids and add image_url/breed_name
+     *
+     * @since  1.0.0
+     * @param  object $dog        Dog object to process (passed by reference)
+     * @param  array  $image_urls Optional pre-fetched image URLs map
+     * @param  array  $breed_names Optional pre-fetched breed names map
+     * @return void
+     */
+    private function process_dog_fields( &$dog, $image_urls = array(), $breed_names = array() ) {
+        // Parse gallery JSON
+        if ( ! empty( $dog->gallery_ids ) ) {
+            $decoded = json_decode( $dog->gallery_ids, true );
+            $dog->gallery_ids = is_array( $decoded ) ? $decoded : array();
+        } else {
+            $dog->gallery_ids = array();
+        }
+
+        // Set image URL
+        if ( ! empty( $image_urls ) ) {
+            $dog->image_url = isset( $image_urls[ $dog->featured_image_id ] ) ? $image_urls[ $dog->featured_image_id ] : '';
+        } else {
+            $dog->image_url = $dog->featured_image_id ? wp_get_attachment_url( $dog->featured_image_id ) : '';
+        }
+
+        // Set breed name
+        if ( ! empty( $breed_names ) ) {
+            $dog->breed_name = isset( $breed_names[ $dog->breed_id ] ) ? $breed_names[ $dog->breed_id ] : '';
+        } else {
+            $dog->breed_name = $dog->breed_id ? get_the_title( $dog->breed_id ) : '';
+        }
+    }
+
     // =========================================================================
     // DOGS CRUD
     // =========================================================================
@@ -286,16 +321,10 @@ class Pawstars_Database {
         );
 
         if ( $dog ) {
-            // Decode gallery
-            if ( $dog->gallery_ids ) {
-                $dog->gallery_ids = json_decode( $dog->gallery_ids, true );
-            } else {
-                $dog->gallery_ids = array();
-            }
+            // Process common fields
+            $this->process_dog_fields( $dog );
 
-            // Add computed fields
-            $dog->image_url = $dog->featured_image_id ? wp_get_attachment_url( $dog->featured_image_id ) : '';
-            $dog->breed_name = $dog->breed_id ? get_the_title( $dog->breed_id ) : '';
+            // Add author name (specific to single dog)
             $dog->author_name = get_the_author_meta( 'display_name', $dog->user_id );
 
             wp_cache_set( 'pawstars_dog_' . $dog_id, $dog, '', 300 );
@@ -459,17 +488,7 @@ class Pawstars_Database {
 
         // Process results with cached data
         foreach ( $dogs as &$dog ) {
-            // Parse gallery JSON
-            if ( ! empty( $dog->gallery_ids ) ) {
-                $decoded = json_decode( $dog->gallery_ids, true );
-                $dog->gallery_ids = is_array( $decoded ) ? $decoded : array();
-            } else {
-                $dog->gallery_ids = array();
-            }
-            // Use cached image URL
-            $dog->image_url = isset( $image_urls[ $dog->featured_image_id ] ) ? $image_urls[ $dog->featured_image_id ] : '';
-            // Use cached breed name
-            $dog->breed_name = isset( $breed_names[ $dog->breed_id ] ) ? $breed_names[ $dog->breed_id ] : '';
+            $this->process_dog_fields( $dog, $image_urls, $breed_names );
         }
 
         // Save to cache (5 minutes TTL)
@@ -940,17 +959,11 @@ class Pawstars_Database {
             )
         );
 
-        // Add rank position
+        // Add rank position and process fields
         $position = 1;
         foreach ( $dogs as &$dog ) {
             $dog->rank = $position++;
-            if ( $dog->gallery_ids ) {
-                $dog->gallery_ids = json_decode( $dog->gallery_ids, true );
-            } else {
-                $dog->gallery_ids = array();
-            }
-            $dog->image_url = $dog->featured_image_id ? wp_get_attachment_url( $dog->featured_image_id ) : '';
-            $dog->breed_name = $dog->breed_id ? get_the_title( $dog->breed_id ) : '';
+            $this->process_dog_fields( $dog );
         }
 
         $settings = get_option( 'pawstars_settings', array() );
@@ -987,17 +1000,11 @@ class Pawstars_Database {
             )
         );
 
-        // Add rank position
+        // Add rank position and process fields
         $position = 1;
         foreach ( $dogs as &$dog ) {
             $dog->rank = $position++;
-            if ( $dog->gallery_ids ) {
-                $dog->gallery_ids = json_decode( $dog->gallery_ids, true );
-            } else {
-                $dog->gallery_ids = array();
-            }
-            $dog->image_url = $dog->featured_image_id ? wp_get_attachment_url( $dog->featured_image_id ) : '';
-            $dog->breed_name = $dog->breed_id ? get_the_title( $dog->breed_id ) : '';
+            $this->process_dog_fields( $dog );
         }
 
         $settings = get_option( 'pawstars_settings', array() );

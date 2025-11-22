@@ -18,6 +18,43 @@
         },
 
         /**
+         * AJAX vote helper (DRY)
+         */
+        ajaxVote: function(dogId, reaction, options) {
+            const defaults = {
+                onSuccess: function() {},
+                onError: function() {},
+                silent: false
+            };
+            const settings = $.extend({}, defaults, options);
+
+            $.ajax({
+                url: pawstarsData.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'pawstars_vote',
+                    nonce: pawstarsData.nonce,
+                    dog_id: dogId,
+                    reaction: reaction
+                },
+                success: function(response) {
+                    if (response.success) {
+                        settings.onSuccess(response);
+                    } else if (!settings.silent) {
+                        PawStars.toast(response.data.message, 'error');
+                        settings.onError(response);
+                    }
+                },
+                error: function() {
+                    if (!settings.silent) {
+                        PawStars.toast(pawstarsData.strings.voteError, 'error');
+                    }
+                    settings.onError();
+                }
+            });
+        },
+
+        /**
          * Bind voting events
          */
         bindEvents: function() {
@@ -54,48 +91,33 @@
             // Show loading state
             $btn.prop('disabled', true).html('<span class="loading">...</span>');
 
-            $.ajax({
-                url: pawstarsData.ajaxUrl,
-                type: 'POST',
-                data: {
-                    action: 'pawstars_vote',
-                    nonce: pawstarsData.nonce,
-                    dog_id: dogId,
-                    reaction: reaction
-                },
-                success: function(response) {
-                    if (response.success) {
-                        // Update button state
-                        $btn.addClass('voted').html(originalHtml);
+            this.ajaxVote(dogId, reaction, {
+                onSuccess: function(response) {
+                    // Update button state
+                    $btn.addClass('voted').html(originalHtml);
 
-                        // Update counts
-                        if (response.data.vote_stats) {
-                            PawStarsVoting.updateCounts($reactions, response.data.vote_stats);
-                        }
-
-                        // Update points display
-                        if (response.data.total_points !== undefined) {
-                            PawStarsVoting.updatePoints(dogId, response.data.total_points);
-                        }
-
-                        // Show success message
-                        PawStars.toast(response.data.message, 'success');
-
-                        // Trigger custom event
-                        $(document).trigger('pawstars:vote:success', {
-                            dogId: dogId,
-                            reaction: reaction,
-                            data: response.data
-                        });
-
-                    } else {
-                        $btn.prop('disabled', false).html(originalHtml);
-                        PawStars.toast(response.data.message, 'error');
+                    // Update counts
+                    if (response.data.vote_stats) {
+                        PawStarsVoting.updateCounts($reactions, response.data.vote_stats);
                     }
+
+                    // Update points display
+                    if (response.data.total_points !== undefined) {
+                        PawStarsVoting.updatePoints(dogId, response.data.total_points);
+                    }
+
+                    // Show success message
+                    PawStars.toast(response.data.message, 'success');
+
+                    // Trigger custom event
+                    $(document).trigger('pawstars:vote:success', {
+                        dogId: dogId,
+                        reaction: reaction,
+                        data: response.data
+                    });
                 },
-                error: function() {
+                onError: function() {
                     $btn.prop('disabled', false).html(originalHtml);
-                    PawStars.toast(pawstarsData.strings.voteError, 'error');
                 }
             });
         },
@@ -167,22 +189,13 @@
             }
 
             // Silent vote (no UI feedback)
-            $.ajax({
-                url: pawstarsData.ajaxUrl,
-                type: 'POST',
-                data: {
-                    action: 'pawstars_vote',
-                    nonce: pawstarsData.nonce,
-                    dog_id: dogId,
-                    reaction: reaction
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $(document).trigger('pawstars:swipe:voted', {
-                            dogId: dogId,
-                            reaction: reaction
-                        });
-                    }
+            this.ajaxVote(dogId, reaction, {
+                silent: true,
+                onSuccess: function() {
+                    $(document).trigger('pawstars:swipe:voted', {
+                        dogId: dogId,
+                        reaction: reaction
+                    });
                 }
             });
         }
