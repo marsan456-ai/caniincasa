@@ -180,19 +180,13 @@ function caniincasa_render_stats_page() {
 
     // Get total visits (with prepared statement for consistency)
     if ( $date_interval ) {
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $table_name is safe prefix
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $date_interval is whitelisted
         $total_visits = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT COUNT(*) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)",
-                $date_interval
-            )
+            "SELECT COUNT(*) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL {$date_interval})"
         );
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         $unique_visitors = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT COUNT(DISTINCT ip_address) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)",
-                $date_interval
-            )
+            "SELECT COUNT(DISTINCT ip_address) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL {$date_interval})"
         );
     } else {
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -209,17 +203,14 @@ function caniincasa_render_stats_page() {
 
     // Get visits by page type
     if ( $date_interval ) {
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $date_interval is whitelisted
         $visits_by_type = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT page_type, COUNT(*) as count
-                FROM {$table_name}
-                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
-                GROUP BY page_type
-                ORDER BY count DESC
-                LIMIT 10",
-                $date_interval
-            )
+            "SELECT page_type, COUNT(*) as count
+            FROM {$table_name}
+            WHERE visited_at >= DATE_SUB(NOW(), INTERVAL {$date_interval})
+            GROUP BY page_type
+            ORDER BY count DESC
+            LIMIT 10"
         );
     } else {
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -234,17 +225,14 @@ function caniincasa_render_stats_page() {
 
     // Get top pages
     if ( $date_interval ) {
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $date_interval is whitelisted
         $top_pages = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT page_url, page_title, page_type, COUNT(*) as count
-                FROM {$table_name}
-                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
-                GROUP BY page_url, page_title, page_type
-                ORDER BY count DESC
-                LIMIT 20",
-                $date_interval
-            )
+            "SELECT page_url, page_title, page_type, COUNT(*) as count
+            FROM {$table_name}
+            WHERE visited_at >= DATE_SUB(NOW(), INTERVAL {$date_interval})
+            GROUP BY page_url, page_title, page_type
+            ORDER BY count DESC
+            LIMIT 20"
         );
     } else {
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -271,21 +259,21 @@ function caniincasa_render_stats_page() {
         )
     );
 
-    // Get top referrers
+    // Get top referrers (external sources only)
+    $site_like = '%' . $wpdb->esc_like( wp_parse_url( home_url(), PHP_URL_HOST ) ) . '%';
     if ( $date_interval ) {
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $date_interval is whitelisted
         $top_referrers = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT referer, COUNT(*) as count
                 FROM {$table_name}
-                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
+                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL {$date_interval})
                 AND referer != ''
                 AND referer NOT LIKE %s
                 GROUP BY referer
                 ORDER BY count DESC
                 LIMIT 10",
-                $date_interval,
-                '%caniincasa.it%'
+                $site_like
             )
         );
     } else {
@@ -299,7 +287,7 @@ function caniincasa_render_stats_page() {
                 GROUP BY referer
                 ORDER BY count DESC
                 LIMIT 10",
-                '%caniincasa.it%'
+                $site_like
             )
         );
     }
