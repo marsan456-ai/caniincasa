@@ -7,6 +7,46 @@
 (function() {
     'use strict';
 
+    /**
+     * Throttle function - limits how often a function can fire
+     * Essential for scroll/resize events to prevent performance issues
+     *
+     * @param {Function} func - Function to throttle
+     * @param {number} limit - Time in ms between calls
+     * @returns {Function} Throttled function
+     */
+    function throttle(func, limit) {
+        let inThrottle;
+        let lastFunc;
+        let lastRan;
+
+        return function() {
+            const context = this;
+            const args = arguments;
+
+            if (!inThrottle) {
+                func.apply(context, args);
+                lastRan = Date.now();
+                inThrottle = true;
+
+                setTimeout(function() {
+                    inThrottle = false;
+                    // If function was called during throttle, execute once more
+                    if (lastFunc) {
+                        lastFunc();
+                        lastFunc = null;
+                    }
+                }, limit);
+            } else {
+                // Store the last call to execute after throttle period
+                lastFunc = function() {
+                    func.apply(context, args);
+                    lastRan = Date.now();
+                };
+            }
+        };
+    }
+
     // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -97,12 +137,14 @@
 
         /**
          * Sticky Header on Scroll
+         * Uses throttling to improve performance (scroll fires 60+ times/sec)
          */
         const header = document.querySelector('.site-header');
         let lastScroll = 0;
 
         if (header && header.classList.contains('sticky-header')) {
-            window.addEventListener('scroll', function() {
+            // Throttled scroll handler - fires max once per 16ms (~60fps)
+            const handleScroll = throttle(function() {
                 const currentScroll = window.pageYOffset;
 
                 // Add shadow when scrolled
@@ -113,7 +155,9 @@
                 }
 
                 lastScroll = currentScroll;
-            });
+            }, 16);
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
         }
 
         /**

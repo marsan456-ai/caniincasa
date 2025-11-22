@@ -896,36 +896,51 @@ function caniincasa_ajax_submit_quiz() {
         }
     }
 
-    // Get all razze_di_cani
+    // Get all razze_di_cani - optimized with fields=ids first
     $razze_query = new WP_Query( array(
         'post_type'      => 'razze_di_cani',
         'posts_per_page' => -1,
         'post_status'    => 'publish',
+        'fields'         => 'ids', // Only get IDs first for batch loading
     ) );
+
+    $breed_ids = $razze_query->posts;
+
+    if ( empty( $breed_ids ) ) {
+        wp_send_json_success( array(
+            'breeds'       => array(),
+            'quiz_answers' => $quiz_answers,
+            'message'      => 'Nessuna razza trovata.',
+        ) );
+        return;
+    }
+
+    // Batch load all ACF fields in a single query (reduces ~2600 queries to 1)
+    $all_breed_fields = caniincasa_batch_load_breed_fields( $breed_ids );
 
     $breed_matches = array();
 
-    if ( $razze_query->have_posts() ) {
-        while ( $razze_query->have_posts() ) {
-            $razze_query->the_post();
-            $post_id = get_the_ID();
+    foreach ( $breed_ids as $post_id ) {
+        // Get pre-loaded fields for this breed
+        $preloaded_fields = isset( $all_breed_fields[ $post_id ] ) ? $all_breed_fields[ $post_id ] : array();
 
-            // Calculate compatibility percentage
-            $compatibility = caniincasa_calculate_breed_compatibility( $post_id, $quiz_answers );
+        // Calculate compatibility percentage with pre-loaded fields
+        $compatibility = caniincasa_calculate_breed_compatibility( $post_id, $quiz_answers, $preloaded_fields );
 
-            // Get breed data
-            $breed_data = array(
-                'id'               => $post_id,
-                'name'             => get_the_title(),
-                'description'      => wp_trim_words( get_the_excerpt(), 20, '...' ),
-                'url'              => get_permalink(),
-                'image'            => get_the_post_thumbnail_url( $post_id, 'medium' ),
-                'match_percentage' => $compatibility,
-            );
+        // Get breed post data
+        $breed_post = get_post( $post_id );
 
-            $breed_matches[] = $breed_data;
-        }
-        wp_reset_postdata();
+        // Get breed data
+        $breed_data = array(
+            'id'               => $post_id,
+            'name'             => $breed_post->post_title,
+            'description'      => wp_trim_words( $breed_post->post_excerpt, 20, '...' ),
+            'url'              => get_permalink( $post_id ),
+            'image'            => get_the_post_thumbnail_url( $post_id, 'medium' ),
+            'match_percentage' => $compatibility,
+        );
+
+        $breed_matches[] = $breed_data;
     }
 
     // Sort by compatibility (highest first)
@@ -953,19 +968,96 @@ add_action( 'wp_ajax_submit_quiz', 'caniincasa_ajax_submit_quiz' );
 add_action( 'wp_ajax_nopriv_submit_quiz', 'caniincasa_ajax_submit_quiz' );
 
 /**
+ * Batch load ACF fields for multiple breeds
+ * Reduces N+1 queries to a single query
+ *
+ * @param array $post_ids Array of post IDs
+ * @return array Associative array of post_id => fields
+ */
+function caniincasa_batch_load_breed_fields( $post_ids ) {
+    if ( empty( $post_ids ) ) {
+        return array();
+    }
+
+    global $wpdb;
+
+    // List of ACF field names we need
+    $field_names = array(
+        'livello_esperienza_richiesto',
+        'adattabilita_appartamento',
+        'energia_e_livelli_di_attivita',
+        'esigenze_di_esercizio',
+        'compatibilita_con_i_bambini',
+        'socievolezza_cani',
+        'compatibilita_con_altri_animali_domestici',
+        'adattabilita_clima_freddo',
+        'adattabilita_clima_caldo',
+        'facilita_toelettatura',
+        'affettuosita',
+        'vocalita_e_predisposizione_ad_abbaiare',
+        'facilita_di_addestramento',
+    );
+
+    // Build placeholders for post IDs
+    $post_placeholders = implode( ',', array_fill( 0, count( $post_ids ), '%d' ) );
+    // Build placeholders for field names
+    $field_placeholders = implode( ',', array_fill( 0, count( $field_names ), '%s' ) );
+
+    // Merge arguments for prepare
+    $args = array_merge( $post_ids, $field_names );
+
+    // Single query to fetch all meta values
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+    $results = $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT post_id, meta_key, meta_value
+             FROM {$wpdb->postmeta}
+             WHERE post_id IN ($post_placeholders)
+             AND meta_key IN ($field_placeholders)",
+            ...$args
+        ),
+        ARRAY_A
+    );
+
+    // Organize results by post_id
+    $fields_map = array();
+    foreach ( $post_ids as $post_id ) {
+        $fields_map[ $post_id ] = array();
+    }
+
+    foreach ( $results as $row ) {
+        $post_id   = (int) $row['post_id'];
+        $meta_key  = $row['meta_key'];
+        $meta_value = maybe_unserialize( $row['meta_value'] );
+        $fields_map[ $post_id ][ $meta_key ] = $meta_value;
+    }
+
+    return $fields_map;
+}
+
+/**
  * Calculate breed compatibility based on quiz answers
  *
- * @param int   $breed_post_id Breed post ID
- * @param array $quiz_answers  User's quiz answers
+ * @param int        $breed_post_id  Breed post ID
+ * @param array      $quiz_answers   User's quiz answers
+ * @param array|null $preloaded_fields Optional pre-loaded fields to avoid N+1 queries
  * @return int Compatibility percentage (0-100)
  */
-function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers ) {
+function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers, $preloaded_fields = null ) {
     $total_points = 0;
     $max_points = 100; // Fixed max points for consistent percentages
 
+    // Helper function to get field value (from preloaded or via get_field)
+    $get_breed_field = function( $field_name ) use ( $breed_post_id, $preloaded_fields ) {
+        if ( $preloaded_fields !== null && isset( $preloaded_fields[ $field_name ] ) ) {
+            return $preloaded_fields[ $field_name ];
+        }
+        return get_field( $field_name, $breed_post_id );
+    };
+
     // Experience level (livello_esperienza_richiesto) - Weight: 10 points
     // Campo ACF: livello_esperienza_richiesto (1-5, dove 1=principiante, 5=esperto)
-    $required_exp = get_field( 'livello_esperienza_richiesto', $breed_post_id );
+    $required_exp = $get_breed_field( 'livello_esperienza_richiesto' );
 
     if ( $required_exp ) {
         // Converti il valore numerico 1-5 in mapping
@@ -993,7 +1085,7 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
     }
 
     // Housing (adattabilita_appartamento) - Weight: 15 points
-    $apartment_adapt = get_field( 'adattabilita_appartamento', $breed_post_id );
+    $apartment_adapt = $get_breed_field( 'adattabilita_appartamento' );
     if ( $apartment_adapt ) {
         if ( $quiz_answers['abitazione'] === 'appartamento' ) {
             // Higher apartment adaptability = better match for apartments
@@ -1012,8 +1104,8 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Time/Activity - Weight: 20 points
     // Campi ACF corretti: energia_e_livelli_di_attivita, esigenze_di_esercizio
-    $energy_level = get_field( 'energia_e_livelli_di_attivita', $breed_post_id );
-    $exercise_need = get_field( 'esigenze_di_esercizio', $breed_post_id );
+    $energy_level = $get_breed_field( 'energia_e_livelli_di_attivita' );
+    $exercise_need = $get_breed_field( 'esigenze_di_esercizio' );
 
     if ( $energy_level || $exercise_need ) {
         // Usa almeno uno dei due se disponibile
@@ -1057,7 +1149,7 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Children compatibility - Weight: 12 points
     // Campo ACF corretto: compatibilita_con_i_bambini
-    $child_tolerance = get_field( 'compatibilita_con_i_bambini', $breed_post_id );
+    $child_tolerance = $get_breed_field( 'compatibilita_con_i_bambini' );
     if ( $child_tolerance ) {
         if ( $quiz_answers['bambini'] === 'piccoli' ) {
             // Need high tolerance for young children
@@ -1076,8 +1168,8 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Other animals - Weight: 10 points
     // Campi ACF: socievolezza_cani, compatibilita_con_altri_animali_domestici
-    $dog_sociability = get_field( 'socievolezza_cani', $breed_post_id );
-    $other_animals = get_field( 'compatibilita_con_altri_animali_domestici', $breed_post_id );
+    $dog_sociability = $get_breed_field( 'socievolezza_cani' );
+    $other_animals = $get_breed_field( 'compatibilita_con_altri_animali_domestici' );
 
     if ( $quiz_answers['animali'] === 'gatti' && $other_animals ) {
         // Need good sociability with other animals
@@ -1095,8 +1187,8 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Climate tolerance - Weight: 10 points
     // Campi ACF corretti: adattabilita_clima_freddo, adattabilita_clima_caldo
-    $cold_tolerance = get_field( 'adattabilita_clima_freddo', $breed_post_id );
-    $heat_tolerance = get_field( 'adattabilita_clima_caldo', $breed_post_id );
+    $cold_tolerance = $get_breed_field( 'adattabilita_clima_freddo' );
+    $heat_tolerance = $get_breed_field( 'adattabilita_clima_caldo' );
 
     if ( $quiz_answers['clima'] === 'freddo' && $cold_tolerance ) {
         $total_points += min( 10, $cold_tolerance * 2 );
@@ -1120,7 +1212,7 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Grooming needs - Weight: 8 points
     // Campo ACF corretto: facilita_toelettatura (1=difficile, 5=facile)
-    $grooming_ease = get_field( 'facilita_toelettatura', $breed_post_id );
+    $grooming_ease = $get_breed_field( 'facilita_toelettatura' );
     if ( $grooming_ease ) {
         // facilita_toelettatura: 1=difficile (alta manutenzione), 5=facile (bassa manutenzione)
         if ( $quiz_answers['manutenzione'] === 'bassa' ) {
@@ -1140,9 +1232,9 @@ function caniincasa_calculate_breed_compatibility( $breed_post_id, $quiz_answers
 
     // Purpose - Weight: 15 points
     // Campi ACF: affettuosita, vocalita_e_predisposizione_ad_abbaiare, facilita_di_addestramento
-    $affection = get_field( 'affettuosita', $breed_post_id );
-    $barking = get_field( 'vocalita_e_predisposizione_ad_abbaiare', $breed_post_id );
-    $trainability = get_field( 'facilita_di_addestramento', $breed_post_id );
+    $affection = $get_breed_field( 'affettuosita' );
+    $barking = $get_breed_field( 'vocalita_e_predisposizione_ad_abbaiare' );
+    $trainability = $get_breed_field( 'facilita_di_addestramento' );
 
     $purpose_points = 0;
     if ( $quiz_answers['scopo'] === 'compagnia' ) {

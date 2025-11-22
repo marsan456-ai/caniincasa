@@ -23,6 +23,109 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_shortcode( 'dog_food_calculator', 'caniincasa_dog_food_calculator_shortcode' );
 
 /**
+ * Get cached breed data for food calculator
+ * Uses transients to reduce database queries
+ *
+ * @return array Breed data for calculator
+ */
+function caniincasa_get_cached_breed_data_for_calculator() {
+    $cache_key = 'caniincasa_food_calc_breeds';
+    $breed_data = get_transient( $cache_key );
+
+    if ( false !== $breed_data ) {
+        return $breed_data;
+    }
+
+    global $wpdb;
+
+    // Get all breed IDs and titles in a single query
+    $breeds = $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT ID, post_title FROM {$wpdb->posts}
+             WHERE post_type = %s AND post_status = %s
+             ORDER BY post_title ASC",
+            'razze_di_cani',
+            'publish'
+        ),
+        ARRAY_A
+    );
+
+    if ( empty( $breeds ) ) {
+        return array();
+    }
+
+    // Get all breed IDs
+    $breed_ids = array_column( $breeds, 'ID' );
+
+    // ACF fields we need
+    $field_names = array(
+        'taglia_standard',
+        'peso_ideale_min_maschio',
+        'peso_ideale_max_maschio',
+        'livello_attivita',
+    );
+
+    // Build placeholders for batch query
+    $id_placeholders = implode( ',', array_fill( 0, count( $breed_ids ), '%d' ) );
+    $field_placeholders = implode( ',', array_fill( 0, count( $field_names ), '%s' ) );
+    $args = array_merge( $breed_ids, $field_names );
+
+    // Batch load all meta in single query
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+    $meta_results = $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT post_id, meta_key, meta_value FROM {$wpdb->postmeta}
+             WHERE post_id IN ($id_placeholders) AND meta_key IN ($field_placeholders)",
+            ...$args
+        ),
+        ARRAY_A
+    );
+
+    // Organize meta by post_id
+    $meta_map = array();
+    foreach ( $meta_results as $row ) {
+        $post_id = (int) $row['post_id'];
+        if ( ! isset( $meta_map[ $post_id ] ) ) {
+            $meta_map[ $post_id ] = array();
+        }
+        $meta_map[ $post_id ][ $row['meta_key'] ] = maybe_unserialize( $row['meta_value'] );
+    }
+
+    // Build breed data array
+    $breed_data = array();
+    foreach ( $breeds as $breed ) {
+        $id = (int) $breed['ID'];
+        $meta = isset( $meta_map[ $id ] ) ? $meta_map[ $id ] : array();
+
+        $breed_data[] = array(
+            'id'               => $id,
+            'name'             => $breed['post_title'],
+            'taglia'           => isset( $meta['taglia_standard'] ) && $meta['taglia_standard'] ? $meta['taglia_standard'] : 'media',
+            'peso_min'         => isset( $meta['peso_ideale_min_maschio'] ) ? floatval( $meta['peso_ideale_min_maschio'] ) : 10,
+            'peso_max'         => isset( $meta['peso_ideale_max_maschio'] ) ? floatval( $meta['peso_ideale_max_maschio'] ) : 25,
+            'livello_attivita' => isset( $meta['livello_attivita'] ) ? intval( $meta['livello_attivita'] ) : 3,
+        );
+    }
+
+    // Cache for 1 hour (breeds don't change often)
+    set_transient( $cache_key, $breed_data, HOUR_IN_SECONDS );
+
+    return $breed_data;
+}
+
+/**
+ * Clear breed calculator cache when razze_di_cani posts are updated
+ */
+function caniincasa_clear_breed_calculator_cache( $post_id ) {
+    if ( get_post_type( $post_id ) === 'razze_di_cani' ) {
+        delete_transient( 'caniincasa_food_calc_breeds' );
+    }
+}
+add_action( 'save_post', 'caniincasa_clear_breed_calculator_cache' );
+add_action( 'delete_post', 'caniincasa_clear_breed_calculator_cache' );
+add_action( 'acf/save_post', 'caniincasa_clear_breed_calculator_cache' );
+
+/**
  * Render Dog Food Calculator
  */
 function caniincasa_dog_food_calculator_shortcode( $atts ) {
@@ -30,32 +133,8 @@ function caniincasa_dog_food_calculator_shortcode( $atts ) {
     wp_enqueue_script( 'dog-food-calculator', get_template_directory_uri() . '/assets/js/calculator-food.js', array( 'jquery' ), CANIINCASA_VERSION, true );
     wp_enqueue_style( 'dog-food-calculator', get_template_directory_uri() . '/assets/css/calculator-food.css', array(), CANIINCASA_VERSION );
 
-    // Get all breeds for dropdown
-    $breeds = get_posts( array(
-        'post_type'      => 'razze_di_cani',
-        'posts_per_page' => -1,
-        'orderby'        => 'title',
-        'order'          => 'ASC',
-        'post_status'    => 'publish',
-    ) );
-
-    // Prepare breed data for JavaScript
-    $breed_data = array();
-    foreach ( $breeds as $breed ) {
-        $taglia = get_field( 'taglia_standard', $breed->ID );
-        $peso_min = get_field( 'peso_ideale_min_maschio', $breed->ID );
-        $peso_max = get_field( 'peso_ideale_max_maschio', $breed->ID );
-        $livello_attivita = get_field( 'livello_attivita', $breed->ID );
-
-        $breed_data[] = array(
-            'id'              => $breed->ID,
-            'name'            => $breed->post_title,
-            'taglia'          => $taglia ?: 'media',
-            'peso_min'        => floatval( $peso_min ) ?: 10,
-            'peso_max'        => floatval( $peso_max ) ?: 25,
-            'livello_attivita' => intval( $livello_attivita ) ?: 3,
-        );
-    }
+    // Get cached breed data (reduces ~800 queries to 2, then 0 on cache hit)
+    $breed_data = caniincasa_get_cached_breed_data_for_calculator();
 
     // Localize script with breed data
     wp_localize_script( 'dog-food-calculator', 'dogFoodCalcData', array(
