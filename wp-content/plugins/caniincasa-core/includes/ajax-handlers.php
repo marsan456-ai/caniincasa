@@ -10,6 +10,226 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// =========================================================================
+// HELPER FUNCTIONS (DRY)
+// =========================================================================
+
+/**
+ * Generate pagination HTML for AJAX filter results
+ *
+ * @param int    $current_page Current page number
+ * @param int    $total_pages  Total number of pages
+ * @param string $css_class    CSS class for pagination wrapper (default: 'strutture-pagination')
+ * @param string $aria_label   ARIA label for navigation (default: 'Navigazione risultati')
+ * @return string HTML pagination markup
+ */
+function caniincasa_generate_pagination_html( $current_page, $total_pages, $css_class = 'strutture-pagination', $aria_label = 'Navigazione risultati' ) {
+    if ( $total_pages <= 1 ) {
+        return '';
+    }
+
+    $current_page = max( 1, $current_page );
+
+    ob_start();
+    ?>
+    <div class="<?php echo esc_attr( $css_class ); ?>">
+        <nav class="pagination-nav" role="navigation" aria-label="<?php echo esc_attr( $aria_label ); ?>">
+            <ul class="pagination-list">
+                <?php
+                // Previous button
+                if ( $current_page > 1 ) :
+                    ?>
+                    <li class="pagination-item pagination-prev">
+                        <a href="?paged=<?php echo ( $current_page - 1 ); ?>" data-page="<?php echo ( $current_page - 1 ); ?>" class="pagination-link">
+                            <span aria-hidden="true">&laquo;</span> Precedente
+                        </a>
+                    </li>
+                    <?php
+                endif;
+
+                // First page
+                if ( $current_page > 3 ) :
+                    ?>
+                    <li class="pagination-item">
+                        <a href="?paged=1" data-page="1" class="pagination-link">1</a>
+                    </li>
+                    <?php if ( $current_page > 4 ) : ?>
+                        <li class="pagination-item pagination-dots"><span>...</span></li>
+                    <?php endif; ?>
+                    <?php
+                endif;
+
+                // Pages around current
+                for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) :
+                    if ( $i == $current_page ) :
+                        ?>
+                        <li class="pagination-item pagination-current">
+                            <span class="pagination-link current" aria-current="page"><?php echo $i; ?></span>
+                        </li>
+                        <?php
+                    else :
+                        ?>
+                        <li class="pagination-item">
+                            <a href="?paged=<?php echo $i; ?>" data-page="<?php echo $i; ?>" class="pagination-link"><?php echo $i; ?></a>
+                        </li>
+                        <?php
+                    endif;
+                endfor;
+
+                // Last page
+                if ( $current_page < $total_pages - 2 ) :
+                    if ( $current_page < $total_pages - 3 ) :
+                        ?>
+                        <li class="pagination-item pagination-dots"><span>...</span></li>
+                        <?php
+                    endif;
+                    ?>
+                    <li class="pagination-item">
+                        <a href="?paged=<?php echo $total_pages; ?>" data-page="<?php echo $total_pages; ?>" class="pagination-link"><?php echo $total_pages; ?></a>
+                    </li>
+                    <?php
+                endif;
+
+                // Next button
+                if ( $current_page < $total_pages ) :
+                    ?>
+                    <li class="pagination-item pagination-next">
+                        <a href="?paged=<?php echo ( $current_page + 1 ); ?>" data-page="<?php echo ( $current_page + 1 ); ?>" class="pagination-link">
+                            Successiva <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <?php
+                endif;
+                ?>
+            </ul>
+        </nav>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * Apply standard ordering to WP_Query args
+ *
+ * @param array  $args  WP_Query arguments
+ * @param string $order Order parameter from request
+ * @return array Modified args with ordering applied
+ */
+function caniincasa_apply_ordering( $args, $order ) {
+    switch ( $order ) {
+        case 'name_asc':
+            $args['orderby'] = 'title';
+            $args['order']   = 'ASC';
+            break;
+        case 'name_desc':
+            $args['orderby'] = 'title';
+            $args['order']   = 'DESC';
+            break;
+        case 'date_desc':
+            $args['orderby'] = 'date';
+            $args['order']   = 'DESC';
+            break;
+        case 'date_asc':
+            $args['orderby'] = 'date';
+            $args['order']   = 'ASC';
+            break;
+        default:
+            $args['orderby'] = 'title';
+            $args['order']   = 'ASC';
+            break;
+    }
+    return $args;
+}
+
+/**
+ * Generic structure filter handler
+ * Handles filtering for allevamenti, veterinari, canili, pensioni, centri
+ *
+ * @param string $post_type     Post type to query
+ * @param string $nonce_action  Nonce action name
+ * @param string $template_part Template part name (e.g., 'allevamento-card')
+ * @param string $no_results    No results message
+ * @param string $pagination_class CSS class for pagination
+ * @param string $aria_label    ARIA label for pagination
+ */
+function caniincasa_filter_structure_handler( $post_type, $nonce_action, $template_part, $no_results, $pagination_class = 'strutture-pagination', $aria_label = 'Navigazione risultati' ) {
+    // Verify nonce
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), $nonce_action ) ) {
+        wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
+        return;
+    }
+
+    // Get filter parameters
+    $search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
+    $provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
+    $order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
+    $paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
+
+    // Build WP_Query args
+    $args = array(
+        'post_type'      => $post_type,
+        'post_status'    => 'publish',
+        'posts_per_page' => 24,
+        'paged'          => $paged,
+    );
+
+    // Search by name
+    if ( ! empty( $search ) ) {
+        $args['s'] = $search;
+    }
+
+    // Filter by provincia taxonomy
+    if ( ! empty( $provincia ) ) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'provincia',
+                'field'    => 'slug',
+                'terms'    => $provincia,
+            ),
+        );
+    }
+
+    // Apply ordering
+    $args = caniincasa_apply_ordering( $args, $order );
+
+    // Execute query
+    $query = new WP_Query( $args );
+
+    // Render results
+    ob_start();
+    if ( $query->have_posts() ) :
+        while ( $query->have_posts() ) :
+            $query->the_post();
+            get_template_part( 'template-parts/content/content', $template_part );
+        endwhile;
+    else :
+        ?>
+        <div class="no-results">
+            <h3><?php echo esc_html( $no_results ); ?></h3>
+            <p>Prova a modificare i filtri di ricerca</p>
+        </div>
+        <?php
+    endif;
+    $html = ob_get_clean();
+
+    // Generate pagination
+    $pagination = caniincasa_generate_pagination_html( $paged, $query->max_num_pages, $pagination_class, $aria_label );
+
+    wp_reset_postdata();
+
+    // Send response
+    wp_send_json_success( array(
+        'html'       => $html,
+        'pagination' => $pagination,
+        'found'      => $query->found_posts,
+        'pages'      => $query->max_num_pages,
+    ) );
+}
+
+// =========================================================================
+// RAZZE FILTER (custom logic, not using generic handler)
+// =========================================================================
+
 /**
  * AJAX Handler: Filter Razze
  *
@@ -180,14 +400,8 @@ function caniincasa_ajax_filter_razze() {
             break;
     }
 
-    // DEBUG: Log della query finale
-    error_log('FILTRI RAZZE - Args query: ' . print_r($args, true));
-
     // Execute query
     $query = new WP_Query( $args );
-
-    // DEBUG: Log risultati
-    error_log('FILTRI RAZZE - Risultati trovati: ' . $query->found_posts . ' / Pagine: ' . $query->max_num_pages);
 
     // Start output buffering for razze cards
     ob_start();
@@ -209,86 +423,18 @@ function caniincasa_ajax_filter_razze() {
     // Get the buffered content
     $html = ob_get_clean();
 
-    // Generate pagination HTML
-    ob_start();
-    if ( $query->max_num_pages > 1 ) :
-        $current_page = max( 1, $paged );
-        $total_pages = $query->max_num_pages;
+    // Generate pagination using helper function
+    $pagination = caniincasa_generate_pagination_html( $paged, $query->max_num_pages, 'razze-pagination', 'Navigazione razze' );
 
-        echo '<div class="razze-pagination">';
-        echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione razze">';
-        echo '<ul class="pagination-list">';
-
-        // Previous button
-        if ( $current_page > 1 ) {
-            echo '<li class="pagination-item pagination-prev">';
-            echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-            echo '<span aria-hidden="true">&laquo;</span> Precedente';
-            echo '</a>';
-            echo '</li>';
-        }
-
-        // First page
-        if ( $current_page > 3 ) {
-            echo '<li class="pagination-item">';
-            echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-            echo '</li>';
-            if ( $current_page > 4 ) {
-                echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-            }
-        }
-
-        // Pages around current
-        for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-            if ( $i == $current_page ) {
-                echo '<li class="pagination-item pagination-current">';
-                echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-                echo '</li>';
-            } else {
-                echo '<li class="pagination-item">';
-                echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-                echo '</li>';
-            }
-        }
-
-        // Last page
-        if ( $current_page < $total_pages - 2 ) {
-            if ( $current_page < $total_pages - 3 ) {
-                echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-            }
-            echo '<li class="pagination-item">';
-            echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-            echo '</li>';
-        }
-
-        // Next button
-        if ( $current_page < $total_pages ) {
-            echo '<li class="pagination-item pagination-next">';
-            echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-            echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-            echo '</a>';
-            echo '</li>';
-        }
-
-        echo '</ul>';
-        echo '</nav>';
-        echo '</div>';
-    endif;
-    $pagination = ob_get_clean();
-
-    // Reset post data
     wp_reset_postdata();
 
-    // Prepare response
-    $response = array(
+    // Send response
+    wp_send_json_success( array(
         'html'       => $html,
         'pagination' => $pagination,
         'found'      => $query->found_posts,
         'pages'      => $query->max_num_pages,
-    );
-
-    // Send success response
-    wp_send_json_success( $response );
+    ) );
 }
 add_action( 'wp_ajax_filter_razze', 'caniincasa_ajax_filter_razze' );
 add_action( 'wp_ajax_nopriv_filter_razze', 'caniincasa_ajax_filter_razze' );
@@ -419,36 +565,48 @@ add_action( 'wp_ajax_nopriv_get_related_razze', 'caniincasa_ajax_get_related_raz
 
 /**
  * AJAX Handler: Filter Allevamenti
- *
- * Handles the AJAX request for filtering allevamenti archive
+ * Uses generic handler
  */
 function caniincasa_ajax_filter_allevamenti() {
-    // Verify nonce
-    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'filter_allevamenti_nonce' ) ) {
+    caniincasa_filter_structure_handler(
+        'allevamenti',
+        'filter_allevamenti_nonce',
+        'allevamento-card',
+        'Nessun allevamento trovato',
+        'strutture-pagination',
+        'Navigazione allevamenti'
+    );
+}
+add_action( 'wp_ajax_filter_allevamenti', 'caniincasa_ajax_filter_allevamenti' );
+add_action( 'wp_ajax_nopriv_filter_allevamenti', 'caniincasa_ajax_filter_allevamenti' );
+
+/**
+ * AJAX Handler: Filter Veterinari
+ * Custom handler due to servizi meta filter
+ */
+function caniincasa_ajax_filter_veterinari() {
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'filter_veterinari_nonce' ) ) {
         wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
         return;
     }
 
-    // Get filter parameters
     $search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
     $provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
+    $servizi   = isset( $_POST['servizi'] ) ? array_map( 'sanitize_text_field', $_POST['servizi'] ) : array();
     $order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
     $paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
-    // Build WP_Query args
     $args = array(
-        'post_type'      => 'allevamenti',
+        'post_type'      => 'veterinari',
         'post_status'    => 'publish',
-        'posts_per_page' => 24,
+        'posts_per_page' => 12,
         'paged'          => $paged,
     );
 
-    // Search by name
     if ( ! empty( $search ) ) {
         $args['s'] = $search;
     }
 
-    // Filter by provincia taxonomy
     if ( ! empty( $provincia ) ) {
         $args['tax_query'] = array(
             array(
@@ -459,308 +617,51 @@ function caniincasa_ajax_filter_allevamenti() {
         );
     }
 
-    // Handle ordering
-    switch ( $order ) {
-        case 'name_asc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'ASC';
-            break;
-
-        case 'name_desc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'DESC';
-            break;
-
-        case 'date_desc':
-            $args['orderby'] = 'date';
-            $args['order']   = 'DESC';
-            break;
-
-        case 'date_asc':
-            $args['orderby'] = 'date';
-            $args['order']   = 'ASC';
-            break;
-
-        default:
-            $args['orderby'] = 'title';
-            $args['order']   = 'ASC';
-            break;
+    // Filter by servizi (OR relation - at least one service)
+    if ( ! empty( $servizi ) ) {
+        $meta_query = array( 'relation' => 'OR' );
+        foreach ( $servizi as $servizio ) {
+            $meta_query[] = array(
+                'key'     => 'servizi',
+                'value'   => $servizio,
+                'compare' => 'LIKE',
+            );
+        }
+        $args['meta_query'] = $meta_query;
     }
 
-    // Execute query
+    // Apply ordering using helper
+    $args = caniincasa_apply_ordering( $args, $order );
+
     $query = new WP_Query( $args );
 
-    // Start output buffering
     ob_start();
-
     if ( $query->have_posts() ) :
         while ( $query->have_posts() ) :
             $query->the_post();
-            get_template_part( 'template-parts/content/content', 'allevamento-card' );
+            get_template_part( 'template-parts/content/content', 'struttura-card' );
         endwhile;
     else :
         ?>
         <div class="no-results">
-            <h3>Nessun allevamento trovato</h3>
+            <h3>Nessun veterinario trovato</h3>
             <p>Prova a modificare i filtri di ricerca</p>
         </div>
         <?php
     endif;
-
-    // Get the buffered content
     $html = ob_get_clean();
 
-    // Generate pagination HTML
-    ob_start();
-    if ( $query->max_num_pages > 1 ) :
-        $current_page = max( 1, $paged );
-        $total_pages = $query->max_num_pages;
+    // Generate pagination using helper
+    $pagination = caniincasa_generate_pagination_html( $paged, $query->max_num_pages, 'strutture-pagination', 'Navigazione veterinari' );
 
-        echo '<div class="strutture-pagination">';
-        echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione allevamenti">';
-        echo '<ul class="pagination-list">';
-
-        // Previous button
-        if ( $current_page > 1 ) {
-            echo '<li class="pagination-item pagination-prev">';
-            echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-            echo '<span aria-hidden="true">&laquo;</span> Precedente';
-            echo '</a>';
-            echo '</li>';
-        }
-
-        // First page
-        if ( $current_page > 3 ) {
-            echo '<li class="pagination-item">';
-            echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-            echo '</li>';
-            if ( $current_page > 4 ) {
-                echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-            }
-        }
-
-        // Pages around current
-        for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-            if ( $i == $current_page ) {
-                echo '<li class="pagination-item pagination-current">';
-                echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-                echo '</li>';
-            } else {
-                echo '<li class="pagination-item">';
-                echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-                echo '</li>';
-            }
-        }
-
-        // Last page
-        if ( $current_page < $total_pages - 2 ) {
-            if ( $current_page < $total_pages - 3 ) {
-                echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-            }
-            echo '<li class="pagination-item">';
-            echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-            echo '</li>';
-        }
-
-        // Next button
-        if ( $current_page < $total_pages ) {
-            echo '<li class="pagination-item pagination-next">';
-            echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-            echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-            echo '</a>';
-            echo '</li>';
-        }
-
-        echo '</ul>';
-        echo '</nav>';
-        echo '</div>';
-    endif;
-    $pagination = ob_get_clean();
-
-    // Reset post data
     wp_reset_postdata();
 
-    // Prepare response
-    $response = array(
+    wp_send_json_success( array(
         'html'       => $html,
         'pagination' => $pagination,
         'found'      => $query->found_posts,
         'pages'      => $query->max_num_pages,
-    );
-
-    // Send success response
-    wp_send_json_success( $response );
-}
-add_action( 'wp_ajax_filter_allevamenti', 'caniincasa_ajax_filter_allevamenti' );
-add_action( 'wp_ajax_nopriv_filter_allevamenti', 'caniincasa_ajax_filter_allevamenti' );
-
-/**
- * AJAX Handler: Filter Veterinari
- */
-function caniincasa_ajax_filter_veterinari() {
-	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'filter_veterinari_nonce' ) ) {
-		wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
-		return;
-	}
-
-	$search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
-	$provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
-	$servizi   = isset( $_POST['servizi'] ) ? array_map( 'sanitize_text_field', $_POST['servizi'] ) : array();
-	$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
-	$paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-
-	$args = array(
-		'post_type'      => 'veterinari',
-		'post_status'    => 'publish',
-		'posts_per_page' => 12,
-		'paged'          => $paged,
-	);
-
-	if ( ! empty( $search ) ) {
-		$args['s'] = $search;
-	}
-
-	if ( ! empty( $provincia ) ) {
-		$args['tax_query'] = array(
-			array(
-				'taxonomy' => 'provincia',
-				'field'    => 'slug',
-				'terms'    => $provincia,
-			),
-		);
-	}
-
-	// Filter by servizi (OR relation - at least one service)
-	if ( ! empty( $servizi ) ) {
-		$meta_query = array( 'relation' => 'OR' );
-		foreach ( $servizi as $servizio ) {
-			$meta_query[] = array(
-				'key'     => 'servizi',
-				'value'   => $servizio,
-				'compare' => 'LIKE',
-			);
-		}
-		$args['meta_query'] = $meta_query;
-	}
-
-	switch ( $order ) {
-		case 'name_asc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-		case 'name_desc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_desc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_asc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'ASC';
-			break;
-		default:
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-	}
-
-	$query = new WP_Query( $args );
-
-	ob_start();
-
-	if ( $query->have_posts() ) :
-		while ( $query->have_posts() ) :
-			$query->the_post();
-			get_template_part( 'template-parts/content/content', 'struttura-card' );
-		endwhile;
-	else :
-		?>
-		<div class="no-results">
-			<h3>Nessun veterinario trovato</h3>
-			<p>Prova a modificare i filtri di ricerca</p>
-		</div>
-		<?php
-	endif;
-
-	$html = ob_get_clean();
-
-	// Generate pagination HTML
-	ob_start();
-	if ( $query->max_num_pages > 1 ) :
-		$current_page = max( 1, $paged );
-		$total_pages = $query->max_num_pages;
-
-		echo '<div class="strutture-pagination">';
-		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione veterinari">';
-		echo '<ul class="pagination-list">';
-
-		// Previous button
-		if ( $current_page > 1 ) {
-			echo '<li class="pagination-item pagination-prev">';
-			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-			echo '<span aria-hidden="true">&laquo;</span> Precedente';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		// First page
-		if ( $current_page > 3 ) {
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-			echo '</li>';
-			if ( $current_page > 4 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-		}
-
-		// Pages around current
-		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-			if ( $i == $current_page ) {
-				echo '<li class="pagination-item pagination-current">';
-				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-				echo '</li>';
-			} else {
-				echo '<li class="pagination-item">';
-				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-				echo '</li>';
-			}
-		}
-
-		// Last page
-		if ( $current_page < $total_pages - 2 ) {
-			if ( $current_page < $total_pages - 3 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-			echo '</li>';
-		}
-
-		// Next button
-		if ( $current_page < $total_pages ) {
-			echo '<li class="pagination-item pagination-next">';
-			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		echo '</ul>';
-		echo '</nav>';
-		echo '</div>';
-	endif;
-	$pagination = ob_get_clean();
-
-	wp_reset_postdata();
-
-	wp_send_json_success( array(
-		'html'       => $html,
-		'pagination' => $pagination,
-		'found'      => $query->found_posts,
-		'pages'      => $query->max_num_pages,
-	) );
+    ) );
 }
 add_action( 'wp_ajax_filter_veterinari', 'caniincasa_ajax_filter_veterinari' );
 add_action( 'wp_ajax_nopriv_filter_veterinari', 'caniincasa_ajax_filter_veterinari' );
@@ -768,157 +669,17 @@ add_action( 'wp_ajax_nopriv_filter_veterinari', 'caniincasa_ajax_filter_veterina
 
 /**
  * AJAX Handler: Filter Canili
+ * Uses generic handler
  */
 function caniincasa_ajax_filter_canili() {
-	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'filter_canili_nonce' ) ) {
-		wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
-		return;
-	}
-
-	$search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
-	$provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
-	$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
-	$paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-
-	$args = array(
-		'post_type'      => 'canili',
-		'post_status'    => 'publish',
-		'posts_per_page' => 12,
-		'paged'          => $paged,
-	);
-
-	if ( ! empty( $search ) ) {
-		$args['s'] = $search;
-	}
-
-	if ( ! empty( $provincia ) ) {
-		$args['tax_query'] = array(
-			array(
-				'taxonomy' => 'provincia',
-				'field'    => 'slug',
-				'terms'    => $provincia,
-			),
-		);
-	}
-
-	switch ( $order ) {
-		case 'name_asc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-		case 'name_desc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_desc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_asc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'ASC';
-			break;
-		default:
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-	}
-
-	$query = new WP_Query( $args );
-
-	ob_start();
-
-	if ( $query->have_posts() ) :
-		while ( $query->have_posts() ) :
-			$query->the_post();
-			get_template_part( 'template-parts/content/content', 'struttura-card' );
-		endwhile;
-	else :
-		?>
-		<div class="no-results">
-			<h3>Nessun canile trovato</h3>
-			<p>Prova a modificare i filtri di ricerca</p>
-		</div>
-		<?php
-	endif;
-
-	$html = ob_get_clean();
-
-	// Generate pagination HTML
-	ob_start();
-	if ( $query->max_num_pages > 1 ) :
-		$current_page = max( 1, $paged );
-		$total_pages = $query->max_num_pages;
-
-		echo '<div class="strutture-pagination">';
-		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione canili">';
-		echo '<ul class="pagination-list">';
-
-		// Previous button
-		if ( $current_page > 1 ) {
-			echo '<li class="pagination-item pagination-prev">';
-			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-			echo '<span aria-hidden="true">&laquo;</span> Precedente';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		// First page
-		if ( $current_page > 3 ) {
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-			echo '</li>';
-			if ( $current_page > 4 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-		}
-
-		// Pages around current
-		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-			if ( $i == $current_page ) {
-				echo '<li class="pagination-item pagination-current">';
-				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-				echo '</li>';
-			} else {
-				echo '<li class="pagination-item">';
-				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-				echo '</li>';
-			}
-		}
-
-		// Last page
-		if ( $current_page < $total_pages - 2 ) {
-			if ( $current_page < $total_pages - 3 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-			echo '</li>';
-		}
-
-		// Next button
-		if ( $current_page < $total_pages ) {
-			echo '<li class="pagination-item pagination-next">';
-			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		echo '</ul>';
-		echo '</nav>';
-		echo '</div>';
-	endif;
-	$pagination = ob_get_clean();
-
-	wp_reset_postdata();
-
-	wp_send_json_success( array(
-		'html'       => $html,
-		'pagination' => $pagination,
-		'found'      => $query->found_posts,
-		'pages'      => $query->max_num_pages,
-	) );
+    caniincasa_filter_structure_handler(
+        'canili',
+        'filter_canili_nonce',
+        'struttura-card',
+        'Nessun canile trovato',
+        'strutture-pagination',
+        'Navigazione canili'
+    );
 }
 add_action( 'wp_ajax_filter_canili', 'caniincasa_ajax_filter_canili' );
 add_action( 'wp_ajax_nopriv_filter_canili', 'caniincasa_ajax_filter_canili' );
@@ -926,157 +687,17 @@ add_action( 'wp_ajax_nopriv_filter_canili', 'caniincasa_ajax_filter_canili' );
 
 /**
  * AJAX Handler: Filter Pensioni per Cani
+ * Uses generic handler
  */
 function caniincasa_ajax_filter_pensioni() {
-	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'filter_pensioni_nonce' ) ) {
-		wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
-		return;
-	}
-
-	$search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
-	$provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
-	$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
-	$paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-
-	$args = array(
-		'post_type'      => 'pensioni_per_cani',
-		'post_status'    => 'publish',
-		'posts_per_page' => 12,
-		'paged'          => $paged,
-	);
-
-	if ( ! empty( $search ) ) {
-		$args['s'] = $search;
-	}
-
-	if ( ! empty( $provincia ) ) {
-		$args['tax_query'] = array(
-			array(
-				'taxonomy' => 'provincia',
-				'field'    => 'slug',
-				'terms'    => $provincia,
-			),
-		);
-	}
-
-	switch ( $order ) {
-		case 'name_asc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-		case 'name_desc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_desc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_asc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'ASC';
-			break;
-		default:
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-	}
-
-	$query = new WP_Query( $args );
-
-	ob_start();
-
-	if ( $query->have_posts() ) :
-		while ( $query->have_posts() ) :
-			$query->the_post();
-			get_template_part( 'template-parts/content/content', 'struttura-card' );
-		endwhile;
-	else :
-		?>
-		<div class="no-results">
-			<h3>Nessuna pensione trovata</h3>
-			<p>Prova a modificare i filtri di ricerca</p>
-		</div>
-		<?php
-	endif;
-
-	$html = ob_get_clean();
-
-	// Generate pagination HTML
-	ob_start();
-	if ( $query->max_num_pages > 1 ) :
-		$current_page = max( 1, $paged );
-		$total_pages = $query->max_num_pages;
-
-		echo '<div class="strutture-pagination">';
-		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione pensioni">';
-		echo '<ul class="pagination-list">';
-
-		// Previous button
-		if ( $current_page > 1 ) {
-			echo '<li class="pagination-item pagination-prev">';
-			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-			echo '<span aria-hidden="true">&laquo;</span> Precedente';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		// First page
-		if ( $current_page > 3 ) {
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-			echo '</li>';
-			if ( $current_page > 4 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-		}
-
-		// Pages around current
-		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-			if ( $i == $current_page ) {
-				echo '<li class="pagination-item pagination-current">';
-				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-				echo '</li>';
-			} else {
-				echo '<li class="pagination-item">';
-				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-				echo '</li>';
-			}
-		}
-
-		// Last page
-		if ( $current_page < $total_pages - 2 ) {
-			if ( $current_page < $total_pages - 3 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-			echo '</li>';
-		}
-
-		// Next button
-		if ( $current_page < $total_pages ) {
-			echo '<li class="pagination-item pagination-next">';
-			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		echo '</ul>';
-		echo '</nav>';
-		echo '</div>';
-	endif;
-	$pagination = ob_get_clean();
-
-	wp_reset_postdata();
-
-	wp_send_json_success( array(
-		'html'       => $html,
-		'pagination' => $pagination,
-		'found'      => $query->found_posts,
-		'pages'      => $query->max_num_pages,
-	) );
+    caniincasa_filter_structure_handler(
+        'pensioni_per_cani',
+        'filter_pensioni_nonce',
+        'struttura-card',
+        'Nessuna pensione trovata',
+        'strutture-pagination',
+        'Navigazione pensioni'
+    );
 }
 add_action( 'wp_ajax_filter_pensioni', 'caniincasa_ajax_filter_pensioni' );
 add_action( 'wp_ajax_nopriv_filter_pensioni', 'caniincasa_ajax_filter_pensioni' );
@@ -1084,157 +705,17 @@ add_action( 'wp_ajax_nopriv_filter_pensioni', 'caniincasa_ajax_filter_pensioni' 
 
 /**
  * AJAX Handler: Filter Centri Cinofili
+ * Uses generic handler
  */
 function caniincasa_ajax_filter_centri() {
-	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'filter_centri_nonce' ) ) {
-		wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
-		return;
-	}
-
-	$search    = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
-	$provincia = isset( $_POST['provincia'] ) ? sanitize_text_field( $_POST['provincia'] ) : '';
-	$order     = isset( $_POST['order'] ) ? sanitize_text_field( $_POST['order'] ) : 'name_asc';
-	$paged     = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-
-	$args = array(
-		'post_type'      => 'centri_cinofili',
-		'post_status'    => 'publish',
-		'posts_per_page' => 12,
-		'paged'          => $paged,
-	);
-
-	if ( ! empty( $search ) ) {
-		$args['s'] = $search;
-	}
-
-	if ( ! empty( $provincia ) ) {
-		$args['tax_query'] = array(
-			array(
-				'taxonomy' => 'provincia',
-				'field'    => 'slug',
-				'terms'    => $provincia,
-			),
-		);
-	}
-
-	switch ( $order ) {
-		case 'name_asc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-		case 'name_desc':
-			$args['orderby'] = 'title';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_desc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'DESC';
-			break;
-		case 'date_asc':
-			$args['orderby'] = 'date';
-			$args['order']   = 'ASC';
-			break;
-		default:
-			$args['orderby'] = 'title';
-			$args['order']   = 'ASC';
-			break;
-	}
-
-	$query = new WP_Query( $args );
-
-	ob_start();
-
-	if ( $query->have_posts() ) :
-		while ( $query->have_posts() ) :
-			$query->the_post();
-			get_template_part( 'template-parts/content/content', 'struttura-card' );
-		endwhile;
-	else :
-		?>
-		<div class="no-results">
-			<h3>Nessun centro trovato</h3>
-			<p>Prova a modificare i filtri di ricerca</p>
-		</div>
-		<?php
-	endif;
-
-	$html = ob_get_clean();
-
-	// Generate pagination HTML
-	ob_start();
-	if ( $query->max_num_pages > 1 ) :
-		$current_page = max( 1, $paged );
-		$total_pages = $query->max_num_pages;
-
-		echo '<div class="strutture-pagination">';
-		echo '<nav class="pagination-nav" role="navigation" aria-label="Navigazione centri">';
-		echo '<ul class="pagination-list">';
-
-		// Previous button
-		if ( $current_page > 1 ) {
-			echo '<li class="pagination-item pagination-prev">';
-			echo '<a href="?paged=' . ( $current_page - 1 ) . '" data-page="' . ( $current_page - 1 ) . '" class="pagination-link">';
-			echo '<span aria-hidden="true">&laquo;</span> Precedente';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		// First page
-		if ( $current_page > 3 ) {
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=1" data-page="1" class="pagination-link">1</a>';
-			echo '</li>';
-			if ( $current_page > 4 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-		}
-
-		// Pages around current
-		for ( $i = max( 1, $current_page - 2 ); $i <= min( $total_pages, $current_page + 2 ); $i++ ) {
-			if ( $i == $current_page ) {
-				echo '<li class="pagination-item pagination-current">';
-				echo '<span class="pagination-link current" aria-current="page">' . $i . '</span>';
-				echo '</li>';
-			} else {
-				echo '<li class="pagination-item">';
-				echo '<a href="?paged=' . $i . '" data-page="' . $i . '" class="pagination-link">' . $i . '</a>';
-				echo '</li>';
-			}
-		}
-
-		// Last page
-		if ( $current_page < $total_pages - 2 ) {
-			if ( $current_page < $total_pages - 3 ) {
-				echo '<li class="pagination-item pagination-dots"><span>...</span></li>';
-			}
-			echo '<li class="pagination-item">';
-			echo '<a href="?paged=' . $total_pages . '" data-page="' . $total_pages . '" class="pagination-link">' . $total_pages . '</a>';
-			echo '</li>';
-		}
-
-		// Next button
-		if ( $current_page < $total_pages ) {
-			echo '<li class="pagination-item pagination-next">';
-			echo '<a href="?paged=' . ( $current_page + 1 ) . '" data-page="' . ( $current_page + 1 ) . '" class="pagination-link">';
-			echo 'Successiva <span aria-hidden="true">&raquo;</span>';
-			echo '</a>';
-			echo '</li>';
-		}
-
-		echo '</ul>';
-		echo '</nav>';
-		echo '</div>';
-	endif;
-	$pagination = ob_get_clean();
-
-	wp_reset_postdata();
-
-	wp_send_json_success( array(
-		'html'       => $html,
-		'pagination' => $pagination,
-		'found'      => $query->found_posts,
-		'pages'      => $query->max_num_pages,
-	) );
+    caniincasa_filter_structure_handler(
+        'centri_cinofili',
+        'filter_centri_nonce',
+        'struttura-card',
+        'Nessun centro trovato',
+        'strutture-pagination',
+        'Navigazione centri'
+    );
 }
 add_action( 'wp_ajax_filter_centri', 'caniincasa_ajax_filter_centri' );
 add_action( 'wp_ajax_nopriv_filter_centri', 'caniincasa_ajax_filter_centri' );
