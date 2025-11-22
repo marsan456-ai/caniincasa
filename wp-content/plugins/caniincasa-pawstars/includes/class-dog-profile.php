@@ -220,12 +220,17 @@ class Pawstars_Dog_Profile {
      * @return array
      */
     public function get_user_dogs( $user_id = null ) {
-        if ( ! $user_id ) {
+        if ( empty( $user_id ) || $user_id <= 0 ) {
             $user_id = get_current_user_id();
         }
 
+        // Prevent information disclosure - require valid user
+        if ( empty( $user_id ) || $user_id <= 0 ) {
+            return array();
+        }
+
         return $this->db->get_dogs( array(
-            'user_id' => $user_id,
+            'user_id' => absint( $user_id ),
             'status'  => null, // All statuses
             'orderby' => 'created_at',
             'order'   => 'DESC',

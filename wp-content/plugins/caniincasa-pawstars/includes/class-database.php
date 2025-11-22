@@ -396,15 +396,60 @@ class Pawstars_Database {
 
         $dogs = $wpdb->get_results( $sql );
 
-        // Process results
+        if ( empty( $dogs ) ) {
+            return $dogs;
+        }
+
+        // Batch collect IDs to avoid N+1 queries
+        $image_ids = array();
+        $breed_ids = array();
+
+        foreach ( $dogs as $dog ) {
+            if ( ! empty( $dog->featured_image_id ) ) {
+                $image_ids[] = (int) $dog->featured_image_id;
+            }
+            if ( ! empty( $dog->breed_id ) ) {
+                $breed_ids[] = (int) $dog->breed_id;
+            }
+        }
+
+        // Batch query for images
+        $image_urls = array();
+        if ( ! empty( $image_ids ) ) {
+            $image_ids_unique = array_unique( $image_ids );
+            foreach ( $image_ids_unique as $img_id ) {
+                $image_urls[ $img_id ] = wp_get_attachment_url( $img_id );
+            }
+        }
+
+        // Batch query for breed names
+        $breed_names = array();
+        if ( ! empty( $breed_ids ) ) {
+            $breed_ids_unique = array_unique( $breed_ids );
+            $breeds = get_posts( array(
+                'post_type'      => 'razze_di_cani',
+                'post__in'       => $breed_ids_unique,
+                'posts_per_page' => count( $breed_ids_unique ),
+                'post_status'    => 'publish',
+            ) );
+            foreach ( $breeds as $breed ) {
+                $breed_names[ $breed->ID ] = $breed->post_title;
+            }
+        }
+
+        // Process results with cached data
         foreach ( $dogs as &$dog ) {
-            if ( $dog->gallery_ids ) {
-                $dog->gallery_ids = json_decode( $dog->gallery_ids, true );
+            // Parse gallery JSON
+            if ( ! empty( $dog->gallery_ids ) ) {
+                $decoded = json_decode( $dog->gallery_ids, true );
+                $dog->gallery_ids = is_array( $decoded ) ? $decoded : array();
             } else {
                 $dog->gallery_ids = array();
             }
-            $dog->image_url = $dog->featured_image_id ? wp_get_attachment_url( $dog->featured_image_id ) : '';
-            $dog->breed_name = $dog->breed_id ? get_the_title( $dog->breed_id ) : '';
+            // Use cached image URL
+            $dog->image_url = isset( $image_urls[ $dog->featured_image_id ] ) ? $image_urls[ $dog->featured_image_id ] : '';
+            // Use cached breed name
+            $dog->breed_name = isset( $breed_names[ $dog->breed_id ] ) ? $breed_names[ $dog->breed_id ] : '';
         }
 
         return $dogs;
@@ -548,13 +593,14 @@ class Pawstars_Database {
         // Get points value
         $settings = get_option( 'pawstars_settings', array() );
         $points_map = array(
-            'love'     => isset( $settings['points_love'] ) ? $settings['points_love'] : 5,
-            'adorable' => isset( $settings['points_adorable'] ) ? $settings['points_adorable'] : 3,
-            'star'     => isset( $settings['points_star'] ) ? $settings['points_star'] : 10,
-            'funny'    => isset( $settings['points_funny'] ) ? $settings['points_funny'] : 2,
-            'aww'      => isset( $settings['points_aww'] ) ? $settings['points_aww'] : 2,
+            'love'     => isset( $settings['points_love'] ) ? (int) $settings['points_love'] : 5,
+            'adorable' => isset( $settings['points_adorable'] ) ? (int) $settings['points_adorable'] : 3,
+            'star'     => isset( $settings['points_star'] ) ? (int) $settings['points_star'] : 10,
+            'funny'    => isset( $settings['points_funny'] ) ? (int) $settings['points_funny'] : 2,
+            'aww'      => isset( $settings['points_aww'] ) ? (int) $settings['points_aww'] : 2,
         );
-        $points = $points_map[ $reaction_type ];
+        // Defensive check for reaction type (should be validated above)
+        $points = isset( $points_map[ $reaction_type ] ) ? $points_map[ $reaction_type ] : 0;
 
         // Insert vote
         $result = $wpdb->insert(
@@ -834,15 +880,18 @@ class Pawstars_Database {
             return $cached;
         }
 
+        // MySQL 5.7+ strict mode compatible query using subquery
         $dogs = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT d.*, COALESCE(SUM(v.points_value), 0) as hot_points
+                "SELECT d.*, COALESCE(hp.hot_points, 0) as hot_points
                  FROM {$this->tables['dogs']} d
-                 LEFT JOIN {$this->tables['votes']} v
-                     ON d.id = v.dog_id
-                     AND v.voted_at > DATE_SUB(NOW(), INTERVAL %d DAY)
+                 LEFT JOIN (
+                     SELECT dog_id, SUM(points_value) as hot_points
+                     FROM {$this->tables['votes']}
+                     WHERE voted_at > DATE_SUB(NOW(), INTERVAL %d DAY)
+                     GROUP BY dog_id
+                 ) hp ON d.id = hp.dog_id
                  WHERE d.status = 'active'
-                 GROUP BY d.id
                  ORDER BY hot_points DESC, d.total_points DESC
                  LIMIT %d",
                 $days,

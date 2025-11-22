@@ -295,7 +295,12 @@
          * Show toast notification
          */
         toast: function(message, type = 'info') {
-            const $toast = $(`<div class="pawstars-toast ${type}">${message}</div>`);
+            // Sanitize type to prevent XSS
+            const safeType = ['info', 'success', 'error', 'warning'].includes(type) ? type : 'info';
+            const $toast = $('<div>')
+                .addClass('pawstars-toast')
+                .addClass(safeType)
+                .text(message);
             $('body').append($toast);
 
             setTimeout(function() {
