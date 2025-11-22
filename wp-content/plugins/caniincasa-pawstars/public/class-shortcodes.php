@@ -48,6 +48,7 @@ class Pawstars_Shortcodes {
         add_shortcode( 'pawstars_leaderboard', array( $this, 'leaderboard_shortcode' ) );
         add_shortcode( 'pawstars_user_dashboard', array( $this, 'user_dashboard_shortcode' ) );
         add_shortcode( 'pawstars_dog_profile', array( $this, 'dog_profile_shortcode' ) );
+        add_shortcode( 'pawstars_create', array( $this, 'create_profile_shortcode' ) );
     }
 
     /**
@@ -162,6 +163,46 @@ class Pawstars_Shortcodes {
 
         ob_start();
         include PAWSTARS_PLUGIN_DIR . 'public/templates/dog-profile.php';
+        return ob_get_clean();
+    }
+
+    /**
+     * Create profile shortcode
+     *
+     * @since  1.0.0
+     * @param  array $atts Shortcode attributes
+     * @return string
+     */
+    public function create_profile_shortcode( $atts ) {
+        if ( ! $this->plugin->is_enabled() ) {
+            return '';
+        }
+
+        $atts = shortcode_atts( array(), $atts, 'pawstars_create' );
+
+        // Check if user is logged in
+        if ( ! is_user_logged_in() ) {
+            return '<div class="pawstars-notice pawstars-notice-warning">
+                <p>' . esc_html__( 'Devi effettuare il login per creare un profilo.', 'pawstars' ) . '</p>
+                <p><a href="' . esc_url( wp_login_url( get_permalink() ) ) . '" class="btn btn-primary">' . esc_html__( 'Accedi', 'pawstars' ) . '</a></p>
+            </div>';
+        }
+
+        // Check dog limit
+        $user_dogs = $this->plugin->database->count_user_dogs( get_current_user_id() );
+        $max_dogs = get_option( 'pawstars_max_dogs_per_user', 5 );
+
+        if ( $user_dogs >= $max_dogs ) {
+            return '<div class="pawstars-notice pawstars-notice-warning">
+                <p>' . sprintf( esc_html__( 'Hai raggiunto il limite massimo di %d profili.', 'pawstars' ), $max_dogs ) . '</p>
+            </div>';
+        }
+
+        // Force load assets
+        add_filter( 'pawstars_load_assets', '__return_true' );
+
+        ob_start();
+        include PAWSTARS_PLUGIN_DIR . 'public/templates/create-profile.php';
         return ob_get_clean();
     }
 }
