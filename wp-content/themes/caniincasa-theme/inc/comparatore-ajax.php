@@ -9,8 +9,8 @@
  * Search razze for autocomplete
  */
 function caniincasa_search_razze_ajax() {
-    // Temporarily skip nonce check for debugging
-    // check_ajax_referer( 'caniincasa_nonce', 'nonce' );
+    // Verify nonce for security
+    check_ajax_referer( 'caniincasa_nonce', 'nonce' );
 
     $query = isset( $_POST['query'] ) ? sanitize_text_field( $_POST['query'] ) : '';
 
@@ -58,17 +58,12 @@ add_action( 'wp_ajax_nopriv_search_razze', 'caniincasa_search_razze_ajax' );
  * Get razze comparison data
  */
 function caniincasa_get_razze_comparison_ajax() {
-    // Log start of function
-    error_log( 'Comparatore AJAX: Function started' );
-
-    // Temporarily skip nonce check for debugging
-    // check_ajax_referer( 'caniincasa_nonce', 'nonce' );
+    // Verify nonce for security
+    check_ajax_referer( 'caniincasa_nonce', 'nonce' );
 
     $razze_ids = isset( $_POST['razze_ids'] ) ? array_map( 'intval', $_POST['razze_ids'] ) : array();
-    error_log( 'Comparatore AJAX: Razze IDs received: ' . print_r( $razze_ids, true ) );
 
     if ( empty( $razze_ids ) || count( $razze_ids ) < 2 || count( $razze_ids ) > 3 ) {
-        error_log( 'Comparatore AJAX: Invalid number of razze - count: ' . count( $razze_ids ) );
         wp_send_json_error( 'Invalid number of razze. Received: ' . count( $razze_ids ) );
         return;
     }
@@ -76,16 +71,11 @@ function caniincasa_get_razze_comparison_ajax() {
     $razze_data = array();
 
     foreach ( $razze_ids as $razza_id ) {
-        error_log( 'Comparatore AJAX: Processing razza ID: ' . $razza_id );
-
         $razza = get_post( $razza_id );
 
         if ( ! $razza || $razza->post_type !== 'razze_di_cani' ) {
-            error_log( 'Comparatore AJAX: Invalid post or wrong post type for ID: ' . $razza_id );
             continue;
         }
-
-        error_log( 'Comparatore AJAX: Valid razza found: ' . $razza->post_title );
 
         // Get taglia taxonomy
         $taglia_terms = get_the_terms( $razza_id, 'razza_taglia' );
@@ -157,17 +147,13 @@ function caniincasa_get_razze_comparison_ajax() {
             'image'  => get_the_post_thumbnail_url( $razza_id, 'medium' ),
             'fields' => $fields,
         );
-
-        error_log( 'Comparatore AJAX: Successfully added razza data for: ' . $razza->post_title );
     }
 
     if ( empty( $razze_data ) ) {
-        error_log( 'Comparatore AJAX: No razze data collected' );
         wp_send_json_error( 'No valid razze found' );
         return;
     }
 
-    error_log( 'Comparatore AJAX: Sending success response with ' . count( $razze_data ) . ' razze' );
     wp_send_json_success( $razze_data );
 }
 add_action( 'wp_ajax_get_razze_comparison', 'caniincasa_get_razze_comparison_ajax' );

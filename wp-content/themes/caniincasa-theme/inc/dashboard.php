@@ -575,10 +575,13 @@ add_action( 'admin_init', 'caniincasa_block_wp_admin_access' );
  */
 function caniincasa_redirect_login_page() {
     $login_page = home_url( '/login' );
-    $page_viewed = basename( $_SERVER['REQUEST_URI'] );
+    // Sanitize REQUEST_URI before using
+    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+    $page_viewed = basename( wp_parse_url( $request_uri, PHP_URL_PATH ) );
 
-    if ( $page_viewed == 'wp-login.php' && $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-        wp_redirect( $login_page );
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    if ( $page_viewed === 'wp-login.php' && isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'GET' ) {
+        wp_safe_redirect( $login_page );
         exit;
     }
 }
@@ -588,13 +591,14 @@ add_action( 'init', 'caniincasa_redirect_login_page' );
  * Redirect failed login to custom login page
  */
 function caniincasa_redirect_login_fail( $username ) {
-    $referrer = $_SERVER['HTTP_REFERER'];
+    // Sanitize HTTP_REFERER - this header can be spoofed
+    $referrer = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 
-    if ( ! empty( $referrer ) && ! strstr( $referrer, 'wp-login' ) && ! strstr( $referrer, 'wp-admin' ) ) {
+    if ( ! empty( $referrer ) && strpos( $referrer, 'wp-login' ) === false && strpos( $referrer, 'wp-admin' ) === false ) {
         if ( ! empty( $username ) ) {
-            wp_redirect( home_url( '/login' ) . '?login=failed&username=' . urlencode( $username ) );
+            wp_safe_redirect( home_url( '/login' ) . '?login=failed&username=' . rawurlencode( sanitize_user( $username ) ) );
         } else {
-            wp_redirect( home_url( '/login' ) . '?login=failed' );
+            wp_safe_redirect( home_url( '/login' ) . '?login=failed' );
         }
         exit;
     }

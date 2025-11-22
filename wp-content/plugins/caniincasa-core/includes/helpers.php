@@ -234,9 +234,15 @@ function caniincasa_verify_nonce( $nonce, $action ) {
  */
 function caniincasa_require_login() {
     if ( ! is_user_logged_in() ) {
+        // Sanitize REQUEST_URI to prevent XSS and open redirect
+        $redirect_url = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( home_url( $_SERVER['REQUEST_URI'] ) ) : home_url();
+        // Validate redirect is internal
+        if ( wp_validate_redirect( $redirect_url, home_url() ) !== $redirect_url ) {
+            $redirect_url = home_url();
+        }
         wp_send_json_error( array(
             'message'  => __( 'Devi effettuare il login per continuare', 'caniincasa-core' ),
-            'redirect' => wp_login_url( $_SERVER['REQUEST_URI'] ?? '' ),
+            'redirect' => wp_login_url( $redirect_url ),
         ) );
     }
 }

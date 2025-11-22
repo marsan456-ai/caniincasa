@@ -153,78 +153,156 @@ function caniincasa_render_stats_page() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'caniincasa_stats';
 
-    // Get time period filter
-    $period = isset( $_GET['period'] ) ? sanitize_text_field( $_GET['period'] ) : '7days';
+    // Get time period filter - whitelist valid values
+    $period = isset( $_GET['period'] ) ? sanitize_key( $_GET['period'] ) : '7days';
+    $valid_periods = array( '24hours', '7days', '30days', 'all' );
+    if ( ! in_array( $period, $valid_periods, true ) ) {
+        $period = '7days';
+    }
 
-    $date_condition = '';
+    // Build date filter using prepared statements
+    $date_interval = '';
     switch ( $period ) {
         case '24hours':
-            $date_condition = "WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)";
+            $date_interval = '24 HOUR';
             break;
         case '7days':
-            $date_condition = "WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+            $date_interval = '7 DAY';
             break;
         case '30days':
-            $date_condition = "WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
+            $date_interval = '30 DAY';
             break;
         case 'all':
         default:
-            $date_condition = '';
+            $date_interval = '';
             break;
     }
 
-    // Get total visits
-    $total_visits = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name $date_condition" );
-
-    // Get unique visitors (by IP)
-    $unique_visitors = $wpdb->get_var( "SELECT COUNT(DISTINCT ip_address) FROM $table_name $date_condition" );
+    // Get total visits (with prepared statement for consistency)
+    if ( $date_interval ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $table_name is safe prefix
+        $total_visits = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT COUNT(*) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)",
+                $date_interval
+            )
+        );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $unique_visitors = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT COUNT(DISTINCT ip_address) FROM {$table_name} WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)",
+                $date_interval
+            )
+        );
+    } else {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $total_visits = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $unique_visitors = $wpdb->get_var( "SELECT COUNT(DISTINCT ip_address) FROM {$table_name}" );
+    }
 
     // Get visits today
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     $visits_today = $wpdb->get_var(
-        "SELECT COUNT(*) FROM $table_name
-        WHERE DATE(visited_at) = CURDATE()"
+        "SELECT COUNT(*) FROM {$table_name} WHERE DATE(visited_at) = CURDATE()"
     );
 
     // Get visits by page type
-    $visits_by_type = $wpdb->get_results(
-        "SELECT page_type, COUNT(*) as count
-        FROM $table_name
-        $date_condition
-        GROUP BY page_type
-        ORDER BY count DESC
-        LIMIT 10"
-    );
+    if ( $date_interval ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $visits_by_type = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT page_type, COUNT(*) as count
+                FROM {$table_name}
+                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
+                GROUP BY page_type
+                ORDER BY count DESC
+                LIMIT 10",
+                $date_interval
+            )
+        );
+    } else {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $visits_by_type = $wpdb->get_results(
+            "SELECT page_type, COUNT(*) as count
+            FROM {$table_name}
+            GROUP BY page_type
+            ORDER BY count DESC
+            LIMIT 10"
+        );
+    }
 
     // Get top pages
-    $top_pages = $wpdb->get_results(
-        "SELECT page_url, page_title, page_type, COUNT(*) as count
-        FROM $table_name
-        $date_condition
-        GROUP BY page_url, page_title, page_type
-        ORDER BY count DESC
-        LIMIT 20"
-    );
+    if ( $date_interval ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $top_pages = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT page_url, page_title, page_type, COUNT(*) as count
+                FROM {$table_name}
+                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
+                GROUP BY page_url, page_title, page_type
+                ORDER BY count DESC
+                LIMIT 20",
+                $date_interval
+            )
+        );
+    } else {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $top_pages = $wpdb->get_results(
+            "SELECT page_url, page_title, page_type, COUNT(*) as count
+            FROM {$table_name}
+            GROUP BY page_url, page_title, page_type
+            ORDER BY count DESC
+            LIMIT 20"
+        );
+    }
 
-    // Get visits by day (last 30 days)
+    // Get visits by day (last 30 days) - fixed to use index-friendly comparison
+    $thirty_days_ago = gmdate( 'Y-m-d H:i:s', strtotime( '-30 days' ) );
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     $visits_by_day = $wpdb->get_results(
-        "SELECT DATE(visited_at) as date, COUNT(*) as count
-        FROM $table_name
-        WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-        GROUP BY DATE(visited_at)
-        ORDER BY date ASC"
+        $wpdb->prepare(
+            "SELECT DATE(visited_at) as date, COUNT(*) as count
+            FROM {$table_name}
+            WHERE visited_at >= %s
+            GROUP BY DATE(visited_at)
+            ORDER BY date ASC",
+            $thirty_days_ago
+        )
     );
 
     // Get top referrers
-    $top_referrers = $wpdb->get_results(
-        "SELECT referer, COUNT(*) as count
-        FROM $table_name
-        $date_condition
-        AND referer != ''
-        AND referer NOT LIKE '%caniincasa.it%'
-        GROUP BY referer
-        ORDER BY count DESC
-        LIMIT 10"
-    );
+    if ( $date_interval ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $top_referrers = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT referer, COUNT(*) as count
+                FROM {$table_name}
+                WHERE visited_at >= DATE_SUB(NOW(), INTERVAL %s)
+                AND referer != ''
+                AND referer NOT LIKE %s
+                GROUP BY referer
+                ORDER BY count DESC
+                LIMIT 10",
+                $date_interval,
+                '%caniincasa.it%'
+            )
+        );
+    } else {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $top_referrers = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT referer, COUNT(*) as count
+                FROM {$table_name}
+                WHERE referer != ''
+                AND referer NOT LIKE %s
+                GROUP BY referer
+                ORDER BY count DESC
+                LIMIT 10",
+                '%caniincasa.it%'
+            )
+        );
+    }
 
     ?>
     <div class="wrap">
@@ -360,7 +438,7 @@ function caniincasa_render_stats_page() {
                         $percentage = $max_visits > 0 ? ( $day->count / $max_visits ) * 100 : 0;
                     ?>
                         <tr>
-                            <td><?php echo esc_html( mysql2date( 'd/m/Y', $day->date ) ); ?></td>
+                            <td><?php echo esc_html( date_i18n( 'd/m/Y', strtotime( $day->date ) ) ); ?></td>
                             <td><strong><?php echo number_format_i18n( $day->count ); ?></strong></td>
                             <td>
                                 <div class="progress-bar">

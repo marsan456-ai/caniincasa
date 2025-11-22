@@ -36,6 +36,48 @@
     let razzeData = {};
     let currentMobileBreed = 0;
 
+    /**
+     * Sanitize URL to prevent XSS via javascript: protocol
+     * @param {string} url - URL to validate
+     * @returns {string} - Safe URL or '#' if invalid
+     */
+    function sanitizeUrl(url) {
+        if (!url || typeof url !== 'string') {
+            return '#';
+        }
+        // Trim and lowercase for protocol check
+        const trimmed = url.trim().toLowerCase();
+        // Block javascript:, data:, vbscript: protocols
+        if (trimmed.startsWith('javascript:') ||
+            trimmed.startsWith('data:') ||
+            trimmed.startsWith('vbscript:')) {
+            return '#';
+        }
+        // Only allow http://, https://, or relative URLs (starting with /)
+        if (trimmed.startsWith('http://') ||
+            trimmed.startsWith('https://') ||
+            url.trim().startsWith('/')) {
+            return url;
+        }
+        // Fallback: if it looks like a relative path without protocol, allow it
+        if (!trimmed.includes(':')) {
+            return url;
+        }
+        return '#';
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     * @param {string} str - String to escape
+     * @returns {string} - Escaped string
+     */
+    function escapeHtml(str) {
+        if (!str || typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     // Field mappings for ACF fields
     const fieldMappings = {
         // Fisici
@@ -479,11 +521,15 @@
 
             razzeArray.forEach(function(razza, index) {
                 console.log(`Building header for razza ${index}:`, razza.name);
+                // Sanitize URL and escape HTML to prevent XSS
+                const safeUrl = sanitizeUrl(razza.url);
+                const safeName = escapeHtml(razza.name);
+                const safeImage = razza.image ? sanitizeUrl(razza.image) : '';
                 headerHTML += `
                     <div class="breed-header">
-                        ${razza.image ? `<img src="${razza.image}" alt="${razza.name}" class="breed-image">` : ''}
-                        <h3 class="breed-name">${razza.name}</h3>
-                        <a href="${razza.url}" class="breed-link">Vedi scheda completa →</a>
+                        ${safeImage ? `<img src="${safeImage}" alt="${safeName}" class="breed-image">` : ''}
+                        <h3 class="breed-name">${safeName}</h3>
+                        <a href="${safeUrl}" class="breed-link">Vedi scheda completa →</a>
                     </div>
                 `;
             });

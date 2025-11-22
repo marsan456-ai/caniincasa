@@ -182,21 +182,68 @@ function caniincasa_get_messages( $user_id, $box = 'inbox', $parent_id = null ) 
         ), ARRAY_A );
     }
 
-    // Enrich with user data
+    if ( empty( $messages ) ) {
+        return $messages;
+    }
+
+    // Batch collect user IDs and message IDs to avoid N+1 queries
+    $user_ids = array();
+    $message_ids = array();
+    foreach ( $messages as $message ) {
+        if ( ! empty( $message['sender_id'] ) ) {
+            $user_ids[] = (int) $message['sender_id'];
+        }
+        if ( ! empty( $message['recipient_id'] ) ) {
+            $user_ids[] = (int) $message['recipient_id'];
+        }
+        $message_ids[] = (int) $message['id'];
+    }
+    $user_ids = array_unique( $user_ids );
+
+    // Batch fetch all users at once
+    $users_map = array();
+    if ( ! empty( $user_ids ) ) {
+        $users = get_users( array(
+            'include' => $user_ids,
+            'fields'  => array( 'ID', 'display_name', 'user_email' ),
+        ) );
+        foreach ( $users as $user ) {
+            $users_map[ $user->ID ] = $user;
+        }
+    }
+
+    // Batch fetch reply counts
+    $reply_counts = array();
+    if ( ! empty( $message_ids ) && ! $parent_id ) {
+        // Only count replies for root messages
+        $placeholders = implode( ',', array_fill( 0, count( $message_ids ), '%d' ) );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $reply_results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT parent_id, COUNT(*) as count FROM {$table} WHERE parent_id IN ($placeholders) GROUP BY parent_id",
+                ...$message_ids
+            ),
+            OBJECT_K
+        );
+        foreach ( $reply_results as $parent_id_key => $row ) {
+            $reply_counts[ $parent_id_key ] = (int) $row->count;
+        }
+    }
+
+    // Enrich messages with cached user data
     foreach ( $messages as &$message ) {
-        $sender = get_userdata( $message['sender_id'] );
-        $recipient = get_userdata( $message['recipient_id'] );
+        $sender_id = (int) $message['sender_id'];
+        $recipient_id = (int) $message['recipient_id'];
+        $msg_id = (int) $message['id'];
+
+        $sender = isset( $users_map[ $sender_id ] ) ? $users_map[ $sender_id ] : null;
+        $recipient = isset( $users_map[ $recipient_id ] ) ? $users_map[ $recipient_id ] : null;
 
         $message['sender_name'] = $sender ? $sender->display_name : 'Utente eliminato';
         $message['recipient_name'] = $recipient ? $recipient->display_name : 'Utente eliminato';
         $message['sender_email'] = $sender ? $sender->user_email : '';
         $message['recipient_email'] = $recipient ? $recipient->user_email : '';
-
-        // Count replies
-        $message['reply_count'] = $wpdb->get_var( $wpdb->prepare(
-            "SELECT COUNT(*) FROM $table WHERE parent_id = %d",
-            $message['id']
-        ) );
+        $message['reply_count'] = isset( $reply_counts[ $msg_id ] ) ? $reply_counts[ $msg_id ] : 0;
     }
 
     return $messages;

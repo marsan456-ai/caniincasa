@@ -255,19 +255,32 @@ class Caniincasa_Newsletter {
 
 	/**
 	 * Get client IP address
+	 *
+	 * Note: Only uses REMOTE_ADDR as it's the only reliable server-set variable.
+	 * HTTP_CLIENT_IP and HTTP_X_FORWARDED_FOR are user-controlled headers that can be spoofed.
+	 * If behind a trusted proxy (CloudFlare, load balancer), configure WordPress properly.
 	 */
 	private function get_client_ip() {
-		$ip = '';
+		// Only trust REMOTE_ADDR - it's set by the server, not HTTP headers
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else {
-			$ip = $_SERVER['REMOTE_ADDR'] ?? '';
+		// Validate IP format (supports both IPv4 and IPv6)
+		if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			$ip = '';
 		}
 
-		return sanitize_text_field( $ip );
+		// Optionally anonymize for GDPR (zero last octet for IPv4)
+		if ( $ip && filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+			$ip_parts = explode( '.', $ip );
+			if ( count( $ip_parts ) === 4 ) {
+				$ip = $ip_parts[0] . '.' . $ip_parts[1] . '.' . $ip_parts[2] . '.0';
+			}
+		} elseif ( $ip && filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+			// For IPv6, anonymize by removing last 64 bits
+			$ip = inet_ntop( substr( inet_pton( $ip ), 0, 8 ) . str_repeat( "\0", 8 ) );
+		}
+
+		return $ip;
 	}
 
 	/**
